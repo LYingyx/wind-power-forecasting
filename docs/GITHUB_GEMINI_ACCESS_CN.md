@@ -1,6 +1,30 @@
 # 私有 GitHub 仓库与 Gemini 网页版访问
 
-更新：2026-11-15。仓库设置为 **Private**，默认分支 `main`。具体仓库 URL 在创建成功后记录；本文不代表远端已经创建。
+更新：2026-11-15。已通过 GitHub API 核验仓库为 **Private**，默认分支 `main`。
+
+## 仓库地址与阅读入口
+
+| 项目 | 地址 / 值 |
+| --- | --- |
+| 仓库 | <https://github.com/LYingyx/wind-power-forecasting> |
+| 所有者 | `LYingyx` |
+| 可见性 | `Private` |
+| 分支 | `main` |
+| 首页 | [README.md](https://github.com/LYingyx/wind-power-forecasting/blob/main/README.md) |
+| Gemini 阅读顺序与提示词 | [GEMINI_READING_GUIDE_CN.md](https://github.com/LYingyx/wind-power-forecasting/blob/main/docs/GEMINI_READING_GUIDE_CN.md) |
+| 当前结果 | [DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md](https://github.com/LYingyx/wind-power-forecasting/blob/main/project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md) |
+
+下面是可复制给 Gemini 的仓库信息，不是 Gemini 专有配置文件，也不会自动授予访问权限：
+
+```yaml
+repository: https://github.com/LYingyx/wind-power-forecasting
+visibility: private
+branch: main
+entry: README.md
+reading_guide: docs/GEMINI_READING_GUIDE_CN.md
+current_results: project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md
+latest_plan: project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md
+```
 
 ## GitHub 配置
 
@@ -14,7 +38,7 @@
 ## 在 Gemini 网页版导入
 
 1. 打开 <https://gemini.google.com/>，新建对话，检查附件/添加文件菜单是否提供“导入代码 / Import code”或 GitHub 入口。
-2. **如果入口支持私有仓库并显示 GitHub 授权流程**：完成官方授权，选择本私有仓库和 `main` 分支；若要求 URL，填写创建成功后的仓库地址。等待导入完成，再发送[阅读提示词](GEMINI_READING_GUIDE_CN.md)。
+2. **如果入口支持私有仓库并显示 GitHub 授权流程**：完成官方授权，选择 `LYingyx/wind-power-forecasting` 和 `main` 分支；若要求 URL，填写 `https://github.com/LYingyx/wind-power-forecasting`。等待导入完成，再发送[阅读提示词](GEMINI_READING_GUIDE_CN.md)。
 3. **如果入口仅接受公开 URL、没有私有仓库授权，或你的账户没有该入口**：使用本地代码 ZIP，通过界面提供的代码/文件上传功能导入。没有相应 ZIP 入口时可解压为代码文件夹，或先上传 README、阅读入口、结果报告和关键源码。
 4. 私有仓库 URL 本身不足以让 Gemini 读取；不要为绕过访问限制把仓库改成公开。
 5. 导入通常针对当次代码快照。仓库更新后重新导入，并让 Gemini 确认读取到的版本。让它列出实际读到的文件，避免仅根据链接或文件名回答。
@@ -23,13 +47,21 @@ Gemini 功能会随账户、套餐、地区及组织策略变化。本次服务�
 
 ## 原服务器认证与上传
 
-仓库已授权以私有形式上传，但 GitHub 要求账户身份认证。服务器没有有效 GitHub 凭据时，在自己的终端运行 GitHub CLI 的官方登录流程：
+当前服务器已通过 GitHub CLI 认证为 `LYingyx`。换机器或凭据失效后，在自己的终端运行官方登录流程：
 
 ```bash
 ~/.local/bin/gh auth login --hostname github.com --git-protocol https --web
 ```
 
-按终端提示在 <https://github.com/login/device> 输入一次性设备码并登录。不要把访问令牌发到聊天里。登录成功后才可创建私有仓库并推送；远端隐私状态和提交必须再次核验。
+按终端提示在 <https://github.com/login/device> 输入一次性设备码并授权，并等待终端显示 `Logged in as LYingyx`。仅登录 GitHub 网页不等于终端完成认证。不要把访问令牌发到聊天里。
+
+已获授权的其他机器可以克隆：
+
+```bash
+gh repo clone LYingyx/wind-power-forecasting
+```
+
+原服务器的 ZIP 位于 `github_export/wind-power-forecasting-gemini.zip`，该目录被 Git 忽略。也可在已登录且有权限的 GitHub 网页选择 **Code → Download ZIP**；下载后的 ZIP 可用作 Gemini 的代码导入快照。解压后的完整内容约 35 MiB；以当前 Gemini 界面显示的文件类型及容量限制为准。
 
 ## 仓库内容范围
 
