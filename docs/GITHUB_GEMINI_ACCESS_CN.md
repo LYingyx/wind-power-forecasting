@@ -1,6 +1,6 @@
 # 私有 GitHub 仓库与 Gemini 网页版访问
 
-更新：2026-11-15。已通过 GitHub API 核验仓库为 **Private**，默认分支 `main`。
+更新：2026-11-15。已通过 GitHub API 核验仓库为 **Private**，默认分支 `main`；已通过代理访问 Google 官方帮助并核实下面的私有仓库导入步骤。
 
 ## 仓库地址与阅读入口
 
@@ -37,13 +37,23 @@ latest_plan: project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md
 
 ## 在 Gemini 网页版导入
 
-1. 打开 <https://gemini.google.com/>，新建对话，检查附件/添加文件菜单是否提供“导入代码 / Import code”或 GitHub 入口。
-2. **如果入口支持私有仓库并显示 GitHub 授权流程**：完成官方授权，选择 `LYingyx/wind-power-forecasting` 和 `main` 分支；若要求 URL，填写 `https://github.com/LYingyx/wind-power-forecasting`。等待导入完成，再发送[阅读提示词](GEMINI_READING_GUIDE_CN.md)。
-3. **如果入口仅接受公开 URL、没有私有仓库授权，或你的账户没有该入口**：使用本地代码 ZIP，通过界面提供的代码/文件上传功能导入。没有相应 ZIP 入口时可解压为代码文件夹，或先上传 README、阅读入口、结果报告和关键源码。
-4. 私有仓库 URL 本身不足以让 Gemini 读取；不要为绕过访问限制把仓库改成公开。
-5. 导入通常针对当次代码快照。仓库更新后重新导入，并让 Gemini 确认读取到的版本。让它列出实际读到的文件，避免仅根据链接或文件名回答。
+Google 官方帮助已确认支持私有 GitHub 仓库。首次使用需要把有仓库访问权限的 GitHub 账户关联到 Google 账户；服务器的 GitHub CLI 登录不会代替这一关联。
 
-Gemini 功能会随账户、套餐、地区及组织策略变化。本次服务器无法连接 Google 帮助站，因此未实时核实你的账户是否支持私有仓库连接，也不保证具体菜单名称、容量限制或自动同步行为。以你账户实际界面及[Google 官方文件上传帮助](https://support.google.com/gemini/answer/14903178?hl=zh-Hans)为准；GitHub 授权入口不可用时使用代码 ZIP。
+1. 在电脑上打开 <https://gemini.google.com/> 并登录。按官方要求开启 **Keep Activity（保留活动记录）**；工作/学校账户还需符合 Workspace 版本要求，并由管理员允许 Gemini 应用连接。
+2. 新建对话，在输入框点击 **添加文件 / Add file → 更多上传 / More Uploads → 导入代码 / Import code**。
+3. 输入 `https://github.com/LYingyx/wind-power-forecasting/tree/main`，点击 **Import**。也可使用不带 `/tree/main` 的仓库 URL。
+4. 按提示关联 GitHub 账户 `LYingyx`（或其他有该仓库访问权限的账户），完成授权。若授权界面允许选择仓库，选择本仓库即可。
+5. 等待导入完成，再发送[阅读提示词](GEMINI_READING_GUIDE_CN.md)。可以先让 Gemini 列出实际读到的文件，并概括 README 和当前结果报告，确认导入成功。
+
+已关联过 GitHub 的账户，可在 **Settings → Connected Apps → GitHub** 检查连接；部分界面需先进入 **Personal Intelligence → Connected Apps**。
+
+官方限制与本仓库规模：每个对话只能导入一个仓库/代码文件夹，最多 **5000 个文件、100 MB**；本仓库为 **2120 个文件、约 35 MiB**，低于这两个上限。仓库仍包含历史源码和文档，阅读时应优先使用本仓库的当前入口。
+
+导入后的内容是快照，**不会自动同步 GitHub 更新**。Gemini 的 GitHub 应用不能仅凭聊天中粘贴的 URL 读取仓库，也不能读取提交历史、PR 等元数据或写回仓库。仓库更新后需要重新导入。
+
+如果账户没有可用的 GitHub 导入入口，可下载 ZIP、解压，再通过 **Import code → Upload folder** 上传代码文件夹。普通“上传文件”的 ZIP 模式另有最多 10 个内部文件的限制，不能用该模式直接上传本项目含 2120 个文件的 ZIP。若代码文件夹入口也不可用，先单独上传 README、阅读入口、结果报告和关键源码。
+
+官方依据（2026-11-15 核对）：[导入 GitHub 仓库](https://support.google.com/gemini/answer/16176929?hl=en)、[上传文件与代码文件夹限制](https://support.google.com/gemini/answer/14903178?hl=en)。账户能否使用相应功能仍以其实际界面和组织策略为准。
 
 ## 原服务器认证与上传
 
@@ -61,7 +71,15 @@ Gemini 功能会随账户、套餐、地区及组织策略变化。本次服务�
 gh repo clone LYingyx/wind-power-forecasting
 ```
 
-原服务器的 ZIP 位于 `github_export/wind-power-forecasting-gemini.zip`，该目录被 Git 忽略。也可在已登录且有权限的 GitHub 网页选择 **Code → Download ZIP**；下载后的 ZIP 可用作 Gemini 的代码导入快照。解压后的完整内容约 35 MiB；以当前 Gemini 界面显示的文件类型及容量限制为准。
+原服务器的 ZIP 位于 `github_export/wind-power-forecasting-gemini.zip`，该目录被 Git 忽略。也可在已登录且有权限的 GitHub 网页选择 **Code → Download ZIP**；请先解压，再通过 Gemini 的代码文件夹入口导入。
+
+当前服务器按用户提供的代理完成上传，本地仓库已配置：
+
+```bash
+git config --local http.proxy http://192.168.100.99:1080
+```
+
+该地址的 HTTP 与 SOCKS5 模式均已连通核验，当前采用 HTTP 模式。配置只保存在本机 `.git/config`，不会推送到 GitHub。命令行 GitHub CLI 访问 API 时使用 `HTTPS_PROXY=http://192.168.100.99:1080`；其他机器需使用其自身可达的网络配置。
 
 ## 仓库内容范围
 

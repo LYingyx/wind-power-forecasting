@@ -32,4 +32,4 @@ GitHub 私有仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 ## GitHub 与 Gemini
 
-仓库已创建为 **Private**；默认分支使用 `main`。私有仓库 URL 本身不授予 Gemini 读取权限。请按[访问与配置说明](docs/GITHUB_GEMINI_ACCESS_CN.md)使用账户实际提供的 GitHub 授权入口，或导入本地代码 ZIP。
+仓库已创建为 **Private**；默认分支使用 `main`。Gemini 网页版支持通过“添加文件 → 更多上传 → 导入代码”导入私有仓库，首次需关联有权限的 GitHub 账户；直接在聊天里粘贴 URL 不会读取仓库。请按[访问与配置说明](docs/GITHUB_GEMINI_ACCESS_CN.md)导入，或下载 ZIP 后解压并通过代码文件夹入口上传。
