@@ -38,6 +38,8 @@ PIPELINE = ["project/pyproject.toml", "project/src/wind_forcing/data/operational
             "project/scripts/audit_operational_pangu.py",
             "project/scripts/review_daily_results_20261115.py",
             "project/scripts/render_daily_review_20261115.py",
+            "project/scripts/hourly_state_representation.py",
+            "project/scripts/test_hourly_state_representation.py",
             "project/configs/operational_pangu_d1_08_lag15h.json"]
 DETAILS = [REVIEW + name for name in ["FARM_AND_SEED_DETAILS_CN.md",
            "per_farm_comparisons.csv", "per_seed_comparisons.csv",
@@ -151,7 +153,7 @@ def groups(files):
         pipeline += sorted(p for p in files if p.startswith(prefix + "assets/selected/") and p.endswith(".json"))
         pipeline += sorted(p for p in files if p in [prefix + "operations/collect.py", prefix + "operations/pipeline.py"])
     if extra:
-        pipeline += [active_prefix + name for name in ["README_CN.md", "manifest.json", "diagnostic_manifest.json", "OPERATIONS_FREEZE.json"]]
+        pipeline += [active_prefix + name for name in ["README_CN.md", "HOURLY_MONITOR_CN.md", "manifest.json", "diagnostic_manifest.json", "OPERATIONS_FREEZE.json"]]
         pipeline += sorted(p for p in files if p.startswith(active_prefix + "operations/") and p.endswith(".py")
                            and p != active_prefix + "operations/collect.py")
     pipeline += sorted(p for p in files if any(p.startswith(f"project/runs/{name}/") for name in

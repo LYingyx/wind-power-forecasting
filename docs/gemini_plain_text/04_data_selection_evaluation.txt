@@ -1419,6 +1419,351 @@ text+='''
 print('Rendered complete review, all-farm/seed appendix and comparison figure')
 ```
 
+## SOURCE: project/scripts/hourly_state_representation.py
+
+- project/scripts/hourly_state_representation.py
+
+SHA-256: 49e38e29df9d8490abfae45abbe640f94114009d30383ed5b276867bd5318808
+
+```
+"""Hourly supervision of the frozen v2 run; scientific gates stay in coordinator.py."""
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+import datetime as dt
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path
+import shlex
+import subprocess
+import time
+
+RUN_NAME = "daily_state_representation_20261116_v2"
+PROJECTS = {
+    "local4090": Path("/shared_data_ssd2/liying/wind_cluster_project_20261018/project"),
+    "v1006001": Path("/home/liying/wind_physics_project/project"),
+}
+
+
+def now():
+    return dt.datetime.now(dt.timezone(dt.timedelta(hours=8))).isoformat()
+
+
+def read(path, default=None):
+    return json.loads(path.read_text()) if path.exists() else default
+
+
+def write(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + f".{os.getpid()}.tmp")
+    temp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+    temp.replace(path)
+
+
+def age(path):
+    return round(time.time() - path.stat().st_mtime, 1) if path.exists() else None
+
+
+def processes(run):
+    """Match our own user and exact absolute script argument, never just a PID."""
+    paths = {str(run / "operations" / (name + ".py")): name
+             for name in ("scheduler", "coordinator")}
+    paths.update({str(run / "code" / name): "workers"
+                  for name in ("train.py", "reference_evaluation.py")})
+    result = {name: [] for name in ("scheduler", "coordinator", "workers")}
+    for proc in Path("/proc").glob("[0-9]*"):
+        try:
+            if proc.stat().st_uid != os.getuid():
+                continue
+            args = (proc / "cmdline").read_bytes().decode().split("\0")
+            for path, name in paths.items():
+                if path in args:
+                    result[name].append(int(proc.name))
+        except (OSError, UnicodeError):
+            continue
+    return result
+
+
+def locked(path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a+") as handle:
+        try:
+            fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return True
+    return False
+
+
+def verify_freeze(run):
+    if not read(run / "operations/CHECKS.json", {}).get("passed"):
+        raise RuntimeError("Startup checks have not passed")
+    for name in ("SCIENCE_FREEZE.json", "OPERATIONS_FREEZE.json"):
+        for rel, expected in read(run / name)["files"].items():
+            digest = hashlib.sha256()
+            with (run / rel).open("rb") as handle:
+                for chunk in iter(lambda: handle.read(4 << 20), b""):
+                    digest.update(chunk)
+            if digest.hexdigest() != expected:
+                raise RuntimeError(f"Frozen file changed: {rel}")
+
+
+def inspect_host(run, host, python, recover=True):
+    directory = run / "monitoring"
+    directory.mkdir(exist_ok=True)
+    with (directory / "host.lock").open("a+") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        status = read(run / "schedulers/status.json", {})
+        assigned = read(run / "operations/ASSIGNMENTS.json", {})
+        failures = sorted({*status.get("failed", []), *[
+            p.parent.name for p in (run / "jobs").glob("*/FAILURE.json")
+            if assigned.get(p.parent.name) == host]})
+        stopped = (run / "operations/STOP.json").exists()
+        complete = (run / "COMPLETE.json").exists()
+        recent = read(directory / "restart_history.json", [])
+        report = dict(host=host, timestamp=now(), stopped=stopped, complete=complete,
+                      scheduler_age_seconds=age(run / "schedulers/status.json"),
+                      failures=failures, actions=[], warnings=[])
+        for name in (["coordinator", "scheduler"] if host == "local4090" else ["scheduler"]):
+            found = processes(run)
+            lockpath = run / ("operations/coordinator.lock" if name == "coordinator"
+                              else "schedulers/scheduler.lock")
+            held = locked(lockpath)
+            if found[name] or held:
+                if len(found[name]) > 1:
+                    report["warnings"].append(f"Multiple {name} processes: {found[name]}")
+                continue
+            reason = None
+            if complete or stopped or status.get("stopping"):
+                reason = "completed_or_explicitly_stopped"
+            elif name == "scheduler" and failures:
+                reason = "failure_requires_inspection; circuit breaker preserved"
+            elif name == "scheduler" and found["workers"]:
+                # The frozen scheduler cannot adopt orphaned workers. Let them finish;
+                # their inherited job locks remain authoritative until they exit.
+                reason = "orphan_workers_still_running; waiting_for_safe_recovery"
+            elif sum(x["component"] == name and time.time() - x["epoch"] < 21600
+                     for x in recent) >= 2:
+                reason = "restart_limit_2_per_6_hours"
+            elif not recover:
+                reason = "read_only_check"
+            if reason:
+                report["actions"].append(dict(component=name, action="not_restarted", reason=reason))
+                continue
+            try:
+                verify_freeze(run)
+                # Save the attempt before spawning, so failed launches are bounded too.
+                record = dict(component=name, epoch=time.time(), timestamp=now())
+                recent.append(record)
+                write(directory / "restart_history.json", recent)
+                env = dict(os.environ, OMP_NUM_THREADS="1", MKL_NUM_THREADS="1",
+                           OPENBLAS_NUM_THREADS="1", PYTHONNOUSERSITE="1")
+                args = [str(python), "-u", str(run / "operations" / (name + ".py"))]
+                if name == "scheduler":
+                    args += ["--host", host]
+                with (run / "operations" / (name + ".log")).open("a") as log:
+                    process = subprocess.Popen(args, cwd=run, env=env, stdin=subprocess.DEVNULL,
+                                               stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+                time.sleep(1)
+                record.update(pid=process.pid, survived_initial_second=process.poll() is None)
+                write(directory / "restart_history.json", recent)
+                report["actions"].append(dict(action="restart_attempt", **record))
+            except Exception as exc:
+                report["warnings"].append(f"{name} recovery refused: {exc!r}")
+        report["processes"] = processes(run)
+        if not complete and not stopped:
+            if report["scheduler_age_seconds"] is None or report["scheduler_age_seconds"] > 300:
+                report["warnings"].append("Scheduler heartbeat missing or older than 5 minutes")
+            if status.get("error"):
+                report["warnings"].append(str(status["error"]))
+            if failures:
+                report["warnings"].append("Failed jobs are preserved for inspection")
+        return report
+
+
+def hourly():
+    project = PROJECTS["local4090"]
+    run = project / "runs" / RUN_NAME
+    directory = run / "monitoring"
+    directory.mkdir(exist_ok=True)
+    with (directory / "hourly.lock").open("a+") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print("Another hourly check is running; skipped.")
+            return
+        previous = read(run / "HOURLY_STATUS.json", {})
+        report = dict(timestamp=now(), run=RUN_NAME, interval_seconds=3600, hosts={}, warnings=[])
+        complete = read(run / "COMPLETE.json")
+        report["complete"] = complete
+        if complete is None:
+            for host, base in PROJECTS.items():
+                try:
+                    if host == "local4090":
+                        report["hosts"][host] = inspect_host(run, host, base / ".runtime/chronos/bin/python")
+                    else:
+                        command = "python3 - --host " + shlex.quote(host)
+                        result = subprocess.run(
+                            ["/usr/bin/ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8",
+                             "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=2", host, command],
+                            input=Path(__file__).read_text(), text=True, capture_output=True,
+                            check=True, timeout=90)
+                        report["hosts"][host] = json.loads(result.stdout)
+                except Exception as exc:
+                    report["warnings"].append(f"{host}: {exc!r}")
+        status = read(run / "STATUS.json", {})
+        gates = read(run / "analysis/GATES.json", {})
+        report["progress"] = {k: status.get(k) for k in ["timestamp", "currently_enabled_training_jobs",
+                              "completed_training", "diagnostic_evaluations_completed", "failures", "errors"]}
+        report["active_by_host"] = dict(Counter(x["host"] for x in status.get("active", [])))
+        report["gates"] = gates
+        report["newly_enabled_stages"] = [k for k in ["stage2_enabled", "cross_backbone_enabled", "loss_enabled"]
+                                           if gates.get(k) and not previous.get("gates", {}).get(k)]
+        report["coordinator_age_seconds"] = age(run / "STATUS.json")
+        if complete is None and (report["coordinator_age_seconds"] is None or report["coordinator_age_seconds"] > 300):
+            report["warnings"].append("Coordinator heartbeat missing or older than 5 minutes")
+        for host, state in report["hosts"].items():
+            report["warnings"] += [f"{host}: {warning}" for warning in state["warnings"]]
+            report["warnings"] += [f"{host}: {action['component']}: {action.get('reason', 'restart_failed')}"
+                                   for action in state["actions"]
+                                   if action["action"] == "not_restarted" and not state["stopped"]
+                                   or action["action"] == "restart_attempt" and not action["survived_initial_second"]]
+        report["warnings"] += [str(x) for x in status.get("errors", [])]
+        # Do not call collect() here: the single locked coordinator owns every gate mutation.
+        write(run / "HOURLY_STATUS.json", report)
+        stamp = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
+        write(directory / (stamp + ".json"), report)
+        print(json.dumps(report, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--host", choices=list(PROJECTS))
+    args = parser.parse_args()
+    if args.host:
+        base = PROJECTS[args.host]
+        print(json.dumps(inspect_host(base / "runs" / RUN_NAME, args.host,
+                                      base / ".runtime/chronos/bin/python"), ensure_ascii=False))
+    else:
+        hourly()
+```
+
+## SOURCE: project/scripts/test_hourly_state_representation.py
+
+- project/scripts/test_hourly_state_representation.py
+
+SHA-256: b24b39d3492f811d7722252f00e54edb7f0eda106935f2c807e0bda705ae3657
+
+```
+"""Exercise recovery safeguards with temporary processes, never real training jobs."""
+import hashlib
+import fcntl
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import time
+import unittest
+
+from hourly_state_representation import inspect_host, processes, write
+
+
+class RecoveryTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.run = Path(self.temp.name)
+        for name in ["operations", "schedulers", "code", "jobs"]:
+            (self.run / name).mkdir()
+        for name, lock in [("scheduler", "schedulers/scheduler.lock"),
+                           ("coordinator", "operations/coordinator.lock")]:
+            (self.run / "operations" / (name + ".py")).write_text(
+                "import fcntl,time\nfrom pathlib import Path\n"
+                f"f=(Path(__file__).resolve().parents[1]/{lock!r}).open('a+')\n"
+                "fcntl.flock(f,fcntl.LOCK_EX|fcntl.LOCK_NB)\ntime.sleep(60)\n")
+        (self.run / "code/train.py").write_text("import time\ntime.sleep(60)\n")
+        write(self.run / "operations/CHECKS.json", {"passed": True})
+        write(self.run / "operations/ASSIGNMENTS.json", {"failed_job": "local4090"})
+        write(self.run / "SCIENCE_FREEZE.json", {"files": {}})
+        write(self.run / "OPERATIONS_FREEZE.json", {"files": {
+            str(p.relative_to(self.run)): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in (self.run / "operations").glob("*.py")}})
+
+    def tearDown(self):
+        for pids in processes(self.run).values():
+            for pid in pids:
+                try:
+                    import os
+                    os.kill(pid, 15)
+                    os.waitpid(pid, 0)
+                except (ProcessLookupError, ChildProcessError):
+                    pass
+        self.temp.cleanup()
+
+    def check(self, recover=True):
+        return inspect_host(self.run, "local4090", Path(sys.executable), recover)
+
+    def test_missing_components_recover_once(self):
+        report = self.check()
+        self.assertEqual(len(report["actions"]), 2)
+        self.assertTrue(all(x["survived_initial_second"] for x in report["actions"]))
+        self.assertEqual(self.check()["actions"], [])
+        self.assertEqual(processes(self.run), report["processes"])
+
+    def test_stop_is_respected(self):
+        write(self.run / "operations/STOP.json", {})
+        self.assertTrue(all(x["reason"] == "completed_or_explicitly_stopped"
+                            for x in self.check()["actions"]))
+        self.assertFalse(any(processes(self.run).values()))
+
+    def test_complete_is_respected(self):
+        write(self.run / "COMPLETE.json", {"training_completed": 35})
+        self.assertTrue(all(x["reason"] == "completed_or_explicitly_stopped"
+                            for x in self.check()["actions"]))
+        self.assertFalse(any(processes(self.run).values()))
+
+    def test_held_scheduler_lock_prevents_duplicate_launch(self):
+        with (self.run / "schedulers/scheduler.lock").open("a+") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            report = self.check(recover=False)
+            self.assertFalse(any(x["component"] == "scheduler" for x in report["actions"]))
+
+    def test_failure_circuit_is_not_bypassed(self):
+        write(self.run / "jobs/failed_job/FAILURE.json", {})
+        report = self.check(recover=False)
+        scheduler = next(x for x in report["actions"] if x["component"] == "scheduler")
+        self.assertIn("failure_requires_inspection", scheduler["reason"])
+
+    def test_orphans_finish_before_scheduler_recovery(self):
+        worker = subprocess.Popen([sys.executable, str(self.run / "code/train.py")])
+        try:
+            time.sleep(.1)
+            report = self.check(recover=False)
+            scheduler = next(x for x in report["actions"] if x["component"] == "scheduler")
+            self.assertIn("orphan_workers_still_running", scheduler["reason"])
+            self.assertIsNone(worker.poll())
+        finally:
+            worker.terminate()
+            worker.wait()
+
+    def test_frozen_code_change_prevents_recovery(self):
+        (self.run / "operations/scheduler.py").write_text("raise RuntimeError('changed')\n")
+        report = self.check()
+        self.assertEqual(len([x for x in report["warnings"] if "Frozen file changed" in x]), 2)
+        self.assertFalse(any(processes(self.run).values()))
+
+    def test_repeated_restarts_are_bounded(self):
+        write(self.run / "monitoring/restart_history.json", [
+            {"component": name, "epoch": time.time()} for name in ["scheduler", "coordinator"] for _ in range(2)])
+        self.assertTrue(all(x["reason"] == "restart_limit_2_per_6_hours" for x in self.check()["actions"]))
+        self.assertFalse(any(processes(self.run).values()))
+
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
 ## SOURCE: project/configs/operational_pangu_d1_08_lag15h.json
 
 - project/configs/operational_pangu_d1_08_lag15h.json
@@ -3523,12 +3868,14 @@ if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
 
 - project/runs/daily_state_representation_20261116_v2/README_CN.md
 
-SHA-256: 731e8d4dc6b3e8ca202abcc04a2744282dc9cf08a7bb6ef695bc43c88172e278
+SHA-256: d26401c0d8140a15631435b133d0281a15ebb79416a3e95c911b6b29c49b971b
 
 ```
 # 状态条件中间表示 v2：执行入口
 
 本轮落实 [v2 方案](../../STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)。进度与自动判定见 [analysis/README_CN.md](analysis/README_CN.md) 和 [STATUS.json](STATUS.json)。不能把尚未完成的条件阶段当作已有结果。
+
+已配置服务器每小时整点巡检，按冻结门槛自动接续后续阶段；配置、恢复保护及检查记录入口见 [每小时巡检说明](HOURLY_MONITOR_CN.md)。
 
 ## 固定协议与任务
 
@@ -3572,6 +3919,38 @@ R4-wrongS 只替换新生成器的 c，骨干原历史、SEL 和区域输入不�
 
 扩大到 10 seeds、统一轮数个性化和 2024 探索性复评依赖本轮结果与最终冻结，不提前读取 2024 标签或声称已完成。R0 从七种编码中按 2023 挑选，选择偏差仍在；10 seeds 只能检查随机种子稳定性，不能单独消除选择偏差。
 ```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/HOURLY_MONITOR_CN.md
+
+- project/runs/daily_state_representation_20261116_v2/HOURLY_MONITOR_CN.md
+
+SHA-256: 9117c5428cb77798d6abeca9c17488f7ae913d535b4282100d06bf662c4c0f9f
+
+````
+# 每小时检查与自动接续
+
+本机 `liying` 用户的 cron 每小时整点执行一次 [巡检脚本](../../scripts/hourly_state_representation.py)，时区为北京时间（Asia/Shanghai）。cron 服务由服务器管理，退出当前对话或 SSH 不影响检查。最近一次结果见 [HOURLY_STATUS.json](HOURLY_STATUS.json)；逐次记录位于服务器的 `monitoring/YYYYMMDD_HHMMSS.json`，标准输出保存在 `monitoring/cron.log`。这些是服务器检查记录，不会自动发送聊天消息。
+
+检查覆盖本机 4090 和 `v1006001` 的协调器、调度器、任务完成数、失败任务、心跳和阶段判定。现有 [coordinator.py](operations/coordinator.py) 每约 30 秒回收结果并按冻结规则判定，因此符合条件后无需等待下个整点。
+
+- 25 项阶段一完成、R3 相对 R2 的 MAE 和 RMSE 均改善后，启动 15 项 R4/R4-noS/R4-wrongS。
+- R4 同时通过主门槛和机制对照后，启动 5 项 TF_R4。
+- 阶段二完成或按规则跳过后，按冻结顺序选择损失复核候选，启动候选与 TF 的 10 项混合损失训练。
+- 全部应做任务及诊断结束后生成 [COMPLETE.json](COMPLETE.json)。之后巡检仅记录完成状态，不再恢复进程或启动训练。
+
+巡检不直接写阶段启用文件，阶段决策仍由唯一持锁协调器执行。两台机器继续使用原多进程资源策略和固定任务分配。
+
+恢复保护：核对精确进程路径与用户，并使用互斥锁；缺失的管理进程只有在冻结文件哈希和启动检查通过后才可恢复。尊重 STOP、完成标志和失败熔断，每组件六小时内最多恢复两次。如果调度器退出但其训练子进程仍存活，先让已有训练完成，下次巡检再判断恢复；不会重复开进程挤占资源。失败任务、心跳陈旧或网络中断记录在 `warnings`，不会清除失败标志或降低实验门槛。保护策略的临时进程验证见 [test_hourly_state_representation.py](../../scripts/test_hourly_state_representation.py)。
+
+巡检脚本独立于冻结训练代码。10 seeds、个性化和 2024 复评仍需本轮结论与最终候选冻结，不在本次自动接续范围内。
+
+服务器查看方式：
+
+```bash
+crontab -l
+python3 -m json.tool /shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2/HOURLY_STATUS.json
+```
+````
 
 ## SOURCE: project/runs/daily_state_representation_20261116_v2/manifest.json
 

@@ -2,6 +2,8 @@
 
 本轮落实 [v2 方案](../../STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)。进度与自动判定见 [analysis/README_CN.md](analysis/README_CN.md) 和 [STATUS.json](STATUS.json)。不能把尚未完成的条件阶段当作已有结果。
 
+已配置服务器每小时整点巡检，按冻结门槛自动接续后续阶段；配置、恢复保护及检查记录入口见 [每小时巡检说明](HOURLY_MONITOR_CN.md)。
+
 ## 固定协议与任务
 
 复用每日 00 UTC 起报、延迟 15 h、气象裁剪 9–45 h 的已核验缓存。55 站共享训练，2022 训练、2023 选轮，种子 42–46。有效 batch 512，AdamW、常数学习率 0.0002、weight decay 0.0001、骨干 dropout 0.05，最多 80 epoch、patience 10。每轮验证一次，严格最小 macro-MAE 选轮，全部指标使用同一权重。R0 与 TF_R3 的十项原训练不重跑。

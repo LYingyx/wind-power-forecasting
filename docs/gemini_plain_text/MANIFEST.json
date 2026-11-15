@@ -1,6 +1,6 @@
 {
   "format": "uncompressed UTF-8; upload individual TXT files, not ZIP",
-  "source_base_commit": "f14e2445ec98a76f39e7a01f580e887196b9d10d",
+  "source_base_commit": "dc70bfdb18f87c7640716ea77e887e70711ca60f",
   "bundles": [
     {
       "path": "docs/gemini_plain_text/01_context_and_results.txt",
@@ -188,8 +188,8 @@
     },
     {
       "path": "docs/gemini_plain_text/04_data_selection_evaluation.txt",
-      "bytes": 295746,
-      "sha256": "8bc84c6736804aae2445d3d58c53f6ae71739623eb5c5cb6aed6d0b0ae49b722",
+      "bytes": 314758,
+      "sha256": "ff132f24e003bbe183a9d8c9829eb23a124b60624be04f5b74ac3714b8e18685",
       "sources": {
         "project/pyproject.toml": "823a794835c2a4a7ca221aa2cd88e4750c51cc4138a21dd8857335b6e67fef18",
         "project/src/wind_forcing/data/operational.py": "7bf49590a97f7c1ecb8689b32467522e2587188c6e5c7fb28382f518c6b54f87",
@@ -199,6 +199,8 @@
         "project/scripts/audit_operational_pangu.py": "d6be5a7e7fb5de5ed753739c5de8bf0565377456d0cc1cb2f5cef11fa65a7928",
         "project/scripts/review_daily_results_20261115.py": "72826d18f1aaec9b41bc46d52f485680d37de59a9840a88a30cdafc75967798a",
         "project/scripts/render_daily_review_20261115.py": "fd0215ca9a0eae307b60a7fa9e9843a08c4496fd6a0b4c9e11ec76dd673d409b",
+        "project/scripts/hourly_state_representation.py": "49e38e29df9d8490abfae45abbe640f94114009d30383ed5b276867bd5318808",
+        "project/scripts/test_hourly_state_representation.py": "b24b39d3492f811d7722252f00e54edb7f0eda106935f2c807e0bda705ae3657",
         "project/configs/operational_pangu_d1_08_lag15h.json": "b06d0e361aaffeb43dd128e14dc22a356ab988cf21c50db2837ffb1b447f17b8",
         "project/runs/daily_protocol_restart_20261114_v1/PROTOCOL.json": "e943d4d57e88f81cbac25b60f9a1acdd3d1f1abe3232003da8de6e043932da4b",
         "project/runs/daily_protocol_restart_20261114_v1/SCIENCE_FREEZE.json": "04223a9a2e3976a32129ce3242c4a16a484090d64fce22e5533a5aab0b762e49",
@@ -235,7 +237,8 @@
         "project/runs/daily_state_representation_20261116_v2/assets/selected/W0_BASE.json": "a2f7004a1311dd2bf95f594b0e59896a5b601897a2417b7209338f7330b06c32",
         "project/runs/daily_state_representation_20261116_v2/assets/selected/W0_R3.json": "76a036f7852198c398effe6bcb21158443faa27e16fa5e112c6800409524d5e7",
         "project/runs/daily_state_representation_20261116_v2/operations/collect.py": "799c47d65304d16b462013a4ec3891bdd605026004e6461207cbef63bfabbd1c",
-        "project/runs/daily_state_representation_20261116_v2/README_CN.md": "731e8d4dc6b3e8ca202abcc04a2744282dc9cf08a7bb6ef695bc43c88172e278",
+        "project/runs/daily_state_representation_20261116_v2/README_CN.md": "d26401c0d8140a15631435b133d0281a15ebb79416a3e95c911b6b29c49b971b",
+        "project/runs/daily_state_representation_20261116_v2/HOURLY_MONITOR_CN.md": "9117c5428cb77798d6abeca9c17488f7ae913d535b4282100d06bf662c4c0f9f",
         "project/runs/daily_state_representation_20261116_v2/manifest.json": "7231ccb0e686f35b1736e7354f715b9df78bc1bab92d36157d9b70b8331a5b46",
         "project/runs/daily_state_representation_20261116_v2/diagnostic_manifest.json": "ca556eeeea73080172f7c964f7a535c136b10a61fd35f007a65a133cbb90b769",
         "project/runs/daily_state_representation_20261116_v2/OPERATIONS_FREEZE.json": "1d9e6f71599311aedc50f7ac7f3cddc660a2303027eff99ebd88d225c75c97cf",
