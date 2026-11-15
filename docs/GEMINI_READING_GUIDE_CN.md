@@ -48,7 +48,7 @@ E2L 是多层无激活线性映射，其复合仍为仿射映射。当前尚缺 
 ## 可以直接发给 Gemini 的提问
 
 ```text
-请阅读已通过“导入代码”附加的私有 GitHub 仓库或解压后的代码文件夹。先读 README.md 和
+请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md 和
 docs/GEMINI_READING_GUIDE_CN.md，再读所链接的当前协议、结果报告、
 编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
 

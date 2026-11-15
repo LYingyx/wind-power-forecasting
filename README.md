@@ -1,6 +1,6 @@
 # 单风场 0–6 h 功率预测
 
-GitHub 私有仓库：<https://github.com/LYingyx/wind-power-forecasting>，默认分支 `main`。
+GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默认分支 `main`。
 
 本仓库用于代码与研究结果审阅，包含现有源码、实验配置、每日起报协议的结果汇总及后续研究计划。实际工作目录为 `project/`。原始气象/功率数据、缓存、模型权重、逐样本预测和 Python 环境保留在研究服务器，未上传；克隆本仓库不能直接恢复完整训练环境。
 
@@ -32,4 +32,4 @@ GitHub 私有仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 ## GitHub 与 Gemini
 
-仓库已创建为 **Private**；默认分支使用 `main`。Gemini 网页版支持通过“添加文件 → 更多上传 → 导入代码”导入私有仓库，首次需关联有权限的 GitHub 账户；直接在聊天里粘贴 URL 不会读取仓库。请按[访问与配置说明](docs/GITHUB_GEMINI_ACCESS_CN.md)导入，或下载 ZIP 后解压并通过代码文件夹入口上传。
+仓库已按用户要求设为 **Public**；默认分支使用 `main`。Gemini 网页版可通过“添加文件 → 更多上传 → 导入代码”直接导入本公开仓库，无需私有仓库访问授权；直接在聊天里粘贴 URL 不会读取仓库。请按[访问与配置说明](docs/GITHUB_GEMINI_ACCESS_CN.md)导入，或下载 ZIP 后解压并通过代码文件夹入口上传。

@@ -1,6 +1,6 @@
-# 私有 GitHub 仓库与 Gemini 网页版访问
+# 公开 GitHub 仓库与 Gemini 网页版访问
 
-更新：2026-11-15。已通过 GitHub API 核验仓库为 **Private**，默认分支 `main`；已通过代理访问 Google 官方帮助并核实下面的私有仓库导入步骤。
+更新：2026-11-15。已按用户要求将仓库设为 **Public**，并通过 GitHub API 核验，默认分支 `main`。下面说明已同步为公开仓库的导入步骤。
 
 ## 仓库地址与阅读入口
 
@@ -8,7 +8,7 @@
 | --- | --- |
 | 仓库 | <https://github.com/LYingyx/wind-power-forecasting> |
 | 所有者 | `LYingyx` |
-| 可见性 | `Private` |
+| 可见性 | `Public` |
 | 分支 | `main` |
 | 首页 | [README.md](https://github.com/LYingyx/wind-power-forecasting/blob/main/README.md) |
 | Gemini 阅读顺序与提示词 | [GEMINI_READING_GUIDE_CN.md](https://github.com/LYingyx/wind-power-forecasting/blob/main/docs/GEMINI_READING_GUIDE_CN.md) |
@@ -18,7 +18,7 @@
 
 ```yaml
 repository: https://github.com/LYingyx/wind-power-forecasting
-visibility: private
+visibility: public
 branch: main
 entry: README.md
 reading_guide: docs/GEMINI_READING_GUIDE_CN.md
@@ -28,22 +28,20 @@ latest_plan: project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md
 
 ## GitHub 配置
 
-- Visibility：**Private**。
+- Visibility：**Public**。
 - Default branch：`main`。
 - 不需要 GitHub Pages、公开 raw 链接或额外 API 服务。
-- 本地 GitHub 登录用于创建/推送；Gemini 读取私有仓库需要它自己的官方 GitHub 授权，两者互不代替。
-- 若 Gemini 提供 GitHub App 授权，选择正确的 GitHub 账户，并在可选时只授予本仓库读取权限。组织账户还可能需要组织管理员放行。
+- 本地 GitHub 登录用于推送；本仓库的公开读取和 Gemini 导入无需私有仓库访问授权。
 - 不把 GitHub token、SSH 私钥或登录密码发到 Gemini 对话里，也不写进仓库。
 
 ## 在 Gemini 网页版导入
 
-Google 官方帮助已确认支持私有 GitHub 仓库。首次使用需要把有仓库访问权限的 GitHub 账户关联到 Google 账户；服务器的 GitHub CLI 登录不会代替这一关联。
+Google 官方帮助确认：未关联 GitHub 账户也可导入公开仓库。本仓库现已公开，可直接在“导入代码”中提供仓库或分支 URL。
 
 1. 在电脑上打开 <https://gemini.google.com/> 并登录。按官方要求开启 **Keep Activity（保留活动记录）**；工作/学校账户还需符合 Workspace 版本要求，并由管理员允许 Gemini 应用连接。
 2. 新建对话，在输入框点击 **添加文件 / Add file → 更多上传 / More Uploads → 导入代码 / Import code**。
 3. 输入 `https://github.com/LYingyx/wind-power-forecasting/tree/main`，点击 **Import**。也可使用不带 `/tree/main` 的仓库 URL。
-4. 按提示关联 GitHub 账户 `LYingyx`（或其他有该仓库访问权限的账户），完成授权。若授权界面允许选择仓库，选择本仓库即可。
-5. 等待导入完成，再发送[阅读提示词](GEMINI_READING_GUIDE_CN.md)。可以先让 Gemini 列出实际读到的文件，并概括 README 和当前结果报告，确认导入成功。
+4. 等待导入完成，再发送[阅读提示词](GEMINI_READING_GUIDE_CN.md)。可以先让 Gemini 列出实际读到的文件，并概括 README 和当前结果报告，确认导入成功。
 
 已关联过 GitHub 的账户，可在 **Settings → Connected Apps → GitHub** 检查连接；部分界面需先进入 **Personal Intelligence → Connected Apps**。
 
@@ -65,13 +63,13 @@ Google 官方帮助已确认支持私有 GitHub 仓库。首次使用需要把�
 
 按终端提示在 <https://github.com/login/device> 输入一次性设备码并授权，并等待终端显示 `Logged in as LYingyx`。仅登录 GitHub 网页不等于终端完成认证。不要把访问令牌发到聊天里。
 
-已获授权的其他机器可以克隆：
+其他机器可直接克隆公开仓库：
 
 ```bash
-gh repo clone LYingyx/wind-power-forecasting
+git clone https://github.com/LYingyx/wind-power-forecasting.git
 ```
 
-原服务器的 ZIP 位于 `github_export/wind-power-forecasting-gemini.zip`，该目录被 Git 忽略。也可在已登录且有权限的 GitHub 网页选择 **Code → Download ZIP**；请先解压，再通过 Gemini 的代码文件夹入口导入。
+原服务器的 ZIP 位于 `github_export/wind-power-forecasting-gemini.zip`，该目录被 Git 忽略。也可在仓库网页选择 **Code → Download ZIP**；请先解压，再通过 Gemini 的代码文件夹入口导入。
 
 当前服务器按用户提供的代理完成上传，本地仓库已配置：
 
