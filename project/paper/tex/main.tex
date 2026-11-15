@@ -1,0 +1,20 @@
+% !TeX program = xelatex
+\documentclass[UTF8,11pt,letterpaper,fontset=fandol]{ctexart}
+\input{preamble}
+\title{面向单风场多步功率预测的\\历史轨迹条件化天气修正}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+单风场短期功率预测需要同时利用已观测运行历史与未来数值天气预报，并区分跨风场训练和部署时对其他风场数据的依赖。本文研究历史轨迹条件化的天气修正：先由历史预测器生成多步参考轨迹，再将参考水平、相邻差分和历史记忆均值显式提供给天气适配器；完整历史记忆独立支持修正解码，最终输出为参考与修正之和。在 56 个源风场上，预测任务为 24 个十五分钟历史步到未来 24 步。共享训练、仅使用本站在线输入的 CBH-SL，在 2023 验证与 2024 跨年复评中的平均容量因子 MAE 分别为 0.084140 和 0.081799，相对本批共享命名基线中验证集最佳的 Transformer 分别降低 4.09\% 和 3.42\%。共享/独立训练与本站/区域输入的四格比较表明，共享训练解释了较大的平均收益。区域历史版本的匹配条件消融支持显式轨迹信息包；非线性天气编码扩展 E2C 在 2024 达到 0.080703，但其结果不等同于本站部署版本。对 20 个未见风场的适配实验显示，源模型迁移相对从头训练具有样本效率优势，却未稳定优于预训练 Transformer。本文同时呈现按训练期描述量选取的代表风场、分场景误差及失败案例，以明确方法的适用范围。
+\end{abstract}
+\noindent\textbf{关键词：}风电功率预测；单风场部署；数值天气预报；轨迹条件；跨风场适配
+\input{sections/introduction}
+\input{sections/method}
+\input{sections/results}
+\input{sections/discussion}
+\clearpage
+\appendix
+\input{sections/appendix}
+\end{document}

@@ -1,0 +1,105 @@
+\section{实验}
+
+\subsection{数据与设置}
+
+本文基于吉林省区域风电场群构建实验数据集。功率数据覆盖 2022--2024 年，预测对象为 58 个风电场站形成的区域聚合出力；气象输入采用覆盖吉林省及周边区域的 Pangu-Weather 逐小时网格化预报，网格大小为 \(19\times33\)，空间分辨率为 \(0.25^\circ\)。17 个输入通道包括 10 m 风场、不同气压层风场、温度、湿度、位势高度和海平面气压等变量。所有功率和气象数据均按北京时间对齐。
+
+训练集、验证集和测试集按自然年隔离，分别使用 2022、2023 和 2024 年数据；训练阶段使用滑动窗口样本，验证和测试阶段使用严格日样本。所有模型采用相同的数据划分、归一化方式和日内预测目标。目标功率按训练集预测时段功率最大值缩放，历史场站功率按场站标准化，气象输入按通道标准化；验证集和测试集仅复用训练集统计量。评价指标包括归一化 MAE、归一化 RMSE、工程尺度 MAE 和 RMSE 以及 \(R^2\)，文中结果均为 12 次独立重复实验的平均值。本文方法使用预测起点前最近 \(L\) 步场站级功率作为运行状态上下文，并由同一窗口估计邻接矩阵，输出 \(H\) 步日内聚合功率。
+
+为检验运行状态约束的增益，本文首先设置 Weather-only 作为共享气象输入和 query decoder 的直接对比模型；同时引入 CNN、3D CNN、ViT、Swin 和 Video Transformer 等气象编码基线，用于观察不同网格气象编码方式下的纯气象预测表现。
+
+为保证时间信息使用一致，所有 weather-only 基线均输入完整的气象预报（历史段）和气象预报（目标段）。CNN、ViT 和 Swin 基线采用逐帧空间编码后接 temporal Transformer 的方式建模时间依赖；3D CNN 和 Video Transformer 则直接进行时空编码。iTransformer-Fusion 和 PatchTST-Fusion 在 Weather-only 之外加入历史功率时序分支，并通过 softmax 门控 MLP 融合两路输出，用于比较输出层融合与本文的记忆层状态注入。
+
+\subsection{整体预测性能}
+
+表~\ref{tab:benchmark-short} 给出了不同模型在 2024 年独立测试集上的整体结果。本文方法取得最低归一化 MAE、最低归一化 RMSE 和最高 \(R^2\)，分别为 0.0779、0.1065 和 0.8036；对应的工程尺度 MAE 和 RMSE 分别为 383.5 MW 和 524.2 MW。Weather-only 是误差最低的纯气象模型，表明完整未来气象预报已经提供了主要预测信号。
+
+\begin{table}[htbp]
+\caption{整体预测性能}
+\begin{center}
+\footnotesize
+\begin{tabular}{lccc}
+\hline
+Model & MAE \(\downarrow\) & RMSE \(\downarrow\) & \(R^2\) \(\uparrow\) \\
+\hline
+Ours & \textbf{0.0779} & \textbf{0.1065} & \textbf{0.8036} \\
+iTrans.-Fusion & 0.0821 & 0.1121 & 0.7821 \\
+PatchTST-Fusion & 0.0821 & 0.1120 & 0.7824 \\
+Weather-only & 0.0836 & 0.1140 & 0.7749 \\
+3D CNN & 0.0856 & 0.1172 & 0.7619 \\
+CNN & 0.0916 & 0.1248 & 0.7302 \\
+Video Trans. & 0.0937 & 0.1265 & 0.7228 \\
+ViT & 0.0941 & 0.1278 & 0.7167 \\
+Swin & 0.0947 & 0.1279 & 0.7162 \\
+\hline
+\end{tabular}
+\label{tab:benchmark-short}
+\end{center}
+\end{table}
+
+Weather-only 在纯气象模型中误差最低，两个输出层融合基线进一步利用历史功率后仍弱于本文方法。相对 Weather-only，本文方法将 MAE 和 RMSE 分别降低 6.84\% 和 6.57\%；相对 iTransformer-Fusion，两项误差分别降低 5.16\% 和 5.05\%；相对 PatchTST-Fusion 分别降低 5.19\% 和 4.99\%。结果表明，预测起点前真实功率状态在记忆读取阶段参与预测，比在输出层融合独立历史功率分支取得更低误差。
+
+\subsection{逐预测步融合效果}
+
+表~\ref{tab:horizon-short} 和图~\ref{fig:horizon} 展示了本文方法与 Weather-only 在不同预测步长上的误差差异，其中 \(h\) 表示第 \(h\) 个预测步。在 \(h=1\) 上，本文方法的 MAE 为 0.0445，低于 Weather-only 的 0.0856；对应 RMSE 分别为 0.0626 和 0.1138。
+
+\begin{table}[htbp]
+\caption{逐预测步误差对比}
+\begin{center}
+\footnotesize
+\begin{tabular}{llccccc}
+\hline
+Model & Metric & \(h=1\) & \(h=6\) & \(h=12\) & \(h=H\) & Avg \\
+\hline
+Ours & MAE & \textbf{0.0445} & \textbf{0.0759} & \textbf{0.0742} & \textbf{0.0955} & \textbf{0.0779} \\
+Weather & MAE & 0.0856 & 0.0806 & 0.0754 & 0.0973 & 0.0836 \\
+Ours & RMSE & \textbf{0.0626} & \textbf{0.0974} & \textbf{0.1050} & \textbf{0.1215} & \textbf{0.1055} \\
+Weather & RMSE & 0.1138 & 0.1066 & 0.1082 & 0.1245 & 0.1138 \\
+\hline
+\end{tabular}
+\label{tab:horizon-short}
+\end{center}
+\end{table}
+
+\begin{figure*}[t]
+\centerline{\includegraphics[width=\textwidth]{figures_short/horizon_comparison_zh.pdf}}
+\caption{逐预测步 MAE 及差值。(a) MAE；(b) Weather-only 与本文方法的 MAE 差值。正值表示本文方法误差更低。}
+\label{fig:horizon}
+\end{figure*}
+
+逐步长曲线显示，运行状态约束的收益主要集中在预测日初始阶段，并将逐预测步平均 MAE 从 0.0836 降至 0.0779。在 \(h=1\) 上，MAE 和 RMSE 相对 Weather-only 分别降低 47.94\% 和 45.00\%；在末预测步 \(h=H\) 上仍分别降低 1.80\% 和 2.40\%。查询交叉注意力分配给功率上下文的权重占比从 \(h=1\) 的 39.56\% 降至 \(h=H\) 的 6.56\%，与近端收益更明显的误差趋势一致。表中平均 RMSE 是 \(H\) 个预测步 RMSE 的算术平均，与表~\ref{tab:benchmark-short} 在完整测试集上计算的整体 RMSE 统计口径不同。
+
+\subsection{消融实验}
+
+消融实验围绕四个问题组织：性能增益是否依赖预测起点前的真实功率数值，多尺度状态编码是否有效，可查询气象记忆是否必要，以及未来气象是否仍为主要驱动。Weather-only 移除功率上下文；Random power 和 Zero power 保留相同功率侧结构但破坏其中的状态信息，用于区分信息内容与额外模型容量。Basic GCN 将多尺度编码器替换为基础图卷积。No memory、No delta、Single branch、No synoptic 和 No wind 则进一步拆解气象记忆组织与气象信息组的作用。
+
+表~\ref{tab:ablation-short} 给出了消融结果，其中 \(\Delta\) 由未四舍五入的 12 次实验均值计算。Weather-only 的 MAE 和 RMSE 分别增加 7.34\% 和 7.04\%。Random power 和 Zero power 的退化幅度与其接近，说明性能改善依赖真实运行状态的数值内容，而不是额外参数或功率通路本身。Basic GCN 的两项误差分别增加 4.88\% 和 4.74\%，说明多尺度编码能够强化状态表示，但其作用次于首先提供有效的真实状态。
+
+\begin{table}[htbp]
+\caption{关键消融结果}
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{lccccc}
+\hline
+Variant & MAE \(\downarrow\) & \(\Delta\)MAE & RMSE \(\downarrow\) & \(\Delta\)RMSE & \(R^2\) \(\uparrow\) \\
+\hline
+Ours & \textbf{0.0779} & 0.00\% & \textbf{0.1065} & 0.00\% & \textbf{0.8036} \\
+Random power & 0.0835 & 7.17\% & 0.1137 & 6.78\% & 0.7760 \\
+Zero power & 0.0838 & 7.61\% & 0.1141 & 7.21\% & 0.7742 \\
+Basic GCN & 0.0817 & 4.88\% & 0.1115 & 4.74\% & 0.7845 \\
+Weather-only & 0.0836 & 7.34\% & 0.1140 & 7.04\% & 0.7749 \\
+No memory & 0.0824 & 5.86\% & 0.1128 & 5.93\% & 0.7796 \\
+No delta & 0.0810 & 3.96\% & 0.1110 & 4.24\% & 0.7865 \\
+Single branch & 0.0843 & 8.22\% & 0.1162 & 9.12\% & 0.7660 \\
+No synoptic & 0.0858 & 10.14\% & 0.1166 & 9.50\% & 0.7645 \\
+No wind & 0.1485 & 90.68\% & 0.1991 & 87.02\% & 0.3123 \\
+\hline
+\end{tabular}
+\label{tab:ablation-short}
+\end{center}
+\end{table}
+
+气象侧消融表明，No delta、No memory、Single branch 和 No synoptic 均造成稳定退化，说明气象变化、时空组织、变量角色解耦和背景天气场均有贡献。No wind 的 MAE 和 RMSE 分别增加 90.68\% 和 87.02\%，\(R^2\) 降至 0.3123，说明风场仍是主要驱动，功率上下文并未替代未来气象。
+
+结合表~\ref{tab:benchmark-short} 的输出层融合基线，这些对照实验将主要设计选择分别隔离：真实/随机/零功率对比说明有效的起点状态信息不可缺少；输出层融合对比支持让状态约束气象记忆读取，而非仅增加一条历史功率预测分支；Basic GCN 量化了多尺度状态编码的附加收益；气象侧消融则确认条件化记忆仍由气象驱动。因此，实验支持的是本文的信息组织方式，而非将性能改善笼统归因于多个组件的累积。

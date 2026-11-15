@@ -1,0 +1,134 @@
+\section{实验结果与分析}
+\label{sec:results}
+\subsection{数据、协议与统计口径}
+源站实验使用 56 个风场，2022 年训练、2023 年验证与选择模型，2024 年进行跨年复评。三个年份分别包含 31,190、32,550、28,782 个有效起报窗口。这里的全年协议指使用该年全部有效缓存，并非不间断的全年覆盖；2022 缓存截至北京时间 12 月 16 日，2024 年末有效窗口较少。2023 和 2024 已被多轮实验查看，2024 不称为未触碰盲测。
+
+共享命名基线包含 15 个项目实现，均在全有效窗口上使用种子 42--51。H 表示历史输入家族，W 表示天气输入家族，FC 表示结合历史与未来协变量的家族；这些实现的输入组不同。CBH 的共享/独立对照采用 BF16，新四臂条件消融及输出匹配对照采用 FP16，七臂天气编码实验采用 FP32。主表为相同评价窗口下的\emph{完整系统比较}，各消融则只在其自身协议内解释。命名基线不等于已覆盖文献中所有官方实现或调参预算。旧独立命名基线仅使用按月份日期抽样的约 10\% pilot，训练/验证起点数为 3,156/3,349，且没有 2024 结果；它们独立列在附录，不能与全年结果混排。
+
+令单模型在风场 $i$、种子 $s$ 的误差为 $e_{i,s,t,k}=\hat y_{i,s,t,k}-y_{i,t,k}$，本文主指标为
+\begin{equation}
+ \operatorname{MAE}=\frac1{NS}\sum_{i=1}^{N}\sum_{s=1}^{S}
+ \frac1{|\mathcal T_i|K}\sum_{t\in\mathcal T_i}\sum_{k=1}^{K}|e_{i,s,t,k}|.
+\end{equation}
+先计算站内有效窗口与提前量平均，再等权平均种子和风场；报告的是单模型指标均值，不是集成预测误差。宏平均 RMSE 先对每个站、每个种子的 MSE 开平方，再平均；$R^2$ 同样在站内计算后平均。它们不同于先合并所有站 MSE 再开平方的统计量。轻量归档未保留的平方误差及 $R^2$ 不由 MAE 推算。
+
+配对差分定义为 $\Delta(A,B)=\operatorname{MAE}(A)-\operatorname{MAE}(B)$，负值表示改善。除特别说明，场站区间先在站内平均种子，再以风场为重采样单位计算 95\% bootstrap 区间。天气扩展还采用共同七日块、种子与风场的交叉重采样，保持有效起点权重，并报告等周敏感性分析。区间描述对应样本和统计目标下的不确定性，不包含完整模型选择过程；场站相关性、跨年漂移及多重比较仍限制其解释。
+
+\subsection{全场站主结果：本站部署与区域扩展}
+\begin{table}[tbp]
+ \centering\small
+ \caption{56 个源风场的完整系统比较。报告十种子均值（Persistence 无训练种子）。2023 为验证，2024 为跨年复评；MAE/RMSE 越小越好，$R^2$ 越大越好。区域组额外读取区域历史，不能将两组差距归因于单一模块。破折号表示归档无法恢复该指标。}
+ \label{tab:source-main}
+ \setlength{\tabcolsep}{5pt}
+ \begin{tabular}{lrrrr}
+ \toprule
+ & 2023 MAE & 2024 MAE & 2024 RMSE & 2024 $R^2$ \\
+ \tableinput data/single_farm/source_main.tex 
+ \bottomrule
+ \end{tabular}
+\end{table}
+表~\ref{tab:source-main} 中，CBH-SL 的 2023/2024 MAE 为 0.084140/0.081799。相对验证集最佳共享命名基线 Transformer，分别降低 4.09\%/3.42\%；2024 在 49/56 个风场改善，场站配对差分区间为 $[-0.003651,-0.002095]$。因此，性能收益并不完全依赖部署时访问其他风场功率。它仍是两阶段条件修正系统与单阶段基线的比较，不能单凭该表将全部优势归因于条件入口。
+
+区域扩展 E2C 的两年 MAE 为 0.082667/0.080703，相对共享 Transformer 降低 5.77\%/4.72\%，2024 在 50/56 站改善。但 E2C 同时具有区域历史输入、不同精度、天气表示和预训练过程，因此这两个百分比只描述系统表现。E2C 的模块增量应与同为区域输入、FP32 的 E0 比较。图~\ref{fig:horizon} 给出逐提前量表现；本站版本未保存可用于本次复核的最终 checkpoint，故不从区域模型曲线推断本站版本的场景行为。
+
+\begin{figure}[tbp]
+ \centering\includegraphics[width=\linewidth]{single_farm/03_forecast_horizons.pdf}
+ \caption{源站逐提前量 CF MAE。命名基线为共享模型，E0/E2C 为区域历史版本；曲线覆盖各年全部有效窗口。该图用于展示系统随提前量的变化，其中 E2C 对 E0 的比较具有相同输入范围与精度。}
+ \label{fig:horizon}
+\end{figure}
+
+\subsection{共享训练与区域历史的分离}
+\begin{table}[tbp]
+ \centering\small
+ \caption{CBH 的共享/独立训练与本站/区域历史四格比较，十种子均值。所有单站预测均保留本站天气；C 的额外区域历史只进入参考模型。}
+ \label{tab:sharing}
+ \begin{tabular}{lllrr}\toprule
+ 配置 & 参数训练 & 在线功率输入 & 2023 MAE & 2024 MAE \\
+ \midrule\tableinput data/single_farm/sharing.tex \bottomrule
+ \end{tabular}
+\end{table}
+表~\ref{tab:sharing} 中，SL 相对 IL 的 2024 差分为 $-0.005199$，54/56 站改善；SC 相对 SL 的差分仅为 $-0.000291$。在这一协议中，跨站共享训练带来的平均差距显著大于额外区域历史的平均增量。IC 的均值也未优于 IL，说明更广的在线输入不会自动带来优势。四格比较支持将本站部署作为主要应用设置，不意味着所有时段或其他数据集上的区域历史都无价值。
+
+\subsection{条件入口、输出形式与天气表示}
+\begin{table}[tbp]
+ \centering\small
+ \caption{新四臂条件消融（区域历史，FP16，十种子重训）。所有臂均保留完整解码记忆、输出参考、提前量以及模块形状。CB 同时保留 $b$ 和 $\Delta b$。}
+ \label{tab:condition}
+ \begin{tabular}{lllrr}\toprule
+ 变体 & 额外历史均值摘要 & $b$ 与 $\Delta b$ & 2023 MAE & 2024 MAE \\
+ \midrule\tableinput data/single_farm/condition.tex \bottomrule
+ \end{tabular}
+\end{table}
+表~\ref{tab:condition} 的 CB 相对 CNEUTRAL 在 2024 降低 0.004419，支持轨迹与差分组成的条件信息包。CBH 相对 CH 降低 0.004593，说明在历史摘要之外显式提供这一信息包仍有价值。额外均值摘要的增量由 CBH 对 CB 识别，为 0.000260；它远小于轨迹信息包的增量。CH 对 CNEUTRAL 的均值差异很小，种子区间跨零，不将其提升为主要贡献。这里没有独立开关 $b$ 和 $\Delta b$ 的实验，因此不将两者作用分别量化。
+
+独立的 matched direct/correction 对照使用相同 FP16 协议，2024 MAE 为 0.081631/0.081535。显式输出相加的差分为 $-0.000096$，场站区间 $[-0.000269,+0.000070]$ 包含零。主贡献应落在历史、轨迹与天气的信息组织上，单纯增加输出残差不足以解释主要收益。
+
+\begin{table}[tbp]
+ \centering\small
+ \caption{天气编码七臂比较（区域历史，FP32，十种子）。E2(raw) 为原始天气加高程；E2C 是可逆坐标重参数化后输入 MLP。该组与表~\ref{tab:condition} 的精度不同，只作组内归因。}
+ \label{tab:weather}
+ \setlength{\tabcolsep}{5pt}
+ \begin{tabular}{lllrr}\toprule
+ 变体 & 输入 & 编码器 & 2023 MAE & 2024 MAE \\
+ \midrule\tableinput data/single_farm/weather.tex \bottomrule
+ \end{tabular}
+\end{table}
+在表~\ref{tab:weather} 中，E2N 与 E2L 的输入、层数和参数量相同，差别是中间 GELU 激活。2023 差分为 $-0.001025$，支持非线性天气编码；2024 均值亦改善，但归档等周区间跨零。E2C 相对 E2(raw) 的两年增量仅约 0.000100/0.000101，不能据此确认柱坐标的独立稳健收益。高程与显式三分组也没有得到独立稳健支持，不将其列为主要创新。
+
+E2C 对 E0 的 2024 有效起点加权差分为 $-0.000825$。仅重采样风场时的区间见附录表~\ref{tab:weights}。共同七日块、种子和风场交叉重采样得到 $[-0.001358,-0.000292]$。每周有效起点为 32--672，若改为各有观测周等权，点估计则为 $-0.000557$，区间为 $[-0.001178,+0.000168]$。两者对应不同统计目标；本文以与主 MAE 一致的有效起点权重为主，并保留等周敏感性，而非按区间是否跨零选择算法。
+
+\subsection{典型风场与分场景结果}
+典型站由训练期描述量选择：源站使用 2022 年、迁移目标站使用 2023 年，特征包括经纬度、对数容量、容量因子均值/标准差、低/高功率占比及过去一小时变化的 90\% 分位。各特征以中位数/IQR 缩放，地理、容量、功率分布、动态变化四组等权，通过确定性 PAM 选取源站六个、目标站四个中心站。此过程不读取模型误差，但属于本次重审确定的回顾性规则，不是原实验预注册；全部 56/20 站仍为主评价集合。原新增站队列的资格筛选曾利用 2024 覆盖率和跨年质量信息，与本次仅使用训练期描述量的代表站选择须分开说明。
+
+\begin{table}[tbp]
+ \centering\small
+ \caption{六个训练期描述量代表源站的 2024 MAE，均为十种子均值。Transformer 与 CBH-SL 使用本站输入；E2C 额外使用区域历史。名称缩写仅用于排版。}
+ \label{tab:representatives}
+ \setlength{\tabcolsep}{4pt}
+ \begin{tabular}{llrrrr}\toprule
+ 风场 ID & 名称 & MW & Transformer & CBH-SL & E2C \\
+ \midrule\tableinput data/single_farm/source_representatives.tex \bottomrule
+ \end{tabular}
+\end{table}
+表~\ref{tab:representatives} 涵盖大岗、马力、双龙、王府、到保和协和新发六站，覆盖容量、位置、运行分布和短时变化的差异。代表站用于呈现异质性，不按所属簇大小额外加权。完整逐站主结果见附录，位置和描述量分布见图~\ref{fig:selection}。
+
+\begin{figure}[tbp]
+ \centering\includegraphics[width=\linewidth]{single_farm/04_scenario_contrasts.pdf}
+ \caption{区域天气扩展的探索性分场景比较，差分为 E2C 减 E0，负值表示改善。误差棒为场站配对 bootstrap 区间，未进行所有分组的多重比较校正。分组依据及其可用时点见正文；未来真实爬坡只用于事后诊断。}
+ \label{fig:scenario}
+\end{figure}
+以下场景分析均比较区域 E2C 与 E0，不能替代本站主模型相对强基线的全年场景复评。2024 年，0--1 小时的平均改善为 0.000159，1--3 小时为 0.000620，3--6 小时为 0.001185，中远期增量更明显。按起报 UTC 月份分季，春季改善 0.001355，47/56 站改善；秋季均值改善的场站区间仍跨零。按北京时间起报时刻分为 00--06、06--12、12--18、18--24 四段，差分依次为 $-0.000442,-0.000714,-0.001018,-0.001131$；这与按未来目标发生小时分组不同。
+
+起点功率和过去一小时变化均可在部署时观测。起点 CF $\geq0.7$ 的组内平均改善较大，但 2024 只有 55 站出现该状态，分母不是全部 56 站。另将未来六小时中任一真实一小时 CF 变化绝对值 $\geq0.2$ 的窗口定义为未来爬坡诊断组，E2C 对 E0 的差分为 $-0.001892$；非爬坡组为 $-0.000085$，区间跨零。该标签使用未来真值，不可用于在线路由，也不证明模型已准确识别爬坡的发生时间和幅度。
+
+预测案例按固定规则取每站 2024 年 4 月北京时间 06:00 的首个满足普通或历史已观测爬坡条件的有效起点，不存在时按同条件顺延至全年首个起点。选择不使用未来真值或模型误差。图~\ref{fig:cases} 展示 seed42；E2C 阴影为十种子的 10--90\% 分位，表示训练随机性，不能当作预测置信区间。Transformer 案例由保存 checkpoint 在 CPU FP32 重新推理，其数值与归档 BF16 主指标不是同一精度的完整复评。附录保留事后附加的龙湖失败案例，不要求每幅图都显示本方法最好。
+
+\begin{figure}[p]
+ \centering\includegraphics[width=\linewidth]{single_farm/06_source_forecast_examples.pdf}
+ \caption{六个代表源站的固定规则预测窗口。普通窗口与历史爬坡窗口均由已观测信息选取；实线为固定 seed42，阴影只表示 E2C 的种子间分位范围。E0/E2C 使用区域历史；这些曲线不代表缺少最终 checkpoint 的 CBH-SL。失败或偏差较大的窗口同样保留。}
+ \label{fig:cases}
+\end{figure}
+
+\subsection{未见风场适配：数据效率与失败边界}
+源站 56、开发站 10、最终目标站 20 互不重叠。目标站以 2023 年适配训练、2024 上半年选择 checkpoint、下半年评价。7/30/90 天预算各包含四个季节训练块，180 天和 full 各一个块。统一使用共同种子 42--46，先在每站内平均种子和训练块，再等权平均 20 站。Scratch 家族在开发站及上半年验证中选定，不在最终站下半年上逐预算挑选最优家族。CBH/E2C 的 T5 方案适配修正网络，保留冻结参考；其参考模型仍读取源 56 站区域历史，故不是纯本站输入迁移。
+
+\begin{table}[tbp]
+ \centering\small
+ \caption{20 个未见风场在 2024 下半年的 MAE。预算仅为适配训练数据量，所有预算仍使用完整目标站上半年标签选择 checkpoint。E2C 为 FP32，历史迁移参照精度不同；不将微小差异作为精度完全匹配的归因结果。}
+ \label{tab:transfer}
+ \setlength{\tabcolsep}{4pt}
+ \begin{tabular}{llrrrr}\toprule
+ 预算 & 开发集选定 scratch & Scratch & 预训练 TF & CBH-T5 & E2C-T5 \\
+ \midrule\tableinput data/single_farm/transfer.tex \bottomrule
+ \end{tabular}
+\end{table}
+E2C 对开发集选定 scratch 在五档预算下平均降低约 22.70\%、23.88\%、22.25\%、14.58\%、6.99\%，场站区间均支持改善（表~\ref{tab:transfer}）。这体现适配方案整体的样本效率，但两者的优化、预训练、冻结参考和输入路径不同，并非单一预训练开关的因果对照。预算只计训练标签，不能据 7 天结果声称总共仅需 7 天标注或严格冷启动。
+
+强预训练 Transformer 改变了对迁移收益的解释：E2C 仅在 full 预算下具有更低的平均 MAE，而该差分区间仍跨零。30 天预算的 E2C 减 Transformer 为 $+0.001235$，95\% 场站区间 $[+0.000049,+0.002509]$。因此，源站上更好的 E2C 预测不构成其表示更可迁移的证据。
+
+\begin{figure}[tbp]
+ \centering\includegraphics[width=0.92\linewidth]{single_farm/05_transfer_learning_curve.pdf}
+ \caption{最终 20 站适配训练预算曲线，统一共同五种子。天数仅计训练预算，上半年 checkpoint 选择标签未计入其中。图中较低误差代表更好；全数据均值的微小排序不等同于可靠迁移优势。}
+ \label{fig:transfer}
+\end{figure}
+目标代表站为甄峰（49.5 MW）、水字平价（100 MW）、君字（300 MW）与同发龙源特许权（200 MW）。这些站并非均为有利案例：甄峰在 7 天预算下 E2C 的 MAE 为 0.121572，劣于预训练 Transformer 的 0.108034，也高于 scratch 的 0.116830；君字多数预算亦未优于 Transformer。图~\ref{fig:target-cases} 保留这些边界，避免将跨站平均收益误认为所有新站均受益。

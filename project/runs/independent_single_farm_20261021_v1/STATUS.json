@@ -1,0 +1,242 @@
+{
+  "timestamp": "2026-10-21T22:51:39.068676+08:00",
+  "scheduler_pid": 2639006,
+  "counts": {
+    "done": 9500
+  },
+  "total_jobs": 9500,
+  "by_family": [
+    {
+      "family": "B0",
+      "stage": "reference",
+      "status": "done",
+      "count": 572
+    },
+    {
+      "family": "CB",
+      "stage": "ablation",
+      "status": "done",
+      "count": 280
+    },
+    {
+      "family": "CH",
+      "stage": "ablation",
+      "status": "done",
+      "count": 280
+    },
+    {
+      "family": "CLIMATOLOGY",
+      "stage": "ablation",
+      "status": "done",
+      "count": 280
+    },
+    {
+      "family": "CNEUTRAL",
+      "stage": "ablation",
+      "status": "done",
+      "count": 280
+    },
+    {
+      "family": "CNN_W",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "CNN_W",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "DIRECT",
+      "stage": "ablation",
+      "status": "done",
+      "count": 280
+    },
+    {
+      "family": "DLINEAR_FC",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "DLINEAR_FC",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "E0",
+      "stage": "ablation",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "E2C_CBH",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "E2C_CBH",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "GRU_H",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "GRU_H",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "NBEATSX_FC",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "NBEATSX_FC",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "NEUTRAL_LAST",
+      "stage": "ablation",
+      "status": "done",
+      "count": 280
+    },
+    {
+      "family": "PATCHTST_H",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "PATCHTST_H",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "TCN_FC",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "TCN_FC",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "TFT_FC",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "TFT_FC",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "TIDE_FC",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "TIDE_FC",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "TIMEXER_FC",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "TIMEXER_FC",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    },
+    {
+      "family": "TRANSFORMER_FC",
+      "stage": "formal",
+      "status": "done",
+      "count": 560
+    },
+    {
+      "family": "TRANSFORMER_FC",
+      "stage": "tune",
+      "status": "done",
+      "count": 48
+    }
+  ],
+  "running": [],
+  "gpus": [
+    {
+      "index": 0,
+      "total": 49140,
+      "used": 6172,
+      "utilization": 100
+    },
+    {
+      "index": 1,
+      "total": 49140,
+      "used": 6807,
+      "utilization": 97
+    },
+    {
+      "index": 2,
+      "total": 49140,
+      "used": 46646,
+      "utilization": 99
+    },
+    {
+      "index": 3,
+      "total": 49140,
+      "used": 46646,
+      "utilization": 100
+    },
+    {
+      "index": 4,
+      "total": 24564,
+      "used": 6883,
+      "utilization": 100
+    },
+    {
+      "index": 5,
+      "total": 24564,
+      "used": 9928,
+      "utilization": 100
+    },
+    {
+      "index": 6,
+      "total": 24564,
+      "used": 8182,
+      "utilization": 100
+    },
+    {
+      "index": 7,
+      "total": 24564,
+      "used": 9942,
+      "utilization": 100
+    }
+  ],
+  "failures": []
+}

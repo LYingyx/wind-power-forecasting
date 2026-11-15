@@ -1,0 +1,126 @@
+{
+  "timestamp": "2026-11-15T02:41:54.357120+08:00",
+  "group": "W0_BASE",
+  "config": {
+    "width": 128,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_index": 5,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08876498977610378,
+      "jobs": [
+        "TUNE_W0_BASE_c0_r40",
+        "TUNE_W0_BASE_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08874240575803881,
+      "jobs": [
+        "TUNE_W0_BASE_c1_r40",
+        "TUNE_W0_BASE_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08975897076398828,
+      "jobs": [
+        "TUNE_W0_BASE_c2_r40",
+        "TUNE_W0_BASE_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09019568809823927,
+      "jobs": [
+        "TUNE_W0_BASE_c3_r40",
+        "TUNE_W0_BASE_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08870278985909329,
+      "jobs": [
+        "TUNE_W0_BASE_c4_r40",
+        "TUNE_W0_BASE_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08855218501435413,
+      "jobs": [
+        "TUNE_W0_BASE_c5_r40",
+        "TUNE_W0_BASE_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09163636606942999,
+      "jobs": [
+        "TUNE_W0_BASE_c6_r40",
+        "TUNE_W0_BASE_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0921594187003491,
+      "jobs": [
+        "TUNE_W0_BASE_c7_r40",
+        "TUNE_W0_BASE_c7_r41"
+      ]
+    }
+  ],
+  "selected_by": "2023 macroMAE averaged seeds40,41"
+}

@@ -1,0 +1,103 @@
+\documentclass[conference]{IEEEtran}
+
+\IEEEoverridecommandlockouts
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+\setmonofont{Noto Sans Mono}
+\setCJKmainfont[AutoFakeSlant=0.2]{Noto Serif CJK SC}
+\setCJKsansfont[AutoFakeSlant=0.2]{Noto Sans CJK SC}
+\setCJKmonofont{Noto Sans Mono CJK SC}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+\newcommand{\figwide}[4]{%
+\begin{figure*}[!tbp]
+\centering
+\includegraphics[width=#1]{#2}
+\vspace{-0.8em}
+\caption{#3 #4}
+\vspace{-0.8em}
+\end{figure*}
+}
+
+\newcommand{\figone}[4]{%
+\begin{figure}[!tbp]
+\centering
+\includegraphics[width=#1]{#2}
+\vspace{-0.8em}
+\caption{#3 #4}
+\vspace{-0.8em}
+\end{figure}
+}
+
+\newcommand{\figwidelabel}[5]{%
+\begin{figure*}[!tbp]
+\centering
+\includegraphics[width=#1]{#2}
+\vspace{-0.8em}
+\caption{#3 #4}
+\label{#5}
+\vspace{-0.8em}
+\end{figure*}
+}
+
+\newcommand{\figonelabel}[5]{%
+\begin{figure}[!tbp]
+\centering
+\includegraphics[width=#1]{#2}
+\vspace{-0.8em}
+\caption{#3 #4}
+\label{#5}
+\vspace{-0.8em}
+\end{figure}
+}
+
+\newcommand{\inlinetable}[3]{%
+\refstepcounter{table}\label{#1}
+\vspace{0.4em}
+\begin{center}
+{\footnotesize\textbf{表~\thetable.} #2\par}
+\vspace{0.2em}
+\footnotesize
+#3
+\end{center}
+\vspace{0.4em}
+}
+
+\begin{document}
+
+\title{运行状态约束的气象-功率融合网络用于区域风电集群预测}
+
+\author{\IEEEauthorblockN{待填写作者}
+\IEEEauthorblockA{\textit{待填写单位}\\
+待填写城市, 中国\\
+email@example.com}
+}
+
+\maketitle
+
+\begin{abstract}
+在区域风电集群 24 h 预测中，未来气象预报是目标窗口内风电变化的主要驱动信息，但预测起点前的真实功率状态同样决定了气象到功率映射的初始条件。仅依赖未来气象的预测模型容易忽略已经观测到的当前出力水平、短期惯性和多场站同步变化，尤其在目标窗口前段产生状态失配误差。为此，本文提出一种运行状态约束的气象-功率融合预测方法，在保持未来气象主驱动地位的同时，将目标窗口前可用的场站级功率状态作为运行状态约束，条件化模型对未来气象记忆的读取。模型首先将后报气象与未来预报气象编码为可查询的时空气象记忆；随后利用多尺度图编码器编码目标窗口前可用的场站级功率序列，形成表征当前场群运行状态的动态功率上下文；最后将功率上下文作为 memory tokens 注入气象记忆，并通过 future-query decoder 在状态条件化后的融合记忆上并行生成 24 h 区域聚合功率预测序列。基于吉林区域 58 个风电场站和 Pangu-Weather 网格化气象预报的实验结果表明，本文方法相较最优对比基线将整体 MAE 降低约 4.1\%，并在 RMSE 和 \(R^2\) 上取得一致改进，同时优于多种网格气象编码基线。逐预测步结果进一步显示，功率状态条件化能够在 24 h 预测窗口内持续增强气象驱动预测的状态适配能力，其中近端预测的改进尤为显著：H1 MAE 相较最优对比基线降低约 42.4\%。这说明目标窗口前可用的真实功率状态不仅提供额外历史信息，更能够作为运行状态约束改善模型对未来气象的读取和解释。
+\end{abstract}
+
+\begin{IEEEkeywords}
+区域风电集群预测, 风电功率预测, 气象-功率融合, 运行状态约束, 多步预测
+\end{IEEEkeywords}
+
+\input{sections_short/introduction_zh}
+\input{sections_short/related_work_zh}
+\input{sections_short/problem_zh}
+\input{sections_short/method_zh}
+\input{sections_short/experiments_zh}
+\input{sections_short/conclusion_zh}
+\input{sections_short/references_zh}
+
+\end{document}

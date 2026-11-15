@@ -1,0 +1,72 @@
+{
+  "version": "20261022_v1",
+  "epochs": 80,
+  "patience": 10,
+  "batch_size": 256,
+  "eval_batch_size": 256,
+  "precision": "float32_no_tf32",
+  "optimizer": "AdamW",
+  "schedule": "cosine_80",
+  "weight_decay": 0.0001,
+  "gradient_clip": 1.0,
+  "loss": "MAE_CF",
+  "selection_metric": "2023_equal_farm_seed_MAE",
+  "front_width": 32,
+  "front_lr_choices": [
+    0.0002,
+    0.001
+  ],
+  "k_choices": [
+    3,
+    5,
+    7
+  ],
+  "tune_seeds": [
+    40,
+    41
+  ],
+  "formal_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "extended_seeds": [
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "representatives": [
+    6,
+    8,
+    14,
+    16,
+    43,
+    46
+  ],
+  "train_year": 2022,
+  "validation_year": 2023,
+  "reevaluation_year": 2024,
+  "output_clipping": false,
+  "train_jobs": 8016,
+  "tune_jobs": 456,
+  "formal_jobs": 6440,
+  "extension_jobs": 1120,
+  "minimum_improvement": 0.0,
+  "improvement_tolerance": 0.0,
+  "intervention_seeds": [
+    1001,
+    1002,
+    1003,
+    1004,
+    1005
+  ],
+  "gpu_reserve_mib": 4096,
+  "max_workers_per_gpu": 8,
+  "evaluation_policy": "all_selection_frozen_before_new_2024_predictions",
+  "backbone": "NEUTRAL_LAST",
+  "weather_values": "raw_standardized_14"
+}

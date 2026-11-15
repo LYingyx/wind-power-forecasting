@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-11-04T22:34:29.123714+08:00",
+  "completed": 170,
+  "failed": 0,
+  "gate": "FAIL_NO_LARGE_SCALE_PERSONALIZATION",
+  "scope": "shared_stages_1_and_2"
+}

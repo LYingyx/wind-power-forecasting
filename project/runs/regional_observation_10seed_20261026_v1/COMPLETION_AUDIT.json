@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-10-27T08:07:00.177120+08:00",
+  "passed": true,
+  "new_seed_fits": 5376,
+  "selected_weights_verified": 8179,
+  "open_2024": false,
+  "report": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/regional_observation_10seed_20261026_v1/analysis/REPORT_CN.md"
+}

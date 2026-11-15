@@ -1,0 +1,26 @@
+"""Predeclared residual representation screen. Never opens 2024."""
+from settings import *
+from residual_inputs import W0_VARIANTS,TF_VARIANTS
+TFSTAR='TF_z1_lr0.0002_dp0.05'
+def main():
+    setup();specs=[];sites=REPRESENTATIVES+[s for s in range(56) if s not in REPRESENTATIVES]
+    for site in sites:
+        for seed in SEEDS:
+            for backbone,variants in [('W0',W0_VARIANTS),('TF',TF_VARIANTS)]:
+                config='W0' if backbone=='W0' else TFSTAR
+                for variant in variants:
+                    spec=dict(id=f'{config}_{variant}_s{site:02d}_r{seed}',stage=variant if backbone=='W0' else 'T_'+variant,task='train',configuration=config,backbone=backbone,variant=variant,site=site,seed=seed,loss='MAE',delay_minutes=15,capacity_control=False,protocol='independent_target_regional_observations_SEL')
+                    if backbone=='TF':spec.update(tf_zero_init=True,tf_lr=2e-4,tf_dropout=.05)
+                    specs.append(spec)
+            for backbone,variants in [('W0',['N0','N1','N3']),('TF',['N0','N1'])]:
+                for variant in variants:
+                    config='W0' if backbone=='W0' else TFSTAR
+                    source_run=ATTRIBUTION_RUN.name if (backbone,variant)==('W0','N0') else NEIGHBOR_RUN.name
+                    source_job=f'A2_W0_SEL_s{site:02d}_r{seed}' if (backbone,variant)==('W0','N0') else f'{config}_{variant}_s{site:02d}_r{seed}'
+                    specs.append(dict(id=f'{config}_{variant}_s{site:02d}_r{seed}',stage='REFERENCE',task='diagnose_reference',local_only=True,configuration=config,backbone=backbone,variant=variant,site=site,seed=seed,source_run=source_run,source_job=source_job))
+        specs.append(dict(id=f'ARX_s{site:02d}',stage='C3_ARX',task='arx',local_only=True,configuration='ARX',backbone='ARX',variant='C3',site=site,seed=0,seed_note='deterministic; no duplicated seed replication'))
+    assert len(specs)==2968 and sum(s['task']=='train' for s in specs)==2352
+    atomic_json(RUN/'manifest.json',specs)
+    atomic_json(RUN/'PROTOCOL.json',dict(timestamp=now(),fit_year=2022,selection_year=2023,open_2024=False,farms=56,seeds=SEEDS,planned_training=2352,planned_reference_replays=560,planned_arx_tasks=56,primary='W0 R1; R2/R3/R4 predeclared secondary, best-arm choice acknowledged as selection',W0_variants=W0_VARIANTS,TF_variants=TF_VARIANTS,base='SEL, no CAL',calibration=dict(predictor='SEL density-adjusted 10m speed proxy',method='per-farm increasing isotonic, bounded [0,1.2]',train_residuals='leave-one-observation-month-out with 24h buffer',val_residuals='final curve trained on 2022 only',mapping_error='not pure NWP error; includes power-mapping and operating effects',historical_weather='forecast issued at least 15min before origin; availability checked; 26/7809 train and 32/8146 validation predecessor nodes use endpoint hold'),controls=dict(R1_RAWMAP='same six-dimensional summary, raw power replaces residual statistics',R1_SELF='delayed target residual summary on retained N3 base',R2_PAIR='same parameters; residual slots zero, p and mapped power retained, same information',R3_RAW='same spatial rings/projection; only raw power slots active',C1='matched R1/R2/R3/R4 architectures, neighbor observed p replaced with mapped power',C2='matched architectures, joint power/weather donors from another 2022 day with matching month and clock; synthetic year distribution shift is a limitation'),summary='capacity-weighted mean, cross-neighbor standard deviation, one-hour mean change; R1 adds residual and mapping statistics to N3; R3/R4 also include raw statistics and ring presence',neighbors=dict(nearest=8,radius_km=150,rings_km=[0,20,60,150],delay_minutes=15,points=22,target_excluded=True,direction='R4 only; smooth attenuated trigonometric residual terms, no travel-time prior'),training=dict(epochs=80,patience=10,batch=256,loss='MAE',precision='FP32_no_TF32',lr=2e-4,TF_zero_init=True,TF_dropout=.05,selection='same MAE-selected checkpoint for both primary metrics; separate RMSE selection supplementary'),gate=dict(comparators=['N1','N3'],metrics=['mae','rmse'],minimum_improvement_percent=.1,each_metric_improved_farms_minimum=29,matched_controls=['C1','C2'],high_power='current CF>=0.7, equal seed within farm then equal farm',high_power_rmse_max_degradation_vs_N3_percent=.1,all_rules_required=True),reporting='raw farm/seed results; equal seeds within farm then equal farm means; report horizon/lead and strata, including losses',interventions='fixed-weight sensitivity; residual-only edits violate r=p-m and are not causal proof',ARX=dict(families=['LOCAL','REG_RAW','REG_RES','REG_PAIR'],method='multi-task elastic net, l1_ratio=0.8, 24 direct target deltas',alpha_grid=[.003,.001,.0003],selection='2023 MAE',input='own 24 history, seven forecast snapshots plus SEL, all 150km-neighbor last four delayed observations; RAW adds power, RES residual, PAIR power and mapping',standardization='2022 only',replicates=1),storage='no predictions/attention arrays; <=2 selected neural checkpoints, one compact ARX coefficient archive per farm; delete successful resume and verified remote duplicates',next='review all gates then separately freeze 2024; previous B1 remains deferred'))
+    print('2352 neural fits + 560 reference replays + 56 CPU ARX jobs = 2968 tasks')
+if __name__=='__main__':main()

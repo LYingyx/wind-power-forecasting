@@ -1,0 +1,3277 @@
+[
+  {
+    "id": "TUNE_TF_BASE_c0_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c0_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c0_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c0_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c0_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c0_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c0_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c0_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c0_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c0_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c1_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c1_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c1_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c1_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c1_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c1_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c1_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c1_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c1_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c1_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c2_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c2_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c2_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c2_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c2_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c2_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c2_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c2_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c2_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c2_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c3_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c3_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c3_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c3_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c3_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c3_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c3_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c3_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c3_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c3_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c4_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c4_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c4_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c4_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c4_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c4_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c4_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c4_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c4_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c4_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c5_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c5_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c5_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c5_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c5_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c5_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c5_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c5_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c5_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c5_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c6_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c6_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c6_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c6_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c6_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c6_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c6_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c6_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c6_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c6_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c7_r40",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c7_r40",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c7_r40",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c7_r40",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c7_r40",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 40,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_BASE_c7_r41",
+    "stage": "tune",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TF_R3_c7_r41",
+    "stage": "tune",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TIDE_R3_c7_r41",
+    "stage": "tune",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_TFT_R3_c7_r41",
+    "stage": "tune",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TUNE_W0_R3_c7_r41",
+    "stage": "tune",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 41,
+    "config": {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 30,
+    "patience": 6,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r42_f-1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 42,
+    "fold": -1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r42_f0",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 42,
+    "fold": 0,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r42_f1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 42,
+    "fold": 1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r42_f2",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 42,
+    "fold": 2,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r42_f3",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 42,
+    "fold": 3,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r43_f-1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 43,
+    "fold": -1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r43_f0",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 43,
+    "fold": 0,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r43_f1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 43,
+    "fold": 1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r43_f2",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 43,
+    "fold": 2,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r43_f3",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 43,
+    "fold": 3,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r44_f-1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 44,
+    "fold": -1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r44_f0",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 44,
+    "fold": 0,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r44_f1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 44,
+    "fold": 1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r44_f2",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 44,
+    "fold": 2,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r44_f3",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 44,
+    "fold": 3,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r45_f-1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 45,
+    "fold": -1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r45_f0",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 45,
+    "fold": 0,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r45_f1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 45,
+    "fold": 1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r45_f2",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 45,
+    "fold": 2,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r45_f3",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 45,
+    "fold": 3,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r46_f-1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 46,
+    "fold": -1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r46_f0",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 46,
+    "fold": 0,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r46_f1",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 46,
+    "fold": 1,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r46_f2",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 46,
+    "fold": 2,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "B0_r46_f3",
+    "stage": "reference",
+    "group": "B0",
+    "family": "B0",
+    "input": "H",
+    "condition": "neutral",
+    "seed": 46,
+    "fold": 3,
+    "config": {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_BASE_r42",
+    "stage": "baseline",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "TF_BASE",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_BASE.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_BASE_r43",
+    "stage": "baseline",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "TF_BASE",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_BASE.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_BASE_r44",
+    "stage": "baseline",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "TF_BASE",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_BASE.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_BASE_r45",
+    "stage": "baseline",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "TF_BASE",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_BASE.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_BASE_r46",
+    "stage": "baseline",
+    "group": "TF_BASE",
+    "family": "TF",
+    "input": "BASE",
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "TF_BASE",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_BASE.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_R3_r42",
+    "stage": "baseline",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_R3_r43",
+    "stage": "baseline",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_R3_r44",
+    "stage": "baseline",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_R3_r45",
+    "stage": "baseline",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TF_R3_r46",
+    "stage": "baseline",
+    "group": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TIDE_R3_r42",
+    "stage": "baseline",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "TIDE_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TIDE_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TIDE_R3_r43",
+    "stage": "baseline",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "TIDE_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TIDE_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TIDE_R3_r44",
+    "stage": "baseline",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "TIDE_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TIDE_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TIDE_R3_r45",
+    "stage": "baseline",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "TIDE_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TIDE_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TIDE_R3_r46",
+    "stage": "baseline",
+    "group": "TIDE_R3",
+    "family": "TIDE",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "TIDE_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TIDE_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TFT_R3_r42",
+    "stage": "baseline",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "TFT_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TFT_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TFT_R3_r43",
+    "stage": "baseline",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "TFT_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TFT_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TFT_R3_r44",
+    "stage": "baseline",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "TFT_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TFT_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TFT_R3_r45",
+    "stage": "baseline",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "TFT_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TFT_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_TFT_R3_r46",
+    "stage": "baseline",
+    "group": "TFT_R3",
+    "family": "TFT",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "TFT_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TFT_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_W0_R3_r42",
+    "stage": "baseline",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_W0_R3_r43",
+    "stage": "baseline",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_W0_R3_r44",
+    "stage": "baseline",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_W0_R3_r45",
+    "stage": "baseline",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "BASE_W0_R3_r46",
+    "stage": "baseline",
+    "group": "W0_R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M1_CB_r42",
+    "stage": "mechanism",
+    "group": "M1_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r42/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M2_CBH_r42",
+    "stage": "mechanism",
+    "group": "M2_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cbh",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r42/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M3_ANCHOR_r42",
+    "stage": "mechanism",
+    "group": "M3_ANCHOR",
+    "family": "W0",
+    "input": "R3",
+    "condition": "anchor",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r42/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4_WRONG_CB_r42",
+    "stage": "mechanism",
+    "group": "M4_WRONG_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r42/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4H_WRONG_CBH_r42",
+    "stage": "mechanism",
+    "group": "M4H_WRONG_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cbh",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r42/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5_TF_CB_r42",
+    "stage": "mechanism",
+    "group": "M5_TF_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r42/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5W_TF_WRONG_CB_r42",
+    "stage": "mechanism",
+    "group": "M5W_TF_WRONG_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r42/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5N_TF_NEUTRAL_r42",
+    "stage": "mechanism",
+    "group": "M5N_TF_NEUTRAL",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral_adapter",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M1_CB_r43",
+    "stage": "mechanism",
+    "group": "M1_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r43/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M2_CBH_r43",
+    "stage": "mechanism",
+    "group": "M2_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cbh",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r43/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M3_ANCHOR_r43",
+    "stage": "mechanism",
+    "group": "M3_ANCHOR",
+    "family": "W0",
+    "input": "R3",
+    "condition": "anchor",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r43/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4_WRONG_CB_r43",
+    "stage": "mechanism",
+    "group": "M4_WRONG_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r43/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4H_WRONG_CBH_r43",
+    "stage": "mechanism",
+    "group": "M4H_WRONG_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cbh",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r43/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5_TF_CB_r43",
+    "stage": "mechanism",
+    "group": "M5_TF_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r43/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5W_TF_WRONG_CB_r43",
+    "stage": "mechanism",
+    "group": "M5W_TF_WRONG_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r43/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5N_TF_NEUTRAL_r43",
+    "stage": "mechanism",
+    "group": "M5N_TF_NEUTRAL",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral_adapter",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M1_CB_r44",
+    "stage": "mechanism",
+    "group": "M1_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r44/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M2_CBH_r44",
+    "stage": "mechanism",
+    "group": "M2_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cbh",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r44/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M3_ANCHOR_r44",
+    "stage": "mechanism",
+    "group": "M3_ANCHOR",
+    "family": "W0",
+    "input": "R3",
+    "condition": "anchor",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r44/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4_WRONG_CB_r44",
+    "stage": "mechanism",
+    "group": "M4_WRONG_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r44/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4H_WRONG_CBH_r44",
+    "stage": "mechanism",
+    "group": "M4H_WRONG_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cbh",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r44/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5_TF_CB_r44",
+    "stage": "mechanism",
+    "group": "M5_TF_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r44/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5W_TF_WRONG_CB_r44",
+    "stage": "mechanism",
+    "group": "M5W_TF_WRONG_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r44/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5N_TF_NEUTRAL_r44",
+    "stage": "mechanism",
+    "group": "M5N_TF_NEUTRAL",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral_adapter",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M1_CB_r45",
+    "stage": "mechanism",
+    "group": "M1_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r45/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M2_CBH_r45",
+    "stage": "mechanism",
+    "group": "M2_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cbh",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r45/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M3_ANCHOR_r45",
+    "stage": "mechanism",
+    "group": "M3_ANCHOR",
+    "family": "W0",
+    "input": "R3",
+    "condition": "anchor",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r45/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4_WRONG_CB_r45",
+    "stage": "mechanism",
+    "group": "M4_WRONG_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r45/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4H_WRONG_CBH_r45",
+    "stage": "mechanism",
+    "group": "M4H_WRONG_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cbh",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r45/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5_TF_CB_r45",
+    "stage": "mechanism",
+    "group": "M5_TF_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r45/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5W_TF_WRONG_CB_r45",
+    "stage": "mechanism",
+    "group": "M5W_TF_WRONG_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r45/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5N_TF_NEUTRAL_r45",
+    "stage": "mechanism",
+    "group": "M5N_TF_NEUTRAL",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral_adapter",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M1_CB_r46",
+    "stage": "mechanism",
+    "group": "M1_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r46/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M2_CBH_r46",
+    "stage": "mechanism",
+    "group": "M2_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "cbh",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r46/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M3_ANCHOR_r46",
+    "stage": "mechanism",
+    "group": "M3_ANCHOR",
+    "family": "W0",
+    "input": "R3",
+    "condition": "anchor",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r46/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4_WRONG_CB_r46",
+    "stage": "mechanism",
+    "group": "M4_WRONG_CB",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r46/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M4H_WRONG_CBH_r46",
+    "stage": "mechanism",
+    "group": "M4H_WRONG_CBH",
+    "family": "W0",
+    "input": "R3",
+    "condition": "wrong_cbh",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/reference_r46/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5_TF_CB_r46",
+    "stage": "mechanism",
+    "group": "M5_TF_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "cb",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r46/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5W_TF_WRONG_CB_r46",
+    "stage": "mechanism",
+    "group": "M5W_TF_WRONG_CB",
+    "family": "TF",
+    "input": "R3",
+    "condition": "wrong_cb",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/reference_r46/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "M5N_TF_NEUTRAL_r46",
+    "stage": "mechanism",
+    "group": "M5N_TF_NEUTRAL",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral_adapter",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_W0_r42",
+    "stage": "regional_memory",
+    "group": "W0_RM",
+    "family": "W0",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_W0_r43",
+    "stage": "regional_memory",
+    "group": "W0_RM",
+    "family": "W0",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_W0_r44",
+    "stage": "regional_memory",
+    "group": "W0_RM",
+    "family": "W0",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_W0_r45",
+    "stage": "regional_memory",
+    "group": "W0_RM",
+    "family": "W0",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_W0_r46",
+    "stage": "regional_memory",
+    "group": "W0_RM",
+    "family": "W0",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_TF_r42",
+    "stage": "regional_memory",
+    "group": "TF_RM",
+    "family": "TF",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_TF_r43",
+    "stage": "regional_memory",
+    "group": "TF_RM",
+    "family": "TF",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_TF_r44",
+    "stage": "regional_memory",
+    "group": "TF_RM",
+    "family": "TF",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_TF_r45",
+    "stage": "regional_memory",
+    "group": "TF_RM",
+    "family": "TF",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "RM_TF_r46",
+    "stage": "regional_memory",
+    "group": "TF_RM",
+    "family": "TF",
+    "input": "R3",
+    "rm": true,
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "data/regional_history/READY.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  }
+]

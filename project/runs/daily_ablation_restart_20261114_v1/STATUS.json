@@ -1,0 +1,430 @@
+{
+  "timestamp": "2026-11-15T19:41:10.676588+08:00",
+  "planned": 1291,
+  "completed": 1291,
+  "failed": [],
+  "active": [],
+  "pending": 0,
+  "hosts": {
+    "v1006001": {
+      "done": [
+        "INDEPENDENT_TF_R3_s40_r44",
+        "INDEPENDENT_TF_BASE_s40_r44"
+      ],
+      "failed": [],
+      "status": {
+        "timestamp": "2026-11-15T19:41:03.292602+08:00",
+        "pid": 169028,
+        "host": "iipserver1",
+        "active": [],
+        "gpus": {
+          "0": {
+            "uuid": "GPU-591f650a-83b6-ef2e-653f-375e0d811f20",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 14674,
+            "utilization": 0,
+            "other_pids": [
+              2729299
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "2729299": 1468
+            },
+            "external_sm": 0,
+            "process_utilization_known": false
+          },
+          "4": {
+            "uuid": "GPU-5ac06f8d-bacf-6375-6150-8e41658d6690",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "5": {
+            "uuid": "GPU-3722987d-07ce-837d-a06f-496f5571cc2f",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "6": {
+            "uuid": "GPU-7ba9b7c3-e341-3ab0-26f8-f4b933c8661b",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "7": {
+            "uuid": "GPU-ba42704b-bad6-5139-689e-57e21879e52b",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          }
+        },
+        "decisions": {
+          "0": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "idle_allocated_card_trial",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 22.1,
+              "per_job_step_seconds": {}
+            }
+          },
+          "4": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 19.666666666666668,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "spare_compute_and_memory",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 0.0,
+              "per_job_step_seconds": {}
+            }
+          },
+          "5": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 23.333333333333332,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "spare_compute_and_memory",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 0.0,
+              "per_job_step_seconds": {}
+            }
+          },
+          "6": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "spare_compute_and_memory",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 33.7,
+              "per_job_step_seconds": {}
+            }
+          },
+          "7": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "spare_compute_and_memory",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.9,
+              "per_job_step_seconds": {}
+            }
+          }
+        },
+        "failed": [],
+        "circuit_breaker": false,
+        "draining": false,
+        "storage": {
+          "ok": true,
+          "paths": [
+            {
+              "label": "metadata",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_ablation_restart_20261114_v1",
+              "available_mib": 1515150.1953125,
+              "reserve_mib": 512.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "jobs",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_ablation_restart_20261114_v1/jobs",
+              "available_mib": 1515150.1953125,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "data",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_protocol_restart_20261114_v1/data",
+              "available_mib": 1515150.1953125,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "fresh": true
+    },
+    "v1006002": {
+      "done": [],
+      "failed": [],
+      "status": {
+        "timestamp": "2026-11-15T19:41:00.992392+08:00",
+        "pid": 1867604,
+        "host": "iipserver2",
+        "active": [],
+        "gpus": {
+          "2": {
+            "uuid": "GPU-6b7a3255-8202-a190-ece7-e09594bbb7af",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 4015,
+            "utilization": 97,
+            "other_pids": [
+              1410309,
+              1684561,
+              1685946,
+              1757482,
+              1826921,
+              1835917
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "1410309": 8730,
+              "1684561": 664,
+              "1685946": 666,
+              "1757482": 664,
+              "1826921": 512,
+              "1835917": 886
+            },
+            "external_sm": 96,
+            "process_utilization_known": false
+          },
+          "6": {
+            "uuid": "GPU-bf6eed45-f002-a2b7-30aa-35578dd9ee24",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 12519,
+            "utilization": 100,
+            "other_pids": [
+              1761683,
+              1779515,
+              1816901,
+              1820356,
+              1863644
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "1761683": 664,
+              "1779515": 890,
+              "1816901": 666,
+              "1820356": 888,
+              "1863644": 514
+            },
+            "external_sm": 95,
+            "process_utilization_known": true
+          },
+          "7": {
+            "uuid": "GPU-f34dc4a9-7c6f-7082-cdb4-cd8b236443e0",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 12295,
+            "utilization": 98,
+            "other_pids": [
+              1755485,
+              1783221,
+              1783702,
+              1816902,
+              1862585
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "1755485": 890,
+              "1783221": 890,
+              "1783702": 888,
+              "1816902": 662,
+              "1862585": 514
+            },
+            "external_sm": 96,
+            "process_utilization_known": true
+          }
+        },
+        "decisions": {
+          "2": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 3072,
+            "additional_memory_slots": 0,
+            "external_sm_peak": 96,
+            "total_utilization_mean": 98.33333333333333,
+            "yield_count": 0,
+            "launch": false,
+            "reason": "cpu_or_ram_reserve",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 222.5,
+              "per_job_step_seconds": {}
+            }
+          },
+          "6": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 3072,
+            "additional_memory_slots": 2,
+            "external_sm_peak": 98,
+            "total_utilization_mean": 99.33333333333333,
+            "yield_count": 0,
+            "launch": false,
+            "reason": "cpu_or_ram_reserve",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 222.5,
+              "per_job_step_seconds": {}
+            }
+          },
+          "7": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 3072,
+            "additional_memory_slots": 2,
+            "external_sm_peak": 96,
+            "total_utilization_mean": 97,
+            "yield_count": 0,
+            "launch": false,
+            "reason": "cpu_or_ram_reserve",
+            "efficiency": {
+              "version": 4,
+              "cap": 10,
+              "workers": 0,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 222.5,
+              "per_job_step_seconds": {}
+            }
+          }
+        },
+        "failed": [],
+        "circuit_breaker": false,
+        "draining": false,
+        "storage": {
+          "ok": true,
+          "paths": [
+            {
+              "label": "metadata",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_ablation_restart_20261114_v1",
+              "available_mib": 31757822.5,
+              "reserve_mib": 512.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "jobs",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_ablation_restart_20261114_v1/jobs",
+              "available_mib": 31757822.5,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "data",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_protocol_restart_20261114_v1/data",
+              "available_mib": 31757822.5,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "fresh": true
+    }
+  },
+  "errors": {}
+}

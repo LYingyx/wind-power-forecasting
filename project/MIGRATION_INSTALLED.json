@@ -1,0 +1,14 @@
+{
+  "installed_at": 1790005015.7393558,
+  "project_root": "/data/liying/new_try/wind_cluster_forced_evolution",
+  "gpus": [
+    0,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "workers_per_gpu": 8,
+  "resume_mode": "shared per-GPU lock with 4096 MiB free-memory gate"
+}

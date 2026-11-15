@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-11-15T19:47:31.569755+08:00",
+  "total_planned": 2571,
+  "execution": "parallel per-job dependencies, disjoint GPU pools",
+  "runs": [
+    {
+      "run": "daily_protocol_restart_20261114_v1",
+      "planned": 180,
+      "status": "STATUS.json",
+      "completed": 180,
+      "execution_status": "complete"
+    },
+    {
+      "run": "daily_ablation_restart_20261114_v1",
+      "planned": 1291,
+      "status": "STATUS.json",
+      "completed": 1291,
+      "execution_status": "complete"
+    },
+    {
+      "run": "daily_site_finetune_20261114_v1",
+      "planned": 1100,
+      "dependency": "shared COMPLETE",
+      "status": "STATUS.json",
+      "completed": 1100,
+      "execution_status": "complete"
+    }
+  ],
+  "resource_status": "analysis/daily_protocol_review_20261115/PROCESS_EXIT_AUDIT.json",
+  "eta_report": "RETRAIN_ETA_20261115_CN.md",
+  "eta_snapshot": "RETRAIN_ETA_20261115.json",
+  "resource_pools": "per-run operations/RESOURCE_POOLS.json",
+  "last_recovery": "operations/eta_recovery_20261115/RECOVERY.json",
+  "total_completed": 2571,
+  "total_remaining": 0,
+  "current_phase": "complete_reviewed",
+  "status": "complete",
+  "result_report": "DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md",
+  "completion_audit": "analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json"
+}

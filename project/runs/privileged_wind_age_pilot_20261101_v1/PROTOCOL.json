@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-11-01T20:55:51.414987+08:00",
+  "stage": "2023_screening_only",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "test_read": false,
+  "forecast_age_hours": [
+    [
+      12,
+      24
+    ],
+    [
+      24,
+      36
+    ]
+  ],
+  "power_cadence_minutes": 15,
+  "horizon_hours": 6,
+  "farms": 56,
+  "seeds": [
+    42,
+    43
+  ],
+  "jobs": 1344,
+  "backbone": "W0+SEL+N3+R3_RAW; original head32 without direct-current-power feature",
+  "variants": {
+    "E0": "Unchanged backbone",
+    "E1": "Local+regional observations, ERA5-supervised 10m u/v correction",
+    "E2": "Same correction module; no ERA5 loss",
+    "E3": "Same module; weather only; power slots zero",
+    "E4": "Same module; local power only; regional slots zero",
+    "E5": "Same module; correction power slots from2022 same-month/clock different-day donors; backbone receives real observations"
+  },
+  "correction": "8 future hourly u10/v10 residuals; zero final layer; all14 past6+future8 NWP channels from same issue; latest real local24 power and15min delayed3x22 regional histories",
+  "physical_consistency": "Update E2C weather representation, dependent density/stability, ageostrophic u/v and wind tendency; pressure-level fields and spatial gradients unchanged because correction acts on surface wind only",
+  "power_input_robustness": "Correction-only observations clipped to2022 min/max and standardized using2022; existing backbone inputs unchanged",
+  "auxiliary_weight": 0.3,
+  "auxiliary_target": "ERA5 final surface u10/v10, same original2022 NWP normalization; labels outside forward input dictionary; full8 nodes",
+  "auxiliary_scope": "Weight fixed for pilot, no weight/architecture search; negative result cannot reject all variants",
+  "loss": "power MAE + auxiliary_weight * standardized u/v MSE",
+  "epochs": 80,
+  "patience": 10,
+  "batch_size": 256,
+  "lr": 0.0002,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0001,
+  "checkpoint": "minimum2023 noNov powerMAE; both metrics from same checkpoint",
+  "validation_exclusion": "common paired rows; remove November power/weather windows plus both ages UTC andBJT November issue files",
+  "gates": {
+    "power_relative_gain_mae_min": 0.001,
+    "power_relative_gain_rmse_min": 0.001,
+    "improved_farms_each_min": 29,
+    "beats_controls": [
+      "E2",
+      "E3",
+      "E5"
+    ],
+    "regional_claim_requires": "E1 beats E4",
+    "weather_requires": "ERA5 wind MSE decreases including4–6h",
+    "max_high_power_rmse_relative_regression": 0.001,
+    "high_power": "observed current CF>=0.7"
+  },
+  "inference": "Descriptive2023 screening only; daily statistics enable synchronized calendar-week bootstrap; no2024 automation",
+  "gpu_policy": {
+    "local_gpu_indices": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "remote_hosts": [
+      "v1006001",
+      "v1006002"
+    ],
+    "remote_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "max_processes_per_gpu": 8,
+    "minimum_free_mib": 4096,
+    "reserve_fraction": 0.2,
+    "cooperative_resume": true,
+    "max_matched_epoch_slowdown": 1.5,
+    "protect_external_processes": true
+  }
+}

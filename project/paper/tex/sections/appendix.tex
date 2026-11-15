@@ -1,0 +1,89 @@
+\section{实现、协议和复核补充}
+\subsection{输入和训练配置}
+NWP 通道依次为海平面气压、10 m 风的 $u/v$ 分量、2 m 温度，以及 1000/925 hPa 上的位势、比湿、温度和 $u/v$ 风分量，共 14 维。插值保留实际预报有效时间，不能将未来天气观测代替起点可用预报。历史预测器的宽度为 64，两组历史卷积与未来卷积均为三层，参考训练 dropout 为 0.1；修正侧宽度 64、注意力头数 4、编码器和解码器各两层，dropout 为 0.05。历史参考预训练最多 40 轮，学习率 $3\times10^{-4}$；修正训练最多 80 轮。不同归档系列的实际 batch 组织及精度以各自配置为准，不能用一个默认值覆盖全部对照。
+
+15 个共享命名基线每个家族/种子只有一套参数，复用项目中相应模型实现。它们不增加场站 ID、场站嵌入或区域历史；每轮使用全部 $(\mathrm{origin},\mathrm{station})$ 组合，共 1,746,640 个训练样本。采用 MAE、AdamW，学习率 $2\times10^{-4}$、权重衰减 $10^{-4}$、BF16、batch size 64、最多 80 轮、早停耐心值 10。2023 年 56 站等权 MAE 选择 checkpoint。本组没有证明各架构分别获得了穷尽的超参数搜索，因而主文将其称为本批实现的基线比较。
+
+目标 T5 适配冻结历史参考，更新修正核心并学习逐提前量偏置；T5 不包含 T2/T4 的低秩适配器，归档名称中的 r16 不应解释为 T5 的有效低秩瓶颈。主表只比较已对齐的共同五种子，不将不同种子数量当作方法优势。所有预算使用目标站完整上半年验证标签，因此需要与总标签受限的少样本设置区分。
+
+\subsection{E2C 坐标定义及归因控制}
+令 $h$ 为地形高程，$z_p$ 为压力层位势，$g_0=9.80665$，$\theta_{1000}=T_{1000}$，$\theta_{925}=T_{925}(1000/925)^{0.2854}$。实际 15 维输入按以下顺序排列：
+\begin{align}
+ \mathbf v_{\mathrm{surface}}&=[p_{\mathrm{msl}},u_{10},v_{10},T_2,h],\\
+ \mathbf v_{\mathrm{lower}}&=[u_{1000}-u_{10},v_{1000}-v_{10},\theta_{1000},q_{1000},z_{1000}/g_0-h],\\
+ \mathbf v_{\mathrm{upper}}&=[u_{925}-u_{1000},v_{925}-v_{1000},\theta_{925}-\theta_{1000},
+ q_{925}-q_{1000},(z_{925}-z_{1000})/g_0].
+\end{align}
+该变换可逆，各通道随后按训练统计标准化。E2C 将三组拼接后输入普通 MLP；E3 才显式采用 $5\rightarrow16$、$5\rightarrow24$、$5\rightarrow24$ 的分组支路。保留坐标和高程控制的目的在于避免把非线性编码的整体收益误归因于某个物理命名的输入。
+
+\subsection{代表站、窗口与统计复核}
+源站代表选择使用 2022 有效起点的功率描述量；目标站使用 2023。低/高容量因子描述量阈值为 $0.05/0.8$，与主文场景诊断的 $0.1/0.3/0.7$ 分箱不是同一用途。地理两维各按 $1/\sqrt2$、分布四维各按 $1/2$ 加权，使四个描述组在平方距离中等权。确定性 PAM 选择源六站和目标四站；簇大小仅描述覆盖范围，不改变论文指标的风场等权规则。
+
+普通案例要求起点 $0.1\leq p_i(t)<0.7$ 且过去一小时变化绝对值不超过本站训练期 90\% 分位；历史爬坡案例要求该变化超过阈值。本次六个代表站与龙湖的全部 14 个窗口均在 2024 年 4 月找到，无需全年回退。病例展示日期由规则决定，未来真值仅在选定之后用于绘制预测效果。
+
+本次结果整理核对了 40 个 E0/E2C 预测归档，重算 MAE 与记录的最大绝对差约 $5.4\times10^{-10}$；448 行季节结果的最大差约 $9.9\times10^{-10}$。新条件消融的 CB 输入通过源码及真实 checkpoint 的前向 hook 核验，确认包含 $b$ 和 $\Delta b$。图表重汇总与少量固定窗口推理不构成新的模型训练。
+
+\begin{table}[tbp]
+ \centering\small
+ \caption{2024 E2C 减 E0 的统计目标敏感性。不同权重对应不同估计量，不能把等周区间配到有效起点均值上。}
+ \label{tab:weights}
+ \begin{tabular}{lrr}\toprule
+ 统计目标与重采样单位 & 差分 & 95\% 区间 \\
+ \midrule
+ 有效起点等权；风场 & $-0.000825$ & $[-0.001214,-0.000441]$ \\
+ 有效起点等权；种子/风场/共同七日块 & $-0.000825$ & $[-0.001358,-0.000292]$ \\
+ 有观测周等权；种子/风场/共同七日块 & $-0.000557$ & $[-0.001178,+0.000168]$ \\
+ \bottomrule\end{tabular}
+\end{table}
+其他天气因子归档区间沿用等周重采样，正文只报告明确的权重解释，不静默将它们替换为有效起点区间。场景分组、完整种子统计、月份覆盖数和目标逐站结果保存在随稿机器可读数据中。
+
+\section{补充图：代表性、系统比较与失败边界}
+\begin{figure}[p]
+ \centering\includegraphics[width=\linewidth]{single_farm/01_farm_selection.pdf}
+ \caption{代表风场的地理与训练期运行描述量。源站六个和最终目标站四个代表均由描述量聚类选取，不读取模型误差。代表集合不替代全 56/20 站评价；原目标队列资格筛选使用过跨年质量信息。}
+ \label{fig:selection}
+\end{figure}
+\begin{figure}[p]
+ \centering\includegraphics[width=\linewidth]{single_farm/02_source_baseline_comparison.pdf}
+ \caption{源站系统比较补充视图。本站输入和区域历史系统分别识别；单站部署主结论由 CBH-SL 支撑，E2C 曲线为区域扩展。所有数值来自已核验实验记录。}
+ \label{fig:source-summary}
+\end{figure}
+\begin{figure}[p]
+ \centering\includegraphics[width=\linewidth]{single_farm/07_failure_forecast_examples.pdf}
+ \caption{龙湖（1043056）的事后附加失败诊断。它不是描述量聚类选出的六个代表站之一；窗口仍遵循同一普通/历史爬坡规则。误差较大的实例用于说明边界，不纳入有利案例筛选。阴影为训练种子分位范围，不是预测区间。}
+ \label{fig:failure}
+\end{figure}
+\begin{figure}[p]
+ \centering\includegraphics[width=\linewidth]{single_farm/08_target_medoid_learning_curves.pdf}
+ \caption{四个训练期描述量代表目标站的适配预算曲线。甄峰与君字保留相对强预训练 Transformer 的劣势，说明全站平均收益不意味着每站或每个预算均受益。天数为训练标签预算，不包含上半年 checkpoint 选择标签。}
+ \label{fig:target-cases}
+\end{figure}
+\clearpage
+\section{全部源风场与独立 pilot 结果}
+以下表格保留全部 56 站，避免只呈现代表站。Transformer/IL/SL 使用本站在线输入，E0/E2C 使用区域历史；不跨输入组解释单模块因果增量。完整机器可读文件还包含 2023 指标、全部共享命名家族与 SC/IC。
+\small
+\begin{longtable}{lrrrrr}
+ \caption{全部 56 个源风场的 2024 MAE，十种子均值。}\label{tab:all56}\\
+ \toprule 风场 ID & Transformer & CBH-IL & CBH-SL & E0 & E2C \\
+ \midrule\endfirsthead
+ \multicolumn{6}{l}{表~\ref{tab:all56}（续）}\\
+ \toprule 风场 ID & Transformer & CBH-IL & CBH-SL & E0 & E2C \\
+ \midrule\endhead
+ \midrule\multicolumn{6}{r}{续下页}\\\endfoot
+ \bottomrule\endlastfoot
+ \tableinput data/single_farm/source_all56.tex 
+\end{longtable}
+\normalsize
+\begin{table}[tbp]
+ \centering\small
+ \caption{独立命名基线的 pilot 结果，仅有 2023 验证。训练/验证为按月份日期抽样的 3,156/3,349 起点；该表与全年协议的训练量和评价窗口均不同，不能混排。每模型为 56 站、十种子，RMSE/$R^2$ 为站内计算后宏平均。}
+ \label{tab:pilot}
+ \begin{tabular}{lrrr}\toprule
+ 模型 & MAE & RMSE & $R^2$ \\
+ \midrule\tableinput data/single_farm/pilot.tex \bottomrule
+ \end{tabular}
+\end{table}
+\section{未列为主贡献的结果与复现范围}
+早期 SLAST 摘要读出、高频天气恢复、生成式天气模块及低秩站点个性化没有构成本稿的主方法。大型摘要未相对同容量均值控制显示清晰收益；高频恢复候选未超过对应线性对照；低秩迁移也未形成相对容量控制的稳定优势。这些历史结果用于解释设计取舍，不能替换当前匹配的条件消融或作为未验证增强重新并入最终结构。
+
+随稿数据保留主结果、四格比较、新 FP16 条件实验、FP32 天气七臂、目标共同种子比较、场景统计与完整源站明细。完整实验重审还包含各系列来源路径与哈希、统计脚本及待补实验配置。框架图使用 imagegen 的 CLI 路径请求 \texttt{gpt-image-2.5} 生成并按源码核对；数值结果图由实验数据绘制，未使用生成图像替代定量结果。论文源文件与编译输入均可独立打包。

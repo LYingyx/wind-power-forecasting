@@ -1,0 +1,174 @@
+\begin{figure*}[htbp]
+\centerline{\includegraphics[width=0.72\textwidth]{../../paper_image_use/method_new/exported/Fig03.pdf}}
+\caption{气象记忆构建。 解耦气象分支提取风场、背景场和气象变化特征，并构造可由未来查询向量读取的时空气象记忆。}
+\label{fig:weather-memory}
+\end{figure*}
+
+\section{运行状态约束的气象-功率融合网络}
+
+\subsection{整体框架}
+
+如图~\ref{fig:framework} 所示，该网络实现三个功能环节。首先，气象编码器（Weather Encoder）将连续气象预报转换为可查询的气象上下文，承载日内演化的主要驱动信息。其次，功率状态编码器（Power-State Encoder）仅使用预测起点前可获得的场站级功率，形成随样本变化的运行状态表示。最后，查询解码器（Query Decoder）在该状态条件下读取气象上下文，并行输出全部预测步。
+
+模型采用记忆层条件化，将编码后的运行状态映射为气象记忆隐空间中的动态上下文 token，使各预测步查询可从同一融合记忆中自适应读取预测起点状态和未来气象信息。下文依次介绍气象记忆构建、功率状态编码以及记忆层融合与查询解码结构。
+
+\subsection{气象记忆构建}
+
+气象记忆构建过程如图~\ref{fig:weather-memory} 所示。气象编码器输入为 \(\mathbf{X}=[\mathbf{X}^{h};\mathbf{X}^{f}]\in\mathbb{R}^{T\times C\times H_g\times W_g}\)，其中 \(T=L+H\)，\(L\) 和 \(H\) 分别为第~III 节定义的功率状态窗口长度和日内预测长度；历史段 \(\mathbf{X}^{h}\) 和目标段 \(\mathbf{X}^{f}\) 分别包含 \(L\) 帧和 \(H\) 帧。原始 \(C=17\) 个气象通道划分为 9 个风场通道和 8 个背景气象通道，并对全部通道额外计算一阶时效差分；三类信息分别通过 CNN stem 提取逐帧空间特征：
+\begin{equation}
+\mathbf{F}^{u}_{t}=\phi_{u}(\mathbf{X}^{u}_{t}),\quad
+\mathbf{F}^{b}_{t}=\phi_{b}(\mathbf{X}^{b}_{t}),\quad
+\mathbf{F}^{\Delta}_{t}=\phi_{\Delta}(\Delta\mathbf{X}_{t}),
+\end{equation}
+其中，\(\mathbf{X}^{u}_{t}\) 和 \(\mathbf{X}^{b}_{t}\) 分别选取第 \(t\) 帧的风场与背景气象通道。一阶时效差分定义为
+\begin{equation}
+\Delta\mathbf{X}_{1}=\mathbf{0},\qquad
+\Delta\mathbf{X}_{t}=\mathbf{X}_{t}-\mathbf{X}_{t-1},\quad t=2,\ldots,T.
+\end{equation}
+算子 \(\phi_{u}\)、\(\phi_{b}\) 和 \(\phi_{\Delta}\) 是逐帧二维卷积 stem，分别编码风场驱动、背景气象状态和气象场随预报时效的变化。
+
+三组特征通过 \(1\times1\) 模块融合，并加入时间嵌入和阶段嵌入：
+\begin{equation}
+\mathbf{H}_{t}=\psi([\mathbf{F}^{u}_{t};\mathbf{F}^{b}_{t};\mathbf{F}^{\Delta}_{t}])
++\mathbf{e}^{time}_{t}+\mathbf{e}^{stage}_{t}.
+\end{equation}
+其中，\(\psi(\cdot)\) 表示用于混合三类气象分支通道信息的 \(1\times1\) 卷积融合块；\(\mathbf{H}_{t}\) 是第 \(t\) 个气象帧的融合隐表示；\(\mathbf{e}^{time}_{t}\) 是标识气象帧在输入序列中相对位置的时间位置嵌入；\(\mathbf{e}^{stage}_{t}\) 是区分气象预报历史段与目标段的阶段嵌入。
+
+随后将序列 \(\mathbf{H}_{1:T}\) 输入时空卷积主干 \(\mathcal{E}_{w}\)。该主干由 depthwise 3D 时空卷积、空间下采样卷积和逐帧空间混合模块组成，在保持时间长度的同时建模局部时空变化。编码后的特征先经过 \(1\times1\times1\) memory projection，再池化为固定大小的时空网格：
+\begin{equation}
+\mathbf{Z}^{w}=
+\operatorname{Pool}\left(\operatorname{Proj}(\mathcal{E}_{w}(\mathbf{H}_{1:T}))\right)
+\in\mathbb{R}^{T_m\times H_m\times W_m\times d}.
+\end{equation}
+其中，\(\operatorname{Proj}\) 为 \(1\times1\times1\) 卷积投影，\(\operatorname{Pool}\) 表示自适应平均池化。为保留 memory token 的时空位置，本文将时间、行和列三类可学习位置嵌入相加：
+\begin{equation}
+\mathbf{E}^{pos}_{\tau,i,j}=
+\mathbf{p}^{time}_{\tau}+\mathbf{p}^{row}_{i}+\mathbf{p}^{col}_{j}.
+\end{equation}
+最终气象记忆定义为
+\begin{equation}
+\begin{aligned}
+\mathbf{M}^{w}
+&=\operatorname{Flatten}(\mathbf{Z}^{w}+\mathbf{E}^{pos})
+\in\mathbb{R}^{L_w\times d},\\
+L_w&=T_mH_mW_m.
+\end{aligned}
+\end{equation}
+其中，Flatten 将池化后的网格转换为 token 序列，\(L_w\) 为气象记忆 token 的数量。该记忆保留气象预报历史段、目标段和局部时空结构，使不同预测步的查询向量能够读取不同预报时效和空间区域的信息。
+
+\subsection{功率状态编码}
+
+功率状态编码过程如图~\ref{fig:power-state} 所示。功率状态编码器输入预测起点前可用的场站级功率 \(\mathbf{P}^{c}\in\mathbb{R}^{N\times L}\) 和场站邻接矩阵 \(\mathbf{A}\in\mathbb{R}^{N\times N}\)，其中 \(N\) 为风电场站数量，\(L\) 为第~III 节定义的功率状态窗口长度。
+
+模型在 point、patch 和 global 三种时间尺度上编码场站级功率，分别刻画逐时刻空间状态、局部爬坡模式和上下文范围内的整体出力趋势。局部片段定义为
+\begin{equation}
+\label{eq:patch-start-zh}
+a_j=1+(j-1)r,\qquad j=1,\ldots,J,
+\end{equation}
+\begin{equation}
+\label{eq:patch-index-zh}
+\mathcal{I}_{j}=\{a_j,\ldots,a_j+s-1\},
+\end{equation}
+\begin{equation}
+\label{eq:patch-count-zh}
+J=\left\lfloor\frac{L-s}{r}\right\rfloor+1.
+\end{equation}
+其中，\(s\) 是局部片段长度，\(r\) 是滑动步长，\(a_j\) 是第 \(j\) 个 patch 的起始索引，\(\mathcal{I}_j\) 是其时间索引集合，\(J\) 是有效 patch 总数。这些片段均不使用目标时段功率。三类 token 分别写为
+\begin{equation}
+\label{eq:point-token-zh}
+\mathbf{o}^{pt}_{t}=g_{pt}(\operatorname{GCN}_{pt}(\mathbf{P}^{c}_{:,t},\mathbf{A})),
+\quad t=1,\ldots,L,
+\end{equation}
+\begin{equation}
+\label{eq:patch-token-zh}
+\mathbf{o}^{pa}_{j}
+=g_{pa}(\operatorname{GCN}_{pa}(\mathbf{P}^{c}_{:,\mathcal{I}_{j}},\mathbf{A})),
+\quad j=1,\ldots,J,
+\end{equation}
+\begin{equation}
+\label{eq:global-token-zh}
+\mathbf{o}^{gl}
+=g_{gl}(\operatorname{GCN}_{gl}(\mathbf{P}^{c},\mathbf{A})).
+\end{equation}
+图卷积的节点输出先沿场站和特征维展平，再分别通过线性投影 \(g_{pt}\)、\(g_{pa}\) 和 \(g_{gl}\) 映射到 \(d\) 维 token 空间。
+
+为融合三种时间尺度的信息，功率编码器采用自底向上和自顶向下的跨尺度注意力。加入位置编码后，三组 token 分别记为 \(\mathbf{H}^{pt}\)、\(\mathbf{H}^{pa}\) 和 \(\mathbf{H}^{gl}\)。跨尺度交互首先使 patch tokens 读取 point tokens，并使 global token 读取 patch tokens；随后由 global token 调制 patch tokens，再由 patch tokens 调制 point tokens：
+\begin{equation}
+\mathbf{H}^{pa}_{bu}=\operatorname{CSA}_{pt\rightarrow pa}
+(\mathbf{H}^{pa},\mathbf{H}^{pt}).
+\end{equation}
+\begin{equation}
+\mathbf{H}^{gl}_{bu}=\operatorname{CSA}_{pa\rightarrow gl}
+(\mathbf{H}^{gl},\mathbf{H}^{pa}_{bu}).
+\end{equation}
+\begin{equation}
+\mathbf{H}^{pa}_{td}=\operatorname{CSA}_{gl\rightarrow pa}
+(\mathbf{H}^{pa}_{bu},\mathbf{H}^{gl}_{bu}).
+\end{equation}
+\begin{equation}
+\mathbf{H}^{pt}_{td}=\operatorname{CSA}_{pa\rightarrow pt}
+(\mathbf{H}^{pt},\mathbf{H}^{pa}_{td}).
+\end{equation}
+其中，下标 \(bu\) 和 \(td\) 分别表示自底向上和自顶向下交互结果；\(\operatorname{CSA}_{source\rightarrow target}\) 表示以 target tokens 为 query、以 source tokens 为 key 和 value，并包含残差连接、LayerNorm 和 FFN 的跨尺度注意力块。融合后的跨尺度 token 序列为
+\begin{equation}
+\mathbf{S}^{p}=[\mathbf{H}^{gl}_{bu};\mathbf{H}^{pa}_{td};\mathbf{H}^{pt}_{td}]
+\in\mathbb{R}^{(1+J+L)\times d}.
+\end{equation}
+该序列加入融合位置编码后，经过 Transformer encoder，展平并投影为样本级功率状态向量：
+\begin{equation}
+\mathbf{z}^{p}=f_{p}(\operatorname{vec}(\operatorname{Transformer}(\mathbf{S}^{p})))
+\in\mathbb{R}^{d}.
+\end{equation}
+其中，\(\operatorname{vec}\) 表示展平 token 序列，\(f_p\) 为映射到 \(d\) 维的状态投影头。功率编码器由此得到样本特定的运行状态表示，将当前出力水平、局部变化和场站间耦合关系压缩后供后续气象读取过程使用。
+
+\begin{figure*}[htbp]
+\centerline{\includegraphics[width=0.66\textwidth]{../../paper_image_use/method_new/exported/Fig04.pdf}}
+\caption{功率状态编码。 多尺度 GCN 从近期场站级功率中提取当前运行状态、局部变化和多场站耦合关系。}
+\label{fig:power-state}
+\end{figure*}
+
+\subsection{记忆层融合与查询解码}
+
+为在记忆层写入功率状态，两层前馈 power-to-context adapter \(a_{\theta}\) 将功率状态向量映射为 \(K\) 个动态功率上下文 token：
+\begin{equation}
+\mathbf{C}^{p}=\operatorname{reshape}(a_{\theta}(\mathbf{z}^{p}))\in\mathbb{R}^{K\times d}.
+\end{equation}
+这些 token 由同一功率状态向量联合生成，与历史功率时刻不存在逐一对应关系，随后被前置到气象记忆：
+\begin{equation}
+\mathbf{M}^{pc}=[\mathbf{C}^{p};\mathbf{M}^{w}]\in\mathbb{R}^{(K+L_w)\times d}.
+\end{equation}
+
+这种前置注入使功率状态以 memory token 的形式参与所有预测步的 cross-attention。不同预测步的查询向量可以在同一融合记忆中自适应读取功率上下文和气象记忆，功率状态由此作为运行状态约束参与并行解码。
+
+查询解码器从可学习的未来查询向量 \(\mathbf{Q}^{(0)}\in\mathbb{R}^{H\times d}\) 开始，每个查询向量对应一个预测步。解码器由若干 decoder block 组成；对于 \(\ell=1,\ldots,L_d\)，每个 block 由带残差连接和 LayerNorm 的 query self-attention、query-to-memory cross-attention 和 FFN 组成。self-attention 建模不同预测步之间的依赖，cross-attention 从融合记忆 \(\mathbf{M}^{pc}\) 中读取气象记忆和功率上下文：
+\begin{equation}
+\label{eq:decoder-self-zh}
+\tilde{\mathbf{Q}}^{(\ell)}=\operatorname{LN}\!\left(
+\mathbf{Q}^{(\ell-1)}+\operatorname{MSA}(\mathbf{Q}^{(\ell-1)})\right).
+\end{equation}
+\begin{equation}
+\label{eq:decoder-cross-zh}
+\bar{\mathbf{Q}}^{(\ell)}=\operatorname{LN}\!\left(
+\tilde{\mathbf{Q}}^{(\ell)}+\operatorname{MCA}(\tilde{\mathbf{Q}}^{(\ell)},\mathbf{M}^{pc})\right).
+\end{equation}
+\begin{equation}
+\label{eq:decoder-ffn-zh}
+\mathbf{Q}^{(\ell)}=\operatorname{LN}\!\left(\bar{\mathbf{Q}}^{(\ell)}
++\operatorname{FFN}(\bar{\mathbf{Q}}^{(\ell)})\right).
+\end{equation}
+其中，\(\operatorname{MSA}(\mathbf{Q})=\operatorname{MHA}(\mathbf{Q},\mathbf{Q},\mathbf{Q})\) 表示多头自注意力，\(\operatorname{MCA}(\mathbf{Q},\mathbf{M})=\operatorname{MHA}(\mathbf{Q},\mathbf{M},\mathbf{M})\) 表示以 \(\mathbf{Q}\) 为 query、以记忆 \(\mathbf{M}\) 为 key 和 value 的多头交叉注意力。式~\eqref{eq:decoder-self-zh}--\eqref{eq:decoder-ffn-zh} 分别执行预测步间自注意力、条件记忆读取和前馈更新；\(\tilde{\mathbf{Q}}^{(\ell)}\) 与 \(\bar{\mathbf{Q}}^{(\ell)}\) 是第 \(\ell\) 个 decoder block 中的两个中间查询表示。
+
+最终预测为
+\begin{equation}
+\hat{\mathbf{y}}=g_{\phi}(\operatorname{LN}(\mathbf{Q}^{(L_d)})).
+\end{equation}
+其中，\(g_{\phi}\) 是预测头，将每个 horizon 的查询表示映射为对应的区域聚合功率输出，其实现由线性层、GELU、dropout 和输出线性层组成。
+
+训练仅使用最终区域聚合功率预测损失：
+\begin{equation}
+\mathcal{L}=\lambda_1\,\operatorname{MAE}(\hat{\mathbf{y}},\mathbf{y})
++\lambda_2\,\operatorname{RMSE}(\hat{\mathbf{y}},\mathbf{y}).
+\end{equation}
+\(\lambda_1\) 和 \(\lambda_2\) 用于平衡 MAE 与 RMSE 项，本文设置 \(\lambda_1=0.6\)、\(\lambda_2=0.4\)。
+
+所有未来查询向量均并行解码，避免自回归误差累积。训练目标直接对应最终的日内区域风电预测任务。

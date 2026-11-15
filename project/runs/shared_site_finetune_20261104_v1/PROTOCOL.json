@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-11-04T22:54:21.387493+08:00",
+  "question": "Does shared pretraining followed by per-station fine-tuning improve both metrics? Independent of failed trajectory mechanism.",
+  "source_run": "shared_personalized_20261104_v1",
+  "source_models": [
+    "W0_R3",
+    "TF_R3"
+  ],
+  "farms": 55,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "train_year": 2022,
+  "selection_year": 2023,
+  "exclude_val_november": true,
+  "test2024_read": false,
+  "data_unchanged": true,
+  "normalization_fitted_year": 2022,
+  "modes": {
+    "P0_SHARED": "No training; reuse exact shared per-site metrics",
+    "P1_FULL": "All parameters, initialized from shared best checkpoint",
+    "P2_HEAD": "Output MLP and only target-station embedding row; all other parameters frozen; no embedding weight decay"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 2e-05,
+    "weight_decay": 0.0001,
+    "embedding_weight_decay": 0.0,
+    "batch_size": 512,
+    "epochs": 30,
+    "patience": 6,
+    "clip_grad_norm": 1.0,
+    "precision": "float32; no TF32, no AMP"
+  },
+  "selection": "Minimum per-station 2023 MAE including epoch0; same selected checkpoint for RMSE. Report selected_epoch0 fraction; selection-year improvements are not confirmation.",
+  "fairness": "Same inputs, farms, seeds, 2022-only gradient updates, fine-tuning lr/budget, selection protocol for W0 and TF. Compare matching modes; choose a single mode per backbone using equal-farm 2023 MAE, no per-station mode cherry-picking.",
+  "pass_rule": {
+    "minimum_improvement_percent": 0.1,
+    "strict_majority_farms": true,
+    "metrics": [
+      "mae",
+      "rmse"
+    ],
+    "high_power_max_rmse_degradation_percent": 0.1
+  },
+  "stages": {
+    "training_jobs": 1100,
+    "no_training_references": 550,
+    "large_P3_or_LoRA_not_scheduled": true,
+    "no_automatic_2024": true
+  },
+  "interpretation": "Fine-tuning gains, if any, do not validate the failed trajectory mechanism. Current dataset cannot support a matched independent-training claim without matching independent reruns."
+}

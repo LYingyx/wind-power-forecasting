@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-10-27T08:03:28.415832+08:00",
+  "planned": 5376,
+  "completed": 5376,
+  "failed": 0,
+  "failed_jobs": [],
+  "active": [],
+  "pending": 0,
+  "planned_training": 5376,
+  "training_completed": 5376,
+  "planned_reference_diagnostics": 0,
+  "reference_diagnostics_completed": 0,
+  "planned_arx": 0,
+  "arx_completed": 0,
+  "test_year_accessed": false,
+  "stages": {
+    "C2_R3_ALLPOOL": {
+      "planned": 448,
+      "completed": 448
+    },
+    "C2_R3_RAW": {
+      "planned": 448,
+      "completed": 448
+    },
+    "N0": {
+      "planned": 448,
+      "completed": 448
+    },
+    "N3": {
+      "planned": 448,
+      "completed": 448
+    },
+    "R3_ALLPOOL": {
+      "planned": 448,
+      "completed": 448
+    },
+    "R3_RAW": {
+      "planned": 448,
+      "completed": 448
+    },
+    "T_C2_R3_ALLPOOL": {
+      "planned": 448,
+      "completed": 448
+    },
+    "T_C2_R3_RAW": {
+      "planned": 448,
+      "completed": 448
+    },
+    "T_N0": {
+      "planned": 448,
+      "completed": 448
+    },
+    "T_N3": {
+      "planned": 448,
+      "completed": 448
+    },
+    "T_R3_ALLPOOL": {
+      "planned": 448,
+      "completed": 448
+    },
+    "T_R3_RAW": {
+      "planned": 448,
+      "completed": 448
+    }
+  },
+  "enabled_hosts": [
+    "user-SYS-420GP-TNR",
+    "v1006001",
+    "v1006002"
+  ]
+}

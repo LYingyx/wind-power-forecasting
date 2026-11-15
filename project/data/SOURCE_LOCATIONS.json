@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-11-14T20:42:20.271502+08:00",
+  "pangu_forecast": {
+    "raw_root": "/shared_data_hdd1/All_Datasets/ERA5_forecasting/Pangu/Forecast_data",
+    "format": "{year}/{lead:02d}/{UTC YYYY-MM-DD HH:MM:SS}+00:00-{lead:02d}.npy",
+    "global_shape": [
+      1,
+      14,
+      721,
+      1440
+    ],
+    "dtype": "float32",
+    "daily_merged_bundle": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1",
+    "required_files": 36876,
+    "required_files_missing": 0
+  },
+  "era5": {
+    "raw_root": "/shared_data_hdd1/All_Datasets/ERA5",
+    "pressure_pattern": "{year}/{YYYY-MM-DDTHH}:00:00.grib",
+    "surface_pattern": "surface_new/{variable}/{year}/{YYYY-MM-DD}.grib",
+    "representative_metadata_verified": true,
+    "bulk_archive_coverage_verified": false,
+    "used_as_observed_station_weather": false
+  },
+  "power": {
+    "clean_h5": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/jilin_56farm_pad8.h5",
+    "raw_csv_root": "/shared_data_hdd1/liying/hj102/huawei/storage/liying/new_try/datasets/Power_JL",
+    "clean_power_key": "power/station_mw",
+    "timestamp_key": "power/timestamp_unix",
+    "power_unit": "MW",
+    "stored_timestamps": "UTC Unix seconds",
+    "original_naive_timestamp_timezone": "Asia/Shanghai"
+  },
+  "active_config": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/configs/operational_pangu_d1_08_lag15h.json"
+}

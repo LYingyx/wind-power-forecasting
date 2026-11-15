@@ -1,0 +1,88 @@
+{
+  "timestamp": "2026-10-23T19:43:20.850437+08:00",
+  "scheduler_pid": 3218265,
+  "by_kind": [
+    {
+      "kind": "evaluate",
+      "status": "done",
+      "count": 7840
+    },
+    {
+      "kind": "train",
+      "status": "done",
+      "count": 8016
+    }
+  ],
+  "running": [],
+  "gpus": [
+    {
+      "index": 0,
+      "total": 49140,
+      "used": 29872,
+      "util": 100
+    },
+    {
+      "index": 1,
+      "total": 49140,
+      "used": 26958,
+      "util": 100
+    },
+    {
+      "index": 2,
+      "total": 49140,
+      "used": 28862,
+      "util": 99
+    },
+    {
+      "index": 3,
+      "total": 49140,
+      "used": 25360,
+      "util": 100
+    },
+    {
+      "index": 4,
+      "total": 24564,
+      "used": 17194,
+      "util": 32
+    },
+    {
+      "index": 5,
+      "total": 24564,
+      "used": 17194,
+      "util": 33
+    },
+    {
+      "index": 6,
+      "total": 24564,
+      "used": 17194,
+      "util": 45
+    },
+    {
+      "index": 7,
+      "total": 24564,
+      "used": 17194,
+      "util": 85
+    }
+  ],
+  "worker_caps": {
+    "0": 8,
+    "1": 8,
+    "2": 8,
+    "3": 8,
+    "4": 4,
+    "5": 8,
+    "6": 8,
+    "7": 4
+  },
+  "selections_frozen": true,
+  "planned_training_jobs": 8016,
+  "selected_groups": [
+    "SPACE",
+    "ST",
+    "S1",
+    "TIME",
+    "TIDE_FC",
+    "TRANSFORMER_FC"
+  ],
+  "failures": []
+}

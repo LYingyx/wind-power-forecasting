@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-11-15T02:57:46.416006+08:00",
+  "weather_protocol": "daily_08_BJT_latency15h",
+  "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "source_run": "daily_protocol_restart_20261114_v1",
+  "regional_delay_minutes": 0,
+  "farms": 55,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "train_year": 2022,
+  "selection_year": 2023,
+  "epochs": 30,
+  "patience": 6,
+  "finetune_lr": 2e-05,
+  "uniform_epochs": [
+    1,
+    6
+  ],
+  "validation_selection": "per-station2023MAE including epoch0; separately report fixedE1 andE6",
+  "test2024_read": false,
+  "new_farm_transfer_claim": false,
+  "previous_protocol_results_reused": false,
+  "jobs": 1100
+}

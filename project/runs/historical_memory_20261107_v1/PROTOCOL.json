@@ -1,0 +1,108 @@
+{
+  "name": "historical_memory_20261107_v1",
+  "scope": [
+    "Z1",
+    "W0_RM",
+    "TF_RM",
+    "LM_CPU_archive_only"
+  ],
+  "train_year": 2022,
+  "selection_year": 2023,
+  "evaluation_2024": false,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "stations": 55,
+  "source_plan": "HISTORICAL_WEATHER_AND_W0_PLAN_20261106_CN.md section9",
+  "ERA5": "No ERA5 observation inputs. Pangu ERA5 initialization plus simulated12h availability is quasi-operational, not actual availability.",
+  "Z1": {
+    "uniform_finetuning_epochs": 1,
+    "residual_year": 2023,
+    "power_bin_edges": [
+      0.1,
+      0.3,
+      0.7
+    ],
+    "horizon_groups": [
+      [
+        1,
+        4
+      ],
+      [
+        5,
+        12
+      ],
+      [
+        13,
+        24
+      ]
+    ],
+    "minimum_samples": 24,
+    "primary_days": 30,
+    "diagnostic_days": [
+      7,
+      14
+    ],
+    "exclude_recent_variant_target_cutoff": "origin -24h -15min",
+    "window_lower_bound": "historical origin >= current origin - D days",
+    "no_clipping": true,
+    "aggregation": "mean seeds per farm then mean farms; no prediction ensembling",
+    "gate": "both W0_E1 and TF_E1: MAE and RMSE decrease>=0.1%, each wins>=28/55",
+    "hardware_replay_audit": "Same-architecture2e-6 absolute tolerance; cross-architecture deltas disclosed. Z1 uses same replay prediction on both sides."
+  },
+  "RM": {
+    "reuse_selected_config": true,
+    "input_channels": 12,
+    "neighbor_lag_minutes": 15,
+    "regional_first_step_zero": true,
+    "ring_sigma": "capacity-weighted population standard deviation",
+    "regional_normalization": "capacity factors and binary flags; no additional fitted normalization",
+    "exclude_target": true,
+    "query_removed": [
+      "regional",
+      "neighbor"
+    ],
+    "history_station_vector": true,
+    "other_architecture_unchanged": true,
+    "selection": "2023 macroMAE",
+    "causal_attribution": "joint intervention, not separate evidence for location vs station embedding"
+  },
+  "LM": {
+    "training": "held for user review of Z1 and RM",
+    "archive_2024": "data preparation only",
+    "minimum_memory_delay_hours": 1,
+    "mask_invalid_forecast_and_power": true,
+    "curve_fit_year": 2022
+  },
+  "resources": {
+    "local_gpus": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "remote_hosts": [
+      "v1006001",
+      "v1006002"
+    ],
+    "remote_gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "max_workers_local": 4,
+    "max_workers_remote": 6,
+    "memory_reserve": "max4GiB or20%",
+    "external_compute_protection": true,
+    "slowdown_cap": 1.5
+  }
+}

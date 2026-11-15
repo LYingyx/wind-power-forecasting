@@ -1,0 +1,134 @@
+{
+  "timestamp": "2026-11-14T23:10:29.984917+08:00",
+  "group": "W0_R3",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08693529169206443,
+      "rmse": 0.1357891345852129,
+      "jobs": [
+        "TUNE_W0_R3_c0_r40",
+        "TUNE_W0_R3_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08675161518797861,
+      "rmse": 0.13563281161751573,
+      "jobs": [
+        "TUNE_W0_R3_c1_r40",
+        "TUNE_W0_R3_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08842017404825256,
+      "rmse": 0.13761619119497626,
+      "jobs": [
+        "TUNE_W0_R3_c2_r40",
+        "TUNE_W0_R3_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08830028445708638,
+      "rmse": 0.13805559005812099,
+      "jobs": [
+        "TUNE_W0_R3_c3_r40",
+        "TUNE_W0_R3_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08706613470361413,
+      "rmse": 0.13654687473606797,
+      "jobs": [
+        "TUNE_W0_R3_c4_r40",
+        "TUNE_W0_R3_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0872199081344194,
+      "rmse": 0.1368178741583706,
+      "jobs": [
+        "TUNE_W0_R3_c5_r40",
+        "TUNE_W0_R3_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09020838332789362,
+      "rmse": 0.14025033769963313,
+      "jobs": [
+        "TUNE_W0_R3_c6_r40",
+        "TUNE_W0_R3_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09019841861931928,
+      "rmse": 0.13974594953732722,
+      "jobs": [
+        "TUNE_W0_R3_c7_r40",
+        "TUNE_W0_R3_c7_r41"
+      ]
+    }
+  ]
+}

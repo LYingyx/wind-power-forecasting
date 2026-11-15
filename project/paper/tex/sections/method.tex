@@ -1,0 +1,96 @@
+\section{方法}
+\label{sec:method}
+\subsection{单风场预测与信息边界}
+设风场 $i$ 的功率为 $P_i(t)$，装机容量为 $C_i$，容量因子为 $p_i(t)=P_i(t)/C_i$。预测起点 $t$ 的历史与目标分别为
+\begin{align}
+ \mathbf H_{i,t}&=[p_i(t-(L-1)\Delta t),\ldots,p_i(t)],\\
+ \mathbf y_{i,t}&=[p_i(t+\Delta t),\ldots,p_i(t+K\Delta t)],
+\end{align}
+其中 $L=K=24$、$\Delta t=0.25\,\mathrm h$，提前量 $\ell_k=k\Delta t$，最大提前量 $T=6\,\mathrm h$。24 个历史样本的首末时间间隔为 5.75 小时。$\mathbf W_{i,t}^{+}$ 表示起点可用的未来 NWP，$\boldsymbol\xi_i$ 为静态位置和容量，$\phi_t\in\{0,1,2,3\}$ 为小时内的起点相位。
+
+本站输入设置只读取 $\mathbf H_{i,t}$、本站 NWP 和上述上下文。共享训练在多个源风场上优化同一组参数；独立训练则为每站单独估计参数。区域历史设置另外提供
+\begin{equation}
+ p_{\mathrm{agg}}(u)=\frac{\sum_{j\in\mathcal S}C_jp_j(u)}{\sum_{j\in\mathcal S}C_j},\qquad |\mathcal S|=56.
+\end{equation}
+本文以 S/I 表示共享/独立训练，以 L/C 表示本站/区域历史，得到 SL、IL、SC、IC。C 设置的区域历史仅进入历史预测器，修正侧的历史编码器仍只读取目标站历史。区域误差不是本文的主要评价目标。
+
+\begin{figure}[tbp]
+ \centering
+ \includegraphics[width=\linewidth]{architecture_single_farm_v19.png}
+ \caption{单风场轨迹条件化天气修正。历史预测器提供参考轨迹，独立历史编码器输出完整记忆及其均值摘要。条件适配器读取天气与轨迹条件；直接天气路径、目标上下文和完整记忆共同支持修正解码，最终为 $\hat{\mathbf y}=\mathbf b+\mathbf c$。下方区分已评估的 CBH-SL 本站输入版本和 E2C 区域历史扩展；后者额外向冻结预测器提供区域历史。图中曲线和特征为定性示意，不是实验数据；天气表示顺序为采样、时间对齐、编码。}
+ \label{fig:overview}
+\end{figure}
+
+\subsection{历史支持的预测参考}
+\label{sec:reference}
+冻结历史预测器 $B_0$ 生成 $\mathbf b_i\in\R^K$。忽略起点下标，定义第二历史输入 $\mathbf G_i$：L 设置取 $\mathbf G_i=\mathbf H_i$，C 设置取 $\mathbf G_i=\mathbf H_{\mathrm{agg}}$。于是
+\begin{equation}
+ \mathbf b_i=B_0(\mathbf H_i,\mathbf G_i,\phi;\boldsymbol\xi_i).
+ \label{eq:baseline}
+\end{equation}
+本站版本保留第二历史编码器的参数形状，但将其独立应用于本站序列，不通过其他站功率产生预测。固定的跨站静态归一化常数仍可使用，它们不构成在线区域功率输入。
+
+参考模型的两条历史路径采用三个因果残差卷积块，膨胀率为 $1,2,4$。本站历史表示叠加静态嵌入，提前量与相位构成目标查询，带相对时间偏置的交叉注意力读取历史。该历史响应与第二路径的末位状态、目标嵌入融合，经未来序列上的三个残差卷积块生成更新 $\delta_{i,k}$。参考读出为
+\begin{equation}
+ b_{i,k}=\softplus\!\left[\softplus^{-1}\!\big(\max(p_i(t),10^{-4})\big)+\delta_{i,k}\right].
+\end{equation}
+未来卷积采用对称填充，属于联合多步预测，不是物理动力学递推。$B_0$ 不读取未来天气，但历史功率本身已包含过去气象和运行影响。
+
+\subsection{历史记忆与显式轨迹条件}
+修正侧历史编码器与参考模型独立。以历史功率和相对时间构成输入，生成 $d=64$ 维记忆：
+\begin{align}
+ \mathbf M_i&=\Encoder_H\left(\{\mathbf A_H[p_i(t+\tau_j);\tau_j/T]+\mathbf d_H\}_{j=1}^{L}\right),\\
+ \tau_j&=(j-L)\Delta t,\qquad
+ \mathbf m_i=L^{-1}\sum_{j=1}^{L}\mathbf M_{i,j}.
+ \label{eq:summary}
+\end{align}
+$\Encoder_H$ 为两层、四头 Transformer，前馈宽度 128。全部历史在起点可用，因此历史自注意力无因果掩码。本文所报告 CBH 与 E2C 使用全部历史 token 的均值，未将末位 token 读出 SLAST 合并为当前实现。
+
+参考差分为 $\Delta b_{i,1}=b_{i,1}-p_i(t)$，$\Delta b_{i,k}=b_{i,k}-b_{i,k-1}$（$k>1$）。它没有除以时间步长，是预测邻步变化而非未来真实爬坡。条件表示为
+\begin{equation}
+ \mathbf s_{i,k}=\LN\!\left(\GELU\left(\mathbf A_s[\mathbf m_i;b_{i,k};\Delta b_{i,k};\ell_k/T]+\mathbf d_s\right)\right)+\mathbf e_k.
+ \label{eq:condition}
+\end{equation}
+$\mathbf e_k$ 为可学习的提前量偏置，跨风场及样本共享。完整记忆 $\mathbf M_i$ 另外直接进入解码器，因此中和额外摘要并不移除历史信息。
+
+\subsection{天气对齐与天气编码}
+以固定双线性权重从邻近四个网格采样 14 个天气变量，保留前七个逐小时节点的实际有效时间偏移 $\nu_{t,m}$。对每个提前量进行线性插值：
+\begin{align}
+ \mathbf z_{i,m}&=\sum_{g\in\mathcal N_i}\omega_{i,g}\mathbf W_{t,m}(g),\qquad \sum_g\omega_{i,g}=1,\\
+ \bar{\mathbf z}_{i,k}&=(1-\alpha_{t,k})\mathbf z_{i,m}+\alpha_{t,k}\mathbf z_{i,m+1},\quad
+ \alpha_{t,k}=\frac{\ell_k-\nu_{t,m}}{\nu_{t,m+1}-\nu_{t,m}}.
+\end{align}
+区间外保持最近端点值。这一操作对齐预测协变量，不将逐小时 NWP 解释为已恢复的十五分钟真实天气。
+
+\textbf{本站主版本与线性对照。}CBH-SL、CBH-SC 和 FP32 对照 E0 采用线性天气路径。底层点式天气注意力每个提前量仅允许一个对齐 token，因而其 softmax 权重恒为一，值投影与输出投影可以合并为仿射映射。其有效形式为
+\begin{equation}
+ \mathbf w_{i,k}=\mathbf A_W\bar{\mathbf z}_{i,k}+\mathbf d_W.
+\end{equation}
+不将这一路径表述为基于查询的跨时间天气检索。
+
+\textbf{区域非线性扩展。}E2C 替换天气输入投影为 $15\rightarrow64\rightarrow64\rightarrow64$ 的三层 MLP，中间使用 GELU，之后保留值及输出投影。输入为插值后天气和地形高程经可逆柱坐标变换、标准化后的 15 维表示。该变换包含地面变量与高程、低层相对地面风差及高度、两压力层间的风/温湿差与厚度；它没有增加原始天气与高程之外的信息。附录给出精确定义。E2N 使用原 14 个天气变量的同型非线性编码；E2L 以相同输入、层数和参数量移除中间激活，以检验非线性而非参数量的影响。E2C 是当前区域扩展的名称，不表示柱坐标已获得独立优势，也不代表本站输入 E2C 已完成评估。
+
+目标上下文独立投影为 $\mathbf q_{i,k}=\mathbf A_q\boldsymbol\gamma_{i,k}+\mathbf d_q$，其中
+\begin{equation}
+ \boldsymbol\gamma_{i,k}=[\ell_k/T;\sin(2\pi\ell_k/24);\cos(2\pi\ell_k/24);\tilde\lambda_i;\tilde\eta_i;C_i/\bar C;\phi/3].
+\end{equation}
+正余弦编码提前量而非当地钟点；经纬度和容量采用固定源站统计归一化。
+
+\subsection{条件天气修正与训练}
+天气特征和轨迹条件经普通拼接适配器产生调整：
+\begin{align}
+ \mathbf a_{i,k}&=\mathbf A_2\GELU\!\left(\mathbf A_1[\mathbf w_{i,k};\mathbf s_{i,k}]+\mathbf d_1\right)+\mathbf d_2,\\
+ \mathbf F_{i,k}&=\mathbf q_{i,k}+\mathbf w_{i,k}+\mathbf a_{i,k},\\
+ \mathbf X_i&=\Decoder(\mathbf F_i,\mathbf M_i),\quad
+ c_{i,k}=\Readout(\mathbf X_{i,k}),\quad
+ \hat y_{i,k}=b_{i,k}+c_{i,k}.
+ \label{eq:prediction}
+\end{align}
+适配器为 $128\rightarrow64\rightarrow64$，无显式乘法门控。两层四头解码器使用前置层归一化、128 维前馈层；标量读出为 $64\rightarrow32\rightarrow1$，中间使用 GELU。未来自注意力不加因果掩码，全部未来协变量在起点已可用；未来功率标签不作为输入。最终预测允许正负修正，不截断；特征调整也不解释为物理天气变化。
+
+训练分两阶段：先以容量因子 MAE 训练历史预测器，选定 checkpoint 后将其冻结并固定为评估模式；再优化修正模型。共享训练目标为
+\begin{equation}
+ \mathcal L(\theta)=\frac1{|\mathcal T|NK}\sum_{t\in\mathcal T}\sum_{i=1}^{N}\sum_{k=1}^{K}
+ |b_{i,t,k}+c_{i,t,k}-y_{i,t,k}|.
+\end{equation}
+独立训练则每次固定一个风场。修正读出和适配器末层零初始化，初始输出等于参考。第二阶段采用 AdamW，学习率 $2\times10^{-4}$、权重衰减 $10^{-4}$，余弦调度、梯度裁剪 1.0，最多 80 轮，验证 MAE 早停耐心值 10；dropout 为 0.05。不同实验系列的 BF16、FP16、FP32 设置分别报告，不将其跨系列差异视为单因素消融。模型未额外采用区域损失、爬坡损失或天气重建损失。

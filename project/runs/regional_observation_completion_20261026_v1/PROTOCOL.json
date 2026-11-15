@@ -1,0 +1,102 @@
+{
+  "timestamp": "2026-10-26T21:21:57.137891+08:00",
+  "fit_year": 2022,
+  "selection_year": 2023,
+  "open_2024": false,
+  "farms": 56,
+  "seeds": [
+    42,
+    43
+  ],
+  "planned_training": 2240,
+  "planned_reference_replays": 560,
+  "primary": "R3_RAW; previously selected on 2023, now confirm controls, no unseen-year claim",
+  "simplified_candidate": "R3_ALLPOOL (one pool with mean/std/change, retained N3)",
+  "W0_variants": [
+    "C2_R3_RAW",
+    "C2_R3_ALLPOOL",
+    "SELF_R3_RAW",
+    "R3_INNER",
+    "R3_MIDDLE",
+    "R3_OUTER",
+    "R3_NO_INNER",
+    "R3_NO_MIDDLE",
+    "R3_NO_OUTER",
+    "R3_ALLPOOL",
+    "R3_ALLPOOL_MEAN",
+    "R3_NO_N3",
+    "R3_MEAN",
+    "R3_MEAN_DELTA",
+    "R3_D0",
+    "R3_D30"
+  ],
+  "TF_variants": [
+    "R3_RAW",
+    "C2_R3_RAW",
+    "R3_ALLPOOL",
+    "C2_R3_ALLPOOL"
+  ],
+  "base": "SEL, no CAL",
+  "neighbors": {
+    "radius_km": 150,
+    "rings_km": [
+      0,
+      20,
+      60,
+      150
+    ],
+    "delay_minutes": 15,
+    "default_points": 22,
+    "target_excluded": true,
+    "capacity_weighted": true,
+    "N3_nearest": 8
+  },
+  "controls": {
+    "C2": "joint 2022 archive donor, same local month/clock, >=2 days apart; not a pure capacity control",
+    "SELF": "extra summary takes delayed own history; real N3 retained; matched 36 input slots",
+    "ALLPOOL": "same raw mean/std/change as each ring; no ring labels; unused slots zero",
+    "ALLPOOL_MEAN": "mean only, compare to ring MEAN; diagnostic arm, not automatically selectable"
+  },
+  "projection": "same 36 slots and parameter count; masks/unused statistics zero before train-only standardization",
+  "training": {
+    "epochs": 80,
+    "patience": 10,
+    "batch": 256,
+    "loss": "MAE",
+    "precision": "FP32_no_TF32",
+    "lr": 0.0002,
+    "TF_zero_init": true,
+    "TF_dropout": 0.05,
+    "selection": "MAE checkpoint for both primary metrics"
+  },
+  "gate": {
+    "comparators": [
+      "N0",
+      "N3"
+    ],
+    "metrics": [
+      "mae",
+      "rmse"
+    ],
+    "minimum_improvement_percent": 0.1,
+    "each_metric_improved_farms_minimum": 29,
+    "matched_control": "C2_{candidate}",
+    "high_power": "current CF>=0.7",
+    "high_power_rmse_max_degradation_vs_N3_percent": 0.1,
+    "all_rules_required": true
+  },
+  "simplification": {
+    "candidate": "R3_ALLPOOL",
+    "reference": "R3_RAW",
+    "noninferiority_upper_one_sided_95_percent_max": 0.1,
+    "paired_farm_bootstrap": 10000,
+    "bootstrap_seed": 20261026,
+    "both_metrics_required": true,
+    "also_pass_primary_gate": true,
+    "note": "Noninferiority under a predeclared tolerance, not equality; spatial dependence limits farm bootstrap interpretation"
+  },
+  "interventions": "selected weights; ring edits hold N3 fixed; global mismatch/drop30 affect both branches; sensitivity not causality",
+  "reporting": "two seeds within farm then equal farms; no prediction exports; all negative effects retained",
+  "stages_E": "deferred until D complete, controls reviewed, final models and interaction inputs frozen",
+  "storage": "<=2 selected weights per train job; remove successful resume and verified remote duplicates"
+}

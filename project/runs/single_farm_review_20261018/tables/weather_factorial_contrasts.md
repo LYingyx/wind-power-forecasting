@@ -1,0 +1,20 @@
+| contrast | coefficients | split | delta | ci_low | ci_high | wins_seeds | wins_farms | interval_unit |
+|---|---|---|---|---|---|---|---|---|
+| DEM effect in linear encoder | {"E1": 1.0, "E0": -1.0} | val | -0.000097 | -0.000332 | 0.000126 | 8 | 33 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| deep-linear capacity/reparameterization | {"E2L": 1.0, "E0": -1.0} | val | -0.000015 | -0.000267 | 0.000247 | 4 | 29 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| GELU activation effect | {"E2N": 1.0, "E2L": -1.0} | val | -0.001025 | -0.001550 | -0.000518 | 10 | 47 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| nonlinear package without DEM | {"E2N": 1.0, "E0": -1.0} | val | -0.001040 | -0.001575 | -0.000549 | 10 | 48 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| DEM effect in nonlinear encoder | {"E2": 1.0, "E2N": -1.0} | val | -0.000021 | -0.000235 | 0.000170 | 5 | 25 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| DEM x nonlinearity interaction | {"E2": 1.0, "E2N": -1.0, "E1": -1.0, "E0": 1.0} | val | 0.000077 | -0.000200 | 0.000345 | 5 | 24 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| column coordinates | {"E2C": 1.0, "E2": -1.0} | val | -0.000100 | -0.000389 | 0.000169 | 9 | 37 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| vertical grouping | {"E3": 1.0, "E2C": -1.0} | val | 0.000067 | -0.000143 | 0.000272 | 4 | 23 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| final E2C versus E0 | {"E2C": 1.0, "E0": -1.0} | val | -0.001160 | -0.001675 | -0.000691 | 10 | 51 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| DEM effect in linear encoder | {"E1": 1.0, "E0": -1.0} | test | -0.000106 | -0.000386 | 0.000272 | 7 | 30 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| deep-linear capacity/reparameterization | {"E2L": 1.0, "E0": -1.0} | test | 0.000061 | -0.000147 | 0.000506 | 4 | 28 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| GELU activation effect | {"E2N": 1.0, "E2L": -1.0} | test | -0.000698 | -0.001196 | 0.000168 | 10 | 42 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| nonlinear package without DEM | {"E2N": 1.0, "E0": -1.0} | test | -0.000637 | -0.001020 | 0.000310 | 10 | 42 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| DEM effect in nonlinear encoder | {"E2": 1.0, "E2N": -1.0} | test | -0.000088 | -0.000315 | 0.000360 | 7 | 30 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| DEM x nonlinearity interaction | {"E2": 1.0, "E2N": -1.0, "E1": -1.0, "E0": 1.0} | test | 0.000019 | -0.000361 | 0.000519 | 5 | 31 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| column coordinates | {"E2C": 1.0, "E2": -1.0} | test | -0.000101 | -0.000705 | 0.000235 | 7 | 32 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| vertical grouping | {"E3": 1.0, "E2C": -1.0} | test | 0.000022 | -0.000327 | 0.000272 | 5 | 25 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |
+| final E2C versus E0 | {"E2C": 1.0, "E0": -1.0} | test | -0.000825 | -0.001193 | 0.000153 | 10 | 47 | archived equal-week seed x farm x 7-day bootstrap; point delta is valid-origin-weighted |

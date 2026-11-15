@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-11-14T20:52:59.381540+08:00",
+  "protocol": "daily_08_BJT_latency15h",
+  "cache_dir": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/model_cache_operational_d1_08_lag15h_v1",
+  "bundle_dir": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1",
+  "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "local_weather_dir": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1/local_weather",
+  "physics_dir": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1/physical",
+  "source_forecast_root": "/shared_data_hdd1/All_Datasets/ERA5_forecasting/Pangu/Forecast_data",
+  "existing_frozen_training_runs_retargeted": false,
+  "require_new_training_and_normalization": true,
+  "audit": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1/AUDIT.json",
+  "independent_audit": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1/INDEPENDENT_AUDIT.json"
+}

@@ -1,0 +1,54 @@
+seed: 42
+
+data:
+  source_h5: /storage/liying/new_try/wind_cluster_forced_evolution/data/jilin_56farm_pad8.h5
+  cache_dir: /storage/liying/new_try/wind_cluster_forced_evolution/data/local_bilinear_56farm_v1
+  response_state_cache_dir: /storage/liying/new_try/wind_cluster_forced_evolution/data/local_state_identifiability_v2
+  response_state_donor_mode: none
+  preload_weather: mmap
+  preload_weather_max_gib: 16.0
+
+model:
+  architecture: local_state_identifiability
+  weather_channels: 14
+  weather_hidden_channels: 48
+  d_model: 64
+  history_visible_steps: 12
+  state_visible_steps: 12
+  history_tcn_layers: 3
+  trajectory_tcn_layers: 3
+  attention_heads: 4
+  dropout: 0.05
+  response_state_source: none
+  station_context_mode: none
+  response_interaction_mode: none
+  station_embedding_dim: 8
+  modulation_amplitude: 1.0
+  backbone_lr_multiplier: 1.0
+  fine_tune_policy: all
+
+training:
+  precision: bf16
+  num_workers: 0
+  cycles_per_batch: 6
+  gradient_clip: 1.0
+  early_stopping_patience: 12
+  deterministic:
+    epochs: 40
+    learning_rate: 0.0002
+    weight_decay: 0.0001
+    station_loss_weight: 1.0
+    cluster_loss_weight: 0.0
+    checkpoint_metric: station_mae_cf
+    auxiliary_weather_loss_weight: 0.0
+    baseline_auxiliary_loss_weight: 0.0
+    baseline_anchor_loss_weight: 0.0
+    anchor_schedule_mode: scalar
+    distillation_weight: 0.0
+    ema_decay: 0.0
+    checkpoint_average_window: 0
+    ramp_loss_weight: 0.0
+    response_identification_loss_weight: 0.0
+
+experiment:
+  id: local_state_transfer_multistage_v1

@@ -1,0 +1,107 @@
+{
+  "timestamp": "2026-10-27T21:16:52.903134+08:00",
+  "planned": 4256,
+  "completed": 4256,
+  "failed": 0,
+  "failed_jobs": [],
+  "active": [],
+  "pending": 0,
+  "planned_training": 3248,
+  "training_completed": 3248,
+  "planned_reference_diagnostics": 1008,
+  "reference_diagnostics_completed": 1008,
+  "planned_arx": 0,
+  "arx_completed": 0,
+  "test_year_accessed": false,
+  "stages": {
+    "C2_G_FREE": {
+      "planned": 224,
+      "completed": 224
+    },
+    "C2_G_LEAD": {
+      "planned": 224,
+      "completed": 224
+    },
+    "C2_G_STATE": {
+      "planned": 224,
+      "completed": 224
+    },
+    "C2_G_STATE_LEAD": {
+      "planned": 224,
+      "completed": 224
+    },
+    "C2_R3_MEAN_DELTA": {
+      "planned": 224,
+      "completed": 224
+    },
+    "EXCLUDE20_KEEP": {
+      "planned": 112,
+      "completed": 112
+    },
+    "EXCLUDE20_REFILL": {
+      "planned": 112,
+      "completed": 112
+    },
+    "FULL_ALL": {
+      "planned": 112,
+      "completed": 112
+    },
+    "FULL_INNER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "FULL_MIDDLE": {
+      "planned": 112,
+      "completed": 112
+    },
+    "FULL_OUTER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "G_FREE": {
+      "planned": 224,
+      "completed": 224
+    },
+    "G_LEAD": {
+      "planned": 224,
+      "completed": 224
+    },
+    "G_STATE": {
+      "planned": 224,
+      "completed": 224
+    },
+    "G_STATE_LEAD": {
+      "planned": 224,
+      "completed": 224
+    },
+    "MATCH_INNER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "MATCH_MIDDLE": {
+      "planned": 112,
+      "completed": 112
+    },
+    "MATCH_OUTER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "MATCH_RANDOM": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_MEAN_DELTA": {
+      "planned": 112,
+      "completed": 112
+    },
+    "REFERENCE": {
+      "planned": 1008,
+      "completed": 1008
+    }
+  },
+  "enabled_hosts": [
+    "user-SYS-420GP-TNR",
+    "v1006001",
+    "v1006002"
+  ]
+}

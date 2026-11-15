@@ -1,0 +1,107 @@
+{
+  "timestamp": "2026-11-14T20:57:01.967267+08:00",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "test_status": "2024 exploratory, not read in stages1-2",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "tune_seeds": [
+    40,
+    41
+  ],
+  "configs": [
+    {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    }
+  ],
+  "data": "daily 00UTC issue, available after15h; fixed2022/2023 origins and55 farms; all regional power through origin; newly fitted training normalization",
+  "checkpoint": "minimum equal-farm macro MAE, one checkpoint for all metrics",
+  "loss": "unclipped capacity-factor MAE",
+  "optimizer": "AdamW; constant learning rate; grad norm clip1",
+  "batch_size": 512,
+  "validation_batch_size": 1024,
+  "precision": "float32, TF32 disabled, no AMP",
+  "input_fairness": "All models share local history, site lat/lon/logcapacity/elevation and learned embedding8. All R3 models receive identical SEL22, N3 pooled history, 3 ring statistics. TF_BASE omits SEL/region.",
+  "b0": "Shared local-history TCN with target attention; no cluster/global power. Architecture adaptation, not the old global-history ForcedEvolution checkpoint.",
+  "oof": "4 quarter blocks of2022, 12h purge; each OOF model early-stops on a separate21-day block from remaining2022 only. Final B0 uses full2022, selected on2023. No in-sample target-fitted trajectory is supplied to2022 mechanism training.",
+  "trajectory_controls": "same month/Beijing clock/different date >=2days;2023 wrong references drawn from2022 OOF archive. CBH also mismatches history summary. TF neutral adapter added for parameter-matched control.",
+  "budget": {
+    "tuning": 80,
+    "shared_baselines": 25,
+    "reference_oof_and_full": 25,
+    "mechanism": 40,
+    "regional_memory": 10,
+    "total": 180
+  },
+  "pass_rule": {
+    "minimum_relative_improvement_percent": 0.1,
+    "minimum_farm_win_fraction_strict": 0.5,
+    "metrics": [
+      "mae",
+      "rmse"
+    ],
+    "high_power": "current CF>=.75: report and require relative RMSE degradation <=.1% before scale-up"
+  },
+  "scale_up_gate": "M1 or M2 passes against W0_R3 and matched wrong-date control; selected candidate must also pass against best matched-input baseline selected by2023MAE among TF/TiDE/TFT. Stage1 rawW0-vsTF may fail if mechanism rescues it. Personalization is a separate matched W0/TF question; no2024 model evaluation before2023 selection is frozen.",
+  "inference": "one forecast per farm; shared parameters before personalization; per-farm equal-weight reporting",
+  "hardware": "Both V100 hosts and idle local4090 cards; no foreign process termination. Multi-process governed by memory reserve, external compute and measured throughput.",
+  "caveats": [
+    "All previous-protocol metrics are excluded; independent and personalization reruns use this daily dataset only.",
+    "P3 physical interpretation remains a hypothesis.",
+    "2024 cannot provide an untouched confirmation set."
+  ],
+  "weather_protocol": "daily_08_BJT_latency15h",
+  "regional_power_delay_minutes": 0,
+  "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "reuse_previous_weights": false
+}

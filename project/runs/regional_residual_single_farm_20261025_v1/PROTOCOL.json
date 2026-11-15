@@ -1,0 +1,124 @@
+{
+  "timestamp": "2026-10-25T21:05:11.447707+08:00",
+  "fit_year": 2022,
+  "selection_year": 2023,
+  "open_2024": false,
+  "farms": 56,
+  "seeds": [
+    42,
+    43
+  ],
+  "planned_training": 2352,
+  "planned_reference_replays": 560,
+  "planned_arx_tasks": 56,
+  "primary": "W0 R1; R2/R3/R4 predeclared secondary, best-arm choice acknowledged as selection",
+  "W0_variants": [
+    "R1",
+    "R1_RAWMAP",
+    "R1_SELF",
+    "R2",
+    "R2_PAIR",
+    "R3",
+    "R3_RAW",
+    "R4",
+    "C1_R1",
+    "C1_R2",
+    "C1_R3",
+    "C1_R4",
+    "C2_R1",
+    "C2_R2",
+    "C2_R3",
+    "C2_R4"
+  ],
+  "TF_variants": [
+    "N3",
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+  ],
+  "base": "SEL, no CAL",
+  "calibration": {
+    "predictor": "SEL density-adjusted 10m speed proxy",
+    "method": "per-farm increasing isotonic, bounded [0,1.2]",
+    "train_residuals": "leave-one-observation-month-out with 24h buffer",
+    "val_residuals": "final curve trained on 2022 only",
+    "mapping_error": "not pure NWP error; includes power-mapping and operating effects",
+    "historical_weather": "forecast issued at least 15min before origin; availability checked; 26/7809 train and 32/8146 validation predecessor nodes use endpoint hold"
+  },
+  "controls": {
+    "R1_RAWMAP": "same six-dimensional summary, raw power replaces residual statistics",
+    "R1_SELF": "delayed target residual summary on retained N3 base",
+    "R2_PAIR": "same parameters; residual slots zero, p and mapped power retained, same information",
+    "R3_RAW": "same spatial rings/projection; only raw power slots active",
+    "C1": "matched R1/R2/R3/R4 architectures, neighbor observed p replaced with mapped power",
+    "C2": "matched architectures, joint power/weather donors from another 2022 day with matching month and clock; synthetic year distribution shift is a limitation"
+  },
+  "summary": "capacity-weighted mean, cross-neighbor standard deviation, one-hour mean change; R1 adds residual and mapping statistics to N3; R3/R4 also include raw statistics and ring presence",
+  "neighbors": {
+    "nearest": 8,
+    "radius_km": 150,
+    "rings_km": [
+      0,
+      20,
+      60,
+      150
+    ],
+    "delay_minutes": 15,
+    "points": 22,
+    "target_excluded": true,
+    "direction": "R4 only; smooth attenuated trigonometric residual terms, no travel-time prior"
+  },
+  "training": {
+    "epochs": 80,
+    "patience": 10,
+    "batch": 256,
+    "loss": "MAE",
+    "precision": "FP32_no_TF32",
+    "lr": 0.0002,
+    "TF_zero_init": true,
+    "TF_dropout": 0.05,
+    "selection": "same MAE-selected checkpoint for both primary metrics; separate RMSE selection supplementary"
+  },
+  "gate": {
+    "comparators": [
+      "N1",
+      "N3"
+    ],
+    "metrics": [
+      "mae",
+      "rmse"
+    ],
+    "minimum_improvement_percent": 0.1,
+    "each_metric_improved_farms_minimum": 29,
+    "matched_controls": [
+      "C1",
+      "C2"
+    ],
+    "high_power": "current CF>=0.7, equal seed within farm then equal farm",
+    "high_power_rmse_max_degradation_vs_N3_percent": 0.1,
+    "all_rules_required": true
+  },
+  "reporting": "raw farm/seed results; equal seeds within farm then equal farm means; report horizon/lead and strata, including losses",
+  "interventions": "fixed-weight sensitivity; residual-only edits violate r=p-m and are not causal proof",
+  "ARX": {
+    "families": [
+      "LOCAL",
+      "REG_RAW",
+      "REG_RES",
+      "REG_PAIR"
+    ],
+    "method": "multi-task elastic net, l1_ratio=0.8, 24 direct target deltas",
+    "alpha_grid": [
+      0.003,
+      0.001,
+      0.0003
+    ],
+    "selection": "2023 MAE",
+    "input": "own 24 history, seven forecast snapshots plus SEL, all 150km-neighbor last four delayed observations; RAW adds power, RES residual, PAIR power and mapping",
+    "standardization": "2022 only",
+    "replicates": 1
+  },
+  "storage": "no predictions/attention arrays; <=2 selected neural checkpoints, one compact ARX coefficient archive per farm; delete successful resume and verified remote duplicates",
+  "next": "review all gates then separately freeze 2024; previous B1 remains deferred"
+}

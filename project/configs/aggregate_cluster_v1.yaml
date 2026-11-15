@@ -1,0 +1,71 @@
+seed: 42
+
+data:
+  source_h5: ../data/jilin_56farm_pad8.h5
+  cache_dir: ../data/aggregate_cluster_v1
+  response_cache_dir: ../data/aggregate_response_state_v1
+  response_latent_cache_root: ../artifacts/aggregate_response_state_v1/latent_cache
+  dynamics_time_cache_dir: ../data/aggregate_weather_dynamics_v1
+  dynamics_latent_cache_root: ../artifacts/aggregate_weather_dynamics_v1/latent_cache
+  realization_cache_root: null
+  train_exclude_origin_start_unix: null
+  train_exclude_origin_stop_unix: null
+  train_exclusion_embargo_seconds: 0
+  preload_weather: mmap
+  preload_weather_max_gib: 16.0
+
+model:
+  architecture: aggregate_correction
+  weather_route: r3_full_path
+  weather_channels: 14
+  d_model: 64
+  history_visible_steps: 24
+  history_layers: 3
+  trajectory_layers: 3
+  attention_heads: 4
+  dropout: 0.05
+  baseline_dropout: 0.1
+  state_mode: recent_1h
+  correction_conditioning: state_weather
+  correction_fusion: blackbox
+  require_history_checkpoint: true
+  strict_modulation_mode: channel_scale
+  modulation_state_source: baseline_latent
+  modulation_training_stage: adapter
+  modulation_use_reference_state: false
+  modulation_amplitude: 0.25
+  modulation_low_rank: 4
+  modulation_expert_count: 3
+  modulation_expert_coefficient: 0.1
+  decoder_lr_multiplier: 0.1
+  response_state_input: transition_pair
+  response_state_hidden: 32
+  response_identification_loss_weight: 0.0
+  weather_dynamics_mode: m4_adaptive_equilibrium
+  dynamics_training_stage: head
+  dynamics_rate_min_per_hour: 0.08333333333333333
+  dynamics_rate_max_per_hour: 4.0
+  dynamics_initial_rate_per_hour: 0.5
+  realization_factor_max: 1.2
+  weather_quantile: 0.0
+  current_weather_loss_weight: 0.0
+
+training:
+  precision: bf16
+  num_workers: 0
+  cycles_per_batch: 12
+  gradient_clip: 1.0
+  early_stopping_patience: 10
+  deterministic:
+    epochs: 80
+    learning_rate: 0.0002
+    weight_decay: 0.0001
+    cluster_loss_weight: 2.0
+    baseline_anchor_loss_weight: 0.2
+    anchor_schedule_mode: horizon_taper
+    ramp_loss_weight: 0.0
+    gradient_accumulation_steps: 1
+    checkpoint_selection: validation
+
+experiment:
+  id: aggregate_cluster_v1

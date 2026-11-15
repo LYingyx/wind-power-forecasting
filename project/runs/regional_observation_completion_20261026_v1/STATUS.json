@@ -1,0 +1,102 @@
+{
+  "timestamp": "2026-10-27T02:14:38.534493+08:00",
+  "planned": 2800,
+  "completed": 2800,
+  "failed": 0,
+  "failed_jobs": [],
+  "active": [],
+  "pending": 0,
+  "planned_training": 2240,
+  "training_completed": 2240,
+  "planned_reference_diagnostics": 560,
+  "reference_diagnostics_completed": 560,
+  "planned_arx": 0,
+  "arx_completed": 0,
+  "test_year_accessed": false,
+  "stages": {
+    "C2_R3_ALLPOOL": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C2_R3_RAW": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_ALLPOOL": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_ALLPOOL_MEAN": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_D0": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_D30": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_INNER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_MEAN": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_MEAN_DELTA": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_MIDDLE": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_NO_INNER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_NO_MIDDLE": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_NO_N3": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_NO_OUTER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_OUTER": {
+      "planned": 112,
+      "completed": 112
+    },
+    "REFERENCE": {
+      "planned": 560,
+      "completed": 560
+    },
+    "SELF_R3_RAW": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_C2_R3_ALLPOOL": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_C2_R3_RAW": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_R3_ALLPOOL": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_R3_RAW": {
+      "planned": 112,
+      "completed": 112
+    }
+  }
+}

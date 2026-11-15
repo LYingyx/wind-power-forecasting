@@ -1,0 +1,2 @@
+# Preserve frozen source/result bytes; their checksums may be audited.
+* -text

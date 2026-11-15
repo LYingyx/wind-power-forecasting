@@ -1,0 +1,40 @@
+% Standard TeX Live packages; no publisher-specific class or shell escape.
+\setmainfont{Latin Modern Roman}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs,array,tabularx,longtable}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[unicode,hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={面向单风场多步功率预测的历史轨迹条件化天气修正},
+  pdfsubject={单风场预测；CBH-SL 本站部署与 E2C 区域扩展；实验重审工作稿},
+  pdfcreator={XeLaTeX}
+}
+\graphicspath{{figures/}}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=*,itemsep=0.3em,topsep=0.4em}
+\setcounter{topnumber}{2}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+\DeclareMathOperator{\Concat}{Concat}
+\DeclareMathOperator{\GELU}{GELU}
+\DeclareMathOperator{\LN}{LN}
+\DeclareMathOperator{\softplus}{softplus}
+\DeclareMathOperator{\Readout}{Readout}
+\DeclareMathOperator{\Decoder}{Decoder}
+\DeclareMathOperator{\Encoder}{Encoder}
+\DeclareMathOperator{\MLP}{MLP}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\trans}{\mathsf{T}}
+
+\ctexset{section={format=\Large\bfseries},subsection={format=\large\bfseries}}
+\renewcommand{\arraystretch}{1.15}
+
+% Expandable file input for booktabs rows in alignment environments.
+\makeatletter
+\let\tableinput\@@input
+\makeatother

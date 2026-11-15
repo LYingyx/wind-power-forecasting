@@ -1,0 +1,5911 @@
+{
+  "timestamp": "2026-11-15T19:41:36.043878+08:00",
+  "convention": "100*(candidate/reference-1); negative is better. Farm means use all5 seeds; cells are dependent, not independent samples.",
+  "caveat": "2023 also selected checkpoints/configs; farm-bootstrap intervals are descriptive, ignore spatial correlation and multiple comparison selection, and do not establish independent significance.",
+  "comparisons": [
+    {
+      "candidate": "W0_R3",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.0865989740335376,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.1827569952785213,
+        "farm_mean_change_median": 0.04034114268904876,
+        "farm_wins": 27,
+        "paired_cells_won": 143,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.25785848233589315,
+          -0.05786174212026873,
+          0.05084687978045288,
+          -0.11893951069628095,
+          -0.5299359553005645
+        ],
+        "farm_bootstrap95_percent": [
+          -0.40112077231037657,
+          0.015408431832564781
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13516146032561743,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.22698997448655778,
+        "farm_mean_change_median": 0.30375440375212115,
+        "farm_wins": 20,
+        "paired_cells_won": 111,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.16303844937057832,
+          0.37811997529575425,
+          -0.22349224403974688,
+          0.9841857581258884,
+          0.1599076955611567
+        ],
+        "farm_bootstrap95_percent": [
+          -0.007142724638771745,
+          0.4544781130400748
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19515884017491655,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.6193980231663954,
+        "farm_mean_change_median": 1.1464962269899903,
+        "farm_wins": 13,
+        "paired_cells_won": 85,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.03211766451983733,
+          -0.1847961875836024,
+          0.6668778597695102,
+          2.4523233135976374,
+          0.21826468105314856
+        ],
+        "farm_bootstrap95_percent": [
+          -0.28084536741563665,
+          1.313216206338859
+        ]
+      },
+      "farms_both_metrics_improved": 19,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "SHARED_W0_BASE",
+      "reference": "TF_BASE",
+      "mae": {
+        "candidate_mean": 0.08906421349374703,
+        "reference_mean": 0.08952809526673024,
+        "change_percent": -0.5181410054588609,
+        "farm_mean_change_median": -0.3028489869280282,
+        "farm_wins": 37,
+        "paired_cells_won": 173,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.4750925029034958,
+          -1.3121452843394055,
+          0.3618365639765031,
+          0.2092182300799994,
+          -1.365704771998344
+        ],
+        "farm_bootstrap95_percent": [
+          -0.8028645387290578,
+          -0.2346616323545557
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13830444901702105,
+        "reference_mean": 0.1385444421365473,
+        "change_percent": -0.17322464605957766,
+        "farm_mean_change_median": -0.21922716416513666,
+        "farm_wins": 33,
+        "paired_cells_won": 156,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.030544364809026447,
+          -0.5478714093615,
+          0.8749511718697756,
+          -0.46576516468048723,
+          -0.7520055214076504
+        ],
+        "farm_bootstrap95_percent": [
+          -0.46466992726218764,
+          0.11868524654865817
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19867637267318342,
+        "reference_mean": 0.19561684935364645,
+        "change_percent": 1.564038746992491,
+        "farm_mean_change_median": 2.16908970334575,
+        "farm_wins": 11,
+        "paired_cells_won": 85,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          2.982903690989014,
+          1.167194894118584,
+          4.90399117379956,
+          0.11230961638055703,
+          -1.224320430497916
+        ],
+        "farm_bootstrap95_percent": [
+          0.33082233745613143,
+          2.603965181905164
+        ]
+      },
+      "farms_both_metrics_improved": 31,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "INDEPENDENT_W0_BASE",
+      "reference": "INDEPENDENT_TF_BASE",
+      "mae": {
+        "candidate_mean": 0.09219204039424743,
+        "reference_mean": 0.09229724873255915,
+        "change_percent": -0.11398859636279068,
+        "farm_mean_change_median": -0.11980296434263016,
+        "farm_wins": 30,
+        "paired_cells_won": 143,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 12,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.09099060902924005,
+          -0.002765516039671123,
+          -0.5718223501886222,
+          -0.042722814680129506,
+          -0.04199232558238508
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4325726180177622,
+          0.20465798576714536
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.14204030610970497,
+        "reference_mean": 0.1411158234228353,
+        "change_percent": 0.6551233337593887,
+        "farm_mean_change_median": 0.8646032242882518,
+        "farm_wins": 16,
+        "paired_cells_won": 82,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.9006296923301127,
+          0.4605389912938129,
+          0.5342646563128772,
+          0.8414527881503098,
+          0.5389210510041043
+        ],
+        "farm_bootstrap95_percent": [
+          0.3534773142220127,
+          0.9559628153787652
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19670478049998058,
+        "reference_mean": 0.19429599186157182,
+        "change_percent": 1.2397520995311773,
+        "farm_mean_change_median": 1.472809670548858,
+        "farm_wins": 15,
+        "paired_cells_won": 92,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.2806517089617886,
+          1.4900845369427929,
+          1.2136534724706438,
+          0.9997555137892578,
+          1.2153068613103502
+        ],
+        "farm_bootstrap95_percent": [
+          0.44693999402425916,
+          2.026670346994635
+        ]
+      },
+      "farms_both_metrics_improved": 16,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "INDEPENDENT_W0_R3",
+      "reference": "INDEPENDENT_TF_R3",
+      "mae": {
+        "candidate_mean": 0.08878434713565234,
+        "reference_mean": 0.08923156776648797,
+        "change_percent": -0.5011910493447513,
+        "farm_mean_change_median": -0.451560842826193,
+        "farm_wins": 40,
+        "paired_cells_won": 185,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 19,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.4415521868253669,
+          -0.46055362812847944,
+          -0.5162338081265982,
+          -0.8031506087408213,
+          -0.28422868282171887
+        ],
+        "farm_bootstrap95_percent": [
+          -0.7770353623617817,
+          -0.24507418240215842
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13752473439756754,
+        "reference_mean": 0.13719639815138757,
+        "change_percent": 0.2393184155007333,
+        "farm_mean_change_median": 0.22909148046579286,
+        "farm_wins": 18,
+        "paired_cells_won": 99,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.2573952578465377,
+          0.3560128319997746,
+          0.3155992524146889,
+          0.010807509742827293,
+          0.2568072211789785
+        ],
+        "farm_bootstrap95_percent": [
+          -0.03181631400701378,
+          0.5064217300151518
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19266240767921333,
+        "reference_mean": 0.1928737365483939,
+        "change_percent": -0.10956850474431734,
+        "farm_mean_change_median": 0.0568326864958113,
+        "farm_wins": 27,
+        "paired_cells_won": 135,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.3824606580307366,
+          -0.8572700600387395,
+          0.14683074860155632,
+          -0.15681925006454378,
+          -0.05712639731279001
+        ],
+        "farm_bootstrap95_percent": [
+          -0.8569286220060057,
+          0.6298708906446103
+        ]
+      },
+      "farms_both_metrics_improved": 18,
+      "farms_both_all5_seeds_improved": 6
+    },
+    {
+      "candidate": "W0_R3",
+      "reference": "SHARED_W0_BASE",
+      "mae": {
+        "candidate_mean": 0.0865989740335376,
+        "reference_mean": 0.08906421349374703,
+        "change_percent": -2.767934912918213,
+        "farm_mean_change_median": -2.6324451574006758,
+        "farm_wins": 54,
+        "paired_cells_won": 265,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 48,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.789241837818346,
+          -1.9790249674466187,
+          -3.113692063146223,
+          -3.2371394774593276,
+          -2.7099409639089855
+        ],
+        "farm_bootstrap95_percent": [
+          -3.0820230166870535,
+          -2.450991031267397
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13516146032561743,
+        "reference_mean": 0.13830444901702105,
+        "change_percent": -2.27251452411108,
+        "farm_mean_change_median": -2.0934965454757593,
+        "farm_wins": 53,
+        "paired_cells_won": 250,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 42,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.8174713488853143,
+          -1.6137534124789243,
+          -3.0624192057528643,
+          -1.7096030959772857,
+          -2.1497162734251063
+        ],
+        "farm_bootstrap95_percent": [
+          -2.5875393341542114,
+          -1.9457935822661965
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19515884017491655,
+        "reference_mean": 0.19867637267318342,
+        "change_percent": -1.7704835511835548,
+        "farm_mean_change_median": -2.510892041595847,
+        "farm_wins": 44,
+        "paired_cells_won": 205,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 20,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -3.6263690011417604,
+          -0.8219446611652081,
+          -3.095829673013628,
+          -0.650094987024763,
+          -0.5936904936456044
+        ],
+        "farm_bootstrap95_percent": [
+          -2.5620290307136213,
+          -0.7733046678377035
+        ]
+      },
+      "farms_both_metrics_improved": 53,
+      "farms_both_all5_seeds_improved": 42
+    },
+    {
+      "candidate": "TF_R3",
+      "reference": "TF_BASE",
+      "mae": {
+        "candidate_mean": 0.08675752948760702,
+        "reference_mean": 0.08952809526673024,
+        "change_percent": -3.0946327751851466,
+        "farm_mean_change_median": -3.071055176295756,
+        "farm_wins": 55,
+        "paired_cells_won": 269,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 51,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -3.0009626161841885,
+          -3.2091977245910397,
+          -2.8125387671185775,
+          -2.9192265363614855,
+          -3.5273929108637136
+        ],
+        "farm_bootstrap95_percent": [
+          -3.423270398151561,
+          -2.7760040151639
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1348553521960738,
+        "reference_mean": 0.1385444421365473,
+        "change_percent": -2.6627484174627347,
+        "farm_mean_change_median": -2.5858213508176298,
+        "farm_wins": 55,
+        "paired_cells_won": 267,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 48,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.629035452067363,
+          -2.521369701080778,
+          -1.9952296460813979,
+          -3.1208760653444134,
+          -3.040601349773542
+        ],
+        "farm_bootstrap95_percent": [
+          -2.9025434389495475,
+          -2.426252931031369
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19395747143108885,
+        "reference_mean": 0.19561684935364645,
+        "change_percent": -0.8482796487319422,
+        "farm_mean_change_median": -1.0460730601475676,
+        "farm_wins": 41,
+        "paired_cells_won": 178,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 12,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.7197499072774449,
+          0.5214162818296231,
+          0.9829096204555965,
+          -2.919249370532262,
+          -2.0245879707121217
+        ],
+        "farm_bootstrap95_percent": [
+          -1.5339841066210935,
+          -0.011751315015697511
+        ]
+      },
+      "farms_both_metrics_improved": 55,
+      "farms_both_all5_seeds_improved": 48
+    },
+    {
+      "candidate": "INDEPENDENT_W0_R3",
+      "reference": "INDEPENDENT_W0_BASE",
+      "mae": {
+        "candidate_mean": 0.08878434713565234,
+        "reference_mean": 0.09219204039424743,
+        "change_percent": -3.6962987737580444,
+        "farm_mean_change_median": -3.4849313336572485,
+        "farm_wins": 55,
+        "paired_cells_won": 272,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 52,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -3.786017242142903,
+          -3.5567337016544354,
+          -3.3129520179506544,
+          -4.174551319005094,
+          -3.649731860872474
+        ],
+        "farm_bootstrap95_percent": [
+          -4.050812324552817,
+          -3.3390252613631697
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13752473439756754,
+        "reference_mean": 0.14204030610970497,
+        "change_percent": -3.1790777109772073,
+        "farm_mean_change_median": -3.011160567153026,
+        "farm_wins": 55,
+        "paired_cells_won": 265,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 49,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -3.3443971227899327,
+          -2.8365524815799237,
+          -2.949939523984002,
+          -3.57264512792993,
+          -3.189752677644775
+        ],
+        "farm_bootstrap95_percent": [
+          -3.5058083929839063,
+          -2.8382877339330874
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19266240767921333,
+        "reference_mean": 0.19670478049998058,
+        "change_percent": -2.055045541085687,
+        "farm_mean_change_median": -2.2533052150976784,
+        "farm_wins": 48,
+        "paired_cells_won": 216,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 23,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.1692243651025844,
+          -2.065284417148594,
+          -1.6475721488074524,
+          -1.9620614390015834,
+          -2.430668785684864
+        ],
+        "farm_bootstrap95_percent": [
+          -2.8663969570049015,
+          -1.2428060240281098
+        ]
+      },
+      "farms_both_metrics_improved": 55,
+      "farms_both_all5_seeds_improved": 49
+    },
+    {
+      "candidate": "INDEPENDENT_TF_R3",
+      "reference": "INDEPENDENT_TF_BASE",
+      "mae": {
+        "candidate_mean": 0.08923156776648797,
+        "reference_mean": 0.09229724873255915,
+        "change_percent": -3.3215301736179703,
+        "farm_mean_change_median": -3.2230201301517103,
+        "farm_wins": 55,
+        "paired_cells_won": 275,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 55,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -3.2713641463621546,
+          -3.1131851145199008,
+          -3.36697783783404,
+          -3.4399681643733193,
+          -3.415671213647309
+        ],
+        "farm_bootstrap95_percent": [
+          -3.7399765547177966,
+          -2.925814216590187
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13719639815138757,
+        "reference_mean": 0.1411158234228353,
+        "change_percent": -2.7774527167684693,
+        "farm_mean_change_median": -2.54516844140501,
+        "farm_wins": 55,
+        "paired_cells_won": 270,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 52,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.724271177003146,
+          -2.735351549953924,
+          -2.7383922588479437,
+          -2.7717624130692675,
+          -2.917337163971234
+        ],
+        "farm_bootstrap95_percent": [
+          -3.0954197285672334,
+          -2.473538695745535
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1928737365483939,
+        "reference_mean": 0.19429599186157182,
+        "change_percent": -0.732004453386359,
+        "farm_mean_change_median": -0.8035171547474129,
+        "farm_wins": 41,
+        "paired_cells_won": 182,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 17,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -1.293864998487182,
+          0.2534686065647884,
+          -0.5998644560623823,
+          -0.8263984444112138,
+          -1.1884545328482043
+        ],
+        "farm_bootstrap95_percent": [
+          -1.4780197852696488,
+          0.06647565685459089
+        ]
+      },
+      "farms_both_metrics_improved": 55,
+      "farms_both_all5_seeds_improved": 52
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08661864394662948,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.16008471172220817,
+        "farm_mean_change_median": -0.03429750025620848,
+        "farm_wins": 30,
+        "paired_cells_won": 140,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.43993995419534526,
+          0.11348236432597858,
+          0.2514462709949594,
+          -0.26377864723905464,
+          -0.46203251309858695
+        ],
+        "farm_bootstrap95_percent": [
+          -0.3590738434928062,
+          0.023188706486034213
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13503182923791732,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.13086395087005265,
+        "farm_mean_change_median": 0.12573841592231627,
+        "farm_wins": 20,
+        "paired_cells_won": 117,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          -0.2943723165927725,
+          0.32194017340470005,
+          0.028704936789059055,
+          0.5505075221878597,
+          0.04757151820009575
+        ],
+        "farm_bootstrap95_percent": [
+          -0.0891848655307459,
+          0.3431648553030814
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19438118638194743,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.21845765864663136,
+        "farm_mean_change_median": 0.5408030876712377,
+        "farm_wins": 13,
+        "paired_cells_won": 99,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          -0.02816120655141363,
+          0.07209211547276606,
+          0.5442887664954377,
+          0.4474215417231253,
+          0.05844910328620667
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4970343441498268,
+          0.8078256638966186
+        ]
+      },
+      "farms_both_metrics_improved": 19,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08661864394662948,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.022713794604833915,
+        "farm_mean_change_median": 0.057068381048286376,
+        "farm_wins": 25,
+        "paired_cells_won": 129,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.18255219818716917,
+          0.17144330653016127,
+          0.20049744451993146,
+          -0.14501161264531826,
+          0.06826520406326697
+        ],
+        "farm_bootstrap95_percent": [
+          -0.06031863165534945,
+          0.10503334342339964
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13503182923791732,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.09590832134235283,
+        "farm_mean_change_median": -0.1026537523877491,
+        "farm_wins": 38,
+        "paired_cells_won": 155,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.1315483415984975,
+          -0.05596817504140983,
+          0.25276208448350435,
+          -0.42945163411700626,
+          -0.11215682995885379
+        ],
+        "farm_bootstrap95_percent": [
+          -0.17402361338999223,
+          -0.017402989977114505
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19438118638194743,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.39847223537100573,
+        "farm_mean_change_median": -0.539669011754984,
+        "farm_wins": 44,
+        "paired_cells_won": 167,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.003957729098580387,
+          0.257363901734986,
+          -0.12177698949284999,
+          -1.9569119635654109,
+          -0.1594675165006887
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6296125184140219,
+          -0.14562929288771517
+        ]
+      },
+      "farms_both_metrics_improved": 24,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "M1_CB",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08674741251161745,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.17140904928316658,
+        "farm_mean_change_median": 0.13596983344881242,
+        "farm_wins": 16,
+        "paired_cells_won": 94,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.12441848224560292,
+          0.46398831015397324,
+          0.08873903178379106,
+          -0.07953790174626274,
+          0.2597851527316619
+        ],
+        "farm_bootstrap95_percent": [
+          0.0912840959602601,
+          0.2500275589053541
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13544739849157467,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.21155303092197375,
+        "farm_mean_change_median": 0.17754542340429058,
+        "farm_wins": 15,
+        "paired_cells_won": 82,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.12558333590084736,
+          0.45493425302729484,
+          0.17794169159286444,
+          -0.04869155757675214,
+          0.3501934268064222
+        ],
+        "farm_bootstrap95_percent": [
+          0.135179062185235,
+          0.2895055056216428
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19521116551545117,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.026811668120041432,
+        "farm_mean_change_median": 0.006719565987856058,
+        "farm_wins": 27,
+        "paired_cells_won": 126,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.011872113852695598,
+          0.8496305450249153,
+          -0.016698624732380818,
+          -0.9289192328311269,
+          0.25000621488473485
+        ],
+        "farm_bootstrap95_percent": [
+          -0.1593565228148766,
+          0.22571207210820665
+        ]
+      },
+      "farms_both_metrics_improved": 12,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "M1_CB",
+      "mae": {
+        "candidate_mean": 0.08661864394662948,
+        "reference_mean": 0.08674741251161745,
+        "change_percent": -0.14844081369081996,
+        "farm_mean_change_median": -0.15966675689479404,
+        "farm_wins": 39,
+        "paired_cells_won": 174,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.30658922677008205,
+          -0.29119389797732653,
+          0.11165932733019357,
+          -0.06552582876835356,
+          -0.19102369746418768
+        ],
+        "farm_bootstrap95_percent": [
+          -0.21650330989921834,
+          -0.0819304280020075
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13503182923791732,
+        "reference_mean": 0.13544739849157467,
+        "change_percent": -0.3068122815833907,
+        "farm_mean_change_median": -0.27410571485880775,
+        "farm_wins": 50,
+        "paired_cells_won": 191,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.2568091679793105,
+          -0.5085886839384601,
+          0.07468749270271857,
+          -0.3809455648693061,
+          -0.46073678682293506
+        ],
+        "farm_bootstrap95_percent": [
+          -0.3733212870017702,
+          -0.2443002807910566
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19438118638194743,
+        "reference_mean": 0.19521116551545117,
+        "change_percent": -0.425169908346279,
+        "farm_mean_change_median": -0.41048748800623924,
+        "farm_wins": 44,
+        "paired_cells_won": 179,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.015831722511405744,
+          -0.5872769588635363,
+          -0.10509591433282006,
+          -1.0376314892034166,
+          -0.4084525745641554
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6732599626657523,
+          -0.1810422820472418
+        ]
+      },
+      "farms_both_metrics_improved": 38,
+      "farms_both_all5_seeds_improved": 4
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "M4H_WRONG_CBH",
+      "mae": {
+        "candidate_mean": 0.08661864394662948,
+        "reference_mean": 0.0865889756470046,
+        "change_percent": 0.034263368290465834,
+        "farm_mean_change_median": 0.04180016595793923,
+        "farm_wins": 24,
+        "paired_cells_won": 128,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.17429521031564477,
+          0.03278440458984733,
+          0.15501326805302806,
+          -0.1965292800014118,
+          0.007071264186842008
+        ],
+        "farm_bootstrap95_percent": [
+          -0.0186144453782075,
+          0.08739263177208023
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13503182923791732,
+        "reference_mean": 0.13510139981271727,
+        "change_percent": -0.05149508065526165,
+        "farm_mean_change_median": -0.0636497452663809,
+        "farm_wins": 35,
+        "paired_cells_won": 166,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.10127739453815732,
+          -0.09943724672705212,
+          0.18929869189701076,
+          -0.2826088114803116,
+          -0.1633415308723074
+        ],
+        "farm_bootstrap95_percent": [
+          -0.10958486185706023,
+          0.006616606870355455
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19438118638194743,
+        "reference_mean": 0.19464323766761568,
+        "change_percent": -0.13463158998400226,
+        "farm_mean_change_median": -0.1287724002379087,
+        "farm_wins": 36,
+        "paired_cells_won": 168,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.09584572483934961,
+          -0.03016466810025209,
+          -0.0726936915156351,
+          -0.31542712436000153,
+          -0.16050329639802907
+        ],
+        "farm_bootstrap95_percent": [
+          -0.3415620379662887,
+          0.11362499756283548
+        ]
+      },
+      "farms_both_metrics_improved": 23,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "M1_CB",
+      "reference": "M4_WRONG_CB",
+      "mae": {
+        "candidate_mean": 0.08674741251161745,
+        "reference_mean": 0.0865920729858622,
+        "change_percent": 0.1793923166392153,
+        "farm_mean_change_median": 0.08408243384734337,
+        "farm_wins": 15,
+        "paired_cells_won": 93,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.13201775382420955,
+          0.4662036941744718,
+          0.09396887253569908,
+          -0.030582814725932383,
+          0.23542641252638496
+        ],
+        "farm_bootstrap95_percent": [
+          0.09606929338273895,
+          0.26508955691684155
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13544739849157467,
+        "reference_mean": 0.13513732655322863,
+        "change_percent": 0.22944951350942766,
+        "farm_mean_change_median": 0.16949121021647695,
+        "farm_wins": 10,
+        "paired_cells_won": 87,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.17149952216604092,
+          0.49358297243213833,
+          0.13790286226322834,
+          -0.011661135509100085,
+          0.35801640811039537
+        ],
+        "farm_bootstrap95_percent": [
+          0.14519958700231872,
+          0.31820956820414964
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19521116551545117,
+        "reference_mean": 0.195039504099548,
+        "change_percent": 0.08801366507553698,
+        "farm_mean_change_median": 0.029486906143860736,
+        "farm_wins": 27,
+        "paired_cells_won": 124,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.16238979493214956,
+          0.8324381045943019,
+          -0.2385081715431725,
+          -0.7424329209209213,
+          0.43517614834009954
+        ],
+        "farm_bootstrap95_percent": [
+          -0.093680911794006,
+          0.2839600279529284
+        ]
+      },
+      "farms_both_metrics_improved": 9,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "W0_RM",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.0871829366987483,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.6743297732194176,
+        "farm_mean_change_median": 0.5394820035350856,
+        "farm_wins": 10,
+        "paired_cells_won": 83,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.3131557501844684,
+          0.8078268707319536,
+          0.32173109859567894,
+          0.5028478948045256,
+          1.427456137787786
+        ],
+        "farm_bootstrap95_percent": [
+          0.4786664087204856,
+          0.8698662031039917
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13589636335244115,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.5437223192567453,
+        "farm_mean_change_median": 0.4367742285083853,
+        "farm_wins": 11,
+        "paired_cells_won": 84,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.3594810856632602,
+          0.8901816699583787,
+          0.49492166373310553,
+          0.27104892232128197,
+          0.7049358495089697
+        ],
+        "farm_bootstrap95_percent": [
+          0.35661281741369066,
+          0.7283946275798259
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1947763097574548,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.19600978214406872,
+        "farm_mean_change_median": -0.034945730901603245,
+        "farm_wins": 30,
+        "paired_cells_won": 147,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.24275633373755934,
+          0.4929177472130286,
+          -1.1476319630638887,
+          -0.35817021029705964,
+          -0.19733134746191539
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6382674198206542,
+          0.21627435383776977
+        ]
+      },
+      "farms_both_metrics_improved": 4,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "TF_RM",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08722338416310134,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 0.5369616657432186,
+        "farm_mean_change_median": 0.7509619187874295,
+        "farm_wins": 13,
+        "paired_cells_won": 87,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.4389648224496945,
+          0.621563797178637,
+          0.8287665292125546,
+          0.23119328316310028,
+          0.5644932547101966
+        ],
+        "farm_bootstrap95_percent": [
+          0.3410506342375158,
+          0.7194948272833035
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13502614717859132,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.12665050347366869,
+        "farm_mean_change_median": 0.2401815666143614,
+        "farm_wins": 20,
+        "paired_cells_won": 118,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.2872243613494141,
+          0.5197174336330157,
+          -0.3403986392575442,
+          0.6949574210810994,
+          0.047633243498967914
+        ],
+        "farm_bootstrap95_percent": [
+          -0.0681939250765548,
+          0.30657935913923795
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1947779345447749,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.4230118631844304,
+        "farm_mean_change_median": 0.3180011800997251,
+        "farm_wins": 18,
+        "paired_cells_won": 123,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.0017406685447927,
+          0.3088078119985571,
+          0.31705554797207824,
+          0.41010026033379,
+          0.08377393296004065
+        ],
+        "farm_bootstrap95_percent": [
+          0.12231432596054415,
+          0.7712211291910412
+        ]
+      },
+      "farms_both_metrics_improved": 12,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "W0_R3",
+      "reference": "TIDE_R3",
+      "mae": {
+        "candidate_mean": 0.0865989740335376,
+        "reference_mean": 0.08806328209188155,
+        "change_percent": -1.6627906927386138,
+        "farm_mean_change_median": -1.6375076377810438,
+        "farm_wins": 53,
+        "paired_cells_won": 241,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 32,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.425697874688948,
+          -1.4053755586333594,
+          -1.1104944011273155,
+          -1.5204211169989046,
+          -1.847055471083725
+        ],
+        "farm_bootstrap95_percent": [
+          -1.9343844332575282,
+          -1.4043783372621172
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13516146032561743,
+        "reference_mean": 0.13554719437204654,
+        "change_percent": -0.2845754559628544,
+        "farm_mean_change_median": -0.3769273185197153,
+        "farm_wins": 34,
+        "paired_cells_won": 154,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -1.127298106277963,
+          -0.25842567376855863,
+          0.210919912715557,
+          0.6521079641833571,
+          -0.8901150056950913
+        ],
+        "farm_bootstrap95_percent": [
+          -0.5536518643612792,
+          -0.022422132457127368
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19515884017491655,
+        "reference_mean": 0.19578415550040776,
+        "change_percent": -0.31939015897018974,
+        "farm_mean_change_median": -0.14020106904434337,
+        "farm_wins": 31,
+        "paired_cells_won": 135,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -2.9705019867818705,
+          -1.2267917543557716,
+          2.05226159997407,
+          0.9099739896460735,
+          -0.26484838646388953
+        ],
+        "farm_bootstrap95_percent": [
+          -0.9952511752432394,
+          0.25856513036921963
+        ]
+      },
+      "farms_both_metrics_improved": 34,
+      "farms_both_all5_seeds_improved": 6
+    },
+    {
+      "candidate": "W0_R3",
+      "reference": "TFT_R3",
+      "mae": {
+        "candidate_mean": 0.0865989740335376,
+        "reference_mean": 0.08773358240676676,
+        "change_percent": -1.2932429545264412,
+        "farm_mean_change_median": -0.9835038933213136,
+        "farm_wins": 53,
+        "paired_cells_won": 213,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 17,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -1.0599397007482247,
+          -1.1822712532687407,
+          -1.5170753699333406,
+          -0.8529374075820884,
+          -1.8487960622660005
+        ],
+        "farm_bootstrap95_percent": [
+          -1.5817502824034895,
+          -1.0170996829044388
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13516146032561743,
+        "reference_mean": 0.1366969530095368,
+        "change_percent": -1.1232823044799223,
+        "farm_mean_change_median": -0.9941668994035591,
+        "farm_wins": 45,
+        "paired_cells_won": 198,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 13,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.9649079911371983,
+          -1.1023386029159976,
+          -1.9123753369191698,
+          0.031321405004991476,
+          -1.6564911486500078
+        ],
+        "farm_bootstrap95_percent": [
+          -1.4352852200730153,
+          -0.8233404381169822
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19515884017491655,
+        "reference_mean": 0.19707475163285326,
+        "change_percent": -0.9721749955600711,
+        "farm_mean_change_median": -1.0089912248087196,
+        "farm_wins": 36,
+        "paired_cells_won": 164,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -2.21948675762329,
+          -0.9399297615761859,
+          -0.7513031833376926,
+          0.19556603350590063,
+          -1.138739985608983
+        ],
+        "farm_bootstrap95_percent": [
+          -1.518488140139452,
+          -0.40613952645127627
+        ]
+      },
+      "farms_both_metrics_improved": 45,
+      "farms_both_all5_seeds_improved": 11
+    },
+    {
+      "candidate": "ENC_neutral_E2L",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08636119457379265,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.4568305669319317,
+        "farm_mean_change_median": -0.3922307362871469,
+        "farm_wins": 42,
+        "paired_cells_won": 182,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 9,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -1.2650003779776542,
+          -0.3261843448014723,
+          -0.2683632213924092,
+          -0.08892251490234537,
+          -0.3389631676170013
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6173908629546878,
+          -0.29606653435008484
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13456416381499173,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": -0.21592645478297756,
+        "farm_mean_change_median": -0.10730153634840311,
+        "farm_wins": 33,
+        "paired_cells_won": 150,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.7391846152027148,
+          0.21542787345345538,
+          -0.42042686852397093,
+          -0.23060797694093305,
+          0.09686781034417002
+        ],
+        "farm_bootstrap95_percent": [
+          -0.39013573519624867,
+          -0.0420798060474384
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1942541062435345,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.15293806949376876,
+        "farm_mean_change_median": 0.186506804237907,
+        "farm_wins": 21,
+        "paired_cells_won": 134,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.5378936373953258,
+          -1.0729271130281215,
+          -0.34621586416982986,
+          1.6840911338430242,
+          1.0526204146953821
+        ],
+        "farm_bootstrap95_percent": [
+          -0.1892591459256046,
+          0.46896113881706225
+        ]
+      },
+      "farms_both_metrics_improved": 28,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "ENC_neutral_E2L",
+      "reference": "TF_P1_FULL",
+      "mae": {
+        "candidate_mean": 0.08636119457379265,
+        "reference_mean": 0.08592761545489164,
+        "change_percent": 0.5045864668834277,
+        "farm_mean_change_median": 0.41225185928515096,
+        "farm_wins": 12,
+        "paired_cells_won": 89,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          -0.6668726590380647,
+          0.7915420218761682,
+          0.6568330393322164,
+          0.8549280051955321,
+          0.8872677855133793
+        ],
+        "farm_bootstrap95_percent": [
+          0.28704174303833707,
+          0.7461743175127388
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13456416381499173,
+        "reference_mean": 0.13391590122791164,
+        "change_percent": 0.48408186118003016,
+        "farm_mean_change_median": 0.34747426065040443,
+        "farm_wins": 16,
+        "paired_cells_won": 104,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          -0.2450707109826311,
+          1.06668892885331,
+          0.2865936389850221,
+          0.29470760380447825,
+          1.0236972974514869
+        ],
+        "farm_bootstrap95_percent": [
+          0.24961314548465896,
+          0.7482850465090907
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1942541062435345,
+        "reference_mean": 0.19254147007085418,
+        "change_percent": 0.8894895068839448,
+        "farm_mean_change_median": 0.6044339891273953,
+        "farm_wins": 13,
+        "paired_cells_won": 113,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.3594730439108851,
+          -0.5305687543300741,
+          0.515528071671012,
+          1.8214517043514178,
+          2.2902710670309023
+        ],
+        "farm_bootstrap95_percent": [
+          0.48694611631449947,
+          1.3193718413802318
+        ]
+      },
+      "farms_both_metrics_improved": 9,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "ENC_neutral_E2L",
+      "reference": "ENC_neutral_E0",
+      "mae": {
+        "candidate_mean": 0.08636119457379265,
+        "reference_mean": 0.08658018872097077,
+        "change_percent": -0.2529379415929567,
+        "farm_mean_change_median": -0.31066769039418407,
+        "farm_wins": 36,
+        "paired_cells_won": 162,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -1.0179048118500567,
+          0.023396829454425117,
+          -0.03371294690041049,
+          -0.3750135973275337,
+          0.13765974253059365
+        ],
+        "farm_bootstrap95_percent": [
+          -0.37815012593453573,
+          -0.12447377302909293
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13456416381499173,
+        "reference_mean": 0.1348721057640528,
+        "change_percent": -0.22832145113816926,
+        "farm_mean_change_median": -0.24869422657601836,
+        "farm_wins": 32,
+        "paired_cells_won": 138,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.5931243762024252,
+          0.2993613397668238,
+          0.21460590384092537,
+          -1.3520728902005064,
+          0.3075700537047643
+        ],
+        "farm_bootstrap95_percent": [
+          -0.361349208876742,
+          -0.09916394433433201
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1942541062435345,
+        "reference_mean": 0.19480230858470898,
+        "change_percent": -0.28141470455730344,
+        "farm_mean_change_median": -0.4070699009708689,
+        "farm_wins": 33,
+        "paired_cells_won": 149,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -1.4721896132857348,
+          -0.6662600688695175,
+          -0.6190472155754745,
+          0.40585171351488203,
+          0.940839373742075
+        ],
+        "farm_bootstrap95_percent": [
+          -0.5457908452894544,
+          -0.016149301572948423
+        ]
+      },
+      "farms_both_metrics_improved": 31,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "ENC_neutral_E2L",
+      "reference": "ENC_neutral_E2N",
+      "mae": {
+        "candidate_mean": 0.08636119457379265,
+        "reference_mean": 0.08659199270809592,
+        "change_percent": -0.2665351923258008,
+        "farm_mean_change_median": -0.23656772588737107,
+        "farm_wins": 37,
+        "paired_cells_won": 174,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.6085839798111059,
+          -0.18020723878870992,
+          -0.37728542729043024,
+          -0.06970329736071257,
+          -0.10007582746441868
+        ],
+        "farm_bootstrap95_percent": [
+          -0.39243538505597975,
+          -0.14260186940773883
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13456416381499173,
+        "reference_mean": 0.13518047098578745,
+        "change_percent": -0.4559143538274246,
+        "farm_mean_change_median": -0.4744399568504032,
+        "farm_wins": 45,
+        "paired_cells_won": 186,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 12,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.43827897902702917,
+          -0.06871721510646189,
+          -0.2439156315746427,
+          -1.310090608462644,
+          -0.20937378371077564
+        ],
+        "farm_bootstrap95_percent": [
+          -0.5846539471002279,
+          -0.33084765230350877
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1942541062435345,
+        "reference_mean": 0.19546120752665022,
+        "change_percent": -0.6175656532517504,
+        "farm_mean_change_median": -0.8304070471152891,
+        "farm_wins": 42,
+        "paired_cells_won": 185,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 13,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -1.9717737333101337,
+          0.34125632255612715,
+          -0.7660917623035335,
+          -0.4997437054831688,
+          -0.17900741240648443
+        ],
+        "farm_bootstrap95_percent": [
+          -1.2077686678470114,
+          0.15573971831328187
+        ]
+      },
+      "farms_both_metrics_improved": 37,
+      "farms_both_all5_seeds_improved": 5
+    },
+    {
+      "candidate": "INDEPENDENT_W0_BASE",
+      "reference": "SHARED_W0_BASE",
+      "mae": {
+        "candidate_mean": 0.09219204039424743,
+        "reference_mean": 0.08906421349374703,
+        "change_percent": 3.5118784277143877,
+        "farm_mean_change_median": 3.322817731445382,
+        "farm_wins": 2,
+        "paired_cells_won": 23,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          3.9965893529475105,
+          4.1491423567409536,
+          2.7145752211774177,
+          2.9085682159166515,
+          3.806298880444947
+        ],
+        "farm_bootstrap95_percent": [
+          3.014401110089635,
+          4.017257971084938
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.14204030610970497,
+        "reference_mean": 0.13830444901702105,
+        "change_percent": 2.701183598384582,
+        "farm_mean_change_median": 2.4194474271471478,
+        "farm_wins": 2,
+        "paired_cells_won": 29,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          2.740811412805022,
+          3.2023598852285673,
+          1.942423343204669,
+          2.639725101115342,
+          2.990337925784181
+        ],
+        "farm_bootstrap95_percent": [
+          2.2739806841700365,
+          3.1317424425952676
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19670478049998058,
+        "reference_mean": 0.19867637267318342,
+        "change_percent": -0.9923636850598494,
+        "farm_mean_change_median": -1.4169862561867252,
+        "farm_wins": 38,
+        "paired_cells_won": 169,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 13,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -1.472130362245938,
+          0.13853952477027587,
+          -2.65509064994518,
+          -0.8757450864853689,
+          -0.04077919121490137
+        ],
+        "farm_bootstrap95_percent": [
+          -2.1600175051410573,
+          0.46866791373898825
+        ]
+      },
+      "farms_both_metrics_improved": 2,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INDEPENDENT_W0_R3",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08878434713565234,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 2.5235554191073817,
+        "farm_mean_change_median": 2.2818326784124654,
+        "farm_wins": 4,
+        "paired_cells_won": 25,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          2.930233690668693,
+          2.472796946976219,
+          2.5033286368853602,
+          1.9116184572884443,
+          2.80356318779702
+        ],
+        "farm_bootstrap95_percent": [
+          2.0113007205804148,
+          3.0579263046824896
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13752473439756754,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 1.74848219770396,
+        "farm_mean_change_median": 1.6880010377347432,
+        "farm_wins": 7,
+        "paired_cells_won": 54,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          2.1837485094550635,
+          1.9197034777150845,
+          2.0607102990213955,
+          0.694243873705469,
+          1.8956686346351503
+        ],
+        "farm_bootstrap95_percent": [
+          1.234079854035573,
+          2.270914856864889
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19266240767921333,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -1.2791798175607716,
+        "farm_mean_change_median": -1.0834707921410613,
+        "farm_wins": 33,
+        "paired_cells_won": 159,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 14,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.017585810684406233,
+          -1.116841283735126,
+          -1.200246168704877,
+          -2.1847317131635235,
+          -1.8879750043052201
+        ],
+        "farm_bootstrap95_percent": [
+          -2.7093420603867044,
+          0.2338863432454513
+        ]
+      },
+      "farms_both_metrics_improved": 3,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "W0_P1_FULL",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08602010436912631,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.6684486402657619,
+        "farm_mean_change_median": -0.4798790120733476,
+        "farm_wins": 52,
+        "paired_cells_won": 222,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 25,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.3724152936693259,
+          -0.8568969156519501,
+          -0.9608547667600109,
+          -0.4656524978557064,
+          -0.6848389251864928
+        ],
+        "farm_bootstrap95_percent": [
+          -0.8391760628115571,
+          -0.5124169207948776
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13441067362993564,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.5554739449197044,
+        "farm_mean_change_median": -0.4113755494254856,
+        "farm_wins": 45,
+        "paired_cells_won": 201,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 16,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.2315568799570289,
+          -0.6483772053114012,
+          -0.7827125654870204,
+          -0.38163465143323805,
+          -0.7339009098191407
+        ],
+        "farm_bootstrap95_percent": [
+          -0.7428346740745814,
+          -0.3849946189283063
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19348372192733546,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.8583358284358189,
+        "farm_mean_change_median": -0.4864980825399545,
+        "farm_wins": 42,
+        "paired_cells_won": 159,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.2412992563648908,
+          -0.6654327490763112,
+          -1.304094403168532,
+          -1.0730499593013865,
+          -0.996019937058068
+        ],
+        "farm_bootstrap95_percent": [
+          -1.2208612263858973,
+          -0.5242931943850323
+        ]
+      },
+      "farms_both_metrics_improved": 44,
+      "farms_both_all5_seeds_improved": 15
+    },
+    {
+      "candidate": "W0_P1_FULL_E1",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08657191974974418,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.031240882580130247,
+        "farm_mean_change_median": -0.20257693100033114,
+        "farm_wins": 32,
+        "paired_cells_won": 153,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 9,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.2586034753858435,
+          -0.3581313288712362,
+          -0.419124141150895,
+          0.2536318955967509,
+          0.1109871429335163
+        ],
+        "farm_bootstrap95_percent": [
+          -0.2431672789652245,
+          0.18818881454785935
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13513825280474692,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.017170220575157824,
+        "farm_mean_change_median": -0.1621300262776404,
+        "farm_wins": 33,
+        "paired_cells_won": 153,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 13,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.5655520711810524,
+          -0.27163988839968845,
+          -0.33713010133344934,
+          0.14983632903309285,
+          -0.19232878878163717
+        ],
+        "farm_bootstrap95_percent": [
+          -0.23998220873867604,
+          0.22061554779555403
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19463644910825853,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.26767481615991295,
+        "farm_mean_change_median": -0.17947884750677545,
+        "farm_wins": 34,
+        "paired_cells_won": 153,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.584795786836767,
+          -0.35408277401899335,
+          -0.12805775088097215,
+          -0.6620142444281885,
+          -0.765486796485404
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6566523229985355,
+          0.12475983627819029
+        ]
+      },
+      "farms_both_metrics_improved": 29,
+      "farms_both_all5_seeds_improved": 7
+    },
+    {
+      "candidate": "W0_P1_FULL_E6",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08698704143465678,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.44812009085568594,
+        "farm_mean_change_median": 0.34842212689083496,
+        "farm_wins": 22,
+        "paired_cells_won": 113,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.7270777561455999,
+          0.015622186709007835,
+          0.047686544570768596,
+          0.9886796575020673,
+          0.46296300390742395
+        ],
+        "farm_bootstrap95_percent": [
+          0.08052998428153213,
+          0.8186194141568515
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13586314108505473,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.5191426296718538,
+        "farm_mean_change_median": 0.39185010081721483,
+        "farm_wins": 21,
+        "paired_cells_won": 116,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 9,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.0821762700992554,
+          0.21611663646978752,
+          0.14555213344793483,
+          0.9440560774766737,
+          0.20530270961014452
+        ],
+        "farm_bootstrap95_percent": [
+          0.12699919095035372,
+          0.9374574213265079
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19424697742004773,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.46724132714230926,
+        "farm_mean_change_median": -0.5397012476494822,
+        "farm_wins": 36,
+        "paired_cells_won": 171,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.7860239365152566,
+          -0.22469299354800354,
+          -0.8923158524328789,
+          -0.7412307571694865,
+          -1.2421934739948348
+        ],
+        "farm_bootstrap95_percent": [
+          -1.281357804945165,
+          0.6036058609300019
+        ]
+      },
+      "farms_both_metrics_improved": 19,
+      "farms_both_all5_seeds_improved": 7
+    },
+    {
+      "candidate": "W0_P1_FULL",
+      "reference": "TF_P1_FULL",
+      "mae": {
+        "candidate_mean": 0.08602010436912631,
+        "reference_mean": 0.08592761545489164,
+        "change_percent": 0.10763584412887273,
+        "farm_mean_change_median": 0.17216788882008505,
+        "farm_wins": 16,
+        "paired_cells_won": 115,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          -0.027334818719904064,
+          0.19686890535091095,
+          0.008742830101060584,
+          0.35513504553925657,
+          0.004353933183343095
+        ],
+        "farm_bootstrap95_percent": [
+          -0.08600158152703097,
+          0.28205773648136023
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13441067362993564,
+        "reference_mean": 0.13391590122791164,
+        "change_percent": 0.369465013106951,
+        "farm_mean_change_median": 0.4553110345475675,
+        "farm_wins": 12,
+        "paired_cells_won": 93,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.10161332406910528,
+          0.5744057960999083,
+          -0.30158163596025744,
+          1.1284777479840802,
+          0.34544012176953576
+        ],
+        "farm_bootstrap95_percent": [
+          0.1733591039068677,
+          0.5565946266852101
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19348372192733546,
+        "reference_mean": 0.19254147007085418,
+        "change_percent": 0.48937605812116036,
+        "farm_mean_change_median": 0.957748960738658,
+        "farm_wins": 15,
+        "paired_cells_won": 98,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.6264141202662055,
+          -0.3054132201522286,
+          0.21323907894130745,
+          1.4898719582318698,
+          0.43527712751554315
+        ],
+        "farm_bootstrap95_percent": [
+          -0.3592067425951695,
+          1.1893389427117778
+        ]
+      },
+      "farms_both_metrics_improved": 10,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "W0_P1_FULL_E1",
+      "reference": "TF_P1_FULL_E1",
+      "mae": {
+        "candidate_mean": 0.08657191974974418,
+        "reference_mean": 0.08638384505722801,
+        "change_percent": 0.21771975117750308,
+        "farm_mean_change_median": 0.24063095629125453,
+        "farm_wins": 18,
+        "paired_cells_won": 103,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.04887671578026609,
+          0.08857963158854787,
+          0.10665674331564734,
+          0.7427728768342856,
+          0.10178095460120495
+        ],
+        "farm_bootstrap95_percent": [
+          0.08096764904630682,
+          0.35135827252728336
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13513825280474692,
+        "reference_mean": 0.13449810287280492,
+        "change_percent": 0.4759546181460905,
+        "farm_mean_change_median": 0.4980959936115914,
+        "farm_wins": 10,
+        "paired_cells_won": 80,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.3281164548119886,
+          0.5553654223021454,
+          -0.20880224934213265,
+          1.3361028283557896,
+          0.36956928469600303
+        ],
+        "farm_bootstrap95_percent": [
+          0.32218862393338654,
+          0.6324209400184189
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19463644910825853,
+        "reference_mean": 0.19371789228912017,
+        "change_percent": 0.4741724206700715,
+        "farm_mean_change_median": 1.0590918341594424,
+        "farm_wins": 18,
+        "paired_cells_won": 93,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.7672868060366378,
+          -0.4023827870367147,
+          0.6388615006259313,
+          1.5755089521286347,
+          -0.19100100789666286
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4393328358900228,
+          1.2056300543053582
+        ]
+      },
+      "farms_both_metrics_improved": 7,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "W0_P1_FULL_E6",
+      "reference": "TF_P1_FULL_E6",
+      "mae": {
+        "candidate_mean": 0.08698704143465678,
+        "reference_mean": 0.0866174688640489,
+        "change_percent": 0.4266720968121751,
+        "farm_mean_change_median": 0.4030217796747282,
+        "farm_wins": 7,
+        "paired_cells_won": 76,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.11917773808878263,
+          0.3667767314246895,
+          0.24197952609488205,
+          1.0066079987385734,
+          0.3981480577103014
+        ],
+        "farm_bootstrap95_percent": [
+          0.2919561327867315,
+          0.5623880557431105
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13586314108505473,
+        "reference_mean": 0.13500338911099072,
+        "change_percent": 0.6368373266223637,
+        "farm_mean_change_median": 0.6097774434867365,
+        "farm_wins": 8,
+        "paired_cells_won": 65,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.3826796575186364,
+          0.7920269156949544,
+          -0.10192674179397843,
+          1.5774353759137716,
+          0.5337527688641597
+        ],
+        "farm_bootstrap95_percent": [
+          0.464058631196248,
+          0.809466889496706
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19424697742004773,
+        "reference_mean": 0.19280436328054731,
+        "change_percent": 0.7482269150731247,
+        "farm_mean_change_median": 0.9681833147280994,
+        "farm_wins": 15,
+        "paired_cells_won": 87,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          1.288053302163772,
+          0.35015941429163977,
+          0.4873442459475408,
+          1.7979646155068751,
+          -0.1671475060866845
+        ],
+        "farm_bootstrap95_percent": [
+          -0.09378418448790057,
+          1.6199679535183307
+        ]
+      },
+      "farms_both_metrics_improved": 6,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "W0_P2_HEAD",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08628063382880884,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.36760274389102676,
+        "farm_mean_change_median": -0.31868957449707747,
+        "farm_wins": 51,
+        "paired_cells_won": 216,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 18,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.18728746734918422,
+          -0.45921467598071253,
+          -0.5207378605359247,
+          -0.3523077208108405,
+          -0.3172006201669242
+        ],
+        "farm_bootstrap95_percent": [
+          -0.44171610235925696,
+          -0.29831409694268957
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13472244437611955,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.32480852784533276,
+        "farm_mean_change_median": -0.26997855193110487,
+        "farm_wins": 50,
+        "paired_cells_won": 199,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 13,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.09121935432800932,
+          -0.34752379697406965,
+          -0.5042799734590431,
+          -0.2906125088460998,
+          -0.3900935534121408
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4132739420200496,
+          -0.24334847963487313
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19421880670157143,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.48167609138412004,
+        "farm_mean_change_median": -0.21245190327551233,
+        "farm_wins": 41,
+        "paired_cells_won": 144,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.20560456068574595,
+          -0.5442610414493565,
+          -0.43062588631840315,
+          -0.6343124102604514,
+          -0.5893199657261872
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6971715247611112,
+          -0.2827761738049059
+        ]
+      },
+      "farms_both_metrics_improved": 48,
+      "farms_both_all5_seeds_improved": 9
+    },
+    {
+      "candidate": "W0_P2_HEAD_E1",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08659960576655336,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.000729492494344619,
+        "farm_mean_change_median": -0.0469465369940969,
+        "farm_wins": 34,
+        "paired_cells_won": 137,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.2428656143189878,
+          -0.13657950496441806,
+          -0.14249202501842584,
+          -0.0024473834921656668,
+          0.0438773885512278
+        ],
+        "farm_bootstrap95_percent": [
+          -0.07110977353851355,
+          0.07244425703745781
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13523202221565261,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.05220562863497147,
+        "farm_mean_change_median": -0.0010485284496430936,
+        "farm_wins": 28,
+        "paired_cells_won": 116,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.33422762953152496,
+          0.08747422057084897,
+          -0.24138464370633272,
+          0.10141490040982415,
+          -0.020458230437236935
+        ],
+        "farm_bootstrap95_percent": [
+          -0.03267283002164584,
+          0.1366006516247281
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1952026723367268,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.02245973678207669,
+        "farm_mean_change_median": 0.01697537027194329,
+        "farm_wins": 25,
+        "paired_cells_won": 122,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.295957051884832,
+          -0.05868420571465416,
+          0.03164009082621266,
+          -0.2653270245910777,
+          0.11337997225047136
+        ],
+        "farm_bootstrap95_percent": [
+          -0.07214703838780423,
+          0.12088311972437811
+        ]
+      },
+      "farms_both_metrics_improved": 25,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "W0_P2_HEAD_E6",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08660180472012222,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.0032687299315048435,
+        "farm_mean_change_median": -0.07572384711491686,
+        "farm_wins": 33,
+        "paired_cells_won": 143,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.27310242496296766,
+          -0.2028447338619399,
+          -0.2154043064677147,
+          0.07740260052744308,
+          0.08596131866365209
+        ],
+        "farm_bootstrap95_percent": [
+          -0.1029405314127646,
+          0.11130772207903813
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13520356365801992,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.031150397680712594,
+        "farm_mean_change_median": -0.082018382661464,
+        "farm_wins": 31,
+        "paired_cells_won": 142,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.46998130090609713,
+          -0.09611031024834293,
+          -0.21105912249401726,
+          0.07721066505623764,
+          -0.08341998579197707
+        ],
+        "farm_bootstrap95_percent": [
+          -0.10207040190411215,
+          0.16548126416709494
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1947597625716981,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.2044886118716227,
+        "farm_mean_change_median": -0.08898114146778102,
+        "farm_wins": 31,
+        "paired_cells_won": 136,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.3173682556885993,
+          -0.40167542639752973,
+          -0.12090085116338578,
+          -0.5162304577213117,
+          -0.29333521385161987
+        ],
+        "farm_bootstrap95_percent": [
+          -0.45506941085160846,
+          0.029624418606605706
+        ]
+      },
+      "farms_both_metrics_improved": 28,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "W0_P2_HEAD",
+      "reference": "TF_P2_HEAD",
+      "mae": {
+        "candidate_mean": 0.08628063382880884,
+        "reference_mean": 0.0861986615146239,
+        "change_percent": 0.09509696872849194,
+        "farm_mean_change_median": 0.13787819814889968,
+        "farm_wins": 22,
+        "paired_cells_won": 117,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.010044830574085228,
+          0.1609072734475303,
+          0.1606692069019644,
+          0.2952150020926636,
+          -0.13136680155898528
+        ],
+        "farm_bootstrap95_percent": [
+          -0.09619812865004906,
+          0.27178139721164396
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13472244437611955,
+        "reference_mean": 0.1341757085948346,
+        "change_percent": 0.40747746891793835,
+        "farm_mean_change_median": 0.3373907070997495,
+        "farm_wins": 13,
+        "paired_cells_won": 94,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.11069082695844834,
+          0.6126831370000918,
+          -0.18946091721980807,
+          1.157892686782036,
+          0.3469302984604683
+        ],
+        "farm_bootstrap95_percent": [
+          0.20123033741336505,
+          0.614300589157798
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19421880670157143,
+        "reference_mean": 0.19318825278722046,
+        "change_percent": 0.5334454344312789,
+        "farm_mean_change_median": 1.0843395089127128,
+        "farm_wins": 12,
+        "paired_cells_won": 84,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.2198490765656036,
+          -0.6622741938457466,
+          0.8083287201498424,
+          2.1967593906840666,
+          0.132820058327221
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4795383134685727,
+          1.2620059499920693
+        ]
+      },
+      "farms_both_metrics_improved": 12,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "W0_P2_HEAD_E1",
+      "reference": "TF_P2_HEAD_E1",
+      "mae": {
+        "candidate_mean": 0.08659960576655336,
+        "reference_mean": 0.08662679671471266,
+        "change_percent": -0.0313886109039041,
+        "farm_mean_change_median": 0.05937811764160639,
+        "farm_wins": 25,
+        "paired_cells_won": 133,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.0608162473738072,
+          -0.05494394859114626,
+          0.04126716841157396,
+          0.23990925781944838,
+          -0.3219862539804996
+        ],
+        "farm_bootstrap95_percent": [
+          -0.20969227417782593,
+          0.13361083590750553
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13523202221565261,
+        "reference_mean": 0.13470209202312333,
+        "change_percent": 0.39340902919184906,
+        "farm_mean_change_median": 0.34503420515312744,
+        "farm_wins": 12,
+        "paired_cells_won": 92,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.18477121508491123,
+          0.6642741671313956,
+          -0.3736254338543965,
+          1.2227492203290113,
+          0.27151756025791673
+        ],
+        "farm_bootstrap95_percent": [
+          0.20239904986229795,
+          0.5786574473226203
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1952026723367268,
+        "reference_mean": 0.194279819111125,
+        "change_percent": 0.47501239697673725,
+        "farm_mean_change_median": 0.9834070592645849,
+        "farm_wins": 12,
+        "paired_cells_won": 94,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.11642210792739416,
+          -0.42297901414131145,
+          0.6189074717362075,
+          2.0542564749078895,
+          0.03261804260179524
+        ],
+        "farm_bootstrap95_percent": [
+          -0.46460993258968375,
+          1.195911346214933
+        ]
+      },
+      "farms_both_metrics_improved": 11,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "W0_P2_HEAD_E6",
+      "reference": "TF_P2_HEAD_E6",
+      "mae": {
+        "candidate_mean": 0.08660180472012222,
+        "reference_mean": 0.08651127813301165,
+        "change_percent": 0.10464137054058131,
+        "farm_mean_change_median": 0.12211919553379857,
+        "farm_wins": 21,
+        "paired_cells_won": 123,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.025147047081319762,
+          0.028228971385946267,
+          0.12112890125037801,
+          0.48191394548784405,
+          -0.13275314873233413
+        ],
+        "farm_bootstrap95_percent": [
+          -0.05808838960760565,
+          0.2576829001261654
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13520356365801992,
+        "reference_mean": 0.13459072299010957,
+        "change_percent": 0.45533648552833483,
+        "farm_mean_change_median": 0.3432999163978101,
+        "farm_wins": 10,
+        "paired_cells_won": 93,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.27556104117882896,
+          0.5710546826728446,
+          -0.18036383592426875,
+          1.2885006111933661,
+          0.323393671335781
+        ],
+        "farm_bootstrap95_percent": [
+          0.2768405901033216,
+          0.6322764093111305
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1947597625716981,
+        "reference_mean": 0.19382391916885178,
+        "change_percent": 0.48283174071568347,
+        "farm_mean_change_median": 1.0303158013206248,
+        "farm_wins": 14,
+        "paired_cells_won": 89,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.39981654354628304,
+          -0.5959985077120589,
+          0.7322429102988748,
+          1.7922248642451954,
+          0.10525647494525892
+        ],
+        "farm_bootstrap95_percent": [
+          -0.34882294497524413,
+          1.1439197189116266
+        ]
+      },
+      "farms_both_metrics_improved": 9,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "W0_P0_SHARED_Z1",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.09003339783114353,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 3.965894326041175,
+        "farm_mean_change_median": 3.9758992563836193,
+        "farm_wins": 2,
+        "paired_cells_won": 10,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          3.788434867089774,
+          4.234424280202442,
+          3.6929776891153177,
+          3.8706351943012196,
+          4.243396835453428
+        ],
+        "farm_bootstrap95_percent": [
+          3.5245845880263698,
+          4.356390604878796
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1329787905886385,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -1.6148610200871216,
+        "farm_mean_change_median": -1.2659733530696715,
+        "farm_wins": 53,
+        "paired_cells_won": 259,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 48,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -1.5149374885199185,
+          -1.3384419745229081,
+          -1.6635119193662895,
+          -2.1169747855565357,
+          -1.435312745568651
+        ],
+        "farm_bootstrap95_percent": [
+          -2.0952565687810543,
+          -1.237384662596768
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19041401660701165,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -2.431262434052295,
+        "farm_mean_change_median": -2.1927846082994584,
+        "farm_wins": 43,
+        "paired_cells_won": 214,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 33,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -1.9679131282251405,
+          -1.9112257496648577,
+          -2.9406944358462805,
+          -3.2784268432515695,
+          -2.044112436413459
+        ],
+        "farm_bootstrap95_percent": [
+          -3.6753816820853493,
+          -1.2306364934623957
+        ]
+      },
+      "farms_both_metrics_improved": 2,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "W0_P1_FULL_E1_Z1",
+      "reference": "W0_P1_FULL_E1",
+      "mae": {
+        "candidate_mean": 0.08970444889030244,
+        "reference_mean": 0.08657191974974418,
+        "change_percent": 3.6184124709415455,
+        "farm_mean_change_median": 3.791612255286436,
+        "farm_wins": 2,
+        "paired_cells_won": 15,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          3.5912186652866884,
+          3.867455229667116,
+          3.656595411872998,
+          3.3859414462399817,
+          3.5925002765177183
+        ],
+        "farm_bootstrap95_percent": [
+          3.132707091298774,
+          4.0450244158742406
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13256260556938362,
+        "reference_mean": 0.13513825280474692,
+        "change_percent": -1.905934982809565,
+        "farm_mean_change_median": -1.475047500035731,
+        "farm_wins": 53,
+        "paired_cells_won": 267,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 53,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.0674219908732194,
+          -1.6188144730546195,
+          -1.651207134723709,
+          -2.4264792168231075,
+          -1.7575887972206883
+        ],
+        "farm_bootstrap95_percent": [
+          -2.436701102505869,
+          -1.4675343670548069
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.18880518300922058,
+        "reference_mean": 0.19463644910825853,
+        "change_percent": -2.9959784643391996,
+        "farm_mean_change_median": -2.781348023809971,
+        "farm_wins": 42,
+        "paired_cells_won": 210,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 37,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.944566848472252,
+          -2.554498909398739,
+          -3.417176762477725,
+          -3.2914778491790253,
+          -2.7665510825097495
+        ],
+        "farm_bootstrap95_percent": [
+          -4.403988478808583,
+          -1.615313708009909
+        ]
+      },
+      "farms_both_metrics_improved": 2,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "INDEPENDENT_TF_BASE",
+      "reference": "TF_BASE",
+      "mae": {
+        "candidate_mean": 0.09229724873255915,
+        "reference_mean": 0.08952809526673024,
+        "change_percent": 3.093055266705713,
+        "farm_mean_change_median": 2.9245635783836876,
+        "farm_wins": 5,
+        "paired_cells_won": 23,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          3.4084174048721216,
+          2.785396843263177,
+          3.6790943447974733,
+          3.1679479521515397,
+          2.4316247243534317
+        ],
+        "farm_bootstrap95_percent": [
+          2.5202450739044635,
+          3.708440145760001
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1411158234228353,
+        "reference_mean": 0.1385444421365473,
+        "change_percent": 1.8559974305961013,
+        "farm_mean_change_median": 1.7358880121710163,
+        "farm_wins": 8,
+        "paired_cells_won": 53,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.8548578481892841,
+          2.166427427316342,
+          2.287881770885547,
+          1.3091959623923177,
+          1.6679349942606336
+        ],
+        "farm_bootstrap95_percent": [
+          1.3368520802844752,
+          2.3768725338395567
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19429599186157182,
+        "reference_mean": 0.19561684935364645,
+        "change_percent": -0.6752268510810788,
+        "farm_mean_change_median": -0.432226949312875,
+        "farm_wins": 30,
+        "paired_cells_won": 147,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 12,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.1838548486089442,
+          -0.18005019172879777,
+          0.8941892809947838,
+          -1.7467116834756213,
+          -2.4501306096436526
+        ],
+        "farm_bootstrap95_percent": [
+          -2.4480411764698897,
+          1.440950118420319
+        ]
+      },
+      "farms_both_metrics_improved": 5,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "INDEPENDENT_TF_R3",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08923156776648797,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 2.851669812974955,
+        "farm_mean_change_median": 2.6559501944356967,
+        "farm_wins": 4,
+        "paired_cells_won": 27,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          3.120148623513841,
+          2.887355851723905,
+          3.0876215355283065,
+          2.6145546976636513,
+          2.5502473604377185
+        ],
+        "farm_bootstrap95_percent": [
+          2.269064053303153,
+          3.4522153295290567
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13719639815138757,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 1.7359681445271669,
+        "farm_mean_change_median": 1.6113664092805458,
+        "farm_wins": 9,
+        "paired_cells_won": 57,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.7552365568686223,
+          1.9421550820174494,
+          1.5122406546756562,
+          1.6742738241135369,
+          1.7971851278601347
+        ],
+        "farm_bootstrap95_percent": [
+          1.236212842409365,
+          2.2292671114043707
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1928737365483939,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": -0.5587487167670102,
+        "farm_mean_change_median": 0.21210047373094731,
+        "farm_wins": 24,
+        "paired_cells_won": 141,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 16,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.3954855832537185,
+          -0.4461280533974987,
+          -0.687194221079579,
+          0.3714166181123302,
+          -1.6176288016170326
+        ],
+        "farm_bootstrap95_percent": [
+          -2.380163197277219,
+          1.4713701775665193
+        ]
+      },
+      "farms_both_metrics_improved": 3,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "TF_P1_FULL",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08592761545489164,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.9565902090768241,
+        "farm_mean_change_median": -0.8048361378187208,
+        "farm_wins": 55,
+        "paired_cells_won": 228,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 30,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.6021432476262523,
+          -1.1089485727235227,
+          -0.9191589212458995,
+          -0.9358496791046833,
+          -1.2154466862333457
+        ],
+        "farm_bootstrap95_percent": [
+          -1.1759839046967457,
+          -0.7582169395088013
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13391590122791164,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": -0.6966360273163219,
+        "farm_mean_change_median": -0.4917046698620253,
+        "farm_wins": 50,
+        "paired_cells_won": 202,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 18,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.4953278075998657,
+          -0.8422765843245417,
+          -0.7050000222902697,
+          -0.5237719848793843,
+          -0.9174377021446634
+        ],
+        "farm_bootstrap95_percent": [
+          -0.9174355998722028,
+          -0.4984381975941274
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19254147007085418,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": -0.7300576511886314,
+        "farm_mean_change_median": -0.2656045815418562,
+        "farm_wins": 33,
+        "paired_cells_won": 133,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.8941524442975024,
+          -0.5452512916843122,
+          -0.8573241889814232,
+          -0.1349033707624181,
+          -1.2099397522609912
+        ],
+        "farm_bootstrap95_percent": [
+          -1.195926715830654,
+          -0.3137191139951255
+        ]
+      },
+      "farms_both_metrics_improved": 50,
+      "farms_both_all5_seeds_improved": 18
+    },
+    {
+      "candidate": "TF_P1_FULL_E1",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08638384505722801,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.43072276560433,
+        "farm_mean_change_median": -0.45772051960697446,
+        "farm_wins": 39,
+        "paired_cells_won": 195,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 22,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.04877471424874491,
+          -0.503919111861284,
+          -0.4746408797295154,
+          -0.6038965804655683,
+          -0.520787864884098
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6125274818253662,
+          -0.2517070253455554
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13449810287280492,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": -0.2649129733831135,
+        "farm_mean_change_median": -0.2829095721568642,
+        "farm_wins": 39,
+        "paired_cells_won": 171,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 14,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.0732348042279174,
+          -0.4474276018942236,
+          -0.3518012052320052,
+          -0.19796110940418776,
+          -0.40081663129329925
+        ],
+        "farm_bootstrap95_percent": [
+          -0.45682323625388044,
+          -0.07335588476779704
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19371789228912017,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": -0.12352148138505825,
+        "farm_mean_change_median": 0.01270427884190184,
+        "farm_wins": 27,
+        "paired_cells_won": 132,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.21316095061894025,
+          -0.13639065561995567,
+          -0.1002548906270273,
+          0.19548549589738506,
+          -0.358576780114539
+        ],
+        "farm_bootstrap95_percent": [
+          -0.5187821427970953,
+          0.2547481285471697
+        ]
+      },
+      "farms_both_metrics_improved": 36,
+      "farms_both_all5_seeds_improved": 13
+    },
+    {
+      "candidate": "TF_P1_FULL_E6",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.0866174688640489,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.16143915621540383,
+        "farm_mean_change_median": -0.23578719794399294,
+        "farm_wins": 31,
+        "paired_cells_won": 159,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 15,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.34775226077496946,
+          -0.40753059869587105,
+          -0.1430756408659417,
+          -0.13666807094591116,
+          -0.4657201607465078
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4706907876856184,
+          0.14217562525936733
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13500338911099072,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.10977459367105258,
+        "farm_mean_change_median": -0.0009710483853675456,
+        "farm_wins": 28,
+        "paired_cells_won": 140,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 12,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.5326554358023428,
+          -0.19542530275903358,
+          0.023685475306134407,
+          0.35450562796688345,
+          -0.1673209884522575
+        ],
+        "farm_bootstrap95_percent": [
+          -0.2305429880480933,
+          0.45018104223411504
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19280436328054731,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": -0.5945159740604389,
+        "farm_mean_change_median": -0.11303175680873467,
+        "farm_wins": 29,
+        "paired_cells_won": 144,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 10,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.5276036662538175,
+          -0.7565841208113433,
+          -0.7152471794964033,
+          -0.10319404139476074,
+          -0.8609315821477392
+        ],
+        "farm_bootstrap95_percent": [
+          -1.359557156037625,
+          0.12150497101737633
+        ]
+      },
+      "farms_both_metrics_improved": 25,
+      "farms_both_all5_seeds_improved": 10
+    },
+    {
+      "candidate": "TF_P2_HEAD",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.0861986615146239,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.6441722998382082,
+        "farm_mean_change_median": -0.6108005627355029,
+        "farm_wins": 55,
+        "paired_cells_won": 229,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 31,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.43466184353584403,
+          -0.6766292362814674,
+          -0.6298130509773903,
+          -0.7637883826307368,
+          -0.7150281233476941
+        ],
+        "farm_bootstrap95_percent": [
+          -0.7631470777987722,
+          -0.5321295042997141
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1341757085948346,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": -0.503979701340318,
+        "farm_mean_change_median": -0.4100265324430752,
+        "farm_wins": 51,
+        "paired_cells_won": 204,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 17,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.36439655447667585,
+          -0.5798483823150624,
+          -0.5382039598088251,
+          -0.46183208449407376,
+          -0.5757425206778799
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6309685777427456,
+          -0.3865058247218861
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19318825278722046,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": -0.3965913961410328,
+        "farm_mean_change_median": -0.2258452129113464,
+        "farm_wins": 36,
+        "paired_cells_won": 137,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.4565016517223297,
+          -0.06621579163234026,
+          -0.570338287215455,
+          -0.3858281620822912,
+          -0.5044915543670703
+        ],
+        "farm_bootstrap95_percent": [
+          -0.655836801289244,
+          -0.16097059158670776
+        ]
+      },
+      "farms_both_metrics_improved": 51,
+      "farms_both_all5_seeds_improved": 16
+    },
+    {
+      "candidate": "TF_P2_HEAD_E1",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08662679671471266,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.15068752379935324,
+        "farm_mean_change_median": -0.2789605506508863,
+        "farm_wins": 40,
+        "paired_cells_won": 177,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 15,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.045224633694807004,
+          -0.13949491522708968,
+          -0.1329299099883774,
+          -0.3604285396674567,
+          -0.16483558274512644
+        ],
+        "farm_bootstrap95_percent": [
+          -0.26196104150107646,
+          -0.037460969049615565
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13470209202312333,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": -0.11364782372719207,
+        "farm_mean_change_median": -0.20164296724044517,
+        "farm_wins": 40,
+        "paired_cells_won": 160,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 9,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.014100900064129007,
+          -0.19704032578058417,
+          -0.09105217200739979,
+          -0.1345057823814777,
+          -0.1317431037576977
+        ],
+        "farm_bootstrap95_percent": [
+          -0.2266043309438237,
+          0.002165367557495632
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.194279819111125,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.16619503113632916,
+        "farm_mean_change_median": 0.1063368161798417,
+        "farm_wins": 20,
+        "paired_cells_won": 107,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.14715090875474512,
+          0.18036999424138056,
+          0.07933049724524466,
+          0.12369218294032702,
+          0.299176493620501
+        ],
+        "farm_bootstrap95_percent": [
+          0.012029063487036255,
+          0.3199824874529033
+        ]
+      },
+      "farms_both_metrics_improved": 37,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "TF_P2_HEAD_E6",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08651127813301165,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": -0.2838385971220436,
+        "farm_mean_change_median": -0.3636773373944857,
+        "farm_wins": 42,
+        "paired_cells_won": 195,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 19,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.01060465546476319,
+          -0.28873657050746404,
+          -0.2854500917466529,
+          -0.521031992100629,
+          -0.31209133891916263
+        ],
+        "farm_bootstrap95_percent": [
+          -0.42758120873674976,
+          -0.13986958009232012
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13459072299010957,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": -0.19623188969131178,
+        "farm_mean_change_median": -0.2818802819958499,
+        "farm_wins": 38,
+        "paired_cells_won": 176,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 16,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.030531427412117118,
+          -0.28776513363606426,
+          -0.25417426830062206,
+          -0.2234649444667447,
+          -0.24624302219363736
+        ],
+        "farm_bootstrap95_percent": [
+          -0.3477282503001497,
+          -0.04314218093390894
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19382391916885178,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": -0.0688564669624081,
+        "farm_mean_change_median": -0.001943938718917959,
+        "farm_wins": 28,
+        "paired_cells_won": 139,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.11421124818433714,
+          0.010330745695541488,
+          -0.1857122975689407,
+          0.128898206065875,
+          -0.1807769754407884
+        ],
+        "farm_bootstrap95_percent": [
+          -0.36799901618695285,
+          0.2070881158275089
+        ]
+      },
+      "farms_both_metrics_improved": 35,
+      "farms_both_all5_seeds_improved": 11
+    },
+    {
+      "candidate": "TF_P0_SHARED_Z1",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08980494661001132,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 3.512567889383722,
+        "farm_mean_change_median": 3.5700489206127006,
+        "farm_wins": 2,
+        "paired_cells_won": 13,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          3.5988303491268248,
+          3.684104022297885,
+          3.364727175867821,
+          3.2091116079418613,
+          3.706564013797764
+        ],
+        "farm_bootstrap95_percent": [
+          3.0580842981878478,
+          3.89872548848579
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13259527709032146,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": -1.6759254037365112,
+        "farm_mean_change_median": -1.2107223782667598,
+        "farm_wins": 54,
+        "paired_cells_won": 258,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 46,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -1.7982568672152643,
+          -1.4571825230646818,
+          -2.0284755869250715,
+          -1.8007937705945443,
+          -1.2928380706144882
+        ],
+        "farm_bootstrap95_percent": [
+          -2.189105134236116,
+          -1.2572550177481654
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.18957522691711734,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": -2.259384225643757,
+        "farm_mean_change_median": -1.8875276666409757,
+        "farm_wins": 41,
+        "paired_cells_won": 196,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 29,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.3539491961750536,
+          -1.606346857259755,
+          -2.660524891836258,
+          -2.7080065251628205,
+          -1.9773231879969932
+        ],
+        "farm_bootstrap95_percent": [
+          -3.5462421128517287,
+          -1.0014848925319628
+        ]
+      },
+      "farms_both_metrics_improved": 2,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "TF_P1_FULL_E1_Z1",
+      "reference": "TF_P1_FULL_E1",
+      "mae": {
+        "candidate_mean": 0.08937685257818885,
+        "reference_mean": 0.08638384505722801,
+        "change_percent": 3.4647769139912743,
+        "farm_mean_change_median": 3.769126011221857,
+        "farm_wins": 2,
+        "paired_cells_won": 14,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          3.3816882125250913,
+          3.5104601383632694,
+          3.471630556327754,
+          3.4371306678558478,
+          3.5230440574355537
+        ],
+        "farm_bootstrap95_percent": [
+          3.0117256940363712,
+          3.862395490654363
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13214015277348645,
+        "reference_mean": 0.13449810287280492,
+        "change_percent": -1.7531474786290357,
+        "farm_mean_change_median": -1.3988787229722632,
+        "farm_wins": 53,
+        "paired_cells_won": 262,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 50,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -1.9790072424146654,
+          -1.4806108987638233,
+          -1.9349584781767182,
+          -1.8788672956494668,
+          -1.4892694078020519
+        ],
+        "farm_bootstrap95_percent": [
+          -2.2689240078161483,
+          -1.3256562908817828
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1884467715880055,
+        "reference_mean": 0.19371789228912017,
+        "change_percent": -2.7210293477938685,
+        "farm_mean_change_median": -2.1573823410513504,
+        "farm_wins": 42,
+        "paired_cells_won": 206,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 36,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -2.6907331331003648,
+          -2.605488996960803,
+          -2.702374632820592,
+          -2.8850537059031733,
+          -2.7232444245884335
+        ],
+        "farm_bootstrap95_percent": [
+          -4.159179769262714,
+          -1.29451328313091
+        ]
+      },
+      "farms_both_metrics_improved": 2,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "ENC_neutral_E0",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08658018872097077,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.021692303836706728,
+        "farm_mean_change_median": -0.04471587597166815,
+        "farm_wins": 30,
+        "paired_cells_won": 141,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.00824310850007226,
+          -0.2918065046837115,
+          -0.2854311556368061,
+          0.4065911096505337,
+          0.05425578195179526
+        ],
+        "farm_bootstrap95_percent": [
+          -0.16071211685846076,
+          0.12028086559762728
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1348721057640528,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.2140806712708887,
+        "farm_mean_change_median": -0.24334501750733484,
+        "farm_wins": 37,
+        "paired_cells_won": 166,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.016133025516373856,
+          -0.46006333583133996,
+          -0.41109940421243385,
+          0.15116228558325062,
+          -0.36937321284350455
+        ],
+        "farm_bootstrap95_percent": [
+          -0.3716537276604673,
+          -0.05695585872474996
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19480230858470898,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.18268790175633987,
+        "farm_mean_change_median": -0.6985867995501271,
+        "farm_wins": 43,
+        "paired_cells_won": 184,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 13,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          0.9806887425974464,
+          -0.22501430769685804,
+          -0.38974789053349834,
+          -1.1510238540478612,
+          -0.10729133865226004
+        ],
+        "farm_bootstrap95_percent": [
+          -0.8977599151531015,
+          0.8198519242675217
+        ]
+      },
+      "farms_both_metrics_improved": 28,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "ENC_neutral_E1",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08655575940613112,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.049902008526958586,
+        "farm_mean_change_median": -0.041779988615020525,
+        "farm_wins": 31,
+        "paired_cells_won": 145,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 8,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.22576026677330052,
+          0.007305116757128083,
+          -0.3677196958917883,
+          0.15369582514854763,
+          0.1830008569028374
+        ],
+        "farm_bootstrap95_percent": [
+          -0.23550811195602678,
+          0.13833535996252255
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13471514912664073,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.33020596100508115,
+        "farm_mean_change_median": -0.3300368974965773,
+        "farm_wins": 40,
+        "paired_cells_won": 172,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 9,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.01841916503102503,
+          -0.2366643654776901,
+          -0.3992588454170831,
+          -0.8207525782352509,
+          -0.17016435639840566
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4981611998171495,
+          -0.16204936872607742
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19681737398606514,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.8498379113454746,
+        "farm_mean_change_median": 0.26872490051097486,
+        "farm_wins": 22,
+        "paired_cells_won": 132,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          1.3022379875927914,
+          0.633132770110012,
+          -0.3125220481034363,
+          0.9448645460453875,
+          1.6880523032136718
+        ],
+        "farm_bootstrap95_percent": [
+          -0.20632127317572965,
+          2.232213392378228
+        ]
+      },
+      "farms_both_metrics_improved": 30,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "ENC_neutral_E2L",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08636119457379265,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.2745753773628512,
+        "farm_mean_change_median": -0.32811503766705385,
+        "farm_wins": 38,
+        "paired_cells_won": 170,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -1.0097456103480562,
+          -0.26847794869953034,
+          -0.3190478752832737,
+          0.030052740376285136,
+          0.19199021285212226
+        ],
+        "farm_bootstrap95_percent": [
+          -0.4307787053693657,
+          -0.11296365012176138
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13456416381499173,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.4419133303138034,
+        "farm_mean_change_median": -0.5053788744978416,
+        "farm_wins": 45,
+        "paired_cells_won": 175,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 9,
+        "seed_macro_wins": 5,
+        "per_seed_change_percent": [
+          -0.577087039593005,
+          -0.1620792478304489,
+          -0.19737574396360147,
+          -1.2029544289008265,
+          -0.06293924052787059
+        ],
+        "farm_bootstrap95_percent": [
+          -0.5896455722045019,
+          -0.29022686488134836
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1942541062435345,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.46358849569466676,
+        "farm_mean_change_median": -1.0972682651323562,
+        "farm_wins": 41,
+        "paired_cells_won": 174,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.5059384684954704,
+          -0.889775196084952,
+          -1.006382382644866,
+          -0.7498435905676004,
+          0.8325385959311538
+        ],
+        "farm_bootstrap95_percent": [
+          -1.188490324503562,
+          0.5644906671187452
+        ]
+      },
+      "farms_both_metrics_improved": 36,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "ENC_neutral_E2N",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08659199270809592,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.008061672230630368,
+        "farm_mean_change_median": -0.033497132240467575,
+        "farm_wins": 29,
+        "paired_cells_won": 151,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.40361798493289136,
+          -0.08843006729335467,
+          0.058458105921865844,
+          0.09982561948538304,
+          0.2923586206253104
+        ],
+        "farm_bootstrap95_percent": [
+          -0.1511292879570139,
+          0.1433446056003301
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13518047098578745,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.01406514854471741,
+        "farm_mean_change_median": -0.027918244498270628,
+        "farm_wins": 28,
+        "paired_cells_won": 147,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.1394191051967919,
+          -0.09342623262922345,
+          0.04665368323717445,
+          0.10855839287151614,
+          0.1467417820041783
+        ],
+        "farm_bootstrap95_percent": [
+          -0.14084463477831544,
+          0.17477725575383343
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19546120752665022,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.15493397658166153,
+        "farm_mean_change_median": 0.09073805149597547,
+        "farm_wins": 27,
+        "paired_cells_won": 139,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          1.495319583592991,
+          -1.2268448330802317,
+          -0.2421456784366116,
+          -0.2513560209776222,
+          1.0133599978481511
+        ],
+        "farm_bootstrap95_percent": [
+          -0.19528795205685817,
+          0.5559647122240872
+        ]
+      },
+      "farms_both_metrics_improved": 24,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "ENC_neutral_E2",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08649463259804403,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": -0.12048807351130453,
+        "farm_mean_change_median": -0.08257493140438887,
+        "farm_wins": 31,
+        "paired_cells_won": 161,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 11,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.27913604311774476,
+          -0.18124958573830785,
+          0.27719653254745236,
+          -0.45455917964669634,
+          0.03502440550726682
+        ],
+        "farm_bootstrap95_percent": [
+          -0.22839738548256716,
+          -0.012499424624636548
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13497047690272734,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": -0.1413002067527147,
+        "farm_mean_change_median": -0.20568817219331903,
+        "farm_wins": 36,
+        "paired_cells_won": 163,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.06933751076485528,
+          -0.07377997325104246,
+          0.03765212178965527,
+          -0.47595964894565634,
+          -0.12158711481720097
+        ],
+        "farm_bootstrap95_percent": [
+          -0.26539043664078943,
+          -0.016189897667494575
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19628527837862697,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.5771904581421072,
+        "farm_mean_change_median": 0.40910017453701375,
+        "farm_wins": 19,
+        "paired_cells_won": 109,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.3705862759330945,
+          0.08224683917961162,
+          0.4495580560235579,
+          0.42985684853151795,
+          0.5632718548516547
+        ],
+        "farm_bootstrap95_percent": [
+          0.10793554736659162,
+          1.118104207871426
+        ]
+      },
+      "farms_both_metrics_improved": 27,
+      "farms_both_all5_seeds_improved": 6
+    },
+    {
+      "candidate": "ENC_neutral_E3",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08661388984907033,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.017224009521110695,
+        "farm_mean_change_median": -0.05608869961563068,
+        "farm_wins": 30,
+        "paired_cells_won": 133,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.25628903866483643,
+          0.038486728395281666,
+          0.17477441140125727,
+          -0.15368438929317385,
+          0.28240587573307163
+        ],
+        "farm_bootstrap95_percent": [
+          -0.0808533304868303,
+          0.11954057984644605
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.135259257482773,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.07235580092133098,
+        "farm_mean_change_median": -0.01947746370440928,
+        "farm_wins": 28,
+        "paired_cells_won": 127,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.04126458873756622,
+          0.2727029094100386,
+          0.05653616380303372,
+          -0.3899625758776337,
+          0.38572816947037847
+        ],
+        "farm_bootstrap95_percent": [
+          -0.03770773275161843,
+          0.18551335094914465
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19473266002196432,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": -0.21837604310942504,
+        "farm_mean_change_median": -0.3060562763926744,
+        "farm_wins": 34,
+        "paired_cells_won": 137,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.9346144051058936,
+          0.2654562165473884,
+          -1.0604582671736473,
+          -1.9431173430934034,
+          0.7393865175397529
+        ],
+        "farm_bootstrap95_percent": [
+          -0.49622538889293855,
+          0.10210036983216982
+        ]
+      },
+      "farms_both_metrics_improved": 27,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "ENC_cbh_E0",
+      "reference": "M2_CBH",
+      "mae": {
+        "candidate_mean": 0.08654478715902558,
+        "reference_mean": 0.08661864394662948,
+        "change_percent": -0.08526661725321016,
+        "farm_mean_change_median": -0.03309997295459777,
+        "farm_wins": 30,
+        "paired_cells_won": 153,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.12758246578559174,
+          -0.3916540632162735,
+          -0.6657338358799669,
+          0.3987782230950865,
+          0.10928733435733307
+        ],
+        "farm_bootstrap95_percent": [
+          -0.2076171500932511,
+          0.03704640054425278
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13481063774644433,
+        "reference_mean": 0.13503182923791732,
+        "change_percent": -0.16380692813044995,
+        "farm_mean_change_median": -0.1023914294173589,
+        "farm_wins": 36,
+        "paired_cells_won": 160,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.38093866460136017,
+          -0.5695874620689878,
+          -0.844322492408911,
+          0.49215089935039646,
+          -0.27796382986953194
+        ],
+        "farm_bootstrap95_percent": [
+          -0.2954633934753456,
+          -0.034528870964356556
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1943517908198829,
+        "reference_mean": 0.19438118638194743,
+        "change_percent": -0.015122637438147457,
+        "farm_mean_change_median": -0.6035225749254525,
+        "farm_wins": 42,
+        "paired_cells_won": 167,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 7,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.6375659769709996,
+          -1.1747860554912393,
+          -0.5123581982166892,
+          0.9251854803544068,
+          0.06951160669965706
+        ],
+        "farm_bootstrap95_percent": [
+          -0.6670944378186616,
+          0.8882060307998967
+        ]
+      },
+      "farms_both_metrics_improved": 28,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "ENC_cbh_E1",
+      "reference": "M2_CBH",
+      "mae": {
+        "candidate_mean": 0.08652687237213481,
+        "reference_mean": 0.08661864394662948,
+        "change_percent": -0.10594898547616749,
+        "farm_mean_change_median": -0.10444750132967417,
+        "farm_wins": 30,
+        "paired_cells_won": 149,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.21210531400903676,
+          -0.298364313497701,
+          -0.4683854281001487,
+          0.33080127726847763,
+          0.11988245175726941
+        ],
+        "farm_bootstrap95_percent": [
+          -0.25976489485079995,
+          0.04315480224294946
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1347314846623239,
+        "reference_mean": 0.13503182923791732,
+        "change_percent": -0.22242502178076995,
+        "farm_mean_change_median": -0.25291799228391865,
+        "farm_wins": 38,
+        "paired_cells_won": 167,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 10,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.1273449136793059,
+          -0.3043930856126975,
+          -0.6830190771216604,
+          0.3761313101638297,
+          -0.3755268119293942
+        ],
+        "farm_bootstrap95_percent": [
+          -0.3689820722478254,
+          -0.082515530590761
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19553580548538238,
+        "reference_mean": 0.19438118638194743,
+        "change_percent": 0.593997353821174,
+        "farm_mean_change_median": 0.09428798287123286,
+        "farm_wins": 25,
+        "paired_cells_won": 133,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.8212651910187718,
+          0.000820275553925498,
+          -0.34695102084744134,
+          1.304117769694324,
+          1.2043339751315774
+        ],
+        "farm_bootstrap95_percent": [
+          -0.1782440833267937,
+          1.6503434579693832
+        ]
+      },
+      "farms_both_metrics_improved": 29,
+      "farms_both_all5_seeds_improved": 3
+    },
+    {
+      "candidate": "ENC_cbh_E2L",
+      "reference": "M2_CBH",
+      "mae": {
+        "candidate_mean": 0.08653951725603203,
+        "reference_mean": 0.08661864394662948,
+        "change_percent": -0.09135064576422103,
+        "farm_mean_change_median": -0.1671420423181691,
+        "farm_wins": 32,
+        "paired_cells_won": 152,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.14628164375948272,
+          -0.1795048704376856,
+          -0.39756118329012935,
+          0.2285311043510152,
+          0.039290652159618134
+        ],
+        "farm_bootstrap95_percent": [
+          -0.2242060473345281,
+          0.039539464404698105
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13468868224559544,
+        "reference_mean": 0.13503182923791732,
+        "change_percent": -0.25412304214385006,
+        "farm_mean_change_median": -0.28154565672536824,
+        "farm_wins": 37,
+        "paired_cells_won": 158,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.02059181890494699,
+          -0.4316368036749507,
+          -0.4531826816353668,
+          -0.5375815355659008,
+          0.13512265659079148
+        ],
+        "farm_bootstrap95_percent": [
+          -0.38314565542198586,
+          -0.1264917909104949
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19397179797792397,
+        "reference_mean": 0.19438118638194743,
+        "change_percent": -0.21061112530665893,
+        "farm_mean_change_median": -0.6520177723420284,
+        "farm_wins": 36,
+        "paired_cells_won": 167,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.5950534281129349,
+          -2.3867751339081478,
+          -1.3971962051903986,
+          2.466895007160108,
+          0.8899882421980143
+        ],
+        "farm_bootstrap95_percent": [
+          -0.881954878716166,
+          0.7032012376370327
+        ]
+      },
+      "farms_both_metrics_improved": 30,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "ENC_cbh_E2N",
+      "reference": "M2_CBH",
+      "mae": {
+        "candidate_mean": 0.08651614867091081,
+        "reference_mean": 0.08661864394662948,
+        "change_percent": -0.11832934694961939,
+        "farm_mean_change_median": -0.20821608641095057,
+        "farm_wins": 37,
+        "paired_cells_won": 161,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 6,
+        "seed_macro_wins": 4,
+        "per_seed_change_percent": [
+          -0.13884028520485536,
+          -0.2912345970639496,
+          -0.011422666915639201,
+          -0.2581311120525065,
+          0.10846705925182665
+        ],
+        "farm_bootstrap95_percent": [
+          -0.2434122991398685,
+          0.012236031766524252
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13494953120287406,
+        "reference_mean": 0.13503182923791732,
+        "change_percent": -0.06094713780278038,
+        "farm_mean_change_median": -0.05767907322261623,
+        "farm_wins": 32,
+        "paired_cells_won": 150,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 5,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.07937009822089891,
+          -0.2660995409265676,
+          -0.19168739153406777,
+          -0.3167242645083168,
+          0.39356082026777983
+        ],
+        "farm_bootstrap95_percent": [
+          -0.20231041951628864,
+          0.08349915748914025
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19527308699266827,
+        "reference_mean": 0.19438118638194743,
+        "change_percent": 0.45884101610960126,
+        "farm_mean_change_median": 0.0029064214747576145,
+        "farm_wins": 27,
+        "paired_cells_won": 140,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.7662471325269093,
+          -0.12371384890307313,
+          -0.7461450964355798,
+          0.6729308774394926,
+          1.7329162725841174
+        ],
+        "farm_bootstrap95_percent": [
+          0.10870302304348989,
+          0.8410643357236895
+        ]
+      },
+      "farms_both_metrics_improved": 31,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "ENC_cbh_E2",
+      "reference": "M2_CBH",
+      "mae": {
+        "candidate_mean": 0.08668471051403552,
+        "reference_mean": 0.08661864394662948,
+        "change_percent": 0.07627291815690551,
+        "farm_mean_change_median": -0.03930485844566567,
+        "farm_wins": 28,
+        "paired_cells_won": 131,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.09543971107512927,
+          -0.22443391568979232,
+          -0.06484198088221316,
+          0.4852012968847186,
+          0.091360979585553
+        ],
+        "farm_bootstrap95_percent": [
+          -0.01852305959318956,
+          0.17610959539859966
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13517335379519668,
+        "reference_mean": 0.13503182923791732,
+        "change_percent": 0.10480829451700036,
+        "farm_mean_change_median": 0.14546417192573546,
+        "farm_wins": 22,
+        "paired_cells_won": 124,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.16999679681743984,
+          0.06524329523991401,
+          -0.22221317881825353,
+          0.46683328246592826,
+          0.0431556908616848
+        ],
+        "farm_bootstrap95_percent": [
+          -0.008746775863992529,
+          0.21563853783704562
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19551084914121894,
+        "reference_mean": 0.19438118638194743,
+        "change_percent": 0.5811584857043695,
+        "farm_mean_change_median": 0.33160967237517713,
+        "farm_wins": 22,
+        "paired_cells_won": 108,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.728129144918177,
+          -0.6377790943517314,
+          0.6052459786521025,
+          1.72689662807477,
+          0.49924303355735056
+        ],
+        "farm_bootstrap95_percent": [
+          0.2552418614558344,
+          0.9155890109417807
+        ]
+      },
+      "farms_both_metrics_improved": 19,
+      "farms_both_all5_seeds_improved": 1
+    },
+    {
+      "candidate": "ENC_cbh_E3",
+      "reference": "M2_CBH",
+      "mae": {
+        "candidate_mean": 0.0866749595687488,
+        "reference_mean": 0.08661864394662948,
+        "change_percent": 0.06501558966220955,
+        "farm_mean_change_median": 0.012822338425189095,
+        "farm_wins": 25,
+        "paired_cells_won": 124,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.054865234837353505,
+          -0.28496109033656625,
+          0.25007162110561865,
+          0.10698649661931015,
+          0.3078779790043784
+        ],
+        "farm_bootstrap95_percent": [
+          -0.04228422052636821,
+          0.1801073287632798
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1350747798172659,
+        "reference_mean": 0.13503182923791732,
+        "change_percent": 0.0318077445821352,
+        "farm_mean_change_median": -0.03390741638141792,
+        "farm_wins": 31,
+        "paired_cells_won": 137,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.06604024267977682,
+          -0.10028618764669206,
+          0.09933341121002304,
+          -0.2960376869125647,
+          0.3924314306273713
+        ],
+        "farm_bootstrap95_percent": [
+          -0.07993628827986515,
+          0.14773857249729958
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19484978215995144,
+        "reference_mean": 0.19438118638194743,
+        "change_percent": 0.24107054120106053,
+        "farm_mean_change_median": 0.1865948519852889,
+        "farm_wins": 22,
+        "paired_cells_won": 115,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          1.1773436149661531,
+          -0.680103830460288,
+          -0.4438449569675096,
+          0.24579938886040154,
+          0.9180637141450232
+        ],
+        "farm_bootstrap95_percent": [
+          -0.04961058267196699,
+          0.532841240335733
+        ]
+      },
+      "farms_both_metrics_improved": 24,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_LOCAL_SEL",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08814547983845997,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 1.785824626886967,
+        "farm_mean_change_median": 1.8229679984509417,
+        "farm_wins": 1,
+        "paired_cells_won": 10,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.9402040362330952,
+          1.4651538421178278,
+          1.6331610054787005,
+          2.1062450225274754,
+          1.7850472530979156
+        ],
+        "farm_bootstrap95_percent": [
+          1.5368087173220457,
+          2.029966544952416
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13735492523049003,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 1.622847888435297,
+        "farm_mean_change_median": 1.5549837582536252,
+        "farm_wins": 0,
+        "paired_cells_won": 16,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.8071114165301605,
+          1.3082642661643717,
+          1.5708784550572785,
+          1.8634873790576156,
+          1.562880053741278
+        ],
+        "farm_bootstrap95_percent": [
+          1.3901003822804665,
+          1.8518235862464971
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19616839664396798,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.5172998917940763,
+        "farm_mean_change_median": 0.5391629992678837,
+        "farm_wins": 16,
+        "paired_cells_won": 91,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          1.3106287893606572,
+          0.7106661905400768,
+          0.6471440687439545,
+          -0.06640690045925934,
+          -0.0004586967797814978
+        ],
+        "farm_bootstrap95_percent": [
+          0.22711705971254714,
+          0.8005687951510942
+        ]
+      },
+      "farms_both_metrics_improved": 0,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_NO_SEL",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08745473718673522,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.9881908680190676,
+        "farm_mean_change_median": 0.963907641759354,
+        "farm_wins": 3,
+        "paired_cells_won": 55,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.0134198051859666,
+          1.1528672698770892,
+          1.1021886415305993,
+          0.3096363942598268,
+          1.3648832903165875
+        ],
+        "farm_bootstrap95_percent": [
+          0.7898111352639231,
+          1.196158163119491
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1365731849033512,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 1.044472717542999,
+        "farm_mean_change_median": 0.9488778209532533,
+        "farm_wins": 3,
+        "paired_cells_won": 51,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.057211319377882,
+          0.8969970833525798,
+          1.294534843795092,
+          0.4328030600479371,
+          1.5473278666239931
+        ],
+        "farm_bootstrap95_percent": [
+          0.8525381161806572,
+          1.2300000596475018
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19669410911594337,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.7866766064251962,
+        "farm_mean_change_median": 1.160400691419694,
+        "farm_wins": 12,
+        "paired_cells_won": 95,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.4509703924964201,
+          0.49559493626636364,
+          0.2704982408076706,
+          0.18065422581763357,
+          1.5467680071713286
+        ],
+        "farm_bootstrap95_percent": [
+          0.09049307936393088,
+          1.4108634493791994
+        ]
+      },
+      "farms_both_metrics_improved": 2,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_NO_NEAR",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08665341113814849,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.06286114266182974,
+        "farm_mean_change_median": 0.04850842361230345,
+        "farm_wins": 20,
+        "paired_cells_won": 119,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.1185920675546015,
+          -0.024692501409828704,
+          0.036250879541888104,
+          0.17314625125288696,
+          0.011041121668298182
+        ],
+        "farm_bootstrap95_percent": [
+          0.016655102940159597,
+          0.1110089670045122
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13534597421961828,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.13651368781923967,
+        "farm_mean_change_median": 0.14289266919000898,
+        "farm_wins": 13,
+        "paired_cells_won": 96,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.2897013775459589,
+          -0.009609288494261126,
+          0.15594143816337613,
+          0.26276450664448614,
+          -0.016993885606841896
+        ],
+        "farm_bootstrap95_percent": [
+          0.09096505609002326,
+          0.18364569407484985
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19556434803876216,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.2077834975254822,
+        "farm_mean_change_median": 0.3039323765392954,
+        "farm_wins": 10,
+        "paired_cells_won": 94,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.7831340046154267,
+          0.14903656578582059,
+          0.3324464647340708,
+          0.07528247803776367,
+          -0.2923960121933522
+        ],
+        "farm_bootstrap95_percent": [
+          0.05837424190258845,
+          0.3483122558384321
+        ]
+      },
+      "farms_both_metrics_improved": 12,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_NO_RINGS",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08718995069727752,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.682429174635546,
+        "farm_mean_change_median": 0.6518994581375281,
+        "farm_wins": 7,
+        "paired_cells_won": 48,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.6682567873115053,
+          0.6282213882625287,
+          0.6518611386749917,
+          0.599340566121076,
+          0.8651847009206959
+        ],
+        "farm_bootstrap95_percent": [
+          0.5156934541805086,
+          0.8486658863271185
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1360068109261943,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.6254376051725963,
+        "farm_mean_change_median": 0.5669850658241549,
+        "farm_wins": 7,
+        "paired_cells_won": 50,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.670455472528908,
+          0.567251719673223,
+          0.6613690180279574,
+          0.6304109493111554,
+          0.5978187769500876
+        ],
+        "farm_bootstrap95_percent": [
+          0.46848313648338247,
+          0.7866018279904723
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.196225596079937,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.546609061656822,
+        "farm_mean_change_median": 0.552112631565338,
+        "farm_wins": 14,
+        "paired_cells_won": 97,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          1.2068869783844027,
+          1.0619569861585632,
+          0.6229499664397009,
+          -0.05161389610386369,
+          -0.0919652361140888
+        ],
+        "farm_bootstrap95_percent": [
+          0.22147052538148526,
+          0.9304604034944863
+        ]
+      },
+      "farms_both_metrics_improved": 6,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_NO_DENSITY",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08683618070517864,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.2739139513929789,
+        "farm_mean_change_median": 0.26750926889280713,
+        "farm_wins": 11,
+        "paired_cells_won": 90,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.14440726096285328,
+          0.41297077337203447,
+          0.5494833310871305,
+          -0.22421265429551918,
+          0.4872372022302729
+        ],
+        "farm_bootstrap95_percent": [
+          0.19800878732998684,
+          0.3483054620394449
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13539968554196377,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.1762523250136816,
+        "farm_mean_change_median": 0.19590731659420157,
+        "farm_wins": 18,
+        "paired_cells_won": 99,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.056441387126260345,
+          0.24143910072402797,
+          0.46744375562601803,
+          -0.07667967877810211,
+          0.19474660645659725
+        ],
+        "farm_bootstrap95_percent": [
+          0.09267415480879115,
+          0.2575671598728585
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19538386452962306,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.1153031830404494,
+        "farm_mean_change_median": 0.30150792404466387,
+        "farm_wins": 14,
+        "paired_cells_won": 108,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          0.4757127357312596,
+          0.7538430940559726,
+          -0.09764936708785976,
+          -0.4130480309361806,
+          -0.1307996734842276
+        ],
+        "farm_bootstrap95_percent": [
+          -0.13455353693280242,
+          0.3237922423110362
+        ]
+      },
+      "farms_both_metrics_improved": 11,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_NO_DYNAMICS",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08697025115779088,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.4287315506873002,
+        "farm_mean_change_median": 0.33807941412726805,
+        "farm_wins": 4,
+        "paired_cells_won": 65,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.3684102846692072,
+          0.3038593060381345,
+          0.4121121210258094,
+          0.6950681119937352,
+          0.3634343730235079
+        ],
+        "farm_bootstrap95_percent": [
+          0.33633812249860007,
+          0.5239745788893017
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13570982493670383,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.4057107771441082,
+        "farm_mean_change_median": 0.3360635827566849,
+        "farm_wins": 4,
+        "paired_cells_won": 75,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.2399535194879121,
+          -0.02139375010651312,
+          0.5221545566517438,
+          0.887178993797888,
+          0.3957714567977888
+        ],
+        "farm_bootstrap95_percent": [
+          0.31250679966613515,
+          0.5016510880063202
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19655724022324778,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.7165445577960394,
+        "farm_mean_change_median": 0.6632358156767548,
+        "farm_wins": 15,
+        "paired_cells_won": 80,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.4049300009636667,
+          0.2205333165626211,
+          0.696796195362337,
+          0.5603224183915234,
+          0.7080267144884189
+        ],
+        "farm_bootstrap95_percent": [
+          0.4619235705845198,
+          0.9759967774017497
+        ]
+      },
+      "farms_both_metrics_improved": 3,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_NO_STABILITY",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08664651371068768,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.054896351464472914,
+        "farm_mean_change_median": 0.06720738927525893,
+        "farm_wins": 20,
+        "paired_cells_won": 119,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.008841989338748135,
+          0.17671879471254925,
+          0.16047862331045604,
+          -0.20683202760927166,
+          0.15312310225363834
+        ],
+        "farm_bootstrap95_percent": [
+          -0.009968243562032407,
+          0.11602684662122831
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13534502198437115,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.13580917098077183,
+        "farm_mean_change_median": 0.14992831220539404,
+        "farm_wins": 18,
+        "paired_cells_won": 98,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.33132916140521385,
+          0.023198264745727393,
+          0.2508427690159243,
+          -0.018316517877836613,
+          0.0941669608803819
+        ],
+        "farm_bootstrap95_percent": [
+          0.07437944701205457,
+          0.19492134338501327
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1957207658797655,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.28793248840037755,
+        "farm_mean_change_median": 0.4240476133226201,
+        "farm_wins": 17,
+        "paired_cells_won": 119,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          1.1710611479321065,
+          0.12862634539345663,
+          0.2205898005806839,
+          0.264308313304884,
+          -0.3325107484623335
+        ],
+        "farm_bootstrap95_percent": [
+          0.03217933756365255,
+          0.5139551627071687
+        ]
+      },
+      "farms_both_metrics_improved": 14,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_W0_NO_STATE",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.08697777857769703,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 0.43742382445863814,
+        "farm_mean_change_median": 0.3068077629356125,
+        "farm_wins": 15,
+        "paired_cells_won": 94,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.36399748990445513,
+          0.4450047518769873,
+          0.35896013547047634,
+          0.09586371259762139,
+          0.925111438814441
+        ],
+        "farm_bootstrap95_percent": [
+          0.26200086095184316,
+          0.6239609468387675
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13571001251904574,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 0.40584956104112724,
+        "farm_mean_change_median": 0.3439324466049998,
+        "farm_wins": 9,
+        "paired_cells_won": 81,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.4133949349845567,
+          0.6049841882029172,
+          0.7989280044567781,
+          0.2825756115527822,
+          -0.0697963634879839
+        ],
+        "farm_bootstrap95_percent": [
+          0.26898645510711916,
+          0.5427322680664065
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19588975645129955,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.3745237857162298,
+        "farm_mean_change_median": 0.44016757369711446,
+        "farm_wins": 16,
+        "paired_cells_won": 106,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          1.375024238068323,
+          0.009723737546973865,
+          -0.4343473058417202,
+          0.6167806248330132,
+          0.31830189599553194
+        ],
+        "farm_bootstrap95_percent": [
+          0.07635407291734175,
+          0.7062592330881204
+        ]
+      },
+      "farms_both_metrics_improved": 9,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "FACTOR_W0_H0W1",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.0876815611152525,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 1.2501153666042653,
+        "farm_mean_change_median": 1.0897646807401573,
+        "farm_wins": 1,
+        "paired_cells_won": 25,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.2134705025722337,
+          1.1826081496451701,
+          1.1331651216640592,
+          1.113522603866124,
+          1.6091965760058446
+        ],
+        "farm_bootstrap95_percent": [
+          1.0028568505409396,
+          1.5181751263541525
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13698308161679956,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 1.3477372076283078,
+        "farm_mean_change_median": 1.2358743183308984,
+        "farm_wins": 1,
+        "paired_cells_won": 28,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.7046084048397914,
+          1.6822822750466537,
+          1.4362072425953443,
+          1.2839703911149636,
+          0.6326193758935839
+        ],
+        "farm_bootstrap95_percent": [
+          1.1318379137158585,
+          1.5653662537059632
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19627948796077108,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 0.574223429925147,
+        "farm_mean_change_median": 0.3538208321412828,
+        "farm_wins": 21,
+        "paired_cells_won": 112,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          1.3042500350235908,
+          0.6579712136039362,
+          0.6995593779609566,
+          0.2641333437582105,
+          -0.04236157278675323
+        ],
+        "farm_bootstrap95_percent": [
+          0.17246279417780178,
+          1.0119709206811882
+        ]
+      },
+      "farms_both_metrics_improved": 0,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "FACTOR_W0_H1W0",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.10318038724014403,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 19.147355256408538,
+        "farm_mean_change_median": 18.20073358051173,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          19.436551362219024,
+          19.338018082009345,
+          18.913608653665293,
+          18.797188028021793,
+          19.25382429461169
+        ],
+        "farm_bootstrap95_percent": [
+          17.975091600460164,
+          20.403098354271716
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.15867295431008238,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 17.395116868242933,
+        "farm_mean_change_median": 16.49987880456978,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          17.604008749883082,
+          17.310905432275668,
+          17.22005561116866,
+          17.18494802742734,
+          17.658560629486608
+        ],
+        "farm_bootstrap95_percent": [
+          16.224677396140695,
+          18.619512701541886
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.21600509291607445,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 10.681685094292348,
+        "farm_mean_change_median": 11.095835180559899,
+        "farm_wins": 5,
+        "paired_cells_won": 26,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          13.078423420172914,
+          10.522994334514891,
+          10.432719024775139,
+          9.094455383720202,
+          10.321004018787615
+        ],
+        "farm_bootstrap95_percent": [
+          8.535920222974989,
+          13.001665426482544
+        ]
+      },
+      "farms_both_metrics_improved": 0,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "FACTOR_W0_H0W0",
+      "reference": "W0_R3",
+      "mae": {
+        "candidate_mean": 0.10392659680372955,
+        "reference_mean": 0.0865989740335376,
+        "change_percent": 20.009039325894797,
+        "farm_mean_change_median": 19.650197154501804,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          20.402594599090197,
+          19.746565632457802,
+          19.684014322234965,
+          19.839457617969813,
+          20.376474604787465
+        ],
+        "farm_bootstrap95_percent": [
+          18.868089302058223,
+          21.197334364348386
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.15941496014361303,
+        "reference_mean": 0.13516146032561743,
+        "change_percent": 17.944094240744747,
+        "farm_mean_change_median": 17.613128073006013,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          18.3034036626347,
+          18.623186005404957,
+          17.951483972667482,
+          16.490222792901534,
+          18.367279755889232
+        ],
+        "farm_bootstrap95_percent": [
+          16.8540749418544,
+          19.086940175429827
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.2182032159002955,
+        "reference_mean": 0.19515884017491655,
+        "change_percent": 11.808010185305884,
+        "farm_mean_change_median": 12.19309996917084,
+        "farm_wins": 3,
+        "paired_cells_won": 21,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          14.51175061239156,
+          13.00408586312718,
+          9.414719417910566,
+          10.231578941357311,
+          11.934639621641697
+        ],
+        "farm_bootstrap95_percent": [
+          9.624930504456417,
+          14.186282576885622
+        ]
+      },
+      "farms_both_metrics_improved": 0,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_LOCAL_SEL",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08820863952392549,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 1.672604147315826,
+        "farm_mean_change_median": 1.550037927897674,
+        "farm_wins": 0,
+        "paired_cells_won": 23,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.9606595132017457,
+          1.6464793553777834,
+          1.6018204486088594,
+          1.721607836184158,
+          1.433539328448874
+        ],
+        "farm_bootstrap95_percent": [
+          1.4164103540749728,
+          1.9246918951339325
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13670126472665256,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 1.3688092467363688,
+        "farm_mean_change_median": 1.3839397386885333,
+        "farm_wins": 4,
+        "paired_cells_won": 36,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.7172030925610704,
+          1.394898927697219,
+          1.5491406583727052,
+          1.1812892109464457,
+          1.000867451172427
+        ],
+        "farm_bootstrap95_percent": [
+          1.128276018810544,
+          1.6072946824723933
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19506799500395872,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.5725603477277907,
+        "farm_mean_change_median": 0.5409864557594846,
+        "farm_wins": 18,
+        "paired_cells_won": 115,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          1.5770376452450385,
+          -0.01436648516690564,
+          -0.3239482022050044,
+          2.272516683583836,
+          -0.6091558967193822
+        ],
+        "farm_bootstrap95_percent": [
+          0.22750578987193237,
+          0.9394379150454306
+        ]
+      },
+      "farms_both_metrics_improved": 0,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_NO_SEL",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.0878510506146641,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 1.2604336862926502,
+        "farm_mean_change_median": 1.1677118852678303,
+        "farm_wins": 5,
+        "paired_cells_won": 46,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.0423391464114307,
+          1.1665021272262877,
+          1.2955828220903243,
+          1.2449154118216121,
+          1.551875421619453
+        ],
+        "farm_bootstrap95_percent": [
+          1.007435256109452,
+          1.5151087143374398
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13632258747787368,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 1.088006710824918,
+        "farm_mean_change_median": 0.8879257480001845,
+        "farm_wins": 6,
+        "paired_cells_won": 61,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.8868215099753884,
+          0.7150684442483346,
+          0.4478034681743681,
+          1.670348553101575,
+          1.7213582127376448
+        ],
+        "farm_bootstrap95_percent": [
+          0.8347510232639654,
+          1.3512123429769696
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19512390901897608,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.6013883246058116,
+        "farm_mean_change_median": 1.012783880708401,
+        "farm_wins": 9,
+        "paired_cells_won": 97,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          0.6118565721487945,
+          -0.651652076139364,
+          -0.11378531397298053,
+          1.8951404180088005,
+          1.2840784187470033
+        ],
+        "farm_bootstrap95_percent": [
+          -0.02966163445294932,
+          1.1536487861825178
+        ]
+      },
+      "farms_both_metrics_improved": 3,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_NO_NEAR",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08678985918101316,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 0.0372644237302211,
+        "farm_mean_change_median": 0.053864697055860944,
+        "farm_wins": 20,
+        "paired_cells_won": 114,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.07567513044015595,
+          0.08658068019360421,
+          0.028622922397025796,
+          -0.020387182840031493,
+          0.01605615254562931
+        ],
+        "farm_bootstrap95_percent": [
+          0.010152545952236691,
+          0.06519800729926303
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13489368571065496,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.028425653084518387,
+        "farm_mean_change_median": 0.03416317209827824,
+        "farm_wins": 19,
+        "paired_cells_won": 128,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 4,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.021001657447805577,
+          0.04369378781758915,
+          0.02888085370578164,
+          0.045255323020731986,
+          0.0032758684316069875
+        ],
+        "farm_bootstrap95_percent": [
+          -0.0001698129959110113,
+          0.05816334622074647
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19403019028757146,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.03749216565160918,
+        "farm_mean_change_median": 0.07744967607918873,
+        "farm_wins": 21,
+        "paired_cells_won": 122,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.12771878225523725,
+          0.019019594982805366,
+          0.11211270098643311,
+          0.03846561259637227,
+          -0.10851239512329469
+        ],
+        "farm_bootstrap95_percent": [
+          -0.03880479262065556,
+          0.10969473151441145
+        ]
+      },
+      "farms_both_metrics_improved": 18,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_NO_RINGS",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.0874413655771292,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 0.7882152633447825,
+        "farm_mean_change_median": 0.8718166444911635,
+        "farm_wins": 7,
+        "paired_cells_won": 44,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.5949653588515957,
+          0.819981091422739,
+          0.7560725068704199,
+          0.5964145385022102,
+          1.1729162159420214
+        ],
+        "farm_bootstrap95_percent": [
+          0.6041497292535225,
+          0.9731087330988302
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1358969066606834,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.7723493711211615,
+        "farm_mean_change_median": 0.7241950203705105,
+        "farm_wins": 5,
+        "paired_cells_won": 48,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.5504424789477769,
+          0.6818476307993704,
+          0.685282831834022,
+          1.2845138894365338,
+          0.6590256847236908
+        ],
+        "farm_bootstrap95_percent": [
+          0.6085270020707012,
+          0.9390712849987176
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.1946805194163272,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.37278686915405146,
+        "farm_mean_change_median": 0.22243434236739468,
+        "farm_wins": 20,
+        "paired_cells_won": 120,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          1.2293441842595954,
+          0.4605306542142529,
+          -0.882311195374097,
+          1.2389684837608606,
+          -0.16001198396919936
+        ],
+        "farm_bootstrap95_percent": [
+          0.048781124104154694,
+          0.7306467182270175
+        ]
+      },
+      "farms_both_metrics_improved": 4,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_NO_DENSITY",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.0869764177226951,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 0.25229883375061934,
+        "farm_mean_change_median": 0.1904016951280063,
+        "farm_wins": 18,
+        "paired_cells_won": 91,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.08848997290802352,
+          0.2435506455643166,
+          0.4457925991545819,
+          0.21676918566706505,
+          0.266442662624522
+        ],
+        "farm_bootstrap95_percent": [
+          0.1357329302756033,
+          0.36862938529509615
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13508757881760095,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.17220423049244538,
+        "farm_mean_change_median": 0.16390631699483293,
+        "farm_wins": 23,
+        "paired_cells_won": 102,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.03811816980276994,
+          0.37267567707293114,
+          0.4284014616083853,
+          -0.18173686571333336,
+          0.20350851530055447
+        ],
+        "farm_bootstrap95_percent": [
+          0.041177339757464404,
+          0.2998030034254334
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19428412253624738,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.16841377790108858,
+        "farm_mean_change_median": 0.6012361240047559,
+        "farm_wins": 15,
+        "paired_cells_won": 106,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 2,
+        "per_seed_change_percent": [
+          -0.4248290519480502,
+          0.2270431849146881,
+          0.40791372236264056,
+          1.1711631315851179,
+          -0.5275725768488004
+        ],
+        "farm_bootstrap95_percent": [
+          -0.27023563763707154,
+          0.5615341195858073
+        ]
+      },
+      "farms_both_metrics_improved": 15,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_NO_DYNAMICS",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08695471186479205,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 0.2272798434321377,
+        "farm_mean_change_median": 0.24987981105613066,
+        "farm_wins": 12,
+        "paired_cells_won": 75,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.2796895955894607,
+          0.34506368364783935,
+          0.06471928151932094,
+          0.4098852470644454,
+          0.03707061690605418
+        ],
+        "farm_bootstrap95_percent": [
+          0.124383714572594,
+          0.3276494603130453
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13534936293468314,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.3663263864314814,
+        "farm_mean_change_median": 0.3063964195598734,
+        "farm_wins": 7,
+        "paired_cells_won": 87,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.16180308914071073,
+          0.11531915841040963,
+          0.05089790703904917,
+          1.3289986740686155,
+          0.17383110093898146
+        ],
+        "farm_bootstrap95_percent": [
+          0.26106278550722617,
+          0.47284334013549534
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19509018390443525,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.5840004331819859,
+        "farm_mean_change_median": 0.5786712240709146,
+        "farm_wins": 15,
+        "paired_cells_won": 109,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.7127144723434453,
+          -0.20195257404709288,
+          0.038240415220913704,
+          2.0715094525180833,
+          0.32468637136742196
+        ],
+        "farm_bootstrap95_percent": [
+          0.3926460834904244,
+          0.7726620587142723
+        ]
+      },
+      "farms_both_metrics_improved": 7,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_NO_STABILITY",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08693410167225264,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 0.20352375832790592,
+        "farm_mean_change_median": 0.1823768336988163,
+        "farm_wins": 9,
+        "paired_cells_won": 101,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.14454678373994057,
+          0.32352222155476174,
+          0.2772158353231857,
+          0.12831297428115285,
+          0.14400343982035047
+        ],
+        "farm_bootstrap95_percent": [
+          0.09939583109792427,
+          0.3000318947939051
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13504379033381714,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.13973352534748518,
+        "farm_mean_change_median": 0.19571004801655079,
+        "farm_wins": 19,
+        "paired_cells_won": 124,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 3,
+        "per_seed_change_percent": [
+          -0.09255392363357595,
+          -0.01557769926440189,
+          -0.07294956759990034,
+          0.6354050138958289,
+          0.24424806057350423
+        ],
+        "farm_bootstrap95_percent": [
+          0.02213865938508253,
+          0.2512819172357788
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19476733588138953,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.41754743672681727,
+        "farm_mean_change_median": 0.4213335458194134,
+        "farm_wins": 17,
+        "paired_cells_won": 98,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.10480494139692986,
+          0.12010652877374461,
+          0.7980156760591273,
+          0.43283209903459685,
+          0.6289407595519103
+        ],
+        "farm_bootstrap95_percent": [
+          0.15803698762832996,
+          0.6847620842994878
+        ]
+      },
+      "farms_both_metrics_improved": 9,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "INPUT_TF_NO_STATE",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08721523812052928,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 0.5275722298980767,
+        "farm_mean_change_median": 0.5184936328095358,
+        "farm_wins": 11,
+        "paired_cells_won": 78,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 2,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.3600713807399236,
+          0.3378295863232461,
+          0.5892530079384617,
+          0.681485379326574,
+          0.6683411083872937
+        ],
+        "farm_bootstrap95_percent": [
+          0.33640340711182826,
+          0.7161934758500538
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.1352525357458597,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.29452561082514706,
+        "farm_mean_change_median": 0.3869531428893458,
+        "farm_wins": 15,
+        "paired_cells_won": 85,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          0.4434066505484502,
+          0.14085178883118665,
+          0.3893837088672303,
+          0.1641482750903478,
+          0.3344657976281029
+        ],
+        "farm_bootstrap95_percent": [
+          0.09063256745789394,
+          0.48144067840976845
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19535002457840184,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.7179682932749287,
+        "farm_mean_change_median": 0.814786735430939,
+        "farm_wins": 11,
+        "paired_cells_won": 103,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          0.4487859706838071,
+          -0.5249676404628589,
+          0.37061265072566574,
+          2.760100249210007,
+          0.565269547312508
+        ],
+        "farm_bootstrap95_percent": [
+          -0.20199402614866274,
+          1.7277852832614176
+        ]
+      },
+      "farms_both_metrics_improved": 10,
+      "farms_both_all5_seeds_improved": 2
+    },
+    {
+      "candidate": "FACTOR_TF_H0W1",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.08764964953265487,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 1.0282912045983084,
+        "farm_mean_change_median": 0.8090303206090832,
+        "farm_wins": 6,
+        "paired_cells_won": 53,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.2248400315582275,
+          0.577941868049936,
+          1.0661072463820975,
+          1.216446572786789,
+          1.0565102094628909
+        ],
+        "farm_bootstrap95_percent": [
+          0.7666968421405174,
+          1.3038493527973942
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.13608864171974955,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 0.9145276799118696,
+        "farm_mean_change_median": 0.7906590317515505,
+        "farm_wins": 8,
+        "paired_cells_won": 53,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          1.4821791747489543,
+          0.6007508806536332,
+          0.5841567144831972,
+          0.7614237131220003,
+          1.1451607585627466
+        ],
+        "farm_bootstrap95_percent": [
+          0.6865669679476699,
+          1.143845591587032
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.19470566911421408,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 0.38575347348299704,
+        "farm_mean_change_median": 0.2370307704622876,
+        "farm_wins": 23,
+        "paired_cells_won": 126,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 1,
+        "per_seed_change_percent": [
+          1.9899855508533237,
+          -0.7848044855723879,
+          0.42895931893198735,
+          0.14250591037789917,
+          0.16544904928281756
+        ],
+        "farm_bootstrap95_percent": [
+          -0.16559341467235977,
+          1.1604162724382567
+        ]
+      },
+      "farms_both_metrics_improved": 4,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "FACTOR_TF_H1W0",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.10335844801154202,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 19.134844689539456,
+        "farm_mean_change_median": 18.89372799286,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          19.128875602001337,
+          18.864485753686864,
+          19.28947955647078,
+          19.202185709565356,
+          19.189089338680997
+        ],
+        "farm_bootstrap95_percent": [
+          17.942826892869668,
+          20.40021017376307
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.15857944058544143,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 17.59224828902144,
+        "farm_mean_change_median": 17.106398696006764,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          17.215717809608975,
+          17.64242190754013,
+          17.034284102945275,
+          17.79513356771949,
+          18.276016679175754
+        ],
+        "farm_bootstrap95_percent": [
+          16.364464186318738,
+          18.88275627161668
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.21567349867921937,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 11.196282921148516,
+        "farm_mean_change_median": 12.912524300490436,
+        "farm_wins": 5,
+        "paired_cells_won": 30,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 3,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          11.870245395831635,
+          10.095706169570139,
+          10.275872325977753,
+          13.05254543616301,
+          10.723887547867594
+        ],
+        "farm_bootstrap95_percent": [
+          8.47411260097085,
+          13.964147254909465
+        ]
+      },
+      "farms_both_metrics_improved": 0,
+      "farms_both_all5_seeds_improved": 0
+    },
+    {
+      "candidate": "FACTOR_TF_H0W0",
+      "reference": "TF_R3",
+      "mae": {
+        "candidate_mean": 0.10399551251817837,
+        "reference_mean": 0.08675752948760702,
+        "change_percent": 19.869149262755027,
+        "farm_mean_change_median": 19.471289395451798,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          20.03483829590489,
+          20.07442161491526,
+          19.85167038731015,
+          19.664317426228763,
+          19.721465525297145
+        ],
+        "farm_bootstrap95_percent": [
+          18.698031502620033,
+          21.094869468161228
+        ]
+      },
+      "rmse": {
+        "candidate_mean": 0.15932080877379148,
+        "reference_mean": 0.1348553521960738,
+        "change_percent": 18.141998948729878,
+        "farm_mean_change_median": 17.989741621609447,
+        "farm_wins": 0,
+        "paired_cells_won": 0,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 0,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          17.970053540911902,
+          18.52392897081332,
+          17.43002900656123,
+          18.16141849010542,
+          18.628053605436268
+        ],
+        "farm_bootstrap95_percent": [
+          16.980531744967866,
+          19.356110022423664
+        ]
+      },
+      "high_power_rmse": {
+        "candidate_mean": 0.21706416126988487,
+        "reference_mean": 0.19395747143108885,
+        "change_percent": 11.913276487008439,
+        "farm_mean_change_median": 12.95703048446657,
+        "farm_wins": 4,
+        "paired_cells_won": 25,
+        "total_cells": 275,
+        "farms_all5_seeds_improved": 1,
+        "seed_macro_wins": 0,
+        "per_seed_change_percent": [
+          14.57850406784269,
+          9.835489731033187,
+          11.464276571214382,
+          13.945734331476501,
+          9.806748680524757
+        ],
+        "farm_bootstrap95_percent": [
+          9.560131564648318,
+          14.469762129873418
+        ]
+      },
+      "farms_both_metrics_improved": 0,
+      "farms_both_all5_seeds_improved": 0
+    }
+  ]
+}

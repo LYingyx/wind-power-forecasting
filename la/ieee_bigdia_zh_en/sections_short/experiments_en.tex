@@ -1,0 +1,105 @@
+\section{Experiments}
+
+\subsection{Data and Settings}
+
+This paper constructs an experimental dataset from a regional wind farm cluster in Jilin Province. The power data cover 2022--2024, and the prediction target is the regional aggregate output of 58 wind farms. The meteorological input is the hourly Pangu-Weather gridded forecast covering Jilin and its surrounding area, with a grid size of \(19\times33\) and a spatial resolution of \(0.25^\circ\). The 17 input channels include 10 m wind fields, wind fields at different pressure levels, temperature, humidity, geopotential height, and mean sea-level pressure. All power and meteorological data are aligned in Beijing time.
+
+The training, validation, and test sets are isolated by calendar year and use data from 2022, 2023, and 2024, respectively. Sliding-window samples are used for training, whereas strict daily samples are used for validation and testing. All models use the same data split, normalization, and intraday forecasting target. Target power is scaled by the maximum forecast-period power in the training set; historical station power is standardized per station, and meteorological inputs are standardized per channel. The validation and test sets reuse only training-set statistics. The evaluation metrics include normalized MAE and RMSE, engineering-scale MAE and RMSE, and \(R^2\); all reported results are averages over 12 independent runs. The proposed method uses the latest \(L\) steps of station-level power as the operating-state context, estimates the adjacency matrix from the same window, and predicts \(H\) intraday steps.
+
+To examine the gain from operating-state constraints, this paper first sets Weather-only as a direct comparison model that shares the same weather input and query decoder. CNN, 3D CNN, ViT, Swin, and Video Transformer are also introduced as meteorological-encoder baselines to observe pure-weather forecasting performance under different gridded-weather encoding strategies.
+
+To ensure consistent use of temporal information, all weather-only baselines take the complete meteorological forecast (historical segment) and meteorological forecast (target segment) as input. CNN, ViT, and Swin use frame-wise spatial encoding followed by a temporal Transformer, whereas the 3D CNN and Video Transformer perform direct spatiotemporal encoding. iTransformer-Fusion and PatchTST-Fusion add a historical-power sequence branch to Weather-only and combine the two outputs through a softmax-gated MLP, providing output-level fusion comparisons for the proposed memory-level state injection.
+
+\begin{figure*}[t]
+\centerline{\includegraphics[width=\textwidth]{figures_short/horizon_comparison_en.pdf}}
+\caption{Horizon-wise MAE and gap. (a) MAE. (b) MAE gap between Weather-only and the proposed method; a positive value indicates lower error for the proposed method.}
+\label{fig:horizon}
+\end{figure*}
+
+\subsection{Overall Forecasting Performance}
+
+Table~\ref{tab:benchmark-short} reports the overall results on the independent 2024 test set. The proposed method achieves the lowest normalized MAE, the lowest normalized RMSE, and the highest \(R^2\), with values of 0.0779, 0.1065, and 0.8036, respectively. The corresponding engineering-scale MAE and RMSE are 383.5 MW and 524.2 MW. Weather-only is the lowest-error pure-weather model, indicating that complete future meteorological forecasts already provide the main predictive signal.
+
+\begin{table}[htbp]
+\caption{Overall forecasting performance}
+\begin{center}
+\footnotesize
+\begin{tabular}{lccc}
+\hline
+Model & MAE \(\downarrow\) & RMSE \(\downarrow\) & \(R^2\) \(\uparrow\) \\
+\hline
+Ours & \textbf{0.0779} & \textbf{0.1065} & \textbf{0.8036} \\
+iTrans.-Fusion & 0.0821 & 0.1121 & 0.7821 \\
+PatchTST-Fusion & 0.0821 & 0.1120 & 0.7824 \\
+Weather-only & 0.0836 & 0.1140 & 0.7749 \\
+3D CNN & 0.0856 & 0.1172 & 0.7619 \\
+CNN & 0.0916 & 0.1248 & 0.7302 \\
+Video Trans. & 0.0937 & 0.1265 & 0.7228 \\
+ViT & 0.0941 & 0.1278 & 0.7167 \\
+Swin & 0.0947 & 0.1279 & 0.7162 \\
+\hline
+\end{tabular}
+\label{tab:benchmark-short}
+\end{center}
+\end{table}
+
+Weather-only has the lowest error among the pure-weather models, while both output-level fusion baselines remain weaker than the proposed method after incorporating historical power. Relative to Weather-only, the proposed method reduces MAE and RMSE by 6.84\% and 6.57\%, respectively. Relative to iTransformer-Fusion, the reductions are 5.16\% and 5.05\%; relative to PatchTST-Fusion, they are 5.19\% and 4.99\%. These results show that using true pre-origin power states during memory reading yields lower errors than fusing an independent historical-power branch at the output level.
+
+\subsection{Horizon-Wise Fusion Effect}
+
+Table~\ref{tab:horizon-short} and Fig.~\ref{fig:horizon} show the error differences between the proposed method and Weather-only at different forecast steps, where \(h\) denotes the forecast-step index. At \(h=1\), the proposed method achieves an MAE of 0.0445, lower than the 0.0856 of Weather-only; the corresponding RMSE values are 0.0626 and 0.1138.
+
+\begin{table}[htbp]
+\caption{Horizon-wise error comparison}
+\begin{center}
+\footnotesize
+\begin{tabular}{llccccc}
+\hline
+Model & Metric & \(h=1\) & \(h=6\) & \(h=12\) & \(h=H\) & Avg \\
+\hline
+Ours & MAE & \textbf{0.0445} & \textbf{0.0759} & \textbf{0.0742} & \textbf{0.0955} & \textbf{0.0779} \\
+Weather & MAE & 0.0856 & 0.0806 & 0.0754 & 0.0973 & 0.0836 \\
+Ours & RMSE & \textbf{0.0626} & \textbf{0.0974} & \textbf{0.1050} & \textbf{0.1215} & \textbf{0.1055} \\
+Weather & RMSE & 0.1138 & 0.1066 & 0.1082 & 0.1245 & 0.1138 \\
+\hline
+\end{tabular}
+\label{tab:horizon-short}
+\end{center}
+\end{table}
+
+The step-wise curves show that the benefit of operating-state constraints is concentrated near the beginning of the forecast day and reduces step-averaged MAE from 0.0836 to 0.0779. At \(h=1\), MAE and RMSE are reduced by 47.94\% and 45.00\% relative to Weather-only; at the final step \(h=H\), the reductions remain 1.80\% and 2.40\%. The share of query cross-attention assigned to power context decreases from 39.56\% at \(h=1\) to 6.56\% at \(h=H\), consistent with the larger near-end error reduction. The average RMSE in the table is the arithmetic mean of the \(H\) horizon-wise RMSE values and therefore differs from the overall test-set RMSE in Table~\ref{tab:benchmark-short}.
+
+\subsection{Ablation Study}
+
+The ablations ask whether the gain requires true pre-origin power, multi-scale encoding, and queryable weather memory, and whether weather remains dominant. Weather-only removes power context; Random power and Zero power retain the power path but destroy its state information, separating content from capacity. Basic GCN replaces multi-scale encoding, while the remaining variants isolate weather-memory organization and meteorological groups.
+
+Table~\ref{tab:ablation-short} reports the results, where \(\Delta\) is computed from the unrounded 12-run means. Weather-only increases MAE and RMSE by 7.34\% and 7.04\%, respectively. Random power and Zero power degrade by similar amounts, showing that the benefit requires the numerical content of the true operating state rather than extra parameters or a power-side path alone. Basic GCN increases the two errors by 4.88\% and 4.74\%, indicating that multi-scale encoding strengthens the state representation but is secondary to providing a valid state in the first place.
+
+\begin{table}[htbp]
+\caption{Key ablation results}
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{lccccc}
+\hline
+Variant & MAE \(\downarrow\) & \(\Delta\)MAE & RMSE \(\downarrow\) & \(\Delta\)RMSE & \(R^2\) \(\uparrow\) \\
+\hline
+Ours & \textbf{0.0779} & 0.00\% & \textbf{0.1065} & 0.00\% & \textbf{0.8036} \\
+Random power & 0.0835 & 7.17\% & 0.1137 & 6.78\% & 0.7760 \\
+Zero power & 0.0838 & 7.61\% & 0.1141 & 7.21\% & 0.7742 \\
+Basic GCN & 0.0817 & 4.88\% & 0.1115 & 4.74\% & 0.7845 \\
+Weather-only & 0.0836 & 7.34\% & 0.1140 & 7.04\% & 0.7749 \\
+No memory & 0.0824 & 5.86\% & 0.1128 & 5.93\% & 0.7796 \\
+No delta & 0.0810 & 3.96\% & 0.1110 & 4.24\% & 0.7865 \\
+Single branch & 0.0843 & 8.22\% & 0.1162 & 9.12\% & 0.7660 \\
+No synoptic & 0.0858 & 10.14\% & 0.1166 & 9.50\% & 0.7645 \\
+No wind & 0.1485 & 90.68\% & 0.1991 & 87.02\% & 0.3123 \\
+\hline
+\end{tabular}
+\label{tab:ablation-short}
+\end{center}
+\end{table}
+
+The weather-side ablations No delta, No memory, Single branch, and No synoptic all cause stable degradation, showing that meteorological changes, spatiotemporal organization, variable-role separation, and background fields contribute. No wind increases MAE and RMSE by 90.68\% and 87.02\%, respectively, and reduces \(R^2\) to 0.3123, confirming that wind fields remain the primary driver rather than the power context replacing future weather.
+
+Together with Table~\ref{tab:benchmark-short}, these controls isolate the main choices. True/random/zero-power comparisons establish the need for valid state information; output-level fusion supports conditioning memory rather than merely adding a power predictor; Basic GCN quantifies the extra benefit of multi-scale encoding; and weather ablations confirm that the memory remains weather-driven. The evidence therefore supports the proposed information organization rather than component accumulation.

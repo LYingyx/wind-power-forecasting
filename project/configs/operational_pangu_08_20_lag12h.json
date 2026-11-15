@@ -1,0 +1,20 @@
+{
+  "protocol": "twice_daily_08_20_BJT_latency12h",
+  "source_forecast_root": "/hj102_data_large/ERA5_forecasting/Pangu/Forecast_data",
+  "source_power_h5": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/jilin_56farm_pad8.h5",
+  "cache_dir": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/model_cache_operational_08_20_lag12h_v1",
+  "bundle_dir": "/shared_data_ssd3/liying/operational_pangu_20261027_v1",
+  "power_timezone": "Asia/Shanghai",
+  "forecast_filename_timezone": "UTC",
+  "issue_hours_beijing": [8, 20],
+  "issue_hours_utc": [0, 12],
+  "availability_delay_hours": 12,
+  "forecast_power_hours": 6,
+  "maximum_forecast_lead_hours": 30,
+  "test_excluded_month": "2024-11",
+  "preparation_entry": "scripts/prepare_operational_pangu.py",
+  "single_farm_loader": "wind_forcing.data.operational_farm.OperationalFarmData",
+  "grid_loader": "wind_forcing.data.dataset.ForecastDataset",
+  "source_h5_weather_is_legacy_and_must_not_be_reused": true,
+  "old_frozen_experiment_settings_must_not_be_retargeted_in_place": true
+}

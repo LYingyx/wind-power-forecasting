@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-11-14T20:58:50.821116+08:00",
+  "processes": [
+    {
+      "host": "v1006001",
+      "pid": 2911513
+    },
+    {
+      "host": "v1006002",
+      "pid": 2818107
+    },
+    {
+      "host": "local4090",
+      "process": "coordinator",
+      "pid": 1194493
+    },
+    {
+      "host": "local4090",
+      "process": "bootstrap",
+      "pid": 1194494
+    }
+  ],
+  "local_bootstrap_restarted": {
+    "pid": 1200632,
+    "timestamp": "2026-11-14T21:03:52.724122+08:00",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "supervisor_pid": 1829197
+}

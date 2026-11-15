@@ -1,0 +1,195 @@
+\newcommand{\methodfigure}[4]{%
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=#1]{#2}
+\par\smallskip
+\textbf{#3} #4
+\end{figure*}
+}
+
+\section{方法}
+
+\subsection{问题定义与业务时间对齐}
+
+本文关注区域风电功率预测，预测目标为集群总功率，而不是单个场站级输出。设预测日为 \(D\)，\(t_0\) 为北京时间 \(D\) 日 00:00，目标窗口内的区域聚合功率序列记为 \(\mathbf{y}\in\mathbb{R}^{L_o}\)。本文中，近期功率上下文长度为 \(L_p=16\)，后报气象（Hindcast）和未来预报气象长度分别为 \(L_h=16\) 和 \(L_f=24\)，输出预测步长为 \(L_o=24\)。因此，完整气象序列长度为 \(L_m=L_h+L_f\)。场站级功率作为条件信息输入模型，最终输出和评价对象是区域聚合功率序列。
+
+本文的预测协议遵循目标窗口前真实可用的信息。在日样本评价协议中，对于预测日 \(D\)，最新可用的场站级功率上下文覆盖 \(D-1\) 日 08:00-23:00 BJT。Pangu-Weather 预报 \cite{ref22} 在 \(D-1\) 日 08:00 BJT 起报。因此，气象 lead 0-15 对应 \(D-1\) 日 08:00-23:00 BJT，lead 16-39 对应预测目标窗口，即 \(D\) 日 00:00-23:00 BJT。本文将同一次气象预报中时间上位于目标窗口之前的气象帧称为后报气象（Hindcast），将目标窗口内的气象帧称为未来预报气象。在滑窗训练协议中，目标起点可以逐小时移动，但保持相同的起报到目标窗口间隔和输入输出对齐方式。
+
+气象输入包括后报气象段 \(\mathbf{X}^{h}\in\mathbb{R}^{L_h\times C\times H\times W}\) 和未来预报气象段 \(\mathbf{X}^{f}\in\mathbb{R}^{L_f\times C\times H\times W}\)，其中 \(h\) 表示 Hindcast，\(C\)、\(H\) 和 \(W\) 分别表示气象变量数量和空间网格尺寸。功率输入由目标窗口前可用的场站级功率记录构成，模型仅保留最近 \(L_p\) 步，记为 \(\mathbf{P}^{c}\in\mathbb{R}^{N\times L_p}\)。场站邻接矩阵 \(\mathbf{A}\in\mathbb{R}^{N\times N}\) 在样本构造阶段由近期场站功率序列计算得到：先估计场站间功率相关性，保留高于阈值的正相关连接，其余连接置零，并去除自连接。该矩阵用于描述当前样本中风电场站之间的空间耦合关系。
+
+为便于阅读，本文方法中的主要符号说明如下：\(d\) 表示隐空间维度；\(K\) 表示 dynamic power context tokens 的数量；\(L_w\) 表示气象记忆 token 数量；\(L_d\) 表示 decoder block 数量；\(l_p\) 和 \(s_p\) 分别表示功率局部片段长度和步长；\(J\) 表示由此得到的功率片段数量。
+
+\methodfigure{\textwidth}{../../paper_image_use/method/Fig01.png}{图 1.}{业务时间协议与数据集构造。该图展示目标窗口前的场站功率上下文、Pangu 起报时间、对应气象 lead time 和预测目标窗口。}
+
+
+\subsection{整体框架}
+
+本文提出一种用于业务化日内集群总功率预测的功率条件化气象记忆网络。模型设计具有非对称性：未来网格化气象预报提供预测窗口内的主要外生驱动，近期场站级功率提供当前运行状态、场站间耦合关系和短期惯性。本文不是在输出层前简单拼接气象和功率特征，而是将功率状态转换为动态上下文 token，并将其作为条件信息注入气象记忆，使预测查询在读取未来预报气象时受到当前场群状态约束。
+
+如图 2 所示，整体框架包含三个部分。第一，Weather Encoder 对后报气象和未来预报气象进行解耦空间编码、时空混合和记忆构造，得到 weather memory tokens \(\mathbf{M}^{w}\)。第二，Graph Encoder 对最近 \(L_p\) 步场站级功率和邻接矩阵进行多尺度图编码，得到功率状态向量 \(\mathbf{z}^{p}\)，并进一步生成 dynamic power context tokens \(\mathbf{C}^{p}\)。第三，Query Decoder 将 \(\mathbf{C}^{p}\) 前置到 \(\mathbf{M}^{w}\) 形成 conditioned memory，并使用可学习 future queries 并行解码 \(L_o\) 步区域聚合功率预测。
+
+\methodfigure{\textwidth}{../../paper_image_use/method/Fig02.png}{图 2.}{本文提出的三模块功率条件化气象记忆网络整体框架。}
+
+\subsection{Weather Encoder}
+
+Weather Encoder 的输入由后报气象和未来预报气象沿时间维组成：
+
+\begin{equation}
+\mathbf{X}=\operatorname{Concat}_{time}(\mathbf{X}^{h},\mathbf{X}^{f})\in\mathbb{R}^{L_m\times C\times H\times W}.
+\end{equation}
+
+如图 3 所示，编码器首先使用三个解耦分支处理不同类型的气象信息。风场分支选择风场相关变量，背景场分支选择背景场变量，时间变化分支对完整气象序列计算一阶差分：
+
+\begin{equation}
+\Delta\mathbf{X}_1=\mathbf{0}, \qquad
+\Delta\mathbf{X}_t=\mathbf{X}_t-\mathbf{X}_{t-1}, \quad t=2,\ldots,L_m.
+\end{equation}
+
+三个分支均采用 frame-wise CNN，即对每个气象帧独立进行二维空间编码。每个分支由一个 \(3\times3\) 卷积、GELU 激活和 2 个 Res2D block 组成；每个 Res2D block 内含两层 \(3\times3\) 卷积、dropout 和残差连接。设三条分支输出分别为 \(\mathbf{B}^{w}\)、\(\mathbf{B}^{s}\) 和 \(\mathbf{B}^{\Delta}\)，其融合过程可写为：
+
+\begin{equation}
+\mathbf{F}_0=\Phi_f\left([\mathbf{B}^{w};\mathbf{B}^{s};\mathbf{B}^{\Delta}]\right),
+\end{equation}
+
+其中 \(\Phi_f\) 由两层 \(1\times1\) 卷积和中间 GELU 激活构成，用于将三分支特征映射到统一隐空间维度 \(d\)。随后，模型加入帧位置嵌入和阶段嵌入：
+
+\begin{equation}
+\mathbf{F}_1=\mathbf{F}_0+\mathbf{e}^{frame}+\mathbf{e}^{phase},
+\end{equation}
+
+其中阶段嵌入用于区分后报气象帧和未来预报气象帧。加入位置与阶段信息后，特征被送入时空编码主干。该主干由 2 个 ST-Res block、1 个空间下采样层、2 个 Spatial Mix block 和 2 个后置 ST-Res block 组成。ST-Res block 使用深度可分离三维卷积和 \(1\times1\times1\) 卷积进行时空混合，并通过残差连接保持特征稳定；Spatial Mix block 在每个时间帧上使用深度二维卷积和 \(1\times1\) 卷积进一步混合局部空间结构。记该时空编码过程为 \(\mathcal{E}_w(\cdot)\)：
+
+\begin{equation}
+\mathbf{Z}^{w}=\mathcal{E}_w(\mathbf{F}_1).
+\end{equation}
+
+最后，Memory Builder 将编码后的气象特征转化为固定长度记忆。具体而言，编码特征先经过 \(1\times1\times1\) 投影，再通过自适应池化得到 \(L_m\times H_m\times W_m\) 的记忆网格：
+
+\begin{equation}
+\hat{\mathbf{Z}}^{w}=\operatorname{Pool}_{L_m\times H_m\times W_m}\left(\operatorname{Conv}_{1\times1\times1}(\mathbf{Z}^{w})\right).
+\end{equation}
+
+模型为该记忆网格加入时间、行和列位置嵌入：
+
+\begin{equation}
+\mathbf{M}^{w}_{t,y,x}=\hat{\mathbf{Z}}^{w}_{t,y,x}+\mathbf{e}^{time}_{t}+\mathbf{e}^{row}_{y}+\mathbf{e}^{col}_{x}.
+\end{equation}
+
+展平时空网格后得到 weather memory：
+
+\begin{equation}
+\mathbf{M}^{w}\in\mathbb{R}^{L_w\times d}, \qquad L_w=L_mH_mW_m.
+\end{equation}
+
+因此，\(\mathbf{M}^{w}\) 同时保留了后报气象上下文、未来预报气象驱动、变量分支特征和局部气象变化信息。
+
+\methodfigure{\textwidth}{../../paper_image_use/method/Fig03.png}{图 3.}{Weather Encoder 的解耦气象分支、时空编码主干和记忆构造过程。}
+
+\subsection{Graph Encoder}
+
+Graph Encoder 从最近 \(L_p\) 步场站级功率中提取当前运行状态，并将其转化为 dynamic power context tokens。输入为功率上下文 \(\mathbf{P}^{c}\in\mathbb{R}^{N\times L_p}\) 和样本级邻接矩阵 \(\mathbf{A}\)。邻接矩阵在数据构造阶段由近期场站功率相关性得到；在 GCN 内部，模型进一步加入自环并进行对称归一化：
+
+\begin{equation}
+\tilde{\mathbf{A}}=\mathbf{A}+\mathbf{I},\qquad
+\hat{\mathbf{A}}=\tilde{\mathbf{D}}^{-1/2}\tilde{\mathbf{A}}\tilde{\mathbf{D}}^{-1/2}.
+\end{equation}
+
+图卷积层可写为：
+
+\begin{equation}
+\operatorname{GCN}(\mathbf{H})=\hat{\mathbf{A}}\mathbf{H}\mathbf{W}+\mathbf{b}.
+\end{equation}
+
+其中，\(\mathbf{H}\) 表示当前图卷积层的节点特征，\(\mathbf{W}\) 为可学习权重矩阵，\(\mathbf{b}\) 为偏置项。
+
+如图 4 所示，Graph Encoder 同时构造 point、patch 和 global 三种时间尺度的图表示。Point scale 将每个时间步的场站功率作为节点特征，经过 point GCN 得到 \(L_p\) 个 point tokens：
+
+\begin{equation}
+\mathbf{r}^{pt}_{t}=\Pi_{pt}\left(\operatorname{vec}\left(G_{pt}(\mathbf{P}^{c}_{:,t};\mathbf{A})\right)\right), \quad t=1,\ldots,L_p.
+\end{equation}
+
+Patch scale 将功率序列划分为长度为 \(l_p\)、步长为 \(s_p\) 的局部时间片段。令 \(a_j=1+(j-1)s_p\)，\(\mathcal{I}_j=\{a_j,\ldots,a_j+l_p-1\}\)，\(J=\lfloor(L_p-l_p)/s_p\rfloor+1\)，则 patch tokens 为：
+
+\begin{equation}
+\mathbf{r}^{pat}_{j}=\Pi_{pat}\left(\operatorname{vec}\left(G_{pat}(\mathbf{P}^{c}_{:,\mathcal{I}_j};\mathbf{A})\right)\right), \quad j=1,\ldots,J.
+\end{equation}
+
+Global scale 直接使用完整 \(L_p\) 步功率窗口，得到一个 global token：
+
+\begin{equation}
+\mathbf{r}^{g}=\Pi_{g}\left(\operatorname{vec}\left(G_{g}(\mathbf{P}^{c};\mathbf{A})\right)\right).
+\end{equation}
+
+在当前实现中，point、patch 和 global 三个 GCN encoder 均由 3 层图卷积构成，随后分别通过线性投影映射到维度 \(d\)。加入位置编码后，三类 token 分别记为 \(\mathbf{H}^{pt}\)、\(\mathbf{H}^{pat}\) 和 \(\mathbf{H}^{g}\)。跨尺度交互由 4 个 cross-scale attention block 构成，每个 block 包含多头交叉注意力、FFN、残差连接和 LayerNorm。交互顺序先自底向上，再自顶向下：
+
+\begin{equation}
+\begin{aligned}
+\mathbf{H}^{pat}_{bu} &= \operatorname{CSA}_{pt\rightarrow pat}(\mathbf{H}^{pat},\mathbf{H}^{pt}), \\
+\mathbf{H}^{g}_{bu} &= \operatorname{CSA}_{pat\rightarrow g}(\mathbf{H}^{g},\mathbf{H}^{pat}_{bu}), \\
+\mathbf{H}^{pat}_{td} &= \operatorname{CSA}_{g\rightarrow pat}(\mathbf{H}^{pat}_{bu},\mathbf{H}^{g}_{bu}), \\
+\mathbf{H}^{pt}_{td} &= \operatorname{CSA}_{pat\rightarrow pt}(\mathbf{H}^{pt},\mathbf{H}^{pat}_{td}).
+\end{aligned}
+\end{equation}
+
+其中 \(\operatorname{CSA}_{source\rightarrow target}(\cdot)\) 表示以 target tokens 为 query、以 source tokens 为 key 和 value 的跨尺度注意力。交互后的 global、patch 和 point tokens 被拼接为一个融合序列，并送入 1 层 Transformer fusion encoder。随后，模型展平融合序列并经过状态投影得到功率状态向量：
+
+\begin{equation}
+\begin{aligned}
+\mathbf{z}^{p}
+&=f_p\left(\operatorname{TransformerEnc}\left([\mathbf{H}^{g}_{bu};\mathbf{H}^{pat}_{td};\mathbf{H}^{pt}_{td}]\right)\right) \\
+&\in\mathbb{R}^{d}.
+\end{aligned}
+\end{equation}
+
+最后，Graph Encoder 使用两层 MLP adapter 将 \(\mathbf{z}^{p}\) 映射为 \(K\) 个 dynamic power context tokens：
+
+\begin{equation}
+\mathbf{C}^{p}=\operatorname{reshape}\left(a_{\theta}(\mathbf{z}^{p})\right)\in\mathbb{R}^{K\times d}.
+\end{equation}
+
+当前模型不叠加样本无关的静态 prompt basis，也不使用额外门控缩放；adapter 输出的 \(\mathbf{C}^{p}\) 直接作为样本特定的功率上下文 token。
+
+\methodfigure{\textwidth}{../../paper_image_use/method/Fig04.png}{图 4.}{Graph Encoder 的多尺度 GCN、跨尺度注意力和动态功率上下文构造。}
+
+\subsection{Query Decoder}
+
+Query Decoder 负责从由气象记忆和功率上下文共同组成的 conditioned memory 中读取预测信息。首先，Graph Encoder 生成的 \(K\) 个 dynamic power context tokens 被前置到 Weather Encoder 输出的 weather memory：
+
+\begin{equation}
+\mathbf{M}^{pc}=[\mathbf{C}^{p};\mathbf{M}^{w}]\in\mathbb{R}^{(K+L_w)\times d}.
+\end{equation}
+
+这种注入方式使功率状态以 memory token 的形式参与后续 cross-attention，而不是仅在输出层前与气象特征拼接。解码器维护可学习 future queries：
+
+\begin{equation}
+\mathbf{Q}^{(0)}\in\mathbb{R}^{L_o\times d},
+\end{equation}
+
+其中每个 query 对应一个预测 horizon。当前实现使用 2 个 QueryDecoderBlock。第 \(\ell\) 个 block 依次执行 query self-attention、query-to-memory cross-attention 和 FFN：
+
+\begin{equation}
+\begin{aligned}
+\tilde{\mathbf{Q}}^{(\ell)} &= \operatorname{LN}\left(\mathbf{Q}^{(\ell-1)}+\operatorname{MHA}(\mathbf{Q}^{(\ell-1)},\mathbf{Q}^{(\ell-1)},\mathbf{Q}^{(\ell-1)})\right), \\
+\bar{\mathbf{Q}}^{(\ell)} &= \operatorname{LN}\left(\tilde{\mathbf{Q}}^{(\ell)}+\operatorname{MHA}(\tilde{\mathbf{Q}}^{(\ell)},\mathbf{M}^{pc},\mathbf{M}^{pc})\right), \\
+\mathbf{Q}^{(\ell)} &= \operatorname{LN}\left(\bar{\mathbf{Q}}^{(\ell)}+\operatorname{FFN}(\bar{\mathbf{Q}}^{(\ell)})\right).
+\end{aligned}
+\end{equation}
+
+经过 \(L_d\) 个 decoder block 后，query 表示经过 LayerNorm 和预测头得到最终输出：
+
+\begin{equation}
+\hat{\mathbf{y}}=g_{\phi}\left(\operatorname{LN}(\mathbf{Q}^{(L_d)})\right)\in\mathbb{R}^{L_o}.
+\end{equation}
+
+预测头由线性层、GELU、dropout 和输出线性层组成。由于所有 future queries 并行读取同一个 conditioned memory，模型能够同时利用未来预报气象驱动和当前功率状态条件生成多步预测结果。
+
+\subsection{训练目标}
+
+主模型仅使用最终预测目标进行端到端训练。损失函数由平均绝对误差和均方根误差加权组成：
+
+\begin{equation}
+\mathcal{L}=\alpha\,\operatorname{MAE}(\hat{\mathbf{y}},\mathbf{y})
++(1-\alpha)\,\sqrt{\operatorname{MSE}(\hat{\mathbf{y}},\mathbf{y})+\varepsilon}.
+\end{equation}
+
+其中，\(\alpha\) 用于平衡两类误差，\(\varepsilon\) 是保证数值稳定性的小常数。当前模型不使用历史辅助重构损失、连续性约束损失或 start-constraint loss。这样可以使训练目标与最终集群总功率预测任务保持一致。

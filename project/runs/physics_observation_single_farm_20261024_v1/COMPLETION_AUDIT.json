@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-10-25T01:54:03.855918+08:00",
+  "passed": true,
+  "scope": "2022 training / 2023 validation screening only",
+  "planned": 3432,
+  "completed": 3432,
+  "failed": 0,
+  "active": 0,
+  "pending": 0,
+  "stage_counts": {
+    "input": 2240,
+    "loss": 448,
+    "capacity": 216,
+    "mechanism": 432,
+    "latency": 96
+  },
+  "scientific_frozen_files_checked": 70,
+  "selected_checkpoint_files_checked": 5286,
+  "exact_manifest_and_spec": true,
+  "history_selection_verified": true,
+  "metric_horizon_and_lead_consistency": true,
+  "actual_csv_rows": 27456,
+  "paired_csv_rows": 47520,
+  "csv_values_verified": true,
+  "verified_remote_returns": {
+    "v1006001": 1406,
+    "v1006002": 1129
+  },
+  "remote_duplicate_weights": 0,
+  "live_training_or_scheduler_processes": 0,
+  "initial_jobs_without_runtime_metadata": 26,
+  "initial_jobs_without_runtime_ids": [
+    "input_W0_BASE_MAE_s06_r42_d15",
+    "input_TF_BASE_MAE_s06_r42_d15",
+    "input_W0_BASE_MAE_s06_r43_d15",
+    "input_TF_BASE_MAE_s06_r43_d15",
+    "input_W0_BASE_MAE_s08_r42_d15",
+    "input_TF_BASE_MAE_s08_r42_d15",
+    "input_W0_BASE_MAE_s08_r43_d15",
+    "input_TF_BASE_MAE_s08_r43_d15",
+    "input_W0_BASE_MAE_s14_r42_d15",
+    "input_TF_BASE_MAE_s14_r42_d15",
+    "input_W0_BASE_MAE_s14_r43_d15",
+    "input_TF_BASE_MAE_s14_r43_d15",
+    "input_W0_BASE_MAE_s16_r42_d15",
+    "input_TF_BASE_MAE_s16_r42_d15",
+    "input_W0_BASE_MAE_s16_r43_d15",
+    "input_TF_BASE_MAE_s16_r43_d15",
+    "input_W0_BASE_MAE_s43_r42_d15",
+    "input_TF_BASE_MAE_s43_r42_d15",
+    "input_W0_BASE_MAE_s43_r43_d15",
+    "input_TF_BASE_MAE_s43_r43_d15",
+    "input_W0_BASE_MAE_s46_r42_d15",
+    "input_TF_BASE_MAE_s46_r42_d15",
+    "input_W0_BASE_MAE_s46_r43_d15",
+    "input_TF_BASE_MAE_s46_r43_d15",
+    "input_W0_CAL_MAE_s06_r42_d15",
+    "input_TF_CAL_MAE_s06_r42_d15"
+  ],
+  "first_job_finished": "2026-10-24T21:27:25.041156+08:00",
+  "last_job_finished": "2026-10-25T00:58:33.941416+08:00",
+  "test_year_accessed": false,
+  "limitations": [
+    "Predictions were not newly recomputed; audit checks stored metrics, selections and checkpoint hashes.",
+    "Initial jobs predating operational wrapper have no runtime.json; do not infer exact host/GPU provenance.",
+    "2024 reevaluation and expansion of structural variants to all 56 farms are not part of this completion."
+  ],
+  "corrected_stale_completion_counts": {
+    "previous_active": 4,
+    "previous_pending": -4
+  }
+}

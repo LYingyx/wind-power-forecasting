@@ -1,0 +1,589 @@
+{
+  "timestamp": "2026-11-02T01:49:11.824303+08:00",
+  "planned": 672,
+  "completed": 672,
+  "failed": [],
+  "active": [],
+  "pending": 0,
+  "hosts": {
+    "v1006001": {
+      "done": [],
+      "failed": [],
+      "status": {
+        "timestamp": "2026-11-02T01:49:02.435820+08:00",
+        "pid": 1233554,
+        "host": "iipserver1",
+        "active": [],
+        "gpus": {
+          "0": {
+            "uuid": "GPU-591f650a-83b6-ef2e-653f-375e0d811f20",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "1": {
+            "uuid": "GPU-854dba3a-5a1c-9fd4-528a-758e2b193780",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "2": {
+            "uuid": "GPU-bb88580f-547c-f2f2-548c-eaa69dad3ed5",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "3": {
+            "uuid": "GPU-38de2f3c-1f8d-5a0c-29f3-028816d1db22",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 15710,
+            "utilization": 5,
+            "other_pids": [
+              1274385
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "1274385": 432
+            },
+            "external_sm": 4,
+            "process_utilization_known": true
+          },
+          "4": {
+            "uuid": "GPU-5ac06f8d-bacf-6375-6150-8e41658d6690",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 15708,
+            "utilization": 5,
+            "other_pids": [
+              1280653
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "1280653": 434
+            },
+            "external_sm": 4,
+            "process_utilization_known": true
+          },
+          "5": {
+            "uuid": "GPU-3722987d-07ce-837d-a06f-496f5571cc2f",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 15708,
+            "utilization": 5,
+            "other_pids": [
+              1270085
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "1270085": 434
+            },
+            "external_sm": 4,
+            "process_utilization_known": true
+          },
+          "6": {
+            "uuid": "GPU-7ba9b7c3-e341-3ab0-26f8-f4b933c8661b",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16142,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "7": {
+            "uuid": "GPU-ba42704b-bad6-5139-689e-57e21879e52b",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 15710,
+            "utilization": 5,
+            "other_pids": [
+              1272085
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "1272085": 432
+            },
+            "external_sm": 4,
+            "process_utilization_known": true
+          }
+        },
+        "decisions": {
+          "0": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 2,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 63.21258544921875,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "1": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 9.666666666666666,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 2,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 10.690245151519775,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "2": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 2,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 31.841350078582764,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "3": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 4,
+            "total_utilization_mean": 4.333333333333333,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 2,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 116.09301471710205,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "4": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 4,
+            "total_utilization_mean": 4,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 2,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 31.84127140045166,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "5": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 4,
+            "total_utilization_mean": 4,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 2,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 21.42253088951111,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "6": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 2,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 21.42408514022827,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "7": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 4,
+            "total_utilization_mean": 4.666666666666667,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 3,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 31.844245195388794,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          }
+        },
+        "failed": [],
+        "circuit_breaker": false,
+        "draining": false
+      },
+      "fresh": true
+    },
+    "v1006002": {
+      "done": [
+        "I_MUL_s55_r43"
+      ],
+      "failed": [],
+      "status": {
+        "timestamp": "2026-11-02T01:49:04.039329+08:00",
+        "pid": 3473550,
+        "host": "iipserver2",
+        "active": [],
+        "gpus": {
+          "0": {
+            "uuid": "GPU-aa0632e7-df4b-2544-9464-d4e1ae698038",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 4421,
+            "utilization": 0,
+            "other_pids": [
+              3464514
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "3464514": 11698
+            },
+            "external_sm": 0,
+            "process_utilization_known": false
+          },
+          "1": {
+            "uuid": "GPU-d3ff2ad3-f2fe-ae8e-fac7-1bbed4367b7c",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 4347,
+            "utilization": 0,
+            "other_pids": [
+              2496360
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "2496360": 11762
+            },
+            "external_sm": 0,
+            "process_utilization_known": false
+          },
+          "2": {
+            "uuid": "GPU-6b7a3255-8202-a190-ece7-e09594bbb7af",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 7989,
+            "utilization": 0,
+            "other_pids": [
+              887296
+            ],
+            "own_pids": [],
+            "process_memory_mib": {
+              "887296": 8152
+            },
+            "external_sm": 0,
+            "process_utilization_known": false
+          },
+          "3": {
+            "uuid": "GPU-95995264-d5fd-c8f7-5465-6697439c6f7f",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16145,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "4": {
+            "uuid": "GPU-6b015cc3-91f5-2223-a33f-676b60ebb07d",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16145,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "5": {
+            "uuid": "GPU-b6bed76d-feaf-324b-afe3-48ac3d2fae1c",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16145,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "6": {
+            "uuid": "GPU-bf6eed45-f002-a2b7-30aa-35578dd9ee24",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16145,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          },
+          "7": {
+            "uuid": "GPU-f34dc4a9-7c6f-7082-cdb4-cd8b236443e0",
+            "name": "Tesla V100-SXM2-16GB",
+            "total_mib": 16384,
+            "free_mib": 16145,
+            "utilization": 0,
+            "other_pids": [],
+            "own_pids": [],
+            "process_memory_mib": {},
+            "external_sm": 0,
+            "process_utilization_known": true
+          }
+        },
+        "decisions": {
+          "0": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 0,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": false,
+            "reason": "insufficient_memory_headroom",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 1,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 2608.4663808345795,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "1": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 0,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": false,
+            "reason": "insufficient_memory_headroom",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 1,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 2608.466398000717,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "2": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 1,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": false,
+            "reason": "cannot_attribute_other_process_compute",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 1,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 2608.4664285182953,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "3": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 14,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 3,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 0.0,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "4": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 3,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 53.61769199371338,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "5": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 7,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 3,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 10.684606313705444,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "6": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 0,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 3,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 21.50029945373535,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          },
+          "7": {
+            "reserve_mib": 4096,
+            "worker_budget_mib": 2048,
+            "additional_memory_slots": 5,
+            "external_sm_peak": 0,
+            "total_utilization_mean": 6,
+            "yield_count": 0,
+            "launch": true,
+            "reason": "refill_proven_parallel_slot",
+            "efficiency": {
+              "cap": 8,
+              "safe_slots": 3,
+              "matched_jobs": 0,
+              "slowdown_ratio": null,
+              "max_slowdown_ratio": 1.5,
+              "stable_seconds": 10.684366941452026,
+              "calibration_jobs": 0,
+              "waiting_for_epoch_calibration": false
+            }
+          }
+        },
+        "failed": [],
+        "circuit_breaker": false,
+        "draining": false
+      },
+      "fresh": true
+    }
+  },
+  "errors": {}
+}

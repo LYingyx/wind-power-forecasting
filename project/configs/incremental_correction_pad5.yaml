@@ -1,0 +1,93 @@
+seed: 42
+
+data:
+  source_h5: ../data/jilin_56farm_pad8.h5
+  cache_dir: ../data/model_cache_pad5_f8
+  region_padding_grid_points: 5
+  history_power_steps: 24
+  forecast_power_steps: 24
+  history_nwp_nodes: 6
+  future_nwp_nodes: 8
+  weather_storage_dtype: float32
+  cache_chunk_cycles: 32
+  preload_weather: auto
+  preload_weather_max_gib: 16.0
+
+model:
+  architecture: incremental_correction
+  weather_channels: 14
+  weather_hidden_channels: 48
+  d_model: 64
+  station_query_mode: learned_cells
+  station_neighborhood_cells: 3
+  include_wind_geometry: true
+  include_region_context: false
+  regional_pool_size: 1
+  regional_neighborhood_cells: 1
+  forcing_path_mode: difference
+  forcing_difference_input: actual
+  time_query_mode: full_attention
+  bracket_time_feature_mode: relative_distances
+  bracket_mapper_activation: gelu
+  # Backward-compatible defaults. New horizon-specialist experiments override
+  # these fields without changing legacy time_query_mode behavior.
+  weather_view_mode: legacy
+  weather_gate_mode: fixed
+  specialist_mode: shared_head
+  output_level: hierarchical
+  history_tcn_layers: 3
+  trajectory_tcn_layers: 3
+  attention_heads: 4
+  dropout: 0.05
+  baseline_dropout: 0.1
+  initialize_history_baseline_from_checkpoint: true
+  freeze_history_baseline: true
+  correction_conditioning: history_weather
+  correction_history_mode: full_history
+  cross_farm_context_mode: none
+  cross_farm_neighbors: 4
+  correction_fusion_mode: blackbox
+  interaction_rank: 16
+  matched_conditioning_backbone: false
+  baseline_anchor_enabled: false
+  projection_mode: full
+  temporal_components: 24
+  spatial_components: 8
+  spatial_basis_path: /storage/liying/new_try/wind_cluster_forced_evolution/artifacts/incremental_predictability_v1/bases/residual_pca_mw.npy
+
+training:
+  precision: bf16
+  num_workers: 0
+  cycles_per_batch: 12
+  gradient_clip: 1.0
+  early_stopping_patience: 10
+  checkpoint_metric: cluster_mae_mw
+  spatial_pretrain:
+    epochs: 40
+    batch_size_cycles: 24
+    learning_rate: 0.0003
+    weight_decay: 0.0001
+    station_loss_weight: 1.0
+    cluster_loss_weight: 2.0
+  deterministic:
+    epochs: 80
+    learning_rate: 0.0002
+    weight_decay: 0.0001
+    station_loss_weight: 1.0
+    cluster_loss_weight: 2.0
+    auxiliary_weather_loss_weight: 0.2
+    baseline_auxiliary_loss_weight: 0.0
+    baseline_anchor_loss_weight: 0.0
+    anchor_schedule_mode: scalar
+    distillation_weight: 0.0
+    distillation_station_loss_weight: 1.0
+    distillation_cluster_loss_weight: 2.0
+    distillation_uncertainty_aware: false
+    distillation_station_scale: 0.0
+    distillation_cluster_scale: 0.0
+    ema_decay: 0.0
+    checkpoint_average_window: 0
+    ramp_loss_weight: 0.0
+
+experiment:
+  id: incremental_correction

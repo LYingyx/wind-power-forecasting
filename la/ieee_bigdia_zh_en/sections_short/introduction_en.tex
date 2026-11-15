@@ -1,0 +1,22 @@
+\section{Introduction}
+
+Intraday regional wind farm cluster power forecasting is an important basis for power dispatch, reserve allocation, and renewable energy integration. This study takes aggregate power from multiple wind farms in the region as the prediction target and investigates its evolution over the forecast day. Future meteorological forecasts describe wind-field evolution over the forecast period, whereas measured power before the forecast origin records the current cluster operating state; the two information sources therefore play different roles in forecasting. Regional weather propagation changes the wind-energy input across farms and thereby drives intraday aggregate-power variations. Meanwhile, the current generation level, short-term inertia, and synchronized multi-site variations affect the initial level and near-term evolution of the power trajectory; recovery from curtailment may further lead to different actual outputs under similar weather conditions. Accordingly, the model needs to account for both future wind-field changes and the operating state at the forecast origin.
+
+Gridded weather forecasts are available throughout the forecast day, whereas measured power is available only before the forecast origin. The weather forecast provides the external drivers of subsequent power changes but does not contain the actual power state at the forecast origin; this state must be characterized from pre-origin power records. The current generation level, short-term inertia, and synchronized multi-site variations reflected in recent measured power can therefore serve as an operating-state constraint when reading future-weather information. This paper addresses how to introduce this constraint into future-weather-driven forecasting.
+
+Existing wind power forecasting studies have improved prediction performance through wind-speed sequence modeling \cite{ref1} and gridded spatial representations \cite{ref2}. Cluster-oriented studies have developed adaptive spatiotemporal graph models \cite{ref3} and hierarchical graph models \cite{ref4}, as well as pattern-aware graph predictors \cite{ref5} and global-information graph encoders \cite{ref6}. Dynamic graph updates \cite{ref7} and learnable graph structures \cite{ref8} have also been investigated. Other directions include trend-aware graph switching \cite{ref9}, multi-model fusion \cite{ref10}, trend-based spatial integration \cite{ref11}, and continual learning for changing graph inputs \cite{ref12}. For future-weather information, multimodal Transformer fusion \cite{ref13} and spatiotemporal attention fusion \cite{ref14} have been developed; other work addresses NWP temporal lag \cite{ref15}, wind-speed offsets \cite{ref16}, predictive uncertainty \cite{ref_liu_bayesian_uncertainty}, multi-source spatiotemporal fusion \cite{ref17}, or spatial correlation with corrected NWP \cite{ref18}. The focus of this paper is to explicitly use station-level power states observable before the forecast origin in future-weather-driven intraday forecasting. Recent power records contain the current generation level, short-term inertia, and synchronized multi-site variations, and can serve as operating-state constraints for future-weather reading, thereby improving forecasting accuracy.
+
+To impose this constraint, forecasting is organized as weather-context construction, forecast-origin state encoding, and state-conditioned decoding. Recent station power becomes dynamic context that conditions how queries read weather memory.
+
+The main contributions are as follows:
+\begin{itemize}
+\item Recent measured power is formulated as a forecast-origin operating-state constraint, distinct from future weather as the main driver of intraday evolution.
+\item Memory-level conditioning converts multi-scale station power into context tokens that participate directly in weather-memory reading.
+\item Weather-only and fusion comparisons, true/random/zero-power controls, and horizon-wise analyses on 58 wind farms jointly verify the value and time-varying influence of the true origin state.
+\end{itemize}
+
+\begin{figure*}[htbp]
+\centerline{\includegraphics[width=0.78\textwidth]{../../paper_image_use/method_new/exported/Fig01.pdf}}
+\caption{Business time protocol. Recent station-level power is only available before the forecast day starts; the meteorological forecast is divided into a historical segment and a target segment according to its temporal relation to the forecast day.}
+\label{fig:time-protocol}
+\end{figure*}

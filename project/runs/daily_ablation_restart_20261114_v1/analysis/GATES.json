@@ -1,0 +1,1805 @@
+{
+  "timestamp": "2026-11-15T19:41:14.665087+08:00",
+  "stage": "COMPLETE_REVIEW_ABLATIONS",
+  "completed": 1291,
+  "planned": 1291,
+  "groups": [
+    {
+      "group": "TF_BASE",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08952809526673024,
+      "rmse": 0.1385444421365473
+    },
+    {
+      "group": "TF_R3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08675752948760702,
+      "rmse": 0.1348553521960738
+    },
+    {
+      "group": "TIDE_R3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08806328209188155,
+      "rmse": 0.13554719437204654
+    },
+    {
+      "group": "TFT_R3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08773358240676676,
+      "rmse": 0.1366969530095368
+    },
+    {
+      "group": "W0_R3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0865989740335376,
+      "rmse": 0.13516146032561743
+    },
+    {
+      "group": "M1_CB",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08674741251161745,
+      "rmse": 0.13544739849157467
+    },
+    {
+      "group": "M2_CBH",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08661864394662948,
+      "rmse": 0.13503182923791732
+    },
+    {
+      "group": "M3_ANCHOR",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08729892914425932,
+      "rmse": 0.13562338682171718
+    },
+    {
+      "group": "M4_WRONG_CB",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0865920729858622,
+      "rmse": 0.13513732655322863
+    },
+    {
+      "group": "M4H_WRONG_CBH",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0865889756470046,
+      "rmse": 0.13510139981271727
+    },
+    {
+      "group": "M5_TF_CB",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08694172413634466,
+      "rmse": 0.13551571262224457
+    },
+    {
+      "group": "M5W_TF_WRONG_CB",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08683706790214213,
+      "rmse": 0.1350298213414175
+    },
+    {
+      "group": "M5N_TF_NEUTRAL",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08683931968114311,
+      "rmse": 0.1349828349251574
+    },
+    {
+      "group": "W0_RM",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0871829366987483,
+      "rmse": 0.13589636335244115
+    },
+    {
+      "group": "TF_RM",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08722338416310134,
+      "rmse": 0.13502614717859132
+    },
+    {
+      "group": "SHARED_W0_BASE",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08906421349374703,
+      "rmse": 0.13830444901702105
+    },
+    {
+      "group": "ENC_neutral_E0",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08658018872097077,
+      "rmse": 0.1348721057640528
+    },
+    {
+      "group": "ENC_neutral_E1",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08655575940613112,
+      "rmse": 0.13471514912664073
+    },
+    {
+      "group": "ENC_neutral_E2L",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08636119457379265,
+      "rmse": 0.13456416381499173
+    },
+    {
+      "group": "ENC_neutral_E2N",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08659199270809592,
+      "rmse": 0.13518047098578745
+    },
+    {
+      "group": "ENC_neutral_E2",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08649463259804403,
+      "rmse": 0.13497047690272734
+    },
+    {
+      "group": "ENC_neutral_E3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08661388984907033,
+      "rmse": 0.135259257482773
+    },
+    {
+      "group": "ENC_cbh_E0",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08654478715902558,
+      "rmse": 0.13481063774644433
+    },
+    {
+      "group": "ENC_cbh_E1",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08652687237213481,
+      "rmse": 0.1347314846623239
+    },
+    {
+      "group": "ENC_cbh_E2L",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08653951725603203,
+      "rmse": 0.13468868224559544
+    },
+    {
+      "group": "ENC_cbh_E2N",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08651614867091081,
+      "rmse": 0.13494953120287406
+    },
+    {
+      "group": "ENC_cbh_E2",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08668471051403552,
+      "rmse": 0.13517335379519668
+    },
+    {
+      "group": "ENC_cbh_E3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0866749595687488,
+      "rmse": 0.1350747798172659
+    },
+    {
+      "group": "INPUT_W0_LOCAL_SEL",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08814547983845997,
+      "rmse": 0.13735492523049003
+    },
+    {
+      "group": "INPUT_W0_NO_SEL",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08745473718673522,
+      "rmse": 0.1365731849033512
+    },
+    {
+      "group": "INPUT_W0_NO_NEAR",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08665341113814849,
+      "rmse": 0.13534597421961828
+    },
+    {
+      "group": "INPUT_W0_NO_RINGS",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08718995069727752,
+      "rmse": 0.1360068109261943
+    },
+    {
+      "group": "INPUT_W0_NO_DENSITY",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08683618070517864,
+      "rmse": 0.13539968554196377
+    },
+    {
+      "group": "INPUT_W0_NO_DYNAMICS",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08697025115779088,
+      "rmse": 0.13570982493670383
+    },
+    {
+      "group": "INPUT_W0_NO_STABILITY",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08664651371068768,
+      "rmse": 0.13534502198437115
+    },
+    {
+      "group": "INPUT_W0_NO_STATE",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08697777857769703,
+      "rmse": 0.13571001251904574
+    },
+    {
+      "group": "FACTOR_W0_H0W1",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0876815611152525,
+      "rmse": 0.13698308161679956
+    },
+    {
+      "group": "FACTOR_W0_H1W0",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.10318038724014403,
+      "rmse": 0.15867295431008238
+    },
+    {
+      "group": "FACTOR_W0_H0W0",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.10392659680372955,
+      "rmse": 0.15941496014361303
+    },
+    {
+      "group": "INPUT_TF_LOCAL_SEL",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08820863952392549,
+      "rmse": 0.13670126472665256
+    },
+    {
+      "group": "INPUT_TF_NO_SEL",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0878510506146641,
+      "rmse": 0.13632258747787368
+    },
+    {
+      "group": "INPUT_TF_NO_NEAR",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08678985918101316,
+      "rmse": 0.13489368571065496
+    },
+    {
+      "group": "INPUT_TF_NO_RINGS",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0874413655771292,
+      "rmse": 0.1358969066606834
+    },
+    {
+      "group": "INPUT_TF_NO_DENSITY",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.0869764177226951,
+      "rmse": 0.13508757881760095
+    },
+    {
+      "group": "INPUT_TF_NO_DYNAMICS",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08695471186479205,
+      "rmse": 0.13534936293468314
+    },
+    {
+      "group": "INPUT_TF_NO_STABILITY",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08693410167225264,
+      "rmse": 0.13504379033381714
+    },
+    {
+      "group": "INPUT_TF_NO_STATE",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08721523812052928,
+      "rmse": 0.1352525357458597
+    },
+    {
+      "group": "FACTOR_TF_H0W1",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08764964953265487,
+      "rmse": 0.13608864171974955
+    },
+    {
+      "group": "FACTOR_TF_H1W0",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.10335844801154202,
+      "rmse": 0.15857944058544143
+    },
+    {
+      "group": "FACTOR_TF_H0W0",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.10399551251817837,
+      "rmse": 0.15932080877379148
+    },
+    {
+      "group": "INDEPENDENT_W0_BASE",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.09219204039424744,
+      "rmse": 0.14204030610970497
+    },
+    {
+      "group": "INDEPENDENT_W0_R3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08878434713565234,
+      "rmse": 0.13752473439756754
+    },
+    {
+      "group": "INDEPENDENT_TF_BASE",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.09229724873255915,
+      "rmse": 0.1411158234228353
+    },
+    {
+      "group": "INDEPENDENT_TF_R3",
+      "cells": 275,
+      "expected": 275,
+      "complete": true,
+      "mae": 0.08923156776648797,
+      "rmse": 0.1371963981513876
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "ENC_neutral_E0",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": -0.021692303836706728,
+        "farms_improved": 30,
+        "per_seed_change_percent": [
+          0.00824310850007226,
+          -0.2918065046837115,
+          -0.2854311556368061,
+          0.4065911096505337,
+          0.05425578195179526
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.2140806712708887,
+        "farms_improved": 37,
+        "per_seed_change_percent": [
+          0.016133025516373856,
+          -0.46006333583133996,
+          -0.41109940421243385,
+          0.15116228558325062,
+          -0.36937321284350455
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E1",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": -0.049902008526958586,
+        "farms_improved": 31,
+        "per_seed_change_percent": [
+          -0.22576026677330052,
+          0.007305116757128083,
+          -0.3677196958917883,
+          0.15369582514854763,
+          0.1830008569028374
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.33020596100508115,
+        "farms_improved": 40,
+        "per_seed_change_percent": [
+          -0.01841916503102503,
+          -0.2366643654776901,
+          -0.3992588454170831,
+          -0.8207525782352509,
+          -0.17016435639840566
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E2L",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": -0.2745753773628512,
+        "farms_improved": 38,
+        "per_seed_change_percent": [
+          -1.0097456103480562,
+          -0.26847794869953034,
+          -0.3190478752832737,
+          0.030052740376285136,
+          0.19199021285212226
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.4419133303138034,
+        "farms_improved": 45,
+        "per_seed_change_percent": [
+          -0.577087039593005,
+          -0.1620792478304489,
+          -0.19737574396360147,
+          -1.2029544289008265,
+          -0.06293924052787059
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E2N",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": -0.008061672230630368,
+        "farms_improved": 29,
+        "per_seed_change_percent": [
+          -0.40361798493289136,
+          -0.08843006729335467,
+          0.058458105921865844,
+          0.09982561948538304,
+          0.2923586206253104
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.01406514854471741,
+        "farms_improved": 28,
+        "per_seed_change_percent": [
+          -0.1394191051967919,
+          -0.09342623262922345,
+          0.04665368323717445,
+          0.10855839287151614,
+          0.1467417820041783
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E2",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": -0.12048807351130453,
+        "farms_improved": 31,
+        "per_seed_change_percent": [
+          -0.27913604311774476,
+          -0.18124958573830785,
+          0.27719653254745236,
+          -0.45455917964669634,
+          0.03502440550726682
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.1413002067527147,
+        "farms_improved": 36,
+        "per_seed_change_percent": [
+          -0.06933751076485528,
+          -0.07377997325104246,
+          0.03765212178965527,
+          -0.47595964894565634,
+          -0.12158711481720097
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E3",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.017224009521110695,
+        "farms_improved": 30,
+        "per_seed_change_percent": [
+          -0.25628903866483643,
+          0.038486728395281666,
+          0.17477441140125727,
+          -0.15368438929317385,
+          0.28240587573307163
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.07235580092133098,
+        "farms_improved": 28,
+        "per_seed_change_percent": [
+          0.04126458873756622,
+          0.2727029094100386,
+          0.05653616380303372,
+          -0.3899625758776337,
+          0.38572816947037847
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E0",
+      "reference": "M2_CBH",
+      "mae": {
+        "change_percent": -0.08526661725321016,
+        "farms_improved": 30,
+        "per_seed_change_percent": [
+          0.12758246578559174,
+          -0.3916540632162735,
+          -0.6657338358799669,
+          0.3987782230950865,
+          0.10928733435733307
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.16380692813044995,
+        "farms_improved": 36,
+        "per_seed_change_percent": [
+          0.38093866460136017,
+          -0.5695874620689878,
+          -0.844322492408911,
+          0.49215089935039646,
+          -0.27796382986953194
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E1",
+      "reference": "M2_CBH",
+      "mae": {
+        "change_percent": -0.10594898547616749,
+        "farms_improved": 30,
+        "per_seed_change_percent": [
+          -0.21210531400903676,
+          -0.298364313497701,
+          -0.4683854281001487,
+          0.33080127726847763,
+          0.11988245175726941
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.22242502178076995,
+        "farms_improved": 38,
+        "per_seed_change_percent": [
+          -0.1273449136793059,
+          -0.3043930856126975,
+          -0.6830190771216604,
+          0.3761313101638297,
+          -0.3755268119293942
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E2L",
+      "reference": "M2_CBH",
+      "mae": {
+        "change_percent": -0.09135064576422103,
+        "farms_improved": 32,
+        "per_seed_change_percent": [
+          -0.14628164375948272,
+          -0.1795048704376856,
+          -0.39756118329012935,
+          0.2285311043510152,
+          0.039290652159618134
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.25412304214385006,
+        "farms_improved": 37,
+        "per_seed_change_percent": [
+          0.02059181890494699,
+          -0.4316368036749507,
+          -0.4531826816353668,
+          -0.5375815355659008,
+          0.13512265659079148
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E2N",
+      "reference": "M2_CBH",
+      "mae": {
+        "change_percent": -0.11832934694961939,
+        "farms_improved": 37,
+        "per_seed_change_percent": [
+          -0.13884028520485536,
+          -0.2912345970639496,
+          -0.011422666915639201,
+          -0.2581311120525065,
+          0.10846705925182665
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.06094713780278038,
+        "farms_improved": 32,
+        "per_seed_change_percent": [
+          0.07937009822089891,
+          -0.2660995409265676,
+          -0.19168739153406777,
+          -0.3167242645083168,
+          0.39356082026777983
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E2",
+      "reference": "M2_CBH",
+      "mae": {
+        "change_percent": 0.07627291815690551,
+        "farms_improved": 28,
+        "per_seed_change_percent": [
+          0.09543971107512927,
+          -0.22443391568979232,
+          -0.06484198088221316,
+          0.4852012968847186,
+          0.091360979585553
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.10480829451700036,
+        "farms_improved": 22,
+        "per_seed_change_percent": [
+          0.16999679681743984,
+          0.06524329523991401,
+          -0.22221317881825353,
+          0.46683328246592826,
+          0.0431556908616848
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E3",
+      "reference": "M2_CBH",
+      "mae": {
+        "change_percent": 0.06501558966220955,
+        "farms_improved": 25,
+        "per_seed_change_percent": [
+          -0.054865234837353505,
+          -0.28496109033656625,
+          0.25007162110561865,
+          0.10698649661931015,
+          0.3078779790043784
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.0318077445821352,
+        "farms_improved": 31,
+        "per_seed_change_percent": [
+          0.06604024267977682,
+          -0.10028618764669206,
+          0.09933341121002304,
+          -0.2960376869125647,
+          0.3924314306273713
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_LOCAL_SEL",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 1.785824626886967,
+        "farms_improved": 1,
+        "per_seed_change_percent": [
+          1.9402040362330952,
+          1.4651538421178278,
+          1.6331610054787005,
+          2.1062450225274754,
+          1.7850472530979156
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.622847888435297,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          1.8071114165301605,
+          1.3082642661643717,
+          1.5708784550572785,
+          1.8634873790576156,
+          1.562880053741278
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_NO_SEL",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.9881908680190676,
+        "farms_improved": 3,
+        "per_seed_change_percent": [
+          1.0134198051859666,
+          1.1528672698770892,
+          1.1021886415305993,
+          0.3096363942598268,
+          1.3648832903165875
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.044472717542999,
+        "farms_improved": 3,
+        "per_seed_change_percent": [
+          1.057211319377882,
+          0.8969970833525798,
+          1.294534843795092,
+          0.4328030600479371,
+          1.5473278666239931
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_NO_NEAR",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.06286114266182974,
+        "farms_improved": 20,
+        "per_seed_change_percent": [
+          0.1185920675546015,
+          -0.024692501409828704,
+          0.036250879541888104,
+          0.17314625125288696,
+          0.011041121668298182
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.13651368781923967,
+        "farms_improved": 13,
+        "per_seed_change_percent": [
+          0.2897013775459589,
+          -0.009609288494261126,
+          0.15594143816337613,
+          0.26276450664448614,
+          -0.016993885606841896
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_NO_RINGS",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.682429174635546,
+        "farms_improved": 7,
+        "per_seed_change_percent": [
+          0.6682567873115053,
+          0.6282213882625287,
+          0.6518611386749917,
+          0.599340566121076,
+          0.8651847009206959
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.6254376051725963,
+        "farms_improved": 7,
+        "per_seed_change_percent": [
+          0.670455472528908,
+          0.567251719673223,
+          0.6613690180279574,
+          0.6304109493111554,
+          0.5978187769500876
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_NO_DENSITY",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.2739139513929789,
+        "farms_improved": 11,
+        "per_seed_change_percent": [
+          0.14440726096285328,
+          0.41297077337203447,
+          0.5494833310871305,
+          -0.22421265429551918,
+          0.4872372022302729
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.1762523250136816,
+        "farms_improved": 18,
+        "per_seed_change_percent": [
+          0.056441387126260345,
+          0.24143910072402797,
+          0.46744375562601803,
+          -0.07667967877810211,
+          0.19474660645659725
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_NO_DYNAMICS",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.4287315506873002,
+        "farms_improved": 4,
+        "per_seed_change_percent": [
+          0.3684102846692072,
+          0.3038593060381345,
+          0.4121121210258094,
+          0.6950681119937352,
+          0.3634343730235079
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.4057107771441082,
+        "farms_improved": 4,
+        "per_seed_change_percent": [
+          0.2399535194879121,
+          -0.02139375010651312,
+          0.5221545566517438,
+          0.887178993797888,
+          0.3957714567977888
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_NO_STABILITY",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.054896351464472914,
+        "farms_improved": 20,
+        "per_seed_change_percent": [
+          -0.008841989338748135,
+          0.17671879471254925,
+          0.16047862331045604,
+          -0.20683202760927166,
+          0.15312310225363834
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.13580917098077183,
+        "farms_improved": 18,
+        "per_seed_change_percent": [
+          0.33132916140521385,
+          0.023198264745727393,
+          0.2508427690159243,
+          -0.018316517877836613,
+          0.0941669608803819
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_W0_NO_STATE",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.43742382445863814,
+        "farms_improved": 15,
+        "per_seed_change_percent": [
+          0.36399748990445513,
+          0.4450047518769873,
+          0.35896013547047634,
+          0.09586371259762139,
+          0.925111438814441
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.40584956104112724,
+        "farms_improved": 9,
+        "per_seed_change_percent": [
+          0.4133949349845567,
+          0.6049841882029172,
+          0.7989280044567781,
+          0.2825756115527822,
+          -0.0697963634879839
+        ]
+      }
+    },
+    {
+      "candidate": "FACTOR_W0_H0W1",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 1.2501153666042653,
+        "farms_improved": 1,
+        "per_seed_change_percent": [
+          1.2134705025722337,
+          1.1826081496451701,
+          1.1331651216640592,
+          1.113522603866124,
+          1.6091965760058446
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.3477372076283078,
+        "farms_improved": 1,
+        "per_seed_change_percent": [
+          1.7046084048397914,
+          1.6822822750466537,
+          1.4362072425953443,
+          1.2839703911149636,
+          0.6326193758935839
+        ]
+      }
+    },
+    {
+      "candidate": "FACTOR_W0_H1W0",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 19.147355256408538,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          19.436551362219024,
+          19.338018082009345,
+          18.913608653665293,
+          18.797188028021793,
+          19.25382429461169
+        ]
+      },
+      "rmse": {
+        "change_percent": 17.395116868242933,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          17.604008749883082,
+          17.310905432275668,
+          17.22005561116866,
+          17.18494802742734,
+          17.658560629486608
+        ]
+      }
+    },
+    {
+      "candidate": "FACTOR_W0_H0W0",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 20.009039325894797,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          20.402594599090197,
+          19.746565632457802,
+          19.684014322234965,
+          19.839457617969813,
+          20.376474604787465
+        ]
+      },
+      "rmse": {
+        "change_percent": 17.944094240744747,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          18.3034036626347,
+          18.623186005404957,
+          17.951483972667482,
+          16.490222792901534,
+          18.367279755889232
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_LOCAL_SEL",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 1.672604147315826,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          1.9606595132017457,
+          1.6464793553777834,
+          1.6018204486088594,
+          1.721607836184158,
+          1.433539328448874
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.3688092467363688,
+        "farms_improved": 4,
+        "per_seed_change_percent": [
+          1.7172030925610704,
+          1.394898927697219,
+          1.5491406583727052,
+          1.1812892109464457,
+          1.000867451172427
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_NO_SEL",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 1.2604336862926502,
+        "farms_improved": 5,
+        "per_seed_change_percent": [
+          1.0423391464114307,
+          1.1665021272262877,
+          1.2955828220903243,
+          1.2449154118216121,
+          1.551875421619453
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.088006710824918,
+        "farms_improved": 6,
+        "per_seed_change_percent": [
+          0.8868215099753884,
+          0.7150684442483346,
+          0.4478034681743681,
+          1.670348553101575,
+          1.7213582127376448
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_NO_NEAR",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.0372644237302211,
+        "farms_improved": 20,
+        "per_seed_change_percent": [
+          0.07567513044015595,
+          0.08658068019360421,
+          0.028622922397025796,
+          -0.020387182840031493,
+          0.01605615254562931
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.028425653084518387,
+        "farms_improved": 19,
+        "per_seed_change_percent": [
+          0.021001657447805577,
+          0.04369378781758915,
+          0.02888085370578164,
+          0.045255323020731986,
+          0.0032758684316069875
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_NO_RINGS",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.7882152633447825,
+        "farms_improved": 7,
+        "per_seed_change_percent": [
+          0.5949653588515957,
+          0.819981091422739,
+          0.7560725068704199,
+          0.5964145385022102,
+          1.1729162159420214
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.7723493711211615,
+        "farms_improved": 5,
+        "per_seed_change_percent": [
+          0.5504424789477769,
+          0.6818476307993704,
+          0.685282831834022,
+          1.2845138894365338,
+          0.6590256847236908
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_NO_DENSITY",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.25229883375061934,
+        "farms_improved": 18,
+        "per_seed_change_percent": [
+          0.08848997290802352,
+          0.2435506455643166,
+          0.4457925991545819,
+          0.21676918566706505,
+          0.266442662624522
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.17220423049244538,
+        "farms_improved": 23,
+        "per_seed_change_percent": [
+          0.03811816980276994,
+          0.37267567707293114,
+          0.4284014616083853,
+          -0.18173686571333336,
+          0.20350851530055447
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_NO_DYNAMICS",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.2272798434321377,
+        "farms_improved": 12,
+        "per_seed_change_percent": [
+          0.2796895955894607,
+          0.34506368364783935,
+          0.06471928151932094,
+          0.4098852470644454,
+          0.03707061690605418
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.3663263864314814,
+        "farms_improved": 7,
+        "per_seed_change_percent": [
+          0.16180308914071073,
+          0.11531915841040963,
+          0.05089790703904917,
+          1.3289986740686155,
+          0.17383110093898146
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_NO_STABILITY",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.20352375832790592,
+        "farms_improved": 9,
+        "per_seed_change_percent": [
+          0.14454678373994057,
+          0.32352222155476174,
+          0.2772158353231857,
+          0.12831297428115285,
+          0.14400343982035047
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.13973352534748518,
+        "farms_improved": 19,
+        "per_seed_change_percent": [
+          -0.09255392363357595,
+          -0.01557769926440189,
+          -0.07294956759990034,
+          0.6354050138958289,
+          0.24424806057350423
+        ]
+      }
+    },
+    {
+      "candidate": "INPUT_TF_NO_STATE",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.5275722298980767,
+        "farms_improved": 11,
+        "per_seed_change_percent": [
+          0.3600713807399236,
+          0.3378295863232461,
+          0.5892530079384617,
+          0.681485379326574,
+          0.6683411083872937
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.29452561082514706,
+        "farms_improved": 15,
+        "per_seed_change_percent": [
+          0.4434066505484502,
+          0.14085178883118665,
+          0.3893837088672303,
+          0.1641482750903478,
+          0.3344657976281029
+        ]
+      }
+    },
+    {
+      "candidate": "FACTOR_TF_H0W1",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 1.0282912045983084,
+        "farms_improved": 6,
+        "per_seed_change_percent": [
+          1.2248400315582275,
+          0.577941868049936,
+          1.0661072463820975,
+          1.216446572786789,
+          1.0565102094628909
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.9145276799118696,
+        "farms_improved": 8,
+        "per_seed_change_percent": [
+          1.4821791747489543,
+          0.6007508806536332,
+          0.5841567144831972,
+          0.7614237131220003,
+          1.1451607585627466
+        ]
+      }
+    },
+    {
+      "candidate": "FACTOR_TF_H1W0",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 19.134844689539456,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          19.128875602001337,
+          18.864485753686864,
+          19.28947955647078,
+          19.202185709565356,
+          19.189089338680997
+        ]
+      },
+      "rmse": {
+        "change_percent": 17.59224828902144,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          17.215717809608975,
+          17.64242190754013,
+          17.034284102945275,
+          17.79513356771949,
+          18.276016679175754
+        ]
+      }
+    },
+    {
+      "candidate": "FACTOR_TF_H0W0",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 19.869149262755027,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          20.03483829590489,
+          20.07442161491526,
+          19.85167038731015,
+          19.664317426228763,
+          19.721465525297145
+        ]
+      },
+      "rmse": {
+        "change_percent": 18.141998948729878,
+        "farms_improved": 0,
+        "per_seed_change_percent": [
+          17.970053540911902,
+          18.52392897081332,
+          17.43002900656123,
+          18.16141849010542,
+          18.628053605436268
+        ]
+      }
+    },
+    {
+      "candidate": "INDEPENDENT_W0_BASE",
+      "reference": "SHARED_W0_BASE",
+      "mae": {
+        "change_percent": 3.5118784277143877,
+        "farms_improved": 2,
+        "per_seed_change_percent": [
+          3.9965893529475105,
+          4.1491423567409536,
+          2.7145752211774177,
+          2.9085682159166515,
+          3.806298880444947
+        ]
+      },
+      "rmse": {
+        "change_percent": 2.701183598384582,
+        "farms_improved": 2,
+        "per_seed_change_percent": [
+          2.740811412805022,
+          3.2023598852285673,
+          1.942423343204669,
+          2.639725101115342,
+          2.990337925784181
+        ]
+      }
+    },
+    {
+      "candidate": "INDEPENDENT_W0_R3",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 2.5235554191073817,
+        "farms_improved": 4,
+        "per_seed_change_percent": [
+          2.930233690668693,
+          2.472796946976219,
+          2.5033286368853602,
+          1.9116184572884443,
+          2.80356318779702
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.74848219770396,
+        "farms_improved": 7,
+        "per_seed_change_percent": [
+          2.1837485094550635,
+          1.9197034777150845,
+          2.0607102990213955,
+          0.694243873705469,
+          1.8956686346351503
+        ]
+      }
+    },
+    {
+      "candidate": "INDEPENDENT_TF_BASE",
+      "reference": "TF_BASE",
+      "mae": {
+        "change_percent": 3.093055266705713,
+        "farms_improved": 5,
+        "per_seed_change_percent": [
+          3.4084174048721216,
+          2.785396843263177,
+          3.6790943447974733,
+          3.1679479521515397,
+          2.4316247243534317
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.8559974305961013,
+        "farms_improved": 8,
+        "per_seed_change_percent": [
+          1.8548578481892841,
+          2.166427427316342,
+          2.287881770885547,
+          1.3091959623923177,
+          1.6679349942606336
+        ]
+      }
+    },
+    {
+      "candidate": "INDEPENDENT_TF_R3",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 2.851669812974955,
+        "farms_improved": 4,
+        "per_seed_change_percent": [
+          3.120148623513841,
+          2.887355851723905,
+          3.0876215355283065,
+          2.6145546976636513,
+          2.5502473604377185
+        ]
+      },
+      "rmse": {
+        "change_percent": 1.7359681445271669,
+        "farms_improved": 9,
+        "per_seed_change_percent": [
+          1.7552365568686223,
+          1.9421550820174494,
+          1.5122406546756562,
+          1.6742738241135369,
+          1.7971851278601347
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E2N",
+      "reference": "ENC_neutral_E2L",
+      "mae": {
+        "change_percent": 0.2672475009664943,
+        "farms_improved": 18,
+        "per_seed_change_percent": [
+          0.6123104028294302,
+          0.18053257155101754,
+          0.37871426100828387,
+          0.06975191674665204,
+          0.10017607950489893
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.45800245275040563,
+        "farms_improved": 10,
+        "per_seed_change_percent": [
+          0.4402083195555795,
+          0.06876446813395276,
+          0.24451203464823656,
+          1.327481823156873,
+          0.20981307728942244
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E2N",
+      "reference": "ENC_neutral_E0",
+      "mae": {
+        "change_percent": 0.013633589045625172,
+        "farms_improved": 30,
+        "per_seed_change_percent": [
+          -0.4118271460744727,
+          0.2039716399033109,
+          0.34487363837014673,
+          -0.30552325975307104,
+          0.2379737241686275
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.22863528376586562,
+        "farms_improved": 15,
+        "per_seed_change_percent": [
+          -0.15552703949620605,
+          0.3683316621338584,
+          0.45964267575111517,
+          -0.042539588896883807,
+          0.5180284531886681
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E2",
+      "reference": "ENC_neutral_E2N",
+      "mae": {
+        "change_percent": -0.11243546545937066,
+        "farms_improved": 35,
+        "per_seed_change_percent": [
+          0.1249864094423847,
+          -0.09290167145554751,
+          0.21861063099137823,
+          -0.5538319329740915,
+          -0.2565840694717769
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.15534350600256985,
+        "farms_improved": 36,
+        "per_seed_change_percent": [
+          0.07017943797640314,
+          0.019664631302362956,
+          -0.008997363845875128,
+          -0.5838841865280497,
+          -0.267935723166568
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_neutral_E1",
+      "reference": "ENC_neutral_E0",
+      "mae": {
+        "change_percent": -0.028215825352817525,
+        "farms_improved": 31,
+        "per_seed_change_percent": [
+          -0.23398408771113655,
+          0.2999870030288898,
+          -0.08252408971795022,
+          -0.25187119860069496,
+          0.12867526118189865
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.11637442488416916,
+        "farms_improved": 35,
+        "per_seed_change_percent": [
+          -0.03454661713285789,
+          0.2244314973871786,
+          0.011889436196721448,
+          -0.9704479125734689,
+          0.19994740861228877
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E2N",
+      "reference": "ENC_cbh_E2L",
+      "mae": {
+        "change_percent": -0.02700336893730615,
+        "farms_improved": 35,
+        "per_seed_change_percent": [
+          0.007452259842821718,
+          -0.11193064759019711,
+          0.3876797806980026,
+          -0.48555257773542637,
+          0.06914923790566352
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.19366805950553623,
+        "farms_improved": 19,
+        "per_seed_change_percent": [
+          0.05876617829094766,
+          0.16625487999837318,
+          0.262685736365631,
+          0.22205097610465963,
+          0.2580894263876754
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E2N",
+      "reference": "ENC_cbh_E0",
+      "mae": {
+        "change_percent": -0.03309094522602196,
+        "farms_improved": 35,
+        "per_seed_change_percent": [
+          -0.26608327538665266,
+          0.10081430949175907,
+          0.6586963333310214,
+          -0.6543001287205641,
+          -0.0008193796273703313
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.10302855824402268,
+        "farms_improved": 27,
+        "per_seed_change_percent": [
+          -0.30042413469361096,
+          0.3052264527481974,
+          0.6581923670733625,
+          -0.8049137734835288,
+          0.6733964486963284
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E2",
+      "reference": "ENC_cbh_E2N",
+      "mae": {
+        "change_percent": 0.19483280949765813,
+        "farms_improved": 16,
+        "per_seed_change_percent": [
+          0.23460572353566356,
+          0.06699579631159747,
+          -0.05342541657394895,
+          0.745256146916895,
+          -0.017087545308369645
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.1658565171198223,
+        "farms_improved": 15,
+        "per_seed_change_percent": [
+          0.0905548251428856,
+          0.33222689039666964,
+          -0.030584413749112915,
+          0.7860471490256815,
+          -0.349031478257289
+        ]
+      }
+    },
+    {
+      "candidate": "ENC_cbh_E1",
+      "reference": "ENC_cbh_E0",
+      "mae": {
+        "change_percent": -0.020700018428432276,
+        "farms_improved": 32,
+        "per_seed_change_percent": [
+          -0.33925494996415173,
+          0.09365655943907036,
+          0.19867102803554637,
+          -0.06770694527333809,
+          0.0105835509192298
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.058714271695159415,
+        "farms_improved": 37,
+        "per_seed_change_percent": [
+          -0.5063546775339156,
+          0.2667135433588985,
+          0.162676933224426,
+          -0.11545139411214267,
+          -0.09783492777203362
+        ]
+      }
+    },
+    {
+      "candidate": "INDEPENDENT_W0_BASE",
+      "reference": "INDEPENDENT_TF_BASE",
+      "mae": {
+        "change_percent": -0.11398859636279068,
+        "farms_improved": 30,
+        "per_seed_change_percent": [
+          0.09099060902924005,
+          -0.002765516039671123,
+          -0.5718223501886222,
+          -0.042722814680129506,
+          -0.04199232558238508
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.6551233337593887,
+        "farms_improved": 16,
+        "per_seed_change_percent": [
+          0.9006296923301127,
+          0.4605389912938129,
+          0.5342646563128772,
+          0.8414527881503098,
+          0.5389210510041043
+        ]
+      }
+    },
+    {
+      "candidate": "INDEPENDENT_W0_R3",
+      "reference": "INDEPENDENT_TF_R3",
+      "mae": {
+        "change_percent": -0.5011910493447513,
+        "farms_improved": 40,
+        "per_seed_change_percent": [
+          -0.4415521868253669,
+          -0.46055362812847944,
+          -0.5162338081265982,
+          -0.8031506087408213,
+          -0.28422868282171887
+        ]
+      },
+      "rmse": {
+        "change_percent": 0.2393184155007333,
+        "farms_improved": 18,
+        "per_seed_change_percent": [
+          0.2573952578465377,
+          0.3560128319997746,
+          0.3155992524146889,
+          0.010807509742827293,
+          0.2568072211789785
+        ]
+      }
+    },
+    {
+      "candidate": "SHARED_W0_BASE",
+      "reference": "TF_BASE",
+      "mae": {
+        "change_percent": -0.5181410054588609,
+        "farms_improved": 37,
+        "per_seed_change_percent": [
+          -0.4750925029034958,
+          -1.3121452843394055,
+          0.3618365639765031,
+          0.2092182300799994,
+          -1.365704771998344
+        ]
+      },
+      "rmse": {
+        "change_percent": -0.17322464605957766,
+        "farms_improved": 33,
+        "per_seed_change_percent": [
+          0.030544364809026447,
+          -0.5478714093615,
+          0.8749511718697756,
+          -0.46576516468048723,
+          -0.7520055214076504
+        ]
+      }
+    },
+    {
+      "candidate": "W0_R3",
+      "reference": "SHARED_W0_BASE",
+      "mae": {
+        "change_percent": -2.767934912918213,
+        "farms_improved": 54,
+        "per_seed_change_percent": [
+          -2.789241837818346,
+          -1.9790249674466187,
+          -3.113692063146223,
+          -3.2371394774593276,
+          -2.7099409639089855
+        ]
+      },
+      "rmse": {
+        "change_percent": -2.27251452411108,
+        "farms_improved": 53,
+        "per_seed_change_percent": [
+          -2.8174713488853143,
+          -1.6137534124789243,
+          -3.0624192057528643,
+          -1.7096030959772857,
+          -2.1497162734251063
+        ]
+      }
+    }
+  ],
+  "history_weather_interaction": [
+    {
+      "family": "W0",
+      "metric": "mae",
+      "weather_gain_with_real_history": 0.01658141320660644,
+      "weather_gain_with_constant_history": 0.01624503568847706,
+      "interaction": 0.0003363775181293829,
+      "positive_farms": 41,
+      "per_seed": [
+        0.00021344751052399574,
+        0.0006713642489243955,
+        0.00031486478075591287,
+        6.18482626194162e-05,
+        0.0004203627878231941
+      ]
+    },
+    {
+      "family": "W0",
+      "metric": "rmse",
+      "weather_gain_with_real_history": 0.023511493984464935,
+      "weather_gain_with_constant_history": 0.022431878526813446,
+      "interaction": 0.001079615457651491,
+      "positive_farms": 49,
+      "per_seed": [
+        0.0013527516135873176,
+        0.0004997989710951616,
+        0.0009511557608824073,
+        0.0026970237261403265,
+        -0.00010265278344775772
+      ]
+    },
+    {
+      "family": "TF",
+      "metric": "mae",
+      "weather_gain_with_real_history": 0.01660091852393499,
+      "weather_gain_with_constant_history": 0.016345862985523495,
+      "interaction": 0.0002550555384114901,
+      "positive_farms": 37,
+      "per_seed": [
+        0.00027579634411622984,
+        -0.0005484632875597539,
+        0.00043716268418337526,
+        0.000655531825994325,
+        0.0004552501253232743
+      ]
+    },
+    {
+      "family": "TF",
+      "metric": "rmse",
+      "weather_gain_with_real_history": 0.02372408838936763,
+      "weather_gain_with_constant_history": 0.023232167054041936,
+      "interaction": 0.0004919213353256947,
+      "positive_farms": 39,
+      "per_seed": [
+        0.0009810844008073527,
+        -0.0003778173586012381,
+        0.0002548464482175262,
+        0.0005333374396420883,
+        0.0010681557465627447
+      ]
+    }
+  ],
+  "test2024_read": false
+}

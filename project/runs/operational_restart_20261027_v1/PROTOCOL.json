@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-10-27T23:44:47.791644+08:00",
+  "data_fingerprint": "1052d8456c9b950e91ad2a15813c6ceffc541fe7ddba7450c5abd7cc892eef80",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "test_2024_enabled": false,
+  "screen_seeds": [
+    42,
+    43
+  ],
+  "replication_seeds": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "farms": 56,
+  "epochs": 80,
+  "patience": 10,
+  "loss": "MAE",
+  "selection": "2023 MAE; report paired MAE and RMSE of same MAE-selected checkpoint",
+  "precision": "float32_no_tf32",
+  "batch_size": 256,
+  "learning_rate": 0.0002,
+  "weight_decay": 0.0001,
+  "regional_rings_km": [
+    [
+      0,
+      20
+    ],
+    [
+      20,
+      60
+    ],
+    [
+      60,
+      150
+    ]
+  ],
+  "regional_weight": "capacity MW; exclude target",
+  "neighbor_delay_minutes": 15,
+  "neighbor_n3": "nearest 8 within150km; same legacy N3 readout",
+  "R3_RAW": "N3 + three rings mean/std/1h change/presence; removes identically zero slots from original36dim encoding",
+  "mismatch": "joint donor for all neighbors from2022 same BJT month and clock; at least48h away; seed-specific; matches forecast age",
+  "interaction": "real current-power persistence anchor retained in all four cells; H0 fixes earlier history and all SEL STATE; W0 fixes weather and weather-derived SEL expectations; estimate history-context by weather interaction conditional on current power",
+  "P1": "same available issue pastweather; monotone2022 mapping, train monthOOF+24h; observed-minus-mapped residual; ownlast3h throughorigin, neighbors delayed15min; linear conditional gate before GPU",
+  "age": "age/24 at origin; deterministic cycle/time-of-day covariate, not separate causal age identification",
+  "success": "MAE and RMSE relative improvement >=0.1%, >28/56 farm wins each, high-power group RMSE increase <=0.5%; trained mismatch controls must be worse",
+  "replication": "eligible two-seed comparisons and matched controls expand to10 seeds; mechanism full2x2 expands together if positive both metrics with >28 farm signs; no2024 evaluation",
+  "initialization": "fresh random weights; original W0 neutral-last active graph has no B0 weight dependency; new E2C and SEL normalization",
+  "forecast_time": "BJT08/20 issue +12h delivery; UTC filenames; same issue for entire6h trajectory; lead up to30h"
+}

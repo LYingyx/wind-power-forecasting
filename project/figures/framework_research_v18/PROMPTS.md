@@ -1,0 +1,59 @@
+# v18 Prompt 与参考输入记录
+
+模型：gpt-image-2.5；imagegen fallback CLI；1536×1024；quality=high。第一次调用的三张输入均为风格参考，设计意图是从头生成新图；第二次输入为首轮图，修正历史摘要连接及读出文字。参考文献和实际查看位置见 STYLE_REVIEW_CN.md。
+
+## 1. 根据近期方法图重绘
+
+```text
+Use case: scientific-educational.
+Asset type: original machine-learning paper framework figure, designed to span two paper columns.
+Input images: Image 1 is a STYLE REFERENCE crop from the ICLR 2026 CoRA poster; Image 2 is a STYLE REFERENCE crop of NeurIPS 2025 TiRex Figure 2; Image 3 is a STYLE REFERENCE crop from the ICLR 2026 STORM poster. These images are not edit targets. Borrow only their restrained scientific-figure typography, compact graphical summaries, fine lines, whitespace and quiet pastel accents. Do NOT reproduce their graphs, methods, text, logos or operators. Create a completely NEW figure for the method specified below.
+
+DESIGN GOAL
+A beautiful, concise and credible research framework, halfway between a functional architecture and a conceptual illustration. The important idea is a frozen history-supported forecast reference guiding a trainable weather correction. The figure should look carefully composed for a paper, not like a presentation slide, a software flowchart or an illustrated landscape.
+
+ART DIRECTION
+1536x1024, opaque pure white. Compact wide composition with a clear left-to-right reading order. Clean dark charcoal Helvetica-like labels, semibold module names, regular connector labels. Titles at most 24 px, body labels around 19 px; do not use huge heavy navy headings. Very thin charcoal/gray outlines, very pale flat slate-blue, sage, sand and dusty-rose accents. Suggested accents: history #6E8BA8, weather #5B958B, reference #C28F4C, learned correction #AF777C. Use white for most module interiors; only the central contribution receives a barely tinted rose backplate. No neon blue or purple, no saturated box borders, no giant colored cards, no gradients, shadows, watercolor, glossy sheets, mountain landscapes, scenic wind-farm artwork or decorative blobs. Small time-series plots and feature-field thumbnails carry the meaning. Keep a small pair of simple wind-turbine line icons near the observed-power input, occupying less than 3% of the canvas.
+
+Every information-flow arrow is horizontal, vertical, or a polyline with sharp 90-degree bends. Consistent 1.5-2 px strokes, small matching triangular arrowheads. Most arrows are charcoal; use the muted reference/history/weather colors only for the three important bypass routes. No curved or diagonal connectors. Arrow labels sit beside lines with clear gaps. No crossings, floating arrows, doubled inputs or ambiguous joins. Align node centers and ports. Curved time-series traces are allowed inside plots; they are not connectors.
+
+NEW SPATIAL ORGANIZATION
+Use three lightweight region captions across the top, without enclosing every region: "History and reference", "Trajectory-conditioned correction", "Forecast". Keep the scientific dependency structure below, with ample connector gutters. The broad upper rail carries the frozen reference. The main middle row carries summary -> condition -> correction -> forecast. Inputs sit close to their consumers. The lower outside rail carries complete historical memory. Avoid reproducing the tall nested-box layout of earlier diagrams.
+
+LAYOUT AND EXACT GRAPH
+1. Left input near x=40..205,y=310..460: "Observed power", drawn as two short clean blue traces labeled "Farm" and "Aggregate", one tiny turbine outline, and "24 observed steps". Use an open plot, not a large scenic card.
+2. Upper reference lane: a compact dashed-outline "History forecaster" near x=275..440,y=125..220, small snowflake and "Frozen". Observed power feeds it through a short orthogonal route. It points right to an open amber mini-plot "Reference trajectory" near x=510..655,y=115..225, with endpoints "0" and "6 h".
+3. Middle-left: a compact "History encoder" near x=275..440,y=335..450, with a small continuous blue trace bundle. It receives a straight rightward arrow from Observed power, labeled "Farm history". It is independent of the frozen forecaster. Its rightward output is "History summary", entering the central condition module. Its other output is the independent full-memory bypass below. No link between the two encoders.
+4. Central upper: "Reference condition" near x=720..950,y=300..420. Inside, show two very small blue/amber line sketches and one concise subtitle "Summary + trajectory + lead". It receives History summary from the left and the reference trajectory from above. The latter has a short amber square-elbow connector. The condition includes baseline level and step change, but no extra formula or operator boxes are needed. Condition outputs vertically DOWN to Weather adjustment.
+5. Central main: "Weather adjustment" near x=720..950,y=515..630. Use a small paired teal and rose abstract feature-field thumbnail, with a short horizontal arrow between them, and the tiny subtitle "Conditioned features". These are flat abstract feature contours, not physical weather maps. Do not draw token rows, activations or parameter matrices.
+6. Lower-middle input: "Future NWP" near x=470..620,y=520..650, illustrated with two compact flat weather-grid thumbnails and a small site pin. It supplies a straight rightward arrow "Weather features" into Weather adjustment. The forecast weather is available at the origin; no future observations enter the model.
+7. Main row, right of adjustment: "History-aware readout" near x=1030..1190,y=510..635. Small blue and rose traces inside indicate reading future features with historical memory. Weather adjustment points straight RIGHT into this readout. The readout concept includes feature fusion, history decoding and scalar correction; do not split it into Linear/MLP/Transformer boxes.
+8. Separate small context above readout, near x=1035..1190,y=300..380: "Lead / site / phase", with minimal clock and map-pin line icons. It points straight DOWN into readout top, labeled "Target context". It must not originate from the weather path.
+9. Readout output points straight RIGHT into a single final circular PLUS near x=1265,y=570. Label that short outgoing segment "Power correction"; a tiny signed correction sparkline can sit above the segment if space allows, without adding another large block. The final plus outputs straight RIGHT into the final forecast plot.
+10. Far-right output near x=1330..1510,y=465..665: "Power forecast", one open plot with dashed amber "Reference" and solid charcoal "Forecast". Endpoints "0" and "6 h"; short subtitle "24 steps / 15 min". Keep the plot large enough to read. No empirical numeric power scale or uncertainty band. The forecast may depart above and below the reference.
+
+THREE ESSENTIAL BYPASSES
+A. The amber reference-plot RIGHT edge -> horizontal UPPER rail -> square bend DOWN -> TOP of final plus. Label "Output reference" along the upper rail. It bypasses the central condition, adjustment and readout. The final plus has exactly TWO inputs: reference from top and power correction from left. Its only output goes right to Power forecast.
+B. History encoder BOTTOM -> straight down at x approximately 340 -> horizontal LOWER rail near y=840 -> straight UP at x approximately 1080 into readout BOTTOM. Label "Full historical memory" above the lower horizontal rail. The NWP input starts to the right of x=470, leaving the descending blue segment clear. This route bypasses condition and adjustment.
+C. The SAME weather-feature source that enters Weather adjustment also branches through a teal square-elbow lane BELOW the adjustment, near y=715, into a SEPARATE bottom port of readout near x=1150. Label "Direct weather features". Keep this lane above the full-memory lane, with distinct vertical ports and no crossing. Use a tiny filled dot at the genuine weather junction. This route does not pass through adjustment.
+
+USE WHITESPACE INTELLIGENTLY
+Keep the reference lane and supporting inputs visually lighter than the main condition-adjustment-readout path. The middle condition and adjustment can share one very pale rose group with a fine dashed gray boundary, but do not nest multiple colored boxes. Visual emphasis comes from a clean hierarchy and alignment, not heavier borders. Keep diagrams and text balanced; all thumbnails small, all labels readable, no long paragraph in the figure. If the suggested coordinates need modest spacing adjustments, preserve the clear lanes and exact graph. Crop nothing. Do not add a second explanatory panel, repeated title, code-level module chain, heavy outer frame or legend that repeats every label.
+
+SCIENTIFIC INVARIANTS
+Frozen reference uses farm and aggregate history. The separate history encoder uses farm history; its summary is a contextual final token, not the raw last observation. The reference supplies condition and final-output paths. Complete memory directly supports readout. Direct weather and independent target context remain explicit. The power forecast equals reference plus a signed correction. No physical-weather transformation, invented empirical data, explicit multiplicative gate, training workflow, losses or claimed causal dynamics. The supplied style references are unrelated methods; import none of their technical modules. Output only this new finished paper framework.
+```
+
+## 2. 连线与文字校正
+
+```text
+Use case: scientific-educational.
+Input image 1 is the edit target: the newly composed white-background framework with muted colors and three region captions. Preserve its composition, typography, modules, drawings and all other connectors exactly. Make only two localized corrections.
+
+1. Correct the HISTORY SUMMARY route. The current black output from the RIGHT edge of History encoder (near x=505,y=531) incorrectly curves into Weather adjustment (near x=650,y=548). Remove the entire curved branch between the encoder and Weather adjustment, including its arrowhead and any faint stray/dashed continuation. The history summary must enter REFERENCE CONDITION, not Weather adjustment.
+Draw the correct route as a thin black SQUARE-ELBOW polyline: from History encoder RIGHT edge near (505,531), go horizontally right to (579,531), go vertically UP to (579,414), then horizontally RIGHT into the LEFT border of Reference condition near (627,414). Put a single small right-pointing triangular arrowhead at the destination. Retain the label "History summary" in clean whitespace to the left of the vertical segment. No curves, rounded corners or diagonal segments. There must be exactly ONE summary route; it ends at Reference condition only. Keep the existing downward Reference condition -> Weather adjustment arrow unchanged. Do not connect summary to that downward arrow or to Weather adjustment directly. Keep this route entirely above the teal weather-features line.
+
+2. In the History-aware readout module, replace the three-line implementation subtitle "Feature fusion + history decoding + scalar correction" with the concise functional phrase "Read full historical context" on two lines. Retain its small blue and rose trace illustrations and the module title. Do not add layer names or operator boxes.
+
+Invariants: frozen reference path, amber reference-to-condition path, amber top bypass to final plus, source NWP path, direct teal weather bypass, blue full-history bypass and independent Target context input all remain unchanged. The final plus receives exactly two inputs, amber reference from above and power correction from left, then outputs right. All information-flow connectors are horizontal, vertical or sharp 90-degree elbows with consistent thin strokes and small arrowheads. White background, muted palette and every other label stay unchanged. No new modules, no cropping, no extra arrow or text. Return the same 1536x1024 figure with these corrections only.
+```

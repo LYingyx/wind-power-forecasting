@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-10-25T17:52:49.982540+08:00",
+  "train_year": 2022,
+  "validation_year": 2023,
+  "test_year_accessed": false,
+  "planned_training": 1232,
+  "planned_reference_diagnostics": 112,
+  "planned_tasks": 1344,
+  "farms": 56,
+  "seeds": [
+    42,
+    43
+  ],
+  "backbones": [
+    "W0",
+    "TF_z1_lr0.0002_dp0.05"
+  ],
+  "base_input": "SEL = DENS3 + DYN7 + STAB5 + STATE7; no CAL",
+  "variants": [
+    "N0",
+    "N1",
+    "N2",
+    "N2_SELF",
+    "N3",
+    "N4_K4",
+    "N4_K16",
+    "N5_CORR",
+    "N7_D0",
+    "N7_D30"
+  ],
+  "neighbor_defaults": {
+    "k": 8,
+    "radius_km": 150,
+    "delay_minutes": 15,
+    "history_points": 22,
+    "target_excluded": true,
+    "invalid_mask_and_null_token": true
+  },
+  "topology_selection": "N5 ranks 2022 contemporaneous power correlation within same 150km candidate pool; all other topology fixed by geography",
+  "aggregate": "N3 uses same 8 neighbors and capacity-normalized MW sum, repeated to same token slots and same attention parameters",
+  "capacity_control": "N2_SELF uses only delayed target history through identical neighbor parameters and geometry; N2 alone does not isolate regularization",
+  "mismatch": "N2 jointly draws all neighbor histories from a different day of 2022 with same calendar month and local quarter-hour. Training excludes +/-1 day, validation uses only 2022 donors. Year-distribution shift is a limitation of this negative control.",
+  "latency": "All delays use 22 observations; N7 retrains at 0/30 minutes, in addition to fixed-weight delay interventions",
+  "interventions": [
+    "neighbor_zero",
+    "neighbor_identity_valid_only",
+    "neighbor_reverse",
+    "delay0",
+    "delay15",
+    "delay30"
+  ],
+  "intervention_interpretation": "Fixed-weight sensitivity, possibly out-of-distribution; not standalone proof of incremental value",
+  "diagnostics": [
+    "horizons",
+    "current_power",
+    "history_ramp",
+    "forecast_wind_change",
+    "outcome_power_change_1h",
+    "neighbor_within_50km",
+    "season",
+    "stability",
+    "wind_speed"
+  ],
+  "outcome_strata": "Future realized ramp labels used only to group prediction errors; thresholds fitted on 2022",
+  "training": {
+    "epochs": 80,
+    "patience": 10,
+    "loss": "MAE",
+    "optimizer": "AdamW",
+    "weight_decay": 0.0001,
+    "batch": 256,
+    "clip_norm": 1,
+    "precision": "FP32_no_TF32",
+    "stopping": "validation_MAE",
+    "selected_checkpoints": [
+      "mae",
+      "rmse"
+    ]
+  },
+  "gate": {
+    "primary": "W0 N1 vs W0 N0, 2023 all-horizon MAE, equal seed within farm then equal farm",
+    "minimum_relative_improvement_percent": 0.1,
+    "also_strictly_better_than": [
+      "N2",
+      "N3"
+    ],
+    "capacity_control_report": "N2_SELF comparison mandatory; if it does not improve, do not claim proven real-time neighbor value",
+    "fixed_primary": "N1; N4/N5/N7 sensitivity results cannot replace failed primary gate after the fact"
+  },
+  "reporting": "Actual farm/seed results mandatory; report every improvement and loss, including below 0.1%. The 0.1% threshold is the user-specified next-stage gate only.",
+  "next": "After complete review, explicitly freeze revised joint 2024 protocol. Preserve previous B1 freeze; no 2024 execution in this screen.",
+  "storage": "Reuse cache, no prediction files or attention-array copies, retain at most two selected weights, delete latest on success"
+}

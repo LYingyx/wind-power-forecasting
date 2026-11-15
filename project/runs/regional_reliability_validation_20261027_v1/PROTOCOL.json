@@ -1,0 +1,70 @@
+{
+  "timestamp": "2026-10-27T17:24:42.562348+08:00",
+  "fit_year": 2022,
+  "selection_year": 2023,
+  "open_2024": false,
+  "farms": 56,
+  "screen_seeds": [
+    42,
+    43
+  ],
+  "replication_seeds": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "training": 3248,
+  "replays": 1008,
+  "geometry_arms": [
+    "EXCLUDE20_KEEP",
+    "EXCLUDE20_REFILL",
+    "MATCH_INNER",
+    "MATCH_MIDDLE",
+    "MATCH_OUTER",
+    "MATCH_RANDOM",
+    "FULL_INNER",
+    "FULL_MIDDLE",
+    "FULL_OUTER",
+    "FULL_ALL"
+  ],
+  "geometry_control": "N3 fixed for matched/full controls; 4 shared slots; equal weights; log capacity matching; 41-site common support",
+  "deletion": "EXCLUDE20_KEEP masks <20km in both routes without replacement; REFILL picks next nearest 8 and masks <20km everywhere",
+  "gates": {
+    "arms": [
+      "G_FREE",
+      "G_LEAD",
+      "G_STATE",
+      "G_STATE_LEAD"
+    ],
+    "bounded": "output interpolation weight in [0,1]; prediction itself not clipped",
+    "formula": "local + amplitude * exp(-lead/tau) * (regional-local); independent LEAD and STATE bypasses",
+    "state": "own CF/trend, region CF/trend/spread/gap, NWP target speed and change from origin",
+    "dropout": "both shared-backbone forwards use same dropout draw; local path is jointly trained, not a frozen N0 checkpoint",
+    "controls": "Each gate has own C2; identical allocated parameters across 4 gates; G_FREE against old RAW tests implementation parity"
+  },
+  "simplification": "R3_MEAN_DELTA with own C2 and both W0/TF; reuse old W0 42/43 weights",
+  "training_settings": {
+    "epochs": 80,
+    "patience": 10,
+    "batch": 256,
+    "loss": "MAE",
+    "learning_rate": 0.0002,
+    "TF_dropout": 0.05,
+    "TF_zero_output": true,
+    "precision": "FP32, no TF32",
+    "selection": "same MAE checkpoint for all primary metrics"
+  },
+  "replication_rule": "See frozen SELECTION_RULES.json; complete screen and paired 56 farms first; no 2024",
+  "interpretation": "2023 selected-year tests, not independent-year confirmation; outcome labels are diagnostic only",
+  "storage": "Reuse references, <=2 selected checkpoints, no prediction arrays",
+  "hosts": [
+    "local4090",
+    "v1006001",
+    "v1006002"
+  ]
+}

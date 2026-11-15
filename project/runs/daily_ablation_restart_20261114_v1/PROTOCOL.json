@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-11-14T21:28:09.446068+08:00",
+  "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "weather_protocol": "daily_08_BJT_latency15h",
+  "regional_delay_minutes": 0,
+  "train_year": 2022,
+  "selection_year": 2023,
+  "test2024_read": false,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "farms": 55,
+  "budget": {
+    "tune": 16,
+    "shared_local": 5,
+    "weather_encoder": 60,
+    "input_ablation": 80,
+    "history_weather": 30,
+    "independent": 1100
+  },
+  "total_jobs": 1291,
+  "old_protocol_weights_or_metrics_reused": false,
+  "initialization": "fresh for every job; no pretrained weights",
+  "independent": "Each optimizer sees only its target farm labels; regional input is the matched factor, using all observed farms through origin. Same train-fitted feature scaling as shared arms; not an unseen-farm transfer experiment.",
+  "factorial": "H0 repeats current local power across history and recomputes STATE; current-power anchor is retained. W0 replaces weather with training mean, zeroes ALL normalized weather-derived SEL fields; time, site and regional observed power remain. H1W1 is the new shared R3 baseline. Measures local-history x weather given current power and regional observations.",
+  "encoders": "E0 raw14 affine; E1 raw14+DEM affine; E2L raw14 deep affine; E2N raw14 deep GELU; E2 raw14+DEM GELU; E2C column15 GELU; E3 column groups (quarter,3/8,3/8 width). Neutral and CBH contexts both rerun; E2C controls are the newly trained shared W0_R3 and M2_CBH.",
+  "tuning": "W0_BASE:8configs x2seeds, same budget as existing families. Other ablations use their own family/input selected config to hold backbone budget fixed. Independent arms reuse same selected config and max80/patience10; same per-farm sample exposure, optimizer update count differs from shared.",
+  "dependencies": [
+    "verified daily data",
+    "per-family selected config when available",
+    "per-seed OOF reference when required"
+  ],
+  "dispatch": "concurrent with shared training and personalization on disjoint GPU pools; per-job dependencies unchanged"
+}

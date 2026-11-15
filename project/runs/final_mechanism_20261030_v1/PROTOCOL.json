@@ -1,0 +1,51 @@
+{
+  "timestamp": "2026-10-30T02:05:16.046934+08:00",
+  "data_fingerprint": "1052d8456c9b950e91ad2a15813c6ceffc541fe7ddba7450c5abd7cc892eef80",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "excluded_validation_month": 11,
+  "validation_mask_sha256": "e505b9f082264fd3e61d1de7f056b93f40a127256423cd8583b99cb3220f9609",
+  "validation_rows": 29695,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "farms": 56,
+  "total_jobs": 4480,
+  "new_training_jobs": 3360,
+  "reused_reference_jobs": 1120,
+  "primary_checkpoint": "2023_noNov_MAE",
+  "loss": "MAE",
+  "batch_size": 256,
+  "epochs": 80,
+  "patience": 10,
+  "lr": 0.0002,
+  "weight_decay": 0.0001,
+  "comparison": "2x2 history_real x weather_real on W0+SEL+R3 and TF+SEL+R3",
+  "fixed_history": "2022 mean24-step history; recompute STATE and all history-dependent queries",
+  "fixed_weather": "2022 mean weather trajectory; zero normalized weather-derived SEL; replace physical wind entering neighbor attention query",
+  "held_constant": "real current power in additive output anchor, actual regional observations and rings, topology, phase, all hyperparameters and architecture",
+  "interpretation": "Predictive history-weather interaction conditional on actual anchor and regional observations; neither causal identification nor complete removal of all state information",
+  "interaction_formula": "(E_H1W0-E_H1W1)-(E_H0W0-E_H0W1)",
+  "mechanism_gate": {
+    "both_metrics": true,
+    "relative_to_E11_min": 0.001,
+    "positive_farms_min": 29,
+    "real_history_weather_gain_positive": true
+  },
+  "report_seed_counts": [
+    2,
+    10
+  ],
+  "seed_expansion": "All10 seeds predeclared including negative outcomes; first2 seeds reported as provisional only",
+  "test_policy": "Freeze all8 cells after complete2023 audit; then exploratory2024 replay of all8 cells regardless of result, no candidate selection",
+  "no_new_architecture": true
+}

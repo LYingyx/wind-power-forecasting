@@ -1,0 +1,180 @@
+\begin{figure*}[htbp]
+\centerline{\includegraphics[width=0.72\textwidth]{../../paper_image_use/method_new/exported/Fig02.pdf}}
+\caption{Overall framework. Future weather forms the main memory, while recent station-level power generates dynamic context tokens and imposes an operating-state constraint on weather reading at the memory level.}
+\label{fig:framework}
+\end{figure*}
+
+\section{Operating-State-Constrained Weather-Power Fusion Network}
+
+\subsection{Overall Framework}
+
+As shown in Fig.~\ref{fig:framework}, the network implements three functional stages. The Weather Encoder converts meteorological forecasts into queryable context carrying the main intraday driver. The Power-State Encoder summarizes only pre-origin station power into a sample-specific state. The Query Decoder then predicts all horizons in parallel by reading weather context conditioned on that state.
+
+The model applies memory-level conditioning by mapping the encoded state into dynamic tokens in the weather-memory latent space, allowing each horizon query to read origin-state and future-weather information from the same fused memory. The following subsections introduce the weather-memory construction, power-state encoding, and memory-level fusion and query-decoding structures.
+
+\subsection{Weather Memory Construction}
+
+The weather memory construction process is shown in Fig.~\ref{fig:weather-memory}. The Weather Encoder takes \(\mathbf{X}=[\mathbf{X}^{h};\mathbf{X}^{f}]\in\mathbb{R}^{T\times C\times H_g\times W_g}\), where \(T=L+H\), and \(L\) and \(H\) are the power-state window length and intraday forecast length defined in Section~III, respectively. The historical segment \(\mathbf{X}^{h}\) and target segment \(\mathbf{X}^{f}\) contain \(L\) and \(H\) frames, respectively. The \(C=17\) original channels are divided into nine wind-field and eight background meteorological channels, and first-order lead-time differences are additionally computed for all channels. Separate CNN stems extract frame-wise spatial features from the three information groups:
+\begin{equation}
+\mathbf{F}^{u}_{t}=\phi_{u}(\mathbf{X}^{u}_{t}),\quad
+\mathbf{F}^{b}_{t}=\phi_{b}(\mathbf{X}^{b}_{t}),\quad
+\mathbf{F}^{\Delta}_{t}=\phi_{\Delta}(\Delta\mathbf{X}_{t}),
+\end{equation}
+Here, \(\mathbf{X}^{u}_{t}\) and \(\mathbf{X}^{b}_{t}\) select the wind-field and background meteorological channels of frame \(t\), respectively. The first-order lead-time difference is defined as
+\begin{equation}
+\Delta\mathbf{X}_{1}=\mathbf{0},\qquad
+\Delta\mathbf{X}_{t}=\mathbf{X}_{t}-\mathbf{X}_{t-1},\quad t=2,\ldots,T.
+\end{equation}
+The frame-wise 2D convolutional stems \(\phi_{u}\), \(\phi_{b}\), and \(\phi_{\Delta}\) encode wind drivers, background meteorological conditions, and lead-time changes, respectively.
+
+The three feature groups are fused by a \(1\times1\) block and then augmented with temporal and stage embeddings:
+\begin{equation}
+\mathbf{H}_{t}=\psi([\mathbf{F}^{u}_{t};\mathbf{F}^{b}_{t};\mathbf{F}^{\Delta}_{t}])
++\mathbf{e}^{time}_{t}+\mathbf{e}^{stage}_{t}.
+\end{equation}
+Here, \(\psi(\cdot)\) denotes the \(1\times1\) convolutional fusion block used to mix channel information from the three meteorological branches; \(\mathbf{H}_{t}\) is the fused hidden representation of the \(t\)-th meteorological frame; \(\mathbf{e}^{time}_{t}\) marks the relative position of the frame in the input sequence; and \(\mathbf{e}^{stage}_{t}\) distinguishes the historical and target segments of the meteorological forecast sequence.
+
+The sequence \(\mathbf{H}_{1:T}\) is then fed into a spatiotemporal convolutional backbone \(\mathcal{E}_{w}\). The backbone consists of depthwise 3D spatiotemporal convolutions, spatial downsampling convolutions, and frame-wise spatial mixing modules. It models local spatiotemporal variations while preserving temporal length. The encoded features are first projected by a \(1\times1\times1\) memory projection and then pooled into a fixed-size spatiotemporal grid:
+\begin{equation}
+\mathbf{Z}^{w}=
+\operatorname{Pool}\left(\operatorname{Proj}(\mathcal{E}_{w}(\mathbf{H}_{1:T}))\right)
+\in\mathbb{R}^{T_m\times H_m\times W_m\times d}.
+\end{equation}
+Here, \(\operatorname{Proj}\) is the \(1\times1\times1\) convolutional projection, and \(\operatorname{Pool}\) denotes adaptive average pooling. To preserve the spatiotemporal positions of memory tokens, temporal, row, and column learnable position embeddings are added:
+\begin{equation}
+\mathbf{E}^{pos}_{\tau,i,j}=
+\mathbf{p}^{time}_{\tau}+\mathbf{p}^{row}_{i}+\mathbf{p}^{col}_{j}.
+\end{equation}
+The final weather memory is defined as
+\begin{equation}
+\begin{aligned}
+\mathbf{M}^{w}
+&=\operatorname{Flatten}(\mathbf{Z}^{w}+\mathbf{E}^{pos})
+\in\mathbb{R}^{L_w\times d},\\
+L_w&=T_mH_mW_m.
+\end{aligned}
+\end{equation}
+Here, Flatten converts the pooled grid into a token sequence, and
+\(L_w\) is the number of weather-memory tokens. This memory preserves both forecast segments and local spatiotemporal structure, allowing queries at different forecast steps to read information from different lead times and spatial regions.
+
+\begin{figure*}[htbp]
+\centerline{\includegraphics[width=0.72\textwidth]{../../paper_image_use/method_new/exported/Fig03.pdf}}
+\caption{Weather memory construction. Decoupled meteorological branches extract wind-field, background-field, and meteorological-change features, and then construct spatiotemporal weather memory that can be read by future queries.}
+\label{fig:weather-memory}
+\end{figure*}
+
+\subsection{Power-State Encoding}
+
+The power-state encoding process is shown in Fig.~\ref{fig:power-state}. The Power-State Encoder takes station-level power available before the forecast origin, \(\mathbf{P}^{c}\in\mathbb{R}^{N\times L}\), and the station adjacency matrix \(\mathbf{A}\in\mathbb{R}^{N\times N}\) as input, where \(N\) is the number of wind farms and \(L\) is the power-state window length defined in Section~III.
+
+The model encodes station-level power at point, patch, and global temporal scales, respectively characterizing point-wise spatial states, local ramp patterns, and the overall generation trend within the context range. The local patches are defined by
+\begin{equation}
+\label{eq:patch-start}
+a_j=1+(j-1)r,\qquad j=1,\ldots,J,
+\end{equation}
+\begin{equation}
+\label{eq:patch-index}
+\mathcal{I}_{j}=\{a_j,\ldots,a_j+s-1\},
+\end{equation}
+\begin{equation}
+\label{eq:patch-count}
+J=\left\lfloor\frac{L-s}{r}\right\rfloor+1.
+\end{equation}
+Here, \(s\) is the patch length, \(r\) is the sliding stride, \(a_j\) is the starting index of patch \(j\), \(\mathcal{I}_j\) is its temporal index set, and \(J\) is the number of valid patches. None of these patches uses target-period power. The three token types are written as
+\begin{equation}
+\label{eq:point-token}
+\mathbf{o}^{pt}_{t}=g_{pt}(\operatorname{GCN}_{pt}(\mathbf{P}^{c}_{:,t},\mathbf{A})),
+\quad t=1,\ldots,L,
+\end{equation}
+\begin{equation}
+\label{eq:patch-token}
+\mathbf{o}^{pa}_{j}
+ =g_{pa}(\operatorname{GCN}_{pa}(\mathbf{P}^{c}_{:,\mathcal{I}_{j}},\mathbf{A})),
+\quad j=1,\ldots,J,
+\end{equation}
+\begin{equation}
+\label{eq:global-token}
+\mathbf{o}^{gl}
+ =g_{gl}(\operatorname{GCN}_{gl}(\mathbf{P}^{c},\mathbf{A})).
+\end{equation}
+The graph-convolution node outputs are flattened across farm and feature dimensions and then mapped to the \(d\)-dimensional token space by linear projections \(g_{pt}\), \(g_{pa}\), and \(g_{gl}\), respectively.
+
+To integrate information across the three temporal scales, the power encoder adopts bottom-up and top-down cross-scale attention. After positional encodings are added, the three token groups are denoted as \(\mathbf{H}^{pt}\), \(\mathbf{H}^{pa}\), and \(\mathbf{H}^{gl}\). Cross-scale interaction first lets patch tokens read point tokens and the global token read patch tokens; then the global token modulates patch tokens, and patch tokens further modulate point tokens:
+\begin{equation}
+\mathbf{H}^{pa}_{bu}=\operatorname{CSA}_{pt\rightarrow pa}
+(\mathbf{H}^{pa},\mathbf{H}^{pt}).
+\end{equation}
+\begin{equation}
+\mathbf{H}^{gl}_{bu}=\operatorname{CSA}_{pa\rightarrow gl}
+(\mathbf{H}^{gl},\mathbf{H}^{pa}_{bu}).
+\end{equation}
+\begin{equation}
+\mathbf{H}^{pa}_{td}=\operatorname{CSA}_{gl\rightarrow pa}
+(\mathbf{H}^{pa}_{bu},\mathbf{H}^{gl}_{bu}).
+\end{equation}
+\begin{equation}
+\mathbf{H}^{pt}_{td}=\operatorname{CSA}_{pa\rightarrow pt}
+(\mathbf{H}^{pt},\mathbf{H}^{pa}_{td}).
+\end{equation}
+Here, subscripts \(bu\) and \(td\) denote bottom-up and top-down interaction outputs, respectively; \(\operatorname{CSA}_{source\rightarrow target}\) denotes a cross-scale attention block that uses target tokens as queries and source tokens as keys and values, followed by residual connections, LayerNorm, and an FFN. The fused cross-scale token sequence is
+\begin{equation}
+\mathbf{S}^{p}=[\mathbf{H}^{gl}_{bu};\mathbf{H}^{pa}_{td};\mathbf{H}^{pt}_{td}]
+\in\mathbb{R}^{(1+J+L)\times d}.
+\end{equation}
+After adding a fusion positional encoding, the sequence is passed through a Transformer encoder, flattened, and projected into a sample-level power-state vector:
+\begin{equation}
+\mathbf{z}^{p}=f_{p}(\operatorname{vec}(\operatorname{Transformer}(\mathbf{S}^{p})))
+\in\mathbb{R}^{d}.
+\end{equation}
+Here, \(\operatorname{vec}\) flattens the token sequence, and \(f_p\) is the state projection head that maps it to \(d\) dimensions. The resulting sample-specific operating-state representation compresses the current generation level, local changes, and inter-station coupling for subsequent weather-memory reading.
+
+\begin{figure*}[htbp]
+\centerline{\includegraphics[width=0.66\textwidth]{../../paper_image_use/method_new/exported/Fig04.pdf}}
+\caption{Power-state encoding. The multi-scale GCN extracts current operating state, local variations, and multi-site coupling from recent station-level power.}
+\label{fig:power-state}
+\end{figure*}
+
+\subsection{Memory-Level Fusion and Query Decoding}
+
+To write the power state at the memory level, a two-layer feed-forward power-to-context adapter \(a_{\theta}\) maps the power-state vector into \(K\) dynamic power context tokens:
+\begin{equation}
+\mathbf{C}^{p}=\operatorname{reshape}(a_{\theta}(\mathbf{z}^{p}))\in\mathbb{R}^{K\times d}.
+\end{equation}
+These tokens are jointly generated from the same power-state vector and have no one-to-one correspondence with historical power steps. They are then prepended to the weather memory:
+\begin{equation}
+\mathbf{M}^{pc}=[\mathbf{C}^{p};\mathbf{M}^{w}]\in\mathbb{R}^{(K+L_w)\times d}.
+\end{equation}
+
+This prepended injection allows the power state to participate in cross-attention at all forecast steps in the form of memory tokens. Query vectors for different forecast steps can adaptively read power context and weather memory from the same fused memory, allowing the power state to act as an operating-state constraint during parallel decoding.
+
+The Query Decoder starts from learnable future queries
+\(\mathbf{Q}^{(0)}\in\mathbb{R}^{H\times d}\), with one query for each forecast step. The decoder comprises stacked decoder blocks. For \(\ell=1,\ldots,L_d\), each block consists of query self-attention, query-to-memory cross-attention, and an FFN with residual connections and LayerNorm. The self-attention models dependencies among different forecast steps, while the cross-attention reads weather memory and power context from the fused memory \(\mathbf{M}^{pc}\):
+\begin{equation}
+\label{eq:decoder-self}
+\tilde{\mathbf{Q}}^{(\ell)}=\operatorname{LN}\!\left(
+\mathbf{Q}^{(\ell-1)}+\operatorname{MSA}(\mathbf{Q}^{(\ell-1)})\right).
+\end{equation}
+\begin{equation}
+\label{eq:decoder-cross}
+\bar{\mathbf{Q}}^{(\ell)}=\operatorname{LN}\!\left(
+\tilde{\mathbf{Q}}^{(\ell)}+\operatorname{MCA}(\tilde{\mathbf{Q}}^{(\ell)},\mathbf{M}^{pc})\right).
+\end{equation}
+\begin{equation}
+\label{eq:decoder-ffn}
+\mathbf{Q}^{(\ell)}=\operatorname{LN}\!\left(\bar{\mathbf{Q}}^{(\ell)}
++\operatorname{FFN}(\bar{\mathbf{Q}}^{(\ell)})\right).
+\end{equation}
+Here, \(\operatorname{MSA}(\mathbf{Q})=\operatorname{MHA}(\mathbf{Q},\mathbf{Q},\mathbf{Q})\) denotes multi-head self-attention, while \(\operatorname{MCA}(\mathbf{Q},\mathbf{M})=\operatorname{MHA}(\mathbf{Q},\mathbf{M},\mathbf{M})\) denotes multi-head cross-attention with queries \(\mathbf{Q}\) and memory keys/values \(\mathbf{M}\). Equations~\eqref{eq:decoder-self}--\eqref{eq:decoder-ffn} respectively perform horizon-wise self-attention, conditioned-memory reading, and feed-forward updating; \(\tilde{\mathbf{Q}}^{(\ell)}\) and \(\bar{\mathbf{Q}}^{(\ell)}\) are the two intermediate query representations in decoder block \(\ell\).
+The final prediction is
+\begin{equation}
+\hat{\mathbf{y}}=g_{\phi}(\operatorname{LN}(\mathbf{Q}^{(L_d)})).
+\end{equation}
+Here, \(g_{\phi}\) is the prediction head that maps each horizon query representation to the corresponding regional aggregate power output, and is implemented by a linear layer, GELU, dropout, and an output linear layer.
+Training uses only the final regional aggregate power forecast loss:
+\begin{equation}
+\mathcal{L}=\lambda_1\,\operatorname{MAE}(\hat{\mathbf{y}},\mathbf{y})
++\lambda_2\,\operatorname{RMSE}(\hat{\mathbf{y}},\mathbf{y}).
+\end{equation}
+\(\lambda_1\) and \(\lambda_2\) balance the MAE and RMSE terms, and are set to 0.6 and 0.4, respectively.
+
+All future queries are decoded in parallel, avoiding autoregressive error accumulation. The training objective directly matches the final intraday regional wind power forecasting task.

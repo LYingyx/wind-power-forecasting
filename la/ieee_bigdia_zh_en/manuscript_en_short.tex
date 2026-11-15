@@ -1,0 +1,83 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+%Template version as of 6/27/2024
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage[hidelinks]{hyperref}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+\begin{document}
+
+\title{Operating-State-Constrained Weather-Power Fusion Network for Regional Wind Farm Cluster Forecasting
+\thanks{This research is supported by Smart-Grid National Science and Technology Major Project (Grant No. 2025ZD0805500).}}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} Ao Luo}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China\\
+aoluo@mail.ustc.edu.cn}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} Hongwei Zhao\textsuperscript{*}}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China\\
+hwzhao@ustc.edu.cn}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd} Lei Liu}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China\\
+liulei13@ustc.edu.cn}
+\and[\hfill\break\mbox{}\hfill]
+\IEEEauthorblockN{4\textsuperscript{th} Qiuju Chen}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China}
+\and
+\IEEEauthorblockN{5\textsuperscript{th} Bin Li}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China}
+}
+
+\maketitle
+
+\begin{abstract}
+Intraday regional wind farm cluster power forecasting is an important basis for power dispatch, reserve allocation, and renewable energy integration. Weather-driven forecasting models usually rely on future weather forecasts to describe wind-field evolution during the forecast day. However, under the same weather situation, actual power output is also affected by the station-level generation level, short-term inertia, and synchronized multi-site variations before the forecast origin; if a model only focuses on future weather, it can produce deviations inconsistent with the true operating state. This paper proposes an operating-state-constrained weather-power fusion network. The method extracts weather-driven representations from meteorological forecasts, encodes station-level measured power available before the forecast origin as an operating-state representation, and uses this representation to constrain weather-information reading during decoding. Experiments on three years of data from 58 wind farms in Jilin Province show that the proposed method achieves a normalized MAE of 0.0779, a normalized RMSE of 0.1065, and an \(R^2\) of 0.8036 for intraday aggregate power forecasting. Compared with Weather-only, the MAE and RMSE are reduced by 6.84\% and 6.57\%, respectively; both errors are reduced by approximately 5\% relative to the fusion baselines. Horizon-wise analysis shows that the gain is most pronounced at the beginning of the forecast day, with first-horizon MAE reduced by 47.94\%. These results indicate that true power states before the forecast origin can effectively constrain the weather-to-power mapping and improve state adaptability in regional wind farm cluster forecasting.
+\end{abstract}
+
+\begin{IEEEkeywords}
+regional wind farm cluster forecasting, wind power forecasting, weather-power fusion, operating-state constraints, multi-step forecasting
+\end{IEEEkeywords}
+
+\input{sections_short/introduction_en}
+\input{sections_short/related_work_en}
+\input{sections_short/problem_en}
+\input{sections_short/method_en}
+\input{sections_short/experiments_en}
+\input{sections_short/conclusion_en}
+\input{sections_short/references_en}
+
+\end{document}

@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-11-14T19:56:46.006530+08:00",
+  "passed": true,
+  "tests": 25,
+  "command": "PYTHONPATH=src .runtime/chronos/bin/python -m pytest -q tests/test_operational_pangu.py tests/test_daily_pangu.py tests/test_daily_pangu_preparation.py",
+  "scope": "time rules, calendar/leap boundaries, interpolation, missing source before allocation, independent-audit activation guard; not production source-value validation"
+}

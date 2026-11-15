@@ -1,0 +1,134 @@
+{
+  "timestamp": "2026-11-14T22:27:09.914746+08:00",
+  "group": "TF_R3",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08718072818874793,
+      "rmse": 0.13578047929318832,
+      "jobs": [
+        "TUNE_TF_R3_c0_r40",
+        "TUNE_TF_R3_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08683447794416527,
+      "rmse": 0.13524733983437082,
+      "jobs": [
+        "TUNE_TF_R3_c1_r40",
+        "TUNE_TF_R3_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08971856023551064,
+      "rmse": 0.13869956244292198,
+      "jobs": [
+        "TUNE_TF_R3_c2_r40",
+        "TUNE_TF_R3_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08836746507802001,
+      "rmse": 0.1379174615449461,
+      "jobs": [
+        "TUNE_TF_R3_c3_r40",
+        "TUNE_TF_R3_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08779552108731081,
+      "rmse": 0.1369418151745153,
+      "jobs": [
+        "TUNE_TF_R3_c4_r40",
+        "TUNE_TF_R3_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08746455173191078,
+      "rmse": 0.13649447630252068,
+      "jobs": [
+        "TUNE_TF_R3_c5_r40",
+        "TUNE_TF_R3_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.091917701547073,
+      "rmse": 0.14182787035986863,
+      "jobs": [
+        "TUNE_TF_R3_c6_r40",
+        "TUNE_TF_R3_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09066304708881825,
+      "rmse": 0.14052590891003863,
+      "jobs": [
+        "TUNE_TF_R3_c7_r40",
+        "TUNE_TF_R3_c7_r41"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-10-25T19:21:36.100832+08:00",
+  "planned": 1344,
+  "completed": 1344,
+  "failed": 0,
+  "failed_jobs": [],
+  "active": [],
+  "pending": 0,
+  "planned_training": 1232,
+  "training_completed": 1232,
+  "planned_reference_diagnostics": 112,
+  "reference_diagnostics_completed": 112,
+  "test_year_accessed": false,
+  "stages": {
+    "N0": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N1": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N2": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N2_SELF": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N3": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N4_K16": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N4_K4": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N5_CORR": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N6_N0": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N6_N1": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N7_D0": {
+      "planned": 112,
+      "completed": 112
+    },
+    "N7_D30": {
+      "planned": 112,
+      "completed": 112
+    }
+  }
+}

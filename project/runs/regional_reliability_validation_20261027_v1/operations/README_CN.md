@@ -1,0 +1,1 @@
+仅本机4090与v1006001/v1006002。启动入口launch_round.py；使用带效率反馈的resource_scheduler_efficient_v3.py，多进程按实际资源逐步扩展，完成即补位。远端控制器使用租约与中央任务锁防重复，远端结果回传后核验哈希。FINALIZER_STATUS/REPLICATION_STATUS记录完成审计和有条件十种子扩展。科学配置和操作脚本统一冻结，不复用旧队列完成标记。

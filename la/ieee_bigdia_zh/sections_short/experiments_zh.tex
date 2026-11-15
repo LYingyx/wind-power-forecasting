@@ -1,0 +1,82 @@
+\section{实验}
+
+\subsection{数据与设置}
+
+本文基于吉林省区域风电场群构建实验数据集，预测对象为 58 个风电场站形成的区域聚合出力，并配套使用覆盖研究区域的 Pangu-Weather 网格化气象预报。气象网格大小为 \(19\times33\)，输入通道数为 17，包括 10 m 风场、不同气压层风场、温度、湿度、位势高度和海平面气压等变量。所有功率和气象数据均按北京时间对齐。
+
+训练集使用 2022 年滑动窗口样本，以增加训练样本数量并覆盖更多天气和运行状态；验证集和测试集使用 2023 年严格日样本，其中每月前 10 天作为验证集，其余日期作为测试集。所有模型采用相同的数据划分、归一化方式和 24 h 预测目标。评价指标包括归一化 MAE、RMSE 和 \(R^2\)。
+
+本文方法使用目标窗口前 16 步场站级功率作为运行状态上下文。
+
+对比模型包括 Weather-only 以及多种网格气象编码基线。Weather-only 与本文方法共享气象输入和 query decoder，但不使用功率状态条件，用于直接检验功率状态融合的增益。CNN、3D CNN、ViT、Swin 和 Video Transformer 均以同一气象输入为基础，用于比较不同网格气象编码方式对区域风电预测的影响。
+
+为保证时间信息使用一致，所有 weather-only 基线均输入完整的 16 步后报气象和 24 步未来预报气象。CNN、ViT 和 Swin 基线采用逐帧空间编码后接 temporal Transformer 的方式建模 40 帧时间依赖；3D CNN 和 Video Transformer 则直接进行时空编码。所有基线最终均从未来 24 个时间位置输出区域聚合功率预测。
+
+\subsection{整体预测性能}
+
+表~\ref{tab:benchmark-short} 给出了不同模型的整体测试结果。本文方法在 MAE、RMSE 和 \(R^2\) 上均取得最优表现，分别为 0.0767、0.1041 和 0.8330；对应实际功率尺度下的 MAE(MW) 和 RMSE(MW) 分别为 377.9 MW 和 512.7 MW。Weather-only 是所有基线中最强的模型，说明未来气象预报已经提供了主要预测信号。本文方法在 Weather-only 基础上进一步降低误差，说明近期功率状态并非替代未来气象，而是为气象驱动预测提供预测起点状态约束。
+
+\inlinetable{tab:benchmark-short}{整体预测性能}{
+\begin{tabular}{lccc}
+\hline
+Model & MAE \(\downarrow\) & RMSE \(\downarrow\) & \(R^2\) \(\uparrow\) \\
+\hline
+Ours & \textbf{0.0767} & \textbf{0.1041} & \textbf{0.8330} \\
+Weather-only & 0.0800 & 0.1072 & 0.8230 \\
+3D CNN & 0.0845 & 0.1138 & 0.8003 \\
+ViT & 0.0899 & 0.1193 & 0.7806 \\
+Video Trans. & 0.0909 & 0.1211 & 0.7738 \\
+CNN & 0.0926 & 0.1226 & 0.7684 \\
+Swin & 0.0947 & 0.1255 & 0.7571 \\
+\hline
+\end{tabular}
+}
+
+除 Weather-only 外，3D CNN 是误差最低的网格气象编码基线，但仍明显弱于本文方法。ViT、Swin 和 Video Transformer 在该数据集上未超过 Weather-only，说明直接替换更复杂的气象视觉编码器并不能自动解决预测起点状态失配问题。相较之下，本文的提升来自对功率状态和未来气象角色的重新划分：气象负责提供预测窗口内主驱动，功率状态负责修正起点附近运行状态。
+
+从指标差异看，本文方法相对 Weather-only 的整体 MAE 降幅约为 4.1\%，RMSE 降幅约为 2.9\%。由于 Weather-only 已经使用完整未来气象预报，该提升并非来自额外未来信息，而来自目标窗口前可用的真实功率状态。该结果也解释了为什么本文不把功率状态建模为独立预测器，而是将其作为条件信息注入气象读取过程。
+
+\subsection{逐预测步融合效果}
+
+表~\ref{tab:horizon-short} 和图~\ref{fig:horizon} 展示了本文方法与 Weather-only 在不同预测步长上的误差差异，其中 H\(n\) 对应第 \(n\) 个预测步。H1 上本文方法的 MAE 为 0.0430，明显低于 Weather-only 的 0.0747；RMSE 也从 0.0956 降至 0.0586。这说明预测起点前的场站功率状态对目标窗口开始阶段具有强约束作用，能够显著缓解 Weather-only 在近端的状态失配。
+
+\inlinetable{tab:horizon-short}{逐预测步 MAE 对比}{
+\begin{tabular}{lccccc}
+\hline
+Model & H1 & H6 & H12 & H24 & Avg \\
+\hline
+Ours & \textbf{0.0430} & \textbf{0.0722} & \textbf{0.0786} & 0.0903 & \textbf{0.0767} \\
+Weather & 0.0747 & 0.0748 & 0.0810 & \textbf{0.0886} & 0.0800 \\
+\hline
+\end{tabular}
+}
+
+\figonelabel{\columnwidth}{../../paper_image_use/result/fig09_ours_weather_horizon_residual.pdf}{逐预测步误差及差值。}{本文模型降低 24 步平均误差，起始预测步相对 Weather-only 的改善尤为明显。}{fig:horizon}
+
+逐步长曲线显示，状态条件化带来的收益在目标窗口起始阶段最为突出，并进一步带动 24 步平均 MAE 从 0.0800 降至 0.0767。H6 和 H12 上本文方法仍保持优势，H24 上两者误差接近，说明模型没有用功率历史替代未来气象，而是在气象主驱动基础上引入预测起点的运行状态约束。对于调度应用而言，这种起始状态适配能力能够提高日内预测序列与真实运行过程的衔接性。
+
+\subsection{消融实验}
+
+各消融变体用于分别检验功率状态、功率编码结构和气象记忆的作用。Weather-only 移除功率状态上下文，仅使用气象输入；Random power 和 Zero power 保留功率侧结构，但分别用随机功率和零功率替代真实场站功率；Basic GCN 将多尺度功率编码器替换为基础图卷积结构。No memory 关闭时空气象 memory，No wind 移除风场相关气象变量。
+
+表~\ref{tab:ablation-short} 给出了关键消融结果。Weather-only 移除所有功率状态条件，MAE 增加 4.27\%。Random power 和 Zero power 保留功率侧结构但移除真实状态信息，其性能接近 Weather-only，说明完整模型的收益来自真实功率状态，而不是额外分支或参数量。Basic GCN 弱于完整模型，说明多尺度图编码和跨尺度交互有助于形成更有效的场群状态表示。
+
+\inlinetable{tab:ablation-short}{关键消融结果}{
+\begin{tabular}{lccc}
+\hline
+Variant & MAE \(\downarrow\) & RMSE \(\downarrow\) & \(\Delta\)MAE \\
+\hline
+Ours & \textbf{0.0767} & \textbf{0.1041} & 0.00\% \\
+Weather-only & 0.0800 & 0.1072 & 4.27\% \\
+Random power & 0.0804 & 0.1079 & 4.72\% \\
+Zero power & 0.0804 & 0.1078 & 4.70\% \\
+Basic GCN & 0.0785 & 0.1062 & 2.29\% \\
+No memory & 0.0808 & 0.1093 & 5.33\% \\
+No wind & 0.1518 & 0.2047 & 97.79\% \\
+\hline
+\end{tabular}
+}
+
+气象侧消融进一步说明，本文方法仍以未来气象为主驱动。No memory 关闭气象空间记忆后误差明显上升，说明时空气象 memory 对 query 解码有效；No wind 屏蔽风场相关变量后误差接近翻倍，表明风场变量是该任务中不可替代的主要气象信息。上述结果共同支持本文的非对称融合设定：气象提供未来主驱动，功率提供起点状态条件。
+
+结合逐预测步结果可以看到，功率侧和气象侧消融回答的是不同问题。随机或零功率退化说明模型确实依赖真实运行状态；No memory 和 No wind 退化则说明气象记忆仍是主信息载体。二者共同限定了本文方法的定位：它不是纯历史功率模型，也不是纯气象模型，而是面向业务时间约束的状态条件化融合预测模型。

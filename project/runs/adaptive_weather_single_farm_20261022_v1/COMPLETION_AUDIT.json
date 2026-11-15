@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "train_jobs": 8016,
+  "evaluation_jobs": 7840,
+  "prediction_arrays": 66256,
+  "all_mae_rmse_recomputed": true,
+  "training_hashes_verified": true,
+  "compressed_attention_arrays_verified": 5040,
+  "completed_at": "2026-10-23T21:00:32.693335+08:00"
+}

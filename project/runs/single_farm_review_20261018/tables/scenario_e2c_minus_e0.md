@@ -1,0 +1,36 @@
+| split | dimension | group | unit | delta | ci_low | ci_high | wins | units |
+|---|---|---|---|---|---|---|---|---|
+| test | observed_1h_ramp_train_q90 | past_1h_fall | farm_after_seed_mean; exploratory strata | -0.000836 | -0.001339 | -0.000333 | 38 | 56 |
+| test | observed_1h_ramp_train_q90 | past_1h_moderate | farm_after_seed_mean; exploratory strata | -0.000823 | -0.001197 | -0.000460 | 46 | 56 |
+| test | observed_1h_ramp_train_q90 | past_1h_rise | farm_after_seed_mean; exploratory strata | -0.001121 | -0.001949 | -0.000175 | 40 | 56 |
+| test | observed_power_at_origin | 0.1<=CF<0.3 | farm_after_seed_mean; exploratory strata | -0.000936 | -0.001392 | -0.000476 | 44 | 56 |
+| test | observed_power_at_origin | 0.3<=CF<0.7 | farm_after_seed_mean; exploratory strata | -0.000873 | -0.001487 | -0.000239 | 42 | 56 |
+| test | observed_power_at_origin | CF<0.1 | farm_after_seed_mean; exploratory strata | -0.000736 | -0.001050 | -0.000477 | 49 | 56 |
+| test | observed_power_at_origin | CF>=0.7 | farm_after_seed_mean; exploratory strata | -0.001821 | -0.002979 | -0.000637 | 41 | 55 |
+| test | origin_hour_Asia_Shanghai | 00-06 | farm_after_seed_mean; exploratory strata | -0.000442 | -0.000775 | -0.000117 | 42 | 56 |
+| test | origin_hour_Asia_Shanghai | 06-12 | farm_after_seed_mean; exploratory strata | -0.000714 | -0.001049 | -0.000365 | 41 | 56 |
+| test | origin_hour_Asia_Shanghai | 12-18 | farm_after_seed_mean; exploratory strata | -0.001018 | -0.001582 | -0.000460 | 42 | 56 |
+| test | origin_hour_Asia_Shanghai | 18-24 | farm_after_seed_mean; exploratory strata | -0.001131 | -0.001726 | -0.000556 | 44 | 56 |
+| test | realized_future_1h_ramp_diagnostic | max_abs_delta_CF<0.2 | farm_after_seed_mean; exploratory strata | -0.000085 | -0.000380 | 0.000218 | 35 | 56 |
+| test | realized_future_1h_ramp_diagnostic | max_abs_delta_CF>=0.2 | farm_after_seed_mean; exploratory strata | -0.001892 | -0.002526 | -0.001259 | 49 | 56 |
+| test | season_origin_UTC | DJF | farm_after_seed_mean; exploratory strata | -0.000613 | -0.001123 | -0.000177 | 36 | 56 |
+| test | season_origin_UTC | JJA | farm_after_seed_mean; exploratory strata | -0.000649 | -0.000988 | -0.000293 | 45 | 56 |
+| test | season_origin_UTC | MAM | farm_after_seed_mean; exploratory strata | -0.001355 | -0.001848 | -0.000849 | 47 | 56 |
+| test | season_origin_UTC | SON | farm_after_seed_mean; exploratory strata | -0.000516 | -0.001092 | 0.000086 | 37 | 56 |
+| val | observed_1h_ramp_train_q90 | past_1h_fall | farm_after_seed_mean; exploratory strata | -0.001544 | -0.002003 | -0.001074 | 48 | 56 |
+| val | observed_1h_ramp_train_q90 | past_1h_moderate | farm_after_seed_mean; exploratory strata | -0.001138 | -0.001461 | -0.000833 | 52 | 56 |
+| val | observed_1h_ramp_train_q90 | past_1h_rise | farm_after_seed_mean; exploratory strata | -0.001589 | -0.002210 | -0.000936 | 45 | 56 |
+| val | observed_power_at_origin | 0.1<=CF<0.3 | farm_after_seed_mean; exploratory strata | -0.001356 | -0.001802 | -0.000942 | 49 | 56 |
+| val | observed_power_at_origin | 0.3<=CF<0.7 | farm_after_seed_mean; exploratory strata | -0.001244 | -0.001814 | -0.000667 | 44 | 56 |
+| val | observed_power_at_origin | CF<0.1 | farm_after_seed_mean; exploratory strata | -0.001005 | -0.001236 | -0.000794 | 51 | 56 |
+| val | observed_power_at_origin | CF>=0.7 | farm_after_seed_mean; exploratory strata | -0.001410 | -0.002435 | -0.000376 | 44 | 56 |
+| val | origin_hour_Asia_Shanghai | 00-06 | farm_after_seed_mean; exploratory strata | -0.000423 | -0.000740 | -0.000132 | 38 | 56 |
+| val | origin_hour_Asia_Shanghai | 06-12 | farm_after_seed_mean; exploratory strata | -0.001399 | -0.001710 | -0.001072 | 53 | 56 |
+| val | origin_hour_Asia_Shanghai | 12-18 | farm_after_seed_mean; exploratory strata | -0.001366 | -0.001834 | -0.000901 | 46 | 56 |
+| val | origin_hour_Asia_Shanghai | 18-24 | farm_after_seed_mean; exploratory strata | -0.001458 | -0.001920 | -0.000982 | 53 | 56 |
+| val | realized_future_1h_ramp_diagnostic | max_abs_delta_CF<0.2 | farm_after_seed_mean; exploratory strata | -0.000452 | -0.000709 | -0.000196 | 39 | 56 |
+| val | realized_future_1h_ramp_diagnostic | max_abs_delta_CF>=0.2 | farm_after_seed_mean; exploratory strata | -0.002002 | -0.002558 | -0.001427 | 51 | 56 |
+| val | season_origin_UTC | DJF | farm_after_seed_mean; exploratory strata | -0.000760 | -0.001151 | -0.000396 | 40 | 56 |
+| val | season_origin_UTC | JJA | farm_after_seed_mean; exploratory strata | -0.000868 | -0.001255 | -0.000451 | 44 | 56 |
+| val | season_origin_UTC | MAM | farm_after_seed_mean; exploratory strata | -0.002319 | -0.002728 | -0.001915 | 53 | 56 |
+| val | season_origin_UTC | SON | farm_after_seed_mean; exploratory strata | -0.000731 | -0.001199 | -0.000220 | 46 | 56 |

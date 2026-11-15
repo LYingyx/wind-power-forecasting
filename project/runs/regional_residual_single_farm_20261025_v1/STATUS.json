@@ -1,0 +1,110 @@
+{
+  "timestamp": "2026-10-27T15:19:09.732289+08:00",
+  "planned": 2968,
+  "completed": 2968,
+  "failed": 0,
+  "failed_jobs": [],
+  "active": [],
+  "pending": 0,
+  "planned_training": 2352,
+  "training_completed": 2352,
+  "planned_reference_diagnostics": 560,
+  "reference_diagnostics_completed": 560,
+  "planned_arx": 56,
+  "arx_completed": 56,
+  "test_year_accessed": false,
+  "stages": {
+    "C1_R1": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C1_R2": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C1_R3": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C1_R4": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C2_R1": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C2_R2": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C2_R3": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C2_R4": {
+      "planned": 112,
+      "completed": 112
+    },
+    "C3_ARX": {
+      "planned": 56,
+      "completed": 56
+    },
+    "R1": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R1_RAWMAP": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R1_SELF": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R2": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R2_PAIR": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R3_RAW": {
+      "planned": 112,
+      "completed": 112
+    },
+    "R4": {
+      "planned": 112,
+      "completed": 112
+    },
+    "REFERENCE": {
+      "planned": 560,
+      "completed": 560
+    },
+    "T_N3": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_R1": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_R2": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_R3": {
+      "planned": 112,
+      "completed": 112
+    },
+    "T_R4": {
+      "planned": 112,
+      "completed": 112
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-10-25T16:14:29.835538+08:00",
+  "planned": 6944,
+  "completed": 6944,
+  "failed": 0,
+  "failed_jobs": [],
+  "active": [],
+  "pending": 0,
+  "planned_training": 6272,
+  "training_completed": 6272,
+  "planned_reference_diagnostics": 672,
+  "reference_diagnostics_completed": 672,
+  "stages": {
+    "A1": {
+      "planned": 1568,
+      "completed": 1568
+    },
+    "A2": {
+      "planned": 3136,
+      "completed": 3136
+    },
+    "A3": {
+      "planned": 1568,
+      "completed": 1568
+    },
+    "A4_REFERENCE": {
+      "planned": 672,
+      "completed": 672
+    }
+  },
+  "source_freeze": true,
+  "diagnostics_complete": true,
+  "test_year_accessed": false,
+  "enabled_hosts": [
+    "user-SYS-420GP-TNR",
+    "v1006001",
+    "v1006002"
+  ]
+}

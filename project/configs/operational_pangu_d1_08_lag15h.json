@@ -1,0 +1,37 @@
+{
+  "protocol": "daily_08_BJT_latency15h",
+  "source_forecast_root": "/shared_data_hdd1/All_Datasets/ERA5_forecasting/Pangu/Forecast_data",
+  "source_power_h5": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/jilin_56farm_pad8.h5",
+  "sample_cache": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/model_cache_operational_08_20_lag12h_v1",
+  "cache_dir": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/model_cache_operational_d1_08_lag15h_v1",
+  "bundle_dir": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1",
+  "power_timezone": "Asia/Shanghai",
+  "forecast_filename_timezone": "UTC",
+  "issue_hours_utc": [
+    0
+  ],
+  "issue_hours_beijing": [
+    8
+  ],
+  "availability_delay_hours": 15,
+  "switch_hour_beijing": 23,
+  "maximum_forecast_lead_hours": 45,
+  "required_forecast_lead_range_hours": [
+    9,
+    45
+  ],
+  "past_nodes": 6,
+  "future_nodes": 8,
+  "power_history_steps": 24,
+  "forecast_power_steps": 24,
+  "power_frequency_minutes": 15,
+  "regional_power_delay_minutes": 0,
+  "require_same_samples": true,
+  "test_excluded_month": "2024-11",
+  "experiment_cohort_file": "runs/shared_personalized_20261104_v1/assets/COHORT.json",
+  "experiment_train_origins": "runs/shared_personalized_20261104_v1/data/train/origin.npy",
+  "experiment_val_origins": "runs/shared_personalized_20261104_v1/data/val/origin.npy",
+  "preparation_entry": "scripts/prepare_operational_pangu.py",
+  "missing_file_policy": "stop; never use ERA5, another issue, extrapolation, or silent sample removal",
+  "result_reuse": false
+}

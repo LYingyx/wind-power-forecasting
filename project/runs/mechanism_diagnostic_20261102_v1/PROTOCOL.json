@@ -1,0 +1,34 @@
+{
+  "stage": "2023_screening",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "test_read": false,
+  "age_shift": 0,
+  "forecast_age_hours": [
+    12,
+    24
+  ],
+  "seeds": [
+    42,
+    43
+  ],
+  "farms": 56,
+  "correction_jobs": 112,
+  "interaction_jobs": 560,
+  "planned_jobs": 672,
+  "main_candidate": "I_MUL",
+  "correction_objective": "normalized ERA5 u/v MSE only",
+  "interaction_objective": "power MAE",
+  "gates": {
+    "relative_improvement_each_percent": 0.1,
+    "min_wins_each": 29,
+    "max_high_power_rmse_regression_percent": 0.1,
+    "controls": [
+      "I_ADD",
+      "I_XATTN",
+      "I_LOCAL",
+      "I_WRONG"
+    ]
+  },
+  "resource_policy": "all hosts protect external compute; each card adaptive multiple processes"
+}

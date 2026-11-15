@@ -1,0 +1,6 @@
+| model | split | mean | std |
+|---|---|---|---|
+| correction | test | 0.081535 | 0.000238 |
+| correction | val | 0.083754 | 0.000162 |
+| direct | test | 0.081631 | 0.000179 |
+| direct | val | 0.083900 | 0.000272 |

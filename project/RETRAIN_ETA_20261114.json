@@ -1,0 +1,167 @@
+{
+  "timestamp": "2026-11-14T21:38:38.174448+08:00",
+  "shared_status": {
+    "planned": 180,
+    "completed": 29,
+    "active": 35,
+    "pending": 116,
+    "failed": [],
+    "errors": {}
+  },
+  "hosts": [
+    {
+      "host": "user-SYS-420GP-TNR",
+      "active": 4,
+      "epoch_seconds": {
+        "W0_128": {
+          "median": 367.5608893909957,
+          "observations": 2
+        },
+        "TF_128": {
+          "median": 320.9003452344914,
+          "observations": 6
+        },
+        "TFT_128": {
+          "median": 280.1882242779975,
+          "observations": 3
+        }
+      }
+    },
+    {
+      "host": "iipserver1",
+      "active": 17,
+      "epoch_seconds": {
+        "TIDE_128": {
+          "median": 235.2835658751428,
+          "observations": 1
+        },
+        "W0_128": {
+          "median": 387.3434851584025,
+          "observations": 2
+        },
+        "TF_64": {
+          "median": 287.9760235790163,
+          "observations": 15
+        },
+        "TFT_64": {
+          "median": 272.2280901679769,
+          "observations": 3
+        },
+        "W0_64": {
+          "median": 308.28158390615135,
+          "observations": 12
+        },
+        "TFT_128": {
+          "median": 356.42944207042456,
+          "observations": 3
+        },
+        "TF_128": {
+          "median": 372.5215484732762,
+          "observations": 1
+        }
+      }
+    },
+    {
+      "host": "iipserver2",
+      "active": 14,
+      "epoch_seconds": {
+        "TF_128": {
+          "median": 320.0825436580926,
+          "observations": 12
+        },
+        "TFT_128": {
+          "median": 354.2399181127548,
+          "observations": 3
+        },
+        "W0_64": {
+          "median": 352.78105168789625,
+          "observations": 9
+        },
+        "TFT_64": {
+          "median": 305.5637862198055,
+          "observations": 3
+        },
+        "TIDE_128": {
+          "median": 237.96446055546403,
+          "observations": 3
+        }
+      }
+    }
+  ],
+  "epoch_rate_seconds": {
+    "W0_128": 367.5608893909957,
+    "TF_128": 323.9538471363485,
+    "TFT_128": 309.5028751362115,
+    "TIDE_128": 236.62401321530342,
+    "TF_64": 287.9760235790163,
+    "TFT_64": 303.9278604630381,
+    "W0_64": 322.66329950653017,
+    "B0_64": 154.6601835449983
+  },
+  "scenarios": [
+    {
+      "scenario": "较快早停",
+      "worker_slots": 35,
+      "assumed_epochs": {
+        "tune": 10,
+        "shared_and_independent": 18,
+        "B0": 12,
+        "personalization": 12
+      },
+      "shared_remaining_hours": 6.469068437853219,
+      "personalization_hours": 1.9074116871500193,
+      "ablation_and_independent_hours": 11.62031245598159,
+      "total_remaining_hours": 19.99679258098483,
+      "shared_finish": "2026-11-15T04:06:46.820824+08:00",
+      "all_training_finish": "2026-11-15T17:38:26.627740+08:00"
+    },
+    {
+      "scenario": "中性规划",
+      "worker_slots": 35,
+      "assumed_epochs": {
+        "tune": 20,
+        "shared_and_independent": 35,
+        "B0": 25,
+        "personalization": 24
+      },
+      "shared_remaining_hours": 12.77164948531239,
+      "personalization_hours": 2.6647849700133004,
+      "ablation_and_independent_hours": 21.804973016864867,
+      "total_remaining_hours": 37.24140747219056,
+      "shared_finish": "2026-11-15T10:24:56.112595+08:00",
+      "all_training_finish": "2026-11-16T10:53:07.241348+08:00"
+    },
+    {
+      "scenario": "全部跑满预算",
+      "worker_slots": 30,
+      "assumed_epochs": {
+        "tune": 30,
+        "shared_and_independent": 80,
+        "B0": 80,
+        "personalization": 30
+      },
+      "shared_remaining_hours": 34.152929312125345,
+      "personalization_hours": 3.8208244120219637,
+      "ablation_and_independent_hours": 64.27217467417051,
+      "total_remaining_hours": 102.24592839831782,
+      "shared_finish": "2026-11-16T07:47:48.719972+08:00",
+      "all_training_finish": "2026-11-19T03:53:23.516682+08:00"
+    }
+  ],
+  "total_training_jobs": 2571,
+  "scope": {
+    "shared": 180,
+    "personalization": 1100,
+    "new_ablation_and_independent": 1291
+  },
+  "limitations": [
+    "Only shared epochs measured. Per-site costs scaled from full55-farm epochs with15% allowance; personalization cache preparation/Z1/setup included approximately.",
+    "Early-stop epochs and future GPU availability unknown; this is not a guaranteed finish date or a measured confidence interval.",
+    "Full-budget scenario is conditional, not an absolute bound if GPUs become unavailable.",
+    "2024 model reevaluation and conditional LM model extensions excluded.",
+    "Forecast is for initial queue phase; after stage1 finishes, use measured stage2/3 histories to revise rather than reuse these assumptions."
+  ],
+  "superseded": true,
+  "superseded_reason": "2026-11-14 22:30 enabled concurrent dependency-driven ablation queue; sequential stage scenarios no longer apply",
+  "current_resource_snapshot": "operations/resource_expansion_20261114/LIVE.json"
+}

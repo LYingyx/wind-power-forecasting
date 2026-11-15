@@ -1,0 +1,87 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+%Template version as of 6/27/2024
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage[hidelinks]{hyperref}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\setCJKsansfont[AutoFakeSlant=0.2]{SimHei}
+\setCJKmonofont{FangSong}
+
+\begin{document}
+
+\title{运行状态约束的气象-功率融合网络用于区域风电集群预测
+\thanks{This research is supported by Smart-Grid National Science and Technology Major Project (Grant No. 2025ZD0805500).}}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} 罗傲}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China\\
+aoluo@mail.ustc.edu.cn}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} 赵宏伟\textsuperscript{*}}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China\\
+hwzhao@ustc.edu.cn}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd} 刘磊}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China\\
+liulei13@ustc.edu.cn}
+\and[\hfill\break\mbox{}\hfill]
+\IEEEauthorblockN{4\textsuperscript{th} 陈秋菊}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China}
+\and
+\IEEEauthorblockN{5\textsuperscript{th} 李斌}
+\IEEEauthorblockA{\textit{School of Information Science and}\\
+\textit{Technology}\\
+\textit{University of Science and}\\
+\textit{Technology of China}\\
+Hefei 230022, China}
+}
+
+\maketitle
+
+\begin{abstract}
+区域风电集群日内出力预测是电力调度、备用容量配置和新能源消纳的重要基础。气象驱动的预测模型通常依赖未来气象预报刻画预测日内的风场演化，但同一气象形势下的实际出力还会受到预测起点前场站出力水平、短时惯性和多场站同步变化的影响；如果模型只关注未来气象，易产生与真实运行状态不一致的偏差。为此，本文提出一种运行状态约束的气象-功率融合网络。该方法利用气象预报提取气象驱动表示，将预测起点前可用的场站级实测功率编码为运行状态表示，并在解码阶段以该状态表示约束气象信息读取。吉林区域 58 个风电场站的三年数据实验表明，所提方法在日内聚合功率预测中取得 0.0779 的归一化 MAE、0.1065 的归一化 RMSE 和 0.8036 的 \(R^2\)；相对 Weather-only，MAE 和 RMSE 分别降低 6.84\% 和 6.57\%，相对融合基线均降低约 5\%。逐预测步分析显示，预测初期收益最明显，首个预测步 MAE 降低 47.94\%。结果说明，预测起点前的真实功率状态能够有效约束气象到功率的映射，提高区域风电集群预测的状态适配能力。
+\end{abstract}
+
+\begin{IEEEkeywords}
+区域风电集群预测, 风电功率预测, 气象-功率融合, 运行状态约束, 多步预测
+\end{IEEEkeywords}
+
+\input{sections_short/introduction_zh}
+\input{sections_short/related_work_zh}
+\input{sections_short/problem_zh}
+\input{sections_short/method_zh}
+\input{sections_short/experiments_zh}
+\input{sections_short/conclusion_zh}
+\input{sections_short/references_zh}
+
+\end{document}

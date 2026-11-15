@@ -1,0 +1,85 @@
+seed: 42
+data:
+  source_h5: /shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/jilin_56farm_pad8.h5
+  cache_dir: /shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/model_cache_pad5_f8
+  region_padding_grid_points: 5
+  history_power_steps: 24
+  forecast_power_steps: 24
+  history_nwp_nodes: 6
+  future_nwp_nodes: 8
+  weather_storage_dtype: float32
+  cache_chunk_cycles: 32
+  preload_weather: false
+  preload_weather_max_gib: 16.0
+model:
+  architecture: p0i_condition_transfer
+  baseline_family: covariate_transformer
+  d_model: 64
+  weather_channels: 14
+  history_visible_steps: 24
+  dropout: 0.05
+  alignment_variant: P0I
+  native_scope: native7
+  transfer_variant: CBH
+  condition_mode: full
+  history_baseline_model_config:
+    architecture: forced_evolution
+    weather_channels: 14
+    weather_hidden_channels: 48
+    d_model: 64
+    station_query_mode: learned_cells
+    station_neighborhood_cells: 3
+    include_wind_geometry: true
+    include_region_context: false
+    forcing_path_mode: difference
+    time_query_mode: full_attention
+    fusion_mode: history_only
+    output_level: hierarchical
+    history_tcn_layers: 3
+    trajectory_tcn_layers: 3
+    attention_heads: 4
+    dropout: 0.1
+  initialize_history_baseline_from_checkpoint: true
+  freeze_history_baseline: true
+  output_clamp_min: null
+  weather_encoder_variant: E2C
+  station_dem_path: /shared_data_ssd2/liying/wind_cluster_project_20261018/project/artifacts/column_weather_20260928_v1/data/station_dem_srtm30m.json
+  column_stats_path: /shared_data_ssd2/liying/wind_cluster_project_20261018/project/artifacts/column_weather_20260928_v1/data/column_train_stats.json
+training:
+  precision: float32
+  num_workers: 0
+  cycles_per_batch: 12
+  gradient_clip: 1.0
+  early_stopping_patience: 10
+  checkpoint_metric: station_mae_cf
+  spatial_pretrain:
+    epochs: 40
+    batch_size_cycles: 24
+    learning_rate: 0.0003
+    weight_decay: 0.0001
+    station_loss_weight: 1.0
+    cluster_loss_weight: 0.0
+    loss_mode: mae
+  deterministic:
+    epochs: 80
+    learning_rate: 0.0002
+    weight_decay: 0.0001
+    station_loss_weight: 1.0
+    cluster_loss_weight: 0.0
+    auxiliary_weather_loss_weight: 0.0
+    baseline_auxiliary_loss_weight: 0.0
+    baseline_anchor_loss_weight: 0.0
+    anchor_schedule_mode: scalar
+    distillation_weight: 0.0
+    distillation_station_loss_weight: 1.0
+    distillation_cluster_loss_weight: 2.0
+    distillation_uncertainty_aware: false
+    distillation_station_scale: 0.0
+    distillation_cluster_scale: 0.0
+    ema_decay: 0.0
+    checkpoint_average_window: 0
+    ramp_loss_weight: 0.0
+    checkpoint_metric: station_mae_cf
+    loss_mode: mae
+experiment:
+  id: column_weather_20260928_v1/E2C/seed42

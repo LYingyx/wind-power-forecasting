@@ -1,0 +1,48 @@
+\documentclass[conference]{IEEEtran}
+
+\IEEEoverridecommandlockouts
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+\setmonofont{Noto Sans Mono}
+\setCJKmainfont[AutoFakeSlant=0.2]{Noto Serif CJK SC}
+\setCJKsansfont[AutoFakeSlant=0.2]{Noto Sans CJK SC}
+\setCJKmonofont{Noto Sans Mono CJK SC}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+\begin{document}
+
+\title{功率状态条件化的气象-功率融合网络用于区域风电集群总功率预测}
+
+\author{\IEEEauthorblockN{待填写作者}
+\IEEEauthorblockA{\textit{待填写单位}\\
+待填写城市, 中国\\
+email@example.com}
+}
+
+\maketitle
+
+\begin{abstract}
+业务化区域风电集群总功率 24 h 预测需要同时利用未来气象预报和目标窗口前可用的场站运行状态。未来网格化气象预报覆盖整个预测窗口，是驱动风电变化的主要外生信息；但仅依赖气象预报容易忽略预测起点前的真实功率水平、短期惯性和多场站同步变化，导致预测窗口前段存在状态失配误差。本文提出一种功率状态条件化的气象-功率融合预测网络。该方法将后报气象和未来气象预报编码为可查询的气象记忆，将最近 16 步场站级功率通过多尺度图编码器映射为动态功率上下文 token，并在 memory 层面注入气象记忆，使 future queries 在状态条件化后的融合记忆上并行生成 24 步区域总功率预测。基于吉林区域 58 个风电场站和 Pangu-Weather 网格化气象预报的实验表明，本文方法在测试集上取得 \(0.0767\pm0.0006\) 的 MAE、\(0.1041\pm0.0009\) 的 RMSE 和 \(0.8330\pm0.0029\) 的 \(R^2\)，优于 Weather-only 和多种网格气象编码基线。逐预测步分析显示，功率状态条件化主要改善预测窗口前段，尤其在 H1 上显著降低误差；消融实验进一步验证了真实功率状态、多尺度图功率编码和气象记忆结构对融合预测的贡献。
+\end{abstract}
+
+\begin{IEEEkeywords}
+区域风电预测, 集群总功率, 气象-功率融合, 功率状态条件化, 图神经网络, Pangu-Weather
+\end{IEEEkeywords}
+
+\input{sections/introduction_zh}
+\input{sections/related_work_zh}
+\input{sections/methodology_zh}
+\input{sections/case_study_zh}
+\input{sections/conclusion_zh}
+\input{sections/references_zh}
+
+\end{document}

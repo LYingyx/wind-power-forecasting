@@ -1,0 +1,75 @@
+{
+  "version": "20261021_v1",
+  "precision": "float32_no_tf32",
+  "epochs": 80,
+  "patience": 10,
+  "batch_size": 256,
+  "eval_batch_size": 512,
+  "loss": "MAE_CF",
+  "gradient_clip": 1.0,
+  "optimizer": "AdamW",
+  "schedule": "cosine_80",
+  "train_year": 2022,
+  "validation_year": 2023,
+  "reevaluation_year": 2024,
+  "main_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "ablation_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "tuning_seeds": [
+    40,
+    41
+  ],
+  "tuning_farms": [
+    "1043008",
+    "1043010",
+    "1043016",
+    "1043018",
+    "1043048",
+    "1043051"
+  ],
+  "configurations": [
+    {
+      "width": 64,
+      "lr": 0.0002,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 64,
+      "lr": 0.001,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.0002,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.001,
+      "weight_decay": 0.0001
+    }
+  ],
+  "output_clipping": false,
+  "independent_parameters": true,
+  "minimum_improvement": 0.0,
+  "equivalence_margin_cf": 0.001,
+  "max_gpu_workers": 8,
+  "gpu_reserve_mib": 4096,
+  "initial_worker_budget_mib": 4096
+}

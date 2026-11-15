@@ -1,0 +1,7 @@
+# 当前单风场模型RMSE完整核查
+
+已核查当前服务器可访问的两轮独立实验全部正式结果，并对4200份焦点模型原始预测重算。ST11相对Transformer的2024 RMSE在352/560个配对中较差，但不能推广为比所有基线都差。主要证据是普通误差改善、较大误差加重，短时效优势到远时效减弱，以及2023到2024的泛化变化。
+
+[完整报告与逐风场逐seed原值](runs/adaptive_weather_single_farm_20261022_v1/analysis/rmse_review_20261024/REPORT_CN.md)。
+
+P60002/P60003免密连接已成功，两机共享存储中的当前实验是同一份结果。更早历史工程中保留了MSE基线、Physics Gate、Level/Shape和clean重训对照；部分汇总早已归档，本次补充原始预测复算及逐seed配对。历史共享E2C及MSE候选存在RMSE优势，但不能替代当前独立ST11的结论。详见[跨服务器盘点与历史RMSE补充](runs/adaptive_weather_single_farm_20261022_v1/analysis/rmse_review_20261024/remote_inventory/REPORT_CN.md)。

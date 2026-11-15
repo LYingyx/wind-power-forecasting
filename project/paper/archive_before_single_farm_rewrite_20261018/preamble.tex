@@ -1,0 +1,35 @@
+% Standard TeX Live packages; no publisher-specific class or shell escape.
+\setmainfont{Latin Modern Roman}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs,array,tabularx}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[unicode,hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={历史与预测轨迹条件化的天气修正：多风场短期功率预测框架},
+  pdfsubject={中文引言、方法与实验结果；SLAST 实现},
+  pdfcreator={XeLaTeX}
+}
+\graphicspath{{figures/}}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=*,itemsep=0.3em,topsep=0.4em}
+\setcounter{topnumber}{2}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+\DeclareMathOperator{\Concat}{Concat}
+\DeclareMathOperator{\GELU}{GELU}
+\DeclareMathOperator{\LN}{LN}
+\DeclareMathOperator{\softplus}{softplus}
+\DeclareMathOperator{\Readout}{Readout}
+\DeclareMathOperator{\Decoder}{Decoder}
+\DeclareMathOperator{\Encoder}{Encoder}
+\DeclareMathOperator{\MLP}{MLP}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\trans}{\mathsf{T}}
+
+\ctexset{section={format=\Large\bfseries},subsection={format=\large\bfseries}}
+\renewcommand{\arraystretch}{1.15}

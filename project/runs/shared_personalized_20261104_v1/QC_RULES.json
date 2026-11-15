@@ -1,0 +1,19 @@
+{
+  "frozen_before_model_training": true,
+  "cohort_years": [2022, 2023],
+  "model_errors_used": false,
+  "2024_power_read": false,
+  "minimum_finite_fraction_each_year": 0.8,
+  "minimum_q99_capacity_factor_each_year": 0.1,
+  "maximum_q99_capacity_factor_each_year": 1.2,
+  "maximum_gross_out_of_range_fraction": 0.01,
+  "gross_out_of_range": [-0.02, 1.2],
+  "maximum_nonzero_constant_run_fraction": 0.1,
+  "constant_minimum_run_steps": 24,
+  "constant_tolerance_capacity_factor": 0.000001,
+  "constant_nonzero_range": [0.05, 1.2],
+  "q99_shift_exclude_if_both": {"absolute_change_above": 0.35, "max_min_ratio_above": 1.5},
+  "rule_interpretation": "Conservative capacity/coverage/stuck-meter flags, not curtailment or meteorological diagnosis; zero runs alone do not exclude a farm.",
+  "2024_policy": "The 2022/2023 cohort stays fixed. Audit 2024 with the same thresholds later and report sensitivity separately; never choose cohort by model error.",
+  "regional_policy": "Recompute all nearest and ring inputs from retained farms only, exclude target; 15 minute delay."
+}

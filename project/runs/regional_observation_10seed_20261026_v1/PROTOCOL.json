@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-10-26T22:00:26.124304+08:00",
+  "parent": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/regional_observation_completion_20261026_v1",
+  "fit_year": 2022,
+  "selection_year": 2023,
+  "open_2024": false,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "reuse_seeds": [
+    42,
+    43
+  ],
+  "new_seeds": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "trigger": "Complete D audit AND all 56 farms x 2 paired seeds; no representative-site early selection",
+  "eligible_candidates": [
+    "R3_RAW",
+    "R3_ALLPOOL"
+  ],
+  "backbones": [
+    "W0",
+    "TF_z1_lr0.0002_dp0.05"
+  ],
+  "candidate_rule": "D frozen gate: MAE and RMSE >=0.1% vs both N0/N3; >=29/56 farms per metric; beat own C2 on both; high-power RMSE vs N3 <=+0.1%",
+  "references": [
+    "N0",
+    "N3"
+  ],
+  "controls": "Each admitted candidate brings its own C2 control to ten seeds",
+  "references_always_extended": true,
+  "min_new_fits": 1792,
+  "max_new_fits": 5376,
+  "excluded": "Diagnostic ring/latency/SELF arms are not primary candidates in the frozen D protocol; do not promote partial or exploratory winners",
+  "reporting": "Separate selection seeds 42/43, new replication seeds 44..51, and combined ten; within-farm seed average then equal farms; MAE-selected weights for both metrics",
+  "interpretation": "Additional optimization seeds on the same selected year; not an independent-year confirmation",
+  "scheduling": "D first; audited handoff to one queue per host; GPU/CPU/cgroup RAM + matched-job epoch efficiency guard",
+  "storage": "Reuse original 42/43 metrics by source references, no duplicate weights; <=2 selected checkpoints; no prediction arrays"
+}

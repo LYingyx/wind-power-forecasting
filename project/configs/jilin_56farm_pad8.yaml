@@ -1,0 +1,54 @@
+seed: 42
+
+data:
+  task: jilin_56_farm_virtual_cluster_active_power
+  power_dir: ../datasets/Power_JL
+  station_metadata_xlsx: ../datasets/吉林信息表.xlsx
+  pangu_root: ../datasets/jilin
+  channel_metadata_json: ../datasets/jilin/pangu_14_channels.json
+
+  station_id_start: 1043002
+  station_id_end: 1043061
+  # 44 is not commissioned, 60 is excluded by the existing target definition,
+  # 41 has inconsistent capacity records, and 43 is spatially isolated.
+  excluded_station_suffixes: [41, 43, 44, 60]
+  power_timestamp_column: Time
+  power_column: Power
+  power_timezone: Asia/Shanghai
+  nwp_timezone: UTC
+  nwp_protocol: latest_available_cycle_15min_delay
+  nwp_archive_lead_hours: 24
+  audit_nwp_sample_count: 96
+
+  history_nwp_hours: 6
+  future_nwp_hours: 12
+  history_power_hours: 6
+  forecast_hours: 6
+  power_frequency_minutes: 15
+  origin_frequency_minutes: 15
+
+  region_padding_grid_points: 8
+  # The province archive is one grid point short of the requested padding on
+  # the north and west boundaries. Keep the maximum available spatial extent.
+  clip_region_padding_to_source: true
+
+  cleaning:
+    negative_tolerance_capacity_fraction: 0.005
+    capacity_warning_multiple: 1.02
+    extreme_capacity_multiple: 3.0
+    nwp_nonnegative_channels: [q1000, q925]
+
+  split:
+    train:
+      start: 2022-01-01 00:00:00
+      end: 2023-01-01 00:00:00
+    val:
+      start: 2023-01-01 00:00:00
+      end: 2024-01-01 00:00:00
+    test:
+      start: 2024-01-01 00:00:00
+      end: 2025-01-01 00:00:00
+
+storage:
+  compression: lzf
+  nwp_compression: none

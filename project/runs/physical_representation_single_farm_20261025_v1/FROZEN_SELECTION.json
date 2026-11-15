@@ -1,0 +1,173 @@
+{
+  "timestamp": "2026-10-25T16:25:42.984362+08:00",
+  "scope": "B1 main-table comparisons only; B2 interventions need their own protocol",
+  "selected_on": "2023 only; train 2022",
+  "main_variant": "SEL",
+  "main_groups": [
+    "DENS",
+    "DYN",
+    "STAB",
+    "STATE"
+  ],
+  "main_extra_dimensions": 22,
+  "selected_tf_configuration": "TF_z1_lr0.0002_dp0.05",
+  "selection_rule": "W0 equal-farm two-seed MAE minimum; TF configuration chosen on DENS validation MAE; no CI-as-equivalence or percentage cutoff",
+  "models": [
+    {
+      "configuration": "W0",
+      "variant": "BASE",
+      "existing_seeds": [
+        42,
+        43
+      ],
+      "source_run": "physics_observation_single_farm_20261024_v1"
+    },
+    {
+      "configuration": "W0",
+      "variant": "SEL",
+      "existing_seeds": [
+        42,
+        43
+      ],
+      "source_run": "physical_representation_single_farm_20261025_v1"
+    },
+    {
+      "configuration": "TF_z0_lr0.001_dp0",
+      "variant": "BASE",
+      "existing_seeds": [
+        42,
+        43
+      ],
+      "source_run": "physics_observation_single_farm_20261024_v1"
+    },
+    {
+      "configuration": "TF_z0_lr0.001_dp0",
+      "variant": "SEL",
+      "existing_seeds": [
+        42,
+        43
+      ],
+      "source_run": "physical_representation_single_farm_20261025_v1"
+    },
+    {
+      "configuration": "TF_z1_lr0.0002_dp0.05",
+      "variant": "BASE",
+      "existing_seeds": [
+        42,
+        43
+      ],
+      "source_run": "physical_representation_single_farm_20261025_v1"
+    },
+    {
+      "configuration": "TF_z1_lr0.0002_dp0.05",
+      "variant": "SEL",
+      "existing_seeds": [],
+      "source_run": null
+    }
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "farms": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55
+  ],
+  "loss": "MAE",
+  "main_checkpoint": "2023_min_MAE",
+  "secondary_checkpoint": "2023_min_RMSE",
+  "primary_metric": "all_horizon_MAE",
+  "secondary_metrics": [
+    "RMSE",
+    "bias",
+    "0_1h",
+    "1_3h",
+    "3_6h",
+    "predeclared_scenarios",
+    "per_farm_per_seed"
+  ],
+  "new_training_required": 2800,
+  "model_farm_seed_evaluations": 3360,
+  "missing_seed42_43_cell": {
+    "configuration": "TF_z1_lr0.0002_dp0.05",
+    "variant": "SEL",
+    "tasks": 112,
+    "included_in_2800": true
+  },
+  "training_completed_for_B1": false,
+  "ready_for_2024_evaluation": false,
+  "test_year_accessed_this_round": false,
+  "test_label": "2024 retrospective evaluation after this freeze; previously analyzed in project",
+  "evidence_sha256": {
+    "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/physical_representation_single_farm_20261025_v1/SOURCE_FREEZE.json": "f1b479d12d1ee0583f1786248990d1a81ae7197c512ea1378a4a4eedeaebaffb",
+    "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/physical_representation_single_farm_20261025_v1/PROTOCOL.json": "6190bdfd7e089f144f9669b6f306af324b5d145c0efbd9dddf014274166d5231",
+    "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/physical_representation_single_farm_20261025_v1/COMPLETION_AUDIT.json": "79de1147ede3724e70f5e041cec7f11a0513624227b6e0dafb1dbc7c887ac1c3",
+    "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/physical_representation_single_farm_20261025_v1/analysis/SELECTION_RECOMMENDATION.json": "c4ac40971b68ed70e33a90d392e7e0d16ac80fb507c614a113d76579b94d972d",
+    "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/physical_representation_single_farm_20261025_v1/analysis/all_actual_per_farm_seed.csv": "86cc1fdaa8ecf0b3800d6bde9f903b4f46ef26c9a8b697e17b92f9d2473c2eb9",
+    "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/physical_representation_single_farm_20261025_v1/analysis/key_comparison_effects.csv": "15cb8435f4a904b44cb602e24846662c31b03455f40b89c98d4b87662514e48f",
+    "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/physical_representation_single_farm_20261025_v1/analysis/scenario_effect_sizes.csv": "4129f76d9f5999343c49f4e285096761a4fe5fb2ad7678119225c164e2b37c7d"
+  },
+  "guard": "Do not interpret A completion as B completion. Keep default TF and TF* comparisons regardless of transfer-cell result. No 2024-driven changes."
+}

@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-10-28T23:14:07.483797+08:00",
+  "data_fingerprint": "1052d8456c9b950e91ad2a15813c6ceffc541fe7ddba7450c5abd7cc892eef80",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "excluded_validation_month": 11,
+  "validation_mask_sha256": "e505b9f082264fd3e61d1de7f056b93f40a127256423cd8583b99cb3220f9609",
+  "validation_rows": 29695,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "farms": 56,
+  "training_jobs": 2800,
+  "arms": [
+    "W0_H32",
+    "W0_H64",
+    "W0_O_H32",
+    "W0_O_H64",
+    "TF_R3_RAW"
+  ],
+  "primary_checkpoint": "2023_excluding_November_MAE",
+  "loss": "MAE",
+  "epochs": 80,
+  "patience": 10,
+  "batch_size": 256,
+  "learning_rate": 0.0002,
+  "weight_decay": 0.0001,
+  "selection": {
+    "references": [
+      "W0_H32",
+      "TF_R3_RAW"
+    ],
+    "candidates": [
+      "W0_H64",
+      "W0_O_H32",
+      "W0_O_H64"
+    ],
+    "require_both_metrics_relative_improvement": 0.001,
+    "require_each_metric_farm_wins": 29,
+    "maximum_high_power_RMSE_increase": 0.005,
+    "maximum_0_1h_metric_increase_vs_W0": 0.001,
+    "tiebreak": "lowest macro2023 MAE among candidates passing all criteria",
+    "aggregation": "within farm average10 seeds, then equal farm average",
+    "all_arms_reported": true
+  },
+  "inference_limits": [
+    "No equivalence claim from failed superiority",
+    "10 seeds quantify fitting variability, not interannual uncertainty",
+    "2024 has already informed this experiment: any future2024 reevaluation is exploratory",
+    "Output head is not the only W0/TF architecture difference"
+  ],
+  "test_policy": "No2024 evaluation or fitting in this run; selected model and references are frozen before a separate follow-up",
+  "initialization": "Original W0 initialization preserved; common modules and shared head coordinates identical across W0 cells; final output layer zero for all arms"
+}

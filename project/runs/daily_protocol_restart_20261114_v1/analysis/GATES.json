@@ -1,0 +1,813 @@
+{
+  "timestamp": "2026-11-15T02:57:13.403532+08:00",
+  "stage": "FAIL_NO_LARGE_SCALE_PERSONALIZATION",
+  "complete_jobs": 180,
+  "total_jobs": 180,
+  "comparisons": [
+    {
+      "candidate": "W0_RM",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.6743297732194176,
+        "farms_improved": 10,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.4813917896202935,
+          0.8648956579410361
+        ],
+        "per_seed_change_percent": [
+          0.3131557501844684,
+          0.8078268707319536,
+          0.32173109859567894,
+          0.5028478948045256,
+          1.427456137787786
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.5437223192567231,
+        "farms_improved": 11,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.35152363253287966,
+          0.7263360811250946
+        ],
+        "per_seed_change_percent": [
+          0.3594810856632602,
+          0.8901816699583787,
+          0.49492166373310553,
+          0.27104892232128197,
+          0.7049358495089697
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.19600978214405762,
+      "passed": false
+    },
+    {
+      "candidate": "TF_RM",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.5369616657431742,
+        "farms_improved": 13,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.34328801543286436,
+          0.7204079134019286
+        ],
+        "per_seed_change_percent": [
+          0.4389648224496945,
+          0.621563797178637,
+          0.8287665292125546,
+          0.23119328316310028,
+          0.5644932547101966
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.12665050347366869,
+        "farms_improved": 20,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.06651086353974878,
+          0.2988888150399699
+        ],
+        "per_seed_change_percent": [
+          -0.2872243613494141,
+          0.5197174336330157,
+          -0.3403986392575442,
+          0.6949574210810994,
+          0.047633243498967914
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.4230118631844304,
+      "passed": false
+    },
+    {
+      "candidate": "W0_RM",
+      "reference": "TF_RM",
+      "mae": {
+        "change_percent": -0.04637227131361055,
+        "farms_improved": 31,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.282439384089746,
+          0.1892967751752583
+        ],
+        "per_seed_change_percent": [
+          -0.38279471910681595,
+          0.12714362995807083,
+          -0.45227664317343264,
+          0.1517661429908168,
+          0.3236354243166151
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.6444797485770426,
+        "farms_improved": 15,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.43727914152865366,
+          0.8571556295165954
+        ],
+        "per_seed_change_percent": [
+          0.4844724280917534,
+          0.7480623558538513,
+          0.6128079372982098,
+          0.5590596576777962,
+          0.817947933112606
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.000834174222008599,
+      "passed": false
+    },
+    {
+      "candidate": "W0_RM",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.49034039310908994,
+        "farms_improved": 14,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.23091681384753704,
+          0.7464004274995971
+        ],
+        "per_seed_change_percent": [
+          0.054489769183807546,
+          0.7494977059109509,
+          0.3727415686010538,
+          0.3833102992826021,
+          0.8899555791669345
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.7719464888970684,
+        "farms_improved": 10,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.5111438510384958,
+          1.0334616268174912
+        ],
+        "per_seed_change_percent": [
+          0.19585654390483764,
+          1.2716675999646654,
+          0.27032330816083583,
+          1.2579023053381988,
+          0.8659707917422432
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.4221741603064988,
+      "passed": false
+    },
+    {
+      "candidate": "W0_R3",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": -0.1827569952785324,
+        "farms_improved": 27,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.4016796928381186,
+          0.01508980352416862
+        ],
+        "per_seed_change_percent": [
+          -0.25785848233589315,
+          -0.05786174212026873,
+          0.05084687978045288,
+          -0.11893951069628095,
+          -0.5299359553005645
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.2269899744866022,
+        "farms_improved": 20,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.007201057120212738,
+          0.4550703765661623
+        ],
+        "per_seed_change_percent": [
+          -0.16303844937057832,
+          0.37811997529575425,
+          -0.22349224403974688,
+          0.9841857581258884,
+          0.1599076955611567
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.6193980231663732,
+      "passed": false
+    },
+    {
+      "candidate": "M1_CB",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.17140904928314438,
+        "farms_improved": 16,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.09062353237424603,
+          0.25183758425736724
+        ],
+        "per_seed_change_percent": [
+          0.12441848224560292,
+          0.46398831015397324,
+          0.08873903178379106,
+          -0.07953790174626274,
+          0.2597851527316619
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.21155303092195155,
+        "farms_improved": 15,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.13569043257005142,
+          0.29021536880463883
+        ],
+        "per_seed_change_percent": [
+          0.12558333590084736,
+          0.45493425302729484,
+          0.17794169159286444,
+          -0.04869155757675214,
+          0.3501934268064222
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.026811668120041432,
+      "passed": false
+    },
+    {
+      "candidate": "M1_CB",
+      "reference": "M4_WRONG_CB",
+      "mae": {
+        "change_percent": 0.1793923166392153,
+        "farms_improved": 15,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.09455813014184966,
+          0.2669431786769283
+        ],
+        "per_seed_change_percent": [
+          0.13201775382420955,
+          0.4662036941744718,
+          0.09396887253569908,
+          -0.030582814725932383,
+          0.23542641252638496
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.22944951350942766,
+        "farms_improved": 10,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.14524041687068445,
+          0.31914573690585535
+        ],
+        "per_seed_change_percent": [
+          0.17149952216604092,
+          0.49358297243213833,
+          0.13790286226322834,
+          -0.011661135509100085,
+          0.35801640811039537
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.08801366507551478,
+      "passed": false
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.02271379460485612,
+        "farms_improved": 25,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.06087148399966019,
+          0.10535651735710581
+        ],
+        "per_seed_change_percent": [
+          -0.18255219818716917,
+          0.17144330653016127,
+          0.20049744451993146,
+          -0.14501161264531826,
+          0.06826520406326697
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": -0.09590832134239724,
+        "farms_improved": 38,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.17288762232917393,
+          -0.019715586738795587
+        ],
+        "per_seed_change_percent": [
+          -0.1315483415984975,
+          -0.05596817504140983,
+          0.25276208448350435,
+          -0.42945163411700626,
+          -0.11215682995885379
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.39847223537098353,
+      "passed": false
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "M1_CB",
+      "mae": {
+        "change_percent": -0.14844081369078665,
+        "farms_improved": 39,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.2164888760324396,
+          -0.08207574058238853
+        ],
+        "per_seed_change_percent": [
+          -0.30658922677008205,
+          -0.29119389797732653,
+          0.11165932733019357,
+          -0.06552582876835356,
+          -0.19102369746418768
+        ],
+        "passed": true
+      },
+      "rmse": {
+        "change_percent": -0.3068122815834129,
+        "farms_improved": 50,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.3773833769990584,
+          -0.24469537722964543
+        ],
+        "per_seed_change_percent": [
+          -0.2568091679793105,
+          -0.5085886839384601,
+          0.07468749270271857,
+          -0.3809455648693061,
+          -0.46073678682293506
+        ],
+        "passed": true
+      },
+      "high_power_rmse_change_percent": -0.4251699083462457,
+      "passed": true
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "M4H_WRONG_CBH",
+      "mae": {
+        "change_percent": 0.034263368290465834,
+        "farms_improved": 24,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.019358405262583644,
+          0.08687337223642783
+        ],
+        "per_seed_change_percent": [
+          0.17429521031564477,
+          0.03278440458984733,
+          0.15501326805302806,
+          -0.1965292800014118,
+          0.007071264186842008
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": -0.051495080655283854,
+        "farms_improved": 35,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.10901687418021083,
+          0.00600555491021225
+        ],
+        "per_seed_change_percent": [
+          0.10127739453815732,
+          -0.09943724672705212,
+          0.18929869189701076,
+          -0.2826088114803116,
+          -0.1633415308723074
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.13463158998400226,
+      "passed": false
+    },
+    {
+      "candidate": "M3_ANCHOR",
+      "reference": "M1_CB",
+      "mae": {
+        "change_percent": 0.6357730065643219,
+        "farms_improved": 2,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.5345899684572258,
+          0.7391910025236592
+        ],
+        "per_seed_change_percent": [
+          0.5124427996471947,
+          0.418295169743943,
+          0.592440599677424,
+          0.5477314033281333,
+          1.1091298340293765
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.12993112610684143,
+        "farms_improved": 23,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.018271262100511557,
+          0.24395698803986338
+        ],
+        "per_seed_change_percent": [
+          0.3474661740370477,
+          0.06179994045523163,
+          -0.056891239852130404,
+          0.012821641477644974,
+          0.2861495271114123
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.3996119086330685,
+      "passed": false
+    },
+    {
+      "candidate": "M5_TF_CB",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": 0.21230969787346954,
+        "farms_improved": 14,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.11977189368880925,
+          0.30714054815844327
+        ],
+        "per_seed_change_percent": [
+          -0.19389586371122425,
+          0.4563632341665125,
+          0.0995392814296725,
+          0.35193490021760976,
+          0.34588567187969765
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.48968054690974316,
+        "farms_improved": 4,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.39716689273631145,
+          0.5906816272353027
+        ],
+        "per_seed_change_percent": [
+          -0.13911287352738055,
+          0.5255471130831246,
+          0.24414503366698703,
+          1.197053203884657,
+          0.6208412959667564
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.008740961594311258,
+      "passed": false
+    },
+    {
+      "candidate": "M5_TF_CB",
+      "reference": "M5N_TF_NEUTRAL",
+      "mae": {
+        "change_percent": 0.11792406432655778,
+        "farms_improved": 25,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.015728513216012874,
+          0.25523930258278366
+        ],
+        "per_seed_change_percent": [
+          -0.21353658252927232,
+          0.3585421573662817,
+          -0.04654280511450226,
+          0.19539385129878628,
+          0.29418591098371305
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.3947744151192367,
+        "farms_improved": 15,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.25488995361341527,
+          0.5390928877256489
+        ],
+        "per_seed_change_percent": [
+          0.06875364867893197,
+          0.5711057438346545,
+          0.4495854790147691,
+          0.323827487629047,
+          0.5609735674761973
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.5010617115651206,
+      "passed": false
+    },
+    {
+      "candidate": "M5_TF_CB",
+      "reference": "M5W_TF_WRONG_CB",
+      "mae": {
+        "change_percent": 0.12052023027824266,
+        "farms_improved": 27,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.016367994715995593,
+          0.26099576497450755
+        ],
+        "per_seed_change_percent": [
+          -0.19893728905076014,
+          0.4236312548234533,
+          -0.08189586139318861,
+          0.12504359861806869,
+          0.3336691898422117
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.3598399790506246,
+        "farms_improved": 18,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.2201744100245634,
+          0.5032217026066821
+        ],
+        "per_seed_change_percent": [
+          0.050935238595006815,
+          0.5342444662065349,
+          0.42652468572166313,
+          0.19252173823209873,
+          0.5966320468073993
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.5207200453748784,
+      "passed": false
+    },
+    {
+      "candidate": "M1_CB",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.17140904928314438,
+        "farms_improved": 16,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.09062353237424603,
+          0.25183758425736724
+        ],
+        "per_seed_change_percent": [
+          0.12441848224560292,
+          0.46398831015397324,
+          0.08873903178379106,
+          -0.07953790174626274,
+          0.2597851527316619
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.21155303092195155,
+        "farms_improved": 15,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.13569043257005142,
+          0.29021536880463883
+        ],
+        "per_seed_change_percent": [
+          0.12558333590084736,
+          0.45493425302729484,
+          0.17794169159286444,
+          -0.04869155757675214,
+          0.3501934268064222
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.026811668120041432,
+      "passed": false
+    },
+    {
+      "candidate": "M1_CB",
+      "reference": "M4_WRONG_CB",
+      "mae": {
+        "change_percent": 0.1793923166392153,
+        "farms_improved": 15,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.09455813014184966,
+          0.2669431786769283
+        ],
+        "per_seed_change_percent": [
+          0.13201775382420955,
+          0.4662036941744718,
+          0.09396887253569908,
+          -0.030582814725932383,
+          0.23542641252638496
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.22944951350942766,
+        "farms_improved": 10,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.14524041687068445,
+          0.31914573690585535
+        ],
+        "per_seed_change_percent": [
+          0.17149952216604092,
+          0.49358297243213833,
+          0.13790286226322834,
+          -0.011661135509100085,
+          0.35801640811039537
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.08801366507551478,
+      "passed": false
+    },
+    {
+      "candidate": "M1_CB",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": -0.011661208023494574,
+        "farms_improved": 22,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.2105784496073057,
+          0.16831673130666075
+        ],
+        "per_seed_change_percent": [
+          -0.13376082370035736,
+          0.40585809631421554,
+          0.1396310325930461,
+          -0.19838281045139183,
+          -0.27152749749975724
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": 0.43902320957946994,
+        "farms_improved": 12,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          0.22680274613481988,
+          0.6506356375628856
+        ],
+        "per_seed_change_percent": [
+          -0.03765986259325338,
+          0.8347744256082201,
+          -0.04594823832652084,
+          0.9350149851740541,
+          0.5106611086063806
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.6463757622287236,
+      "passed": false
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "W0_R3",
+      "mae": {
+        "change_percent": 0.02271379460485612,
+        "farms_improved": 25,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.06087148399966019,
+          0.10535651735710581
+        ],
+        "per_seed_change_percent": [
+          -0.18255219818716917,
+          0.17144330653016127,
+          0.20049744451993146,
+          -0.14501161264531826,
+          0.06826520406326697
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": -0.09590832134239724,
+        "farms_improved": 38,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.17288762232917393,
+          -0.019715586738795587
+        ],
+        "per_seed_change_percent": [
+          -0.1315483415984975,
+          -0.05596817504140983,
+          0.25276208448350435,
+          -0.42945163411700626,
+          -0.11215682995885379
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.39847223537098353,
+      "passed": false
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "M4H_WRONG_CBH",
+      "mae": {
+        "change_percent": 0.034263368290465834,
+        "farms_improved": 24,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.019358405262583644,
+          0.08687337223642783
+        ],
+        "per_seed_change_percent": [
+          0.17429521031564477,
+          0.03278440458984733,
+          0.15501326805302806,
+          -0.1965292800014118,
+          0.007071264186842008
+        ],
+        "passed": false
+      },
+      "rmse": {
+        "change_percent": -0.051495080655283854,
+        "farms_improved": 35,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.10901687418021083,
+          0.00600555491021225
+        ],
+        "per_seed_change_percent": [
+          0.10127739453815732,
+          -0.09943724672705212,
+          0.18929869189701076,
+          -0.2826088114803116,
+          -0.1633415308723074
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": -0.13463158998400226,
+      "passed": false
+    },
+    {
+      "candidate": "M2_CBH",
+      "reference": "TF_R3",
+      "mae": {
+        "change_percent": -0.16008471172220817,
+        "farms_improved": 30,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.36081939940685703,
+          0.019363900405259777
+        ],
+        "per_seed_change_percent": [
+          -0.43993995419534526,
+          0.11348236432597858,
+          0.2514462709949594,
+          -0.26377864723905464,
+          -0.46203251309858695
+        ],
+        "passed": true
+      },
+      "rmse": {
+        "change_percent": 0.13086395087005265,
+        "farms_improved": 20,
+        "total_farms": 55,
+        "paired_farm_bootstrap95_percent": [
+          -0.08716151897722818,
+          0.34168226299133797
+        ],
+        "per_seed_change_percent": [
+          -0.2943723165927725,
+          0.32194017340470005,
+          0.028704936789059055,
+          0.5505075221878597,
+          0.04757151820009575
+        ],
+        "passed": false
+      },
+      "high_power_rmse_change_percent": 0.21845765864663136,
+      "passed": false
+    }
+  ],
+  "personalization_started": false,
+  "test2024_read": false,
+  "eligible": [],
+  "strongest_same_input_baseline": "TF_R3",
+  "selected_candidate": null
+}

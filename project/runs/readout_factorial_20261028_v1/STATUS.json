@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-10-29T01:40:15.645355+08:00",
+  "planned": 2800,
+  "completed": 2800,
+  "failed": 0,
+  "failed_jobs": [],
+  "active": [],
+  "pending": 0,
+  "training_completed": 2800,
+  "replay_completed": 0,
+  "test_year_evaluated": false
+}

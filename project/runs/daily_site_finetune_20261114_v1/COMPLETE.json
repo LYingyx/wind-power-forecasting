@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-11-15T05:36:40.699170+08:00",
+  "completed": 1100,
+  "failed": 0,
+  "scope": "shared_plus_station_finetuning",
+  "gate": "COMPLETE_REVIEW_PERSONALIZATION"
+}
