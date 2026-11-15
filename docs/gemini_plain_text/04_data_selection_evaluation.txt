@@ -1,0 +1,3595 @@
+# 04_data_selection_evaluation.txt
+
+UTF-8 纯文本，无需解压。来源：https://github.com/LYingyx/wind-power-forecasting
+按完全相同的源文件内容去重；各原路径和 SHA-256 均列出，运行时仍使用各自原路径。
+这是阅读副本；训练记录见 project/analysis/daily_protocol_review_20261115/provenance/。
+
+## SOURCE: project/pyproject.toml
+
+- project/pyproject.toml
+
+SHA-256: 823a794835c2a4a7ca221aa2cd88e4750c51cc4138a21dd8857335b6e67fef18
+
+```
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wind-cluster-forced-evolution"
+version = "0.1.0"
+description = "State-conditioned cross-scale weather forcing for wind-cluster forecasting"
+requires-python = ">=3.10"
+dependencies = [
+  "h5py>=3.9,<4.0",
+  "numpy>=1.24,<3.0",
+  "PyYAML>=6.0,<7.0",
+  "torch>=2.1,<3.0",
+  "tqdm>=4.66,<5.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7.4,<9.0"]
+mamba = ["mamba-ssm==2.2.6.post3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+```
+
+## SOURCE: project/src/wind_forcing/data/operational.py
+
+- project/src/wind_forcing/data/operational.py
+
+SHA-256: 7bf49590a97f7c1ecb8689b32467522e2587188c6e5c7fb28382f518c6b54f87
+
+```
+"""Availability-aware Pangu selection. All stored timestamps are UTC Unix seconds."""
+from __future__ import annotations
+
+from datetime import datetime, timezone
+from dataclasses import dataclass
+from pathlib import Path
+from zoneinfo import ZoneInfo
+import numpy as np
+
+HOUR = 3600
+LATENCY = 12 * HOUR
+PERIOD = 12 * HOUR
+
+
+@dataclass(frozen=True)
+class AvailabilityProtocol:
+    name: str
+    latency_hours: int
+    period_hours: int
+    maximum_lead_hours: int
+
+    @property
+    def latency(self):
+        return self.latency_hours * HOUR
+
+    @property
+    def period(self):
+        return self.period_hours * HOUR
+
+
+TWICE_DAILY = AvailabilityProtocol('twice_daily_08_20_BJT_latency12h', 12, 12, 30)
+DAILY = AvailabilityProtocol('daily_08_BJT_latency15h', 15, 24, 45)
+PROTOCOLS = {p.name: p for p in (TWICE_DAILY, DAILY)}
+LOCAL = ZoneInfo('Asia/Shanghai')
+BAD_START = int(datetime(2024, 11, 1, tzinfo=LOCAL).timestamp())
+BAD_END = int(datetime(2024, 12, 1, tzinfo=LOCAL).timestamp())
+BAD_UTC_START = int(datetime(2024, 11, 1, tzinfo=timezone.utc).timestamp())
+BAD_UTC_END = int(datetime(2024, 12, 1, tzinfo=timezone.utc).timestamp())
+
+
+def unix(value: str, timezone_name: str = 'Asia/Shanghai') -> int:
+    """Localize naive power timestamps; preserve timezone-aware NWP timestamps."""
+    stamp = datetime.fromisoformat(value)
+    if stamp.tzinfo is None:
+        stamp = stamp.replace(tzinfo=ZoneInfo(timezone_name))
+    return int(stamp.timestamp())
+
+
+def select_issue(origin, protocol=TWICE_DAILY):
+    origin = np.asarray(origin, dtype=np.int64)
+    return ((origin - protocol.latency) // protocol.period) * protocol.period
+
+
+def plan_times(origin, protocol=TWICE_DAILY):
+    origin = np.asarray(origin, dtype=np.int64)
+    if np.any(origin % 900):
+        raise ValueError('Power origins must lie on the 15-minute time grid')
+    issue = select_issue(origin, protocol)
+    base = (origin // HOUR) * HOUR
+    future = base[:, None] + np.arange(8, dtype=np.int64)[None] * HOUR
+    past = base[:, None] + np.arange(-6, 0, dtype=np.int64)[None] * HOUR
+    available = issue + protocol.latency
+    assert np.all(available <= origin) and np.all(origin < available + protocol.period)
+    assert np.all(issue % protocol.period == 0)
+    assert np.all(future[:, 0] <= origin + 900)
+    assert np.all(future[:, -1] >= origin + 6 * HOUR)
+    assert np.all((future - issue[:, None]) <= protocol.maximum_lead_hours * HOUR)
+    return dict(issue=issue, available=available, base=base, future=future, past=past)
+
+
+def november_exclusions(origin, protocol=TWICE_DAILY):
+    """Conservative exclusion of local power/weather windows and bad issue files.
+
+    Covers the UTC filename month as well as the business calendar month. This
+    also prevents December boundary samples from reusing a November issue.
+    """
+    origin = np.asarray(origin, dtype=np.int64)
+    p = plan_times(origin, protocol)
+    overlaps = lambda a, b: (a < BAD_END) & (b >= BAD_START)
+    return {
+        'power_window_touches_local_november': overlaps(origin - 23 * 900, origin + 24 * 900),
+        'weather_window_touches_local_november': overlaps(p['past'][:, 0], p['future'][:, -1]),
+        'issue_in_utc_november': (p['issue'] >= BAD_UTC_START) & (p['issue'] < BAD_UTC_END),
+        'issue_in_local_november': (p['issue'] >= BAD_START) & (p['issue'] < BAD_END),
+    }
+
+
+def source_path(root: str | Path, issue: int, lead: int) -> Path:
+    if lead < 0 or lead > 96:
+        raise ValueError(f'Unsupported Pangu lead: {lead}')
+    stamp = datetime.fromtimestamp(int(issue), tz=timezone.utc)
+    step = f'{int(lead):02d}'
+    return Path(root) / str(stamp.year) / step / f'{stamp:%Y-%m-%d %H:%M:%S}+00:00-{step}.npy'
+
+
+def interpolate_nodes(nodes, offsets, queries):
+    """Hourly linear interpolation without silent endpoint extrapolation."""
+    nodes = np.asarray(nodes)
+    offsets = np.asarray(offsets)
+    queries = np.asarray(queries, dtype=np.float32)
+    if queries.ndim == 1:
+        queries = np.broadcast_to(queries, (len(nodes), len(queries)))
+    if not np.allclose(np.diff(offsets, axis=1), 1):
+        raise ValueError('Expected contiguous hourly nodes')
+    x = queries - offsets[:, :1]
+    if np.any(x < -1e-6) or np.any(x > nodes.shape[1] - 1 + 1e-6):
+        raise ValueError('Required forecast valid time is outside available nodes')
+    lo = np.minimum(np.floor(x).astype(np.int64), nodes.shape[1] - 2)
+    frac = (x - lo)[..., None]
+    rows = np.arange(len(nodes))[:, None]
+    return (nodes[rows, lo] * (1 - frac) + nodes[rows, lo + 1] * frac).astype(np.float32)
+```
+
+## SOURCE: project/src/wind_forcing/data/operational_farm.py
+
+- project/src/wind_forcing/data/operational_farm.py
+
+SHA-256: d600a66c79ffa90e2a9bd6fba9946fd27f98388eabc88f5ee503a24ee18de665
+
+```
+"""Single-farm BASE/SEL inputs from the operational bundle, with provenance guards.
+
+No path to the former local-weather cache, prepared histories, or feature stats
+is used. Regional observations can be read from this same cache's history array.
+"""
+from __future__ import annotations
+import importlib.util
+import json
+from pathlib import Path
+import numpy as np
+import torch
+from .operational import interpolate_nodes, PROTOCOLS
+
+
+def _physics():
+    project = Path(__file__).resolve().parents[3]
+    path = project / 'runs/regional_reliability_validation_20261027_v1/code/physics.py'
+    spec = importlib.util.spec_from_file_location('operational_physics_functions', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class OperationalFarmData:
+    def __init__(self, cache_dir, split, site, feature_set='SEL', stats=None, device='cpu', limit=None):
+        if split not in ['train', 'val', 'test'] or feature_set not in ['BASE', 'SEL']:
+            raise ValueError('Supported splits: train/val/test; features: BASE/SEL')
+        root = Path(cache_dir).resolve()
+        manifest = json.loads((root / 'manifest.json').read_text())
+        if manifest.get('operational_protocol', {}).get('protocol') not in PROTOCOLS:
+            raise ValueError('An operational data manifest is required')
+        bundle = root.parent
+        if not (bundle / 'SUCCESS.json').exists():
+            raise ValueError('Operational dataset completion audit has not passed')
+        fingerprint = manifest['preprocess_fingerprint']
+        if stats is None and split != 'train':
+            raise ValueError('Validation/test must use training feature statistics')
+        if stats is not None:
+            if stats.get('data_fingerprint') != fingerprint or stats.get('feature_set') != feature_set:
+                raise ValueError('Feature statistics are from another data protocol or feature set')
+        if not 0 <= site < 56:
+            raise ValueError('Site index must be 0..55')
+        source = root / split
+        prepared = Path(manifest['physics_dir'])
+        origin = np.load(source / 'origin_unix.npy')[:limit]
+        cycle = np.load(source / 'weather_cycle_index.npy')[:limit]
+        offset = np.load(source / 'weather_time_offset_hours.npy')[:limit]
+        h = np.array(np.load(source / 'station_history.npy', mmap_mode='r')[:limit, site])
+        y = np.array(np.load(source / 'station_future.npy', mmap_mode='r')[:limit, site])
+        nodes = np.load(Path(manifest['local_weather_dir']) / f'{split}.npy', mmap_mode='r')[cycle, site]
+        past = np.load(prepared / split / 'past_weather.npy', mmap_mode='r')[cycle, site]
+        past_time = (np.load(prepared / split / 'past_valid_unix.npy')[cycle] - origin[:, None]) / 3600
+        times = np.concatenate([past_time, offset], 1).astype('f4')
+        allnodes = np.concatenate([past, nodes], 1)
+        lead = np.arange(1, 25, dtype='f4') / 4
+        weather = interpolate_nodes(nodes, offset, lead)
+        reference = interpolate_nodes(nodes, offset, np.array([0.]))[:, 0]
+        mean = np.load(root / 'static/nwp_mean.npy')
+        std = np.load(root / 'static/nwp_std.npy')
+        physical = weather * std + mean
+        ref_physical = reference * std + mean
+        physics = _physics()
+        elevation = float(np.load(prepared / 'elevation.npy')[site])
+        density, stability = physics.thermodynamics(physical, elevation)
+        ref_density, _ = physics.thermodynamics(ref_physical, elevation)
+        dyn_nodes = np.load(prepared / split / 'dynamics.npy', mmap_mode='r')[cycle, site]
+        dynamics = interpolate_nodes(dyn_nodes, offset, lead)
+        if stats is None:
+            train_h = np.load(root / 'train/station_history.npy', mmap_mode='r')[:, site]
+            flat = float(np.quantile(abs(np.diff(train_h, axis=1)), .1))
+        else:
+            flat = stats['flat_threshold']
+        state = physics.operating_state(h, flat)
+        repeated = np.broadcast_to(state[:, None], (len(h), 24, state.shape[-1]))
+        raw = np.concatenate([density, dynamics, stability, repeated], -1) if feature_set == 'SEL' else np.zeros((len(h), 24, 0), 'f4')
+        if stats is None:
+            mu = raw.mean((0, 1), dtype=np.float64).astype('f4') if raw.shape[-1] else np.zeros(0, 'f4')
+            sd = raw.std((0, 1), dtype=np.float64).astype('f4').clip(1e-4) if raw.shape[-1] else np.ones(0, 'f4')
+            stats = dict(data_fingerprint=fingerprint, feature_set=feature_set, fitted_split='train',
+                site=site, samples=len(h), mean=mu.tolist(), std=sd.tolist(), flat_threshold=flat,
+                groups=['density', 'dynamics', 'stability', 'state'] if feature_set == 'SEL' else [])
+        if stats.get('site') != site or stats.get('fitted_split') != 'train':
+            raise ValueError('Feature statistics must come from this farm training split')
+        x = (raw - np.asarray(stats['mean'], 'f4')) / np.asarray(stats['std'], 'f4')
+        assert np.isfinite(x).all()
+        tensor = lambda a, dtype=torch.float32: torch.as_tensor(np.array(a), dtype=dtype, device=device)
+        self.n = len(h)
+        self.site, self.split, self.origin, self.stats = site, split, origin, stats
+        self.h, self.y = tensor(h), tensor(y)
+        self.phase = tensor(np.load(source / 'origin_phase.npy')[:limit], torch.long)
+        for name, array in dict(weather=weather, reference=reference, physical=physical,
+                reference_physical=ref_physical, density=density, ref_density=ref_density, x=x,
+                times=offset, all_times=times, allnodes=allnodes,
+                historical_input=np.concatenate([h, past.reshape(len(h), -1), past_time / 6], 1)).items():
+            setattr(self, name, tensor(array))
+        self.diagnostic = dict(density=tensor(density), stability=tensor(stability),
+            dynamics=tensor(dynamics), state=tensor(repeated), calendar=tensor(physics.calendar(origin, lead)))
+        self.data_fingerprint = fingerprint
+        self.issue_unix = np.load(source / 'origin_issue_unix.npy')[:limit]
+        self.available_unix = np.load(source / 'origin_available_unix.npy')[:limit]
+
+    def batch(self, indices):
+        return {key: getattr(self, key)[indices] for key in ['h', 'phase', 'weather', 'reference', 'physical',
+            'reference_physical', 'density', 'ref_density', 'x', 'times', 'all_times', 'allnodes', 'historical_input']}
+```
+
+## SOURCE: project/scripts/prepare_operational_pangu.py
+
+- project/scripts/prepare_operational_pangu.py
+
+SHA-256: f8816fd9c5a048bab76ae05259a2425bb19d71017db9d565216b0ffa5fd45b19
+
+```
+"""Rebuild availability-correct train/val/test caches without altering old runs.
+
+Reads only the required 24x25 regional crop of each global, hourly Pangu file.
+All power timestamps and targets retain their original UTC Unix alignment.
+"""
+from __future__ import annotations
+import argparse
+from concurrent.futures import ThreadPoolExecutor
+import csv
+from datetime import datetime, timezone
+import fcntl
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import shutil
+import sys
+import time
+import h5py
+import numpy as np
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / 'src'))
+from wind_forcing.data import operational
+from wind_forcing.data.operational import source_path, LOCAL
+from wind_forcing.models.components import build_station_patch_metadata
+
+DEFAULT_ROOT = Path('/hj102_data_large/ERA5_forecasting/Pangu/Forecast_data')
+DEFAULT_OUT = Path('/shared_data_ssd3/liying/operational_pangu_20261027_v1')
+OLD = PROJECT / 'data/model_cache_pad5_f8'
+H5 = PROJECT / 'data/jilin_56farm_pad8.h5'
+PHYSICS = PROJECT / 'runs/regional_reliability_validation_20261027_v1/code/physics.py'
+PROTOCOL = operational.TWICE_DAILY
+REQUIRE_SAME_SAMPLES = False
+
+
+def plan_times(origin):
+    return operational.plan_times(origin, PROTOCOL)
+
+
+def november_exclusions(origin):
+    return operational.november_exclusions(origin, PROTOCOL)
+
+
+def now():
+    return datetime.now().astimezone().isoformat()
+
+
+def digest(path):
+    h = hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for b in iter(lambda: f.read(1 << 20), b''):
+            h.update(b)
+    return h.hexdigest()
+
+
+def atomic_json(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + '.tmp')
+    temp.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
+    os.replace(temp, path)
+
+
+def save(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + '.tmp')
+    with temp.open('wb') as f:
+        np.save(f, value, allow_pickle=False)
+    os.replace(temp, path)
+
+
+def mmap_output(path, shape, dtype='f4'):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return np.lib.format.open_memmap(path, mode='w+', dtype=dtype, shape=shape)
+
+
+def load_physics():
+    spec = importlib.util.spec_from_file_location('operational_frozen_physics', PHYSICS)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def timestamp(t, local=False):
+    return datetime.fromtimestamp(int(t), tz=LOCAL if local else timezone.utc).isoformat()
+
+
+def build_plans(out, raw_root):
+    plans = {}
+    all_keys = set()
+    exclusions = {}
+    for split in ['train', 'val', 'test']:
+        original = np.load(OLD / split / 'origin_unix.npy')
+        reasons = november_exclusions(original) if split == 'test' else {}
+        excluded = np.logical_or.reduce(list(reasons.values())) if reasons else np.zeros(len(original), bool)
+        if REQUIRE_SAME_SAMPLES and excluded.any():
+            raise ValueError(f'{split}: new protocol excludes {excluded.sum()} existing samples; sample changes require an explicit decision')
+        keep = np.flatnonzero(~excluded)
+        origin = original[keep]
+        times = plan_times(origin)
+        base, first, inverse = np.unique(times['base'], return_index=True, return_inverse=True)
+        issue = times['issue'][first]
+        future = times['future'][first]
+        past = times['past'][first]
+        assert np.array_equal(issue[inverse], times['issue'])
+        assert np.all((origin - times['issue'] >= PROTOCOL.latency) &
+                      (origin - times['issue'] < PROTOCOL.latency + PROTOCOL.period))
+        for t, valid in zip(issue, np.concatenate([past, future], 1)):
+            all_keys.update((int(t), int((v - t) // 3600)) for v in valid)
+        plans[split] = dict(keep=keep, origin=origin, base=base, cycle=inverse, issue=issue, future=future, past=past)
+        exclusions[split] = dict(original=len(original), retained=len(origin), removed=int(excluded.sum()),
+            reason_counts_overlapping={k: int(v.sum()) for k, v in reasons.items()})
+        if excluded.any():
+            with (out / f'excluded_{split}.csv').open('w') as f:
+                writer = csv.writer(f)
+                writer.writerow(['source_row', 'origin_utc', 'origin_beijing', 'reasons'])
+                for i in np.flatnonzero(excluded):
+                    writer.writerow([int(i), timestamp(original[i]), timestamp(original[i], True),
+                                     '|'.join(k for k, v in reasons.items() if v[i])])
+        with (out / f'provenance_{split}.csv').open('w') as f:
+            writer = csv.writer(f)
+            writer.writerow(['row', 'source_row', 'origin_utc', 'origin_beijing', 'issue_utc', 'issue_beijing',
+                             'available_beijing', 'nwp_age_hours', 'target_end_beijing', 'last_weather_lead'])
+            for i, t in enumerate(origin):
+                it = int(times['issue'][i])
+                writer.writerow([i, int(keep[i]), timestamp(t), timestamp(t, True), timestamp(it), timestamp(it, True),
+                                 timestamp(it + PROTOCOL.latency, True), (int(t) - it) / 3600,
+                                 timestamp(t + 21600, True), int((times['future'][i, -1] - it) // 3600)])
+    keys = sorted(all_keys)
+    lookup = {key: i for i, key in enumerate(keys)}
+    for split, p in plans.items():
+        for name in ['future', 'past']:
+            p[name + '_frames'] = np.array([[lookup[(int(t), int((v - t) // 3600))] for v in vs]
+                                           for t, vs in zip(p['issue'], p[name])], dtype=np.int64)
+        np.savez(out / f'plan_{split}.npz', **p)
+    atomic_json(out / 'SAMPLE_SELECTION.json', exclusions)
+    save(out / 'frame_issue_unix.npy', np.array([k[0] for k in keys], dtype=np.int64))
+    save(out / 'frame_lead_hours.npy', np.array([k[1] for k in keys], dtype=np.int16))
+    return plans, keys, exclusions
+
+
+def source_coverage(out, raw_root, keys):
+    """Check exact issue/lead identities before allocating a large frame store."""
+    paths = [source_path(raw_root, *key) for key in keys]
+    missing = []
+    with (out / 'required_source_files.csv').open('w') as f:
+        writer = csv.writer(f)
+        writer.writerow(['frame', 'issue_unix', 'issue_utc', 'lead_hours', 'path', 'exists'])
+        for i, (key, path) in enumerate(zip(keys, paths)):
+            exists = path.is_file()
+            if not exists:
+                missing.append(str(path))
+            writer.writerow([i, key[0], timestamp(key[0]), key[1], str(path), int(exists)])
+    coverage = dict(timestamp=now(), root=str(raw_root), root_accessible=raw_root.is_dir(),
+        required_files=len(keys), missing_count=len(missing), missing=missing,
+        minimum_lead=min(k[1] for k in keys), maximum_lead=max(k[1] for k in keys),
+        issues=len(set(k[0] for k in keys)), global_shape=[1, 14, 721, 1440],
+        complete=not missing)
+    atomic_json(out / 'SOURCE_COVERAGE.json', coverage)
+    return paths, coverage
+
+
+def extract_raw(out, raw_root, keys, workers):
+    paths, coverage = source_coverage(out, raw_root, keys)
+    if not coverage['complete']:
+        raise FileNotFoundError(f"{coverage['missing_count']} required same-issue Pangu files unavailable; see SOURCE_COVERAGE.json")
+    lat = np.load(OLD / 'static/weather_latitude.npy')
+    lon = np.load(OLD / 'static/weather_longitude.npy')
+    rows = np.rint((90 - lat) / .25).astype(int)
+    cols = np.rint(lon / .25).astype(int)
+    assert np.array_equal(np.diff(rows), np.ones(len(rows) - 1))
+    assert np.array_equal(np.diff(cols), np.ones(len(cols) - 1))
+    ys = slice(int(rows[0]), int(rows[-1]) + 1)
+    xs = slice(int(cols[0]), int(cols[-1]) + 1)
+    shape = (len(keys), 14, len(rows), len(cols))
+    raw_path = out / 'raw_frames.npy'
+    done_path = out / 'raw_done.npy'
+    if raw_path.exists() and done_path.exists():
+        raw = np.lib.format.open_memmap(raw_path, mode='r+')
+        done = np.lib.format.open_memmap(done_path, mode='r+')
+        assert raw.shape == shape and done.shape == (len(keys),)
+    else:
+        raw = mmap_output(raw_path, shape)
+        done = mmap_output(done_path, (len(keys),), '?')
+        done[:] = False
+        done.flush()
+    coverage.update(global_rows=[ys.start, ys.stop], global_columns=[xs.start, xs.stop])
+    atomic_json(out / 'SOURCE_COVERAGE.json', coverage)
+    def read(i):
+        path = paths[i]
+        before = path.stat()
+        data = np.load(path, mmap_mode='r', allow_pickle=False)
+        if data.shape != (1, 14, 721, 1440) or data.dtype != np.dtype('float32'):
+            raise ValueError(f'Unexpected archive format: {path}: {data.shape}/{data.dtype}')
+        block = np.array(data[0, :, ys, xs], dtype=np.float32, copy=True)
+        del data
+        if not np.isfinite(block).all():
+            raise ValueError(f'Nonfinite required crop: {path}')
+        negative = [int((block[c] < 0).sum()) for c in [6, 7]]
+        block[[6, 7]] = np.maximum(block[[6, 7]], 0)
+        after = path.stat()
+        assert (before.st_size, before.st_mtime_ns) == (after.st_size, after.st_mtime_ns)
+        return i, block, [i, *keys[i], str(path), before.st_size, before.st_mtime_ns,
+                          hashlib.sha256(block.tobytes()).hexdigest(), *negative]
+    pending = np.flatnonzero(~done)
+    receipt = out / 'source_crop_receipts.csv'
+    with receipt.open('a') as f, ThreadPoolExecutor(max_workers=workers) as pool:
+        writer = csv.writer(f)
+        if f.tell() == 0:
+            writer.writerow(['frame', 'issue_unix', 'lead_hours', 'path', 'size', 'mtime_ns', 'clean_crop_sha256', 'q1000_clipped', 'q925_clipped'])
+        start = time.monotonic()
+        for first in range(0, len(pending), 128):
+            ids = pending[first:first + 128]
+            for i, block, row in pool.map(read, ids):
+                raw[i] = block
+                writer.writerow(row)
+            raw.flush()
+            f.flush()
+            os.fsync(f.fileno())
+            done[ids] = True
+            done.flush()
+            atomic_json(out / 'STATUS.json', dict(timestamp=now(), state='extracting_same_issue_crops',
+                done=int(done.sum()), total=len(keys), workers=workers, elapsed_seconds=time.monotonic() - start))
+            if first % 1024 == 0:
+                print(f'raw {int(done.sum())}/{len(keys)}', flush=True)
+    assert done.all()
+    return raw
+
+
+def fit_normalization(out, raw, train):
+    ids = np.unique(np.concatenate([train['future_frames'].ravel(), train['past_frames'].ravel()]))
+    total = np.zeros(14, np.float64)
+    square = np.zeros(14, np.float64)
+    count = 0
+    for start in range(0, len(ids), 128):
+        x = np.asarray(raw[ids[start:start + 128]], dtype=np.float64)
+        total += x.sum((0, 2, 3))
+        square += np.square(x).sum((0, 2, 3))
+        count += x.shape[0] * x.shape[2] * x.shape[3]
+    mean = total / count
+    std = np.sqrt(np.maximum(square / count - mean ** 2, 0))
+    assert np.all(std > 1e-6)
+    static = out / 'cache/static'
+    static.mkdir(parents=True, exist_ok=True)
+    for path in (OLD / 'static').glob('*.npy'):
+        if path.stem not in ['nwp_mean', 'nwp_std']:
+            shutil.copy2(path, static / path.name)
+    mean, std = mean.astype('f4'), std.astype('f4')
+    save(static / 'nwp_mean.npy', mean)
+    save(static / 'nwp_std.npy', std)
+    save(out / 'normalization_frame_index.npy', ids)
+    atomic_json(out / 'NORMALIZATION.json', dict(fitted_split='train', frame_count=len(ids),
+        value_count_per_channel=count, method='unique train-referenced physical crops, six past plus eight weather nodes',
+        mean=mean.tolist(), std=std.tolist(), validation_or_test_used=False))
+    return mean, std
+
+
+def bilinear(values, ids, weights):
+    # [..., channel, latitude, longitude] -> [..., station, channel]
+    flat = values.reshape(*values.shape[:-2], -1)
+    v = flat[..., ids]
+    return (v * weights).sum(-1).swapaxes(-1, -2)
+
+
+def dynamics(raw, ids, weights, station_lat):
+    lat = np.load(OLD / 'static/weather_latitude.npy')
+    lon = np.load(OLD / 'static/weather_longitude.npy')
+    dphi = np.deg2rad(float(lat[1] - lat[0])) * 6371000
+    dlam = np.deg2rad(float(lon[1] - lon[0])) * 6371000
+    w = np.asarray(raw, dtype=np.float64)
+    def point(field):
+        return (field.reshape(*field.shape[:-2], -1)[..., ids] * weights).sum(-1)
+    phi = np.deg2rad(station_lat)
+    f = 2 * 7.2921159e-5 * np.sin(phi)
+    ug = -point(np.gradient(w[:, :, 5], dphi, axis=-2, edge_order=2)) / f
+    vg = point(np.gradient(w[:, :, 5], dlam, axis=-1, edge_order=2)) / np.cos(phi) / f
+    dtdy = point(np.gradient(w[:, :, 9], dphi, axis=-2, edge_order=2))
+    dtdx = point(np.gradient(w[:, :, 9], dlam, axis=-1, edge_order=2)) / np.cos(phi)
+    p = bilinear(w, ids, weights)
+    adv = -(p[..., 11] * dtdx + p[..., 13] * dtdy) * 3600
+    dpdt = np.gradient(p[..., 0], 1., axis=1) / 100
+    dvdt = np.gradient(np.hypot(p[..., 1], p[..., 2]), 1., axis=1)
+    return np.stack([ug / 10, vg / 10, (p[..., 1] - ug) / 10, (p[..., 2] - vg) / 10,
+                     adv, dpdt, dvdt], axis=-1).transpose(0, 2, 1, 3).astype('f4')
+
+
+def prepare_split(out, split, p, raw, mean, std, ids, weights, station_lat):
+    root = out / 'cache' / split
+    physical = out / 'physical' / split
+    root.mkdir(parents=True, exist_ok=True)
+    physical.mkdir(parents=True, exist_ok=True)
+    n, c = len(p['origin']), len(p['base'])
+    copy_names = ['station_history', 'station_future', 'cluster_history', 'cluster_future',
+                  'future_capacity_warning', 'sample_index', 'origin_phase']
+    for name in copy_names:
+        old = np.load(OLD / split / f'{name}.npy', mmap_mode='r')
+        dest = mmap_output(root / f'{name}.npy', (n, *old.shape[1:]), old.dtype)
+        for start in range(0, n, 512):
+            dest[start:start + 512] = old[p['keep'][start:start + 512]]
+        dest.flush()
+        del dest
+    issue = p['issue'][p['cycle']]
+    arrays = dict(origin_unix=p['origin'], source_row_index=p['keep'], weather_cycle_index=p['cycle'],
+        origin_issue_unix=issue, origin_available_unix=issue + PROTOCOL.latency,
+        nwp_age_minutes=(p['origin'] - issue) // 60,
+        weather_time_offset_hours=((p['future'][p['cycle']] - p['origin'][:, None]) / 3600).astype('f4'),
+        weather_valid_unix=p['future'], weather_issue_unix=np.broadcast_to(p['issue'][:, None], (c, 8)),
+        weather_available_unix=np.broadcast_to(p['issue'][:, None] + PROTOCOL.latency, (c, 8)),
+        cycle_sample_index=np.arange(c, dtype=np.int64), cycle_origin_hour_unix=p['base'])
+    for name, array in arrays.items():
+        save(root / f'{name}.npy', array)
+    with h5py.File(H5, 'r') as f:
+        time_axis = f['power/timestamp_unix'][:]
+        index = np.searchsorted(time_axis, p['future'])
+        assert np.all(index < len(time_axis)) and np.array_equal(time_axis[index], p['future'])
+        station_power = f['power/station_mw'][:]
+        cap = f['stations/capacity_mw'][:]
+        warning = f['power/capacity_warning'][:]
+        target = (station_power[index] / cap).transpose(0, 2, 1)
+        assert np.isfinite(target).all()
+        save(root / 'weather_station_target.npy', target.astype('f4'))
+        save(root / 'weather_station_capacity_warning.npy', warning[index].transpose(0, 2, 1))
+    future = mmap_output(root / 'weather.npy', (c, 8, *raw.shape[1:]))
+    local = mmap_output(out / 'local_weather' / f'{split}.npy', (c, 56, 8, 14))
+    past = mmap_output(physical / 'past_weather.npy', (c, 56, 6, 14))
+    dyn = mmap_output(physical / 'dynamics.npy', (c, 56, 8, 7))
+    for start in range(0, c, 48):
+        end = min(start + 48, c)
+        x = np.asarray(raw[p['future_frames'][start:end]])
+        normalized = (x - mean[None, None, :, None, None]) / std[None, None, :, None, None]
+        future[start:end] = normalized
+        local[start:end] = bilinear(normalized, ids, weights).transpose(0, 2, 1, 3)
+        history = np.asarray(raw[p['past_frames'][start:end]])
+        history = (history - mean[None, None, :, None, None]) / std[None, None, :, None, None]
+        past[start:end] = bilinear(history, ids, weights).transpose(0, 2, 1, 3)
+        dyn[start:end] = dynamics(x, ids, weights, station_lat)
+        if start % 480 == 0:
+            atomic_json(out / 'STATUS.json', dict(timestamp=now(), state='building_cache_and_physics', split=split, done=end, total=c))
+            print(split, end, '/', c, flush=True)
+    for array in [future, local, past, dyn]:
+        array.flush()
+    del future, local, past, dyn
+    save(physical / 'past_valid_unix.npy', p['past'])
+    save(physical / 'past_issue_unix.npy', np.broadcast_to(p['issue'][:, None], (c, 6)))
+    save(physical / 'future_issue_unix.npy', np.broadcast_to(p['issue'][:, None], (c, 8)))
+    # A previous-cycle disagreement cache is deliberately absent, not stale data.
+    atomic_json(physical / 'READY.json', dict(timestamp=now(), n_samples=n, n_cycles=c,
+        protocol=PROTOCOL.name, all_nodes_from_same_issue=True,
+        historical_nodes=6, future_nodes=8, reference_nwp_is_available=True,
+        prior_cycle_disagreement_available=False))
+    return dict(sample_count=n, cycle_count=c, weather_shape=[8, *raw.shape[1:]],
+        station_history_shape=[56, 24], station_future_shape=[56, 24])
+
+
+def validate(out, plans, raw, mean, std, ids, weights):
+    from wind_forcing.data.dataset import ForecastDataset
+    from wind_forcing.data.operational import interpolate_nodes
+    result = {}
+    for split, p in plans.items():
+        ds = ForecastDataset(out / 'cache', split, preload_weather=False, verbose=False)
+        assert len(ds) == len(p['origin'])
+        age = ds.arrays['nwp_age_minutes']
+        assert age.min() >= PROTOCOL.latency_hours * 60
+        assert age.max() <= (PROTOCOL.latency_hours + PROTOCOL.period_hours) * 60 - 15
+        issue = p['issue'][p['cycle']]
+        assert np.all(issue + PROTOCOL.latency <= p['origin'])
+        assert np.all(issue + PROTOCOL.latency + PROTOCOL.period > p['origin'])
+        if split == 'test':
+            assert not any(mask.any() for mask in november_exclusions(p['origin']).values())
+        local = np.load(out / 'local_weather' / f'{split}.npy', mmap_mode='r')
+        past = np.load(out / 'physical' / split / 'past_weather.npy', mmap_mode='r')
+        dyn = np.load(out / 'physical' / split / 'dynamics.npy', mmap_mode='r')
+        for array in [local, past, dyn, ds.arrays['station_history'], ds.arrays['station_future']]:
+            for a in range(0, len(array), 128):
+                assert np.isfinite(array[a:a + 128]).all()
+        probe = np.unique([0, len(p['base']) // 2, len(p['base']) - 1])
+        physical = np.asarray(raw[p['future_frames'][probe]])
+        expected = (physical - mean[None, None, :, None, None]) / std[None, None, :, None, None]
+        np.testing.assert_allclose(ds.weather.values[probe], expected, atol=1e-6, rtol=1e-6)
+        point = bilinear(expected, ids, weights).transpose(0, 2, 1, 3)
+        np.testing.assert_allclose(local[probe], point, atol=1e-6, rtol=1e-6)
+        chosen = np.unique(np.linspace(0, len(p['origin']) - 1, 100).astype(int))
+        query = np.arange(1, 25) / 4
+        values = interpolate_nodes(local[p['cycle'][chosen], 0], ds.arrays['weather_time_offset_hours'][chosen], query)
+        assert np.isfinite(values).all()
+        source_h = np.load(OLD / split / 'station_history.npy', mmap_mode='r')
+        source_y = np.load(OLD / split / 'station_future.npy', mmap_mode='r')
+        np.testing.assert_array_equal(ds.arrays['station_history'], source_h[p['keep']])
+        np.testing.assert_array_equal(ds.arrays['station_future'], source_y[p['keep']])
+        result[split] = dict(samples=len(ds), cycles=len(p['base']), min_age_hours=float(age.min() / 60),
+            max_age_hours=float(age.max() / 60), no_future_issue=True, all_nodes_same_issue=True,
+            original_power_exactly_preserved=True, all_values_finite=True, no_endpoint_extrapolation=True,
+            first_origin_beijing=timestamp(p['origin'][0], True), last_origin_beijing=timestamp(p['origin'][-1], True))
+    return result
+
+
+def activate_bundle(out, config):
+    manifest = json.loads((out / 'cache/manifest.json').read_text())
+    identity = manifest['operational_protocol']
+    if identity['protocol'] != PROTOCOL.name:
+        raise ValueError('Completed bundle does not match requested protocol')
+    fingerprint = manifest['preprocess_fingerprint']
+    success = json.loads((out / 'SUCCESS.json').read_text())
+    if success['preprocess_fingerprint'] != fingerprint:
+        raise ValueError('Completion marker and cache fingerprint disagree')
+    audit = json.loads((out / 'AUDIT.json').read_text())
+    if not audit.get('passed') or audit['manifest_sha256'] != digest(out / 'cache/manifest.json'):
+        raise ValueError('Bundle audit does not match the completed cache')
+    independent = out / 'INDEPENDENT_AUDIT.json'
+    if PROTOCOL == operational.DAILY:
+        if not independent.is_file():
+            raise ValueError('Run audit_operational_pangu.py --bundle before activating the daily protocol')
+        independent_audit = json.loads(independent.read_text())
+        if (not independent_audit.get('passed') or
+                independent_audit.get('preprocess_fingerprint') != fingerprint):
+            raise ValueError('Independent audit is absent or belongs to another dataset')
+    link = Path(config.get('cache_dir', PROJECT / 'data/model_cache_operational_08_20_lag12h_v1'))
+    if not link.exists():
+        link.symlink_to(out / 'cache', target_is_directory=True)
+    if link.resolve() != (out / 'cache').resolve():
+        raise ValueError(f'Cache link points to a different dataset: {link}')
+    atomic_json(PROJECT / 'data/ACTIVE_DATASET.json', dict(timestamp=now(), protocol=identity['protocol'],
+        cache_dir=str(link), bundle_dir=str(out), preprocess_fingerprint=fingerprint,
+        local_weather_dir=str(out / 'local_weather'), physics_dir=str(out / 'physical'),
+        source_forecast_root=identity['root'], existing_frozen_training_runs_retargeted=False,
+        require_new_training_and_normalization=True, audit=str(out / 'AUDIT.json'),
+        independent_audit=str(independent) if independent.is_file() else None))
+
+
+def main():
+    global PROTOCOL, OLD, H5, REQUIRE_SAME_SAMPLES
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--config', type=Path)
+    parser.add_argument('--root', type=Path)
+    parser.add_argument('--output', type=Path)
+    parser.add_argument('--workers', type=int, default=4)
+    parser.add_argument('--activate', action='store_true')
+    parser.add_argument('--plan-only', action='store_true', help='Write sample/source requirements without reading weather arrays or activating data')
+    args = parser.parse_args()
+    if args.plan_only and args.activate:
+        parser.error('--plan-only cannot activate an unbuilt dataset')
+    config = json.loads(args.config.read_text()) if args.config else {}
+    PROTOCOL = operational.PROTOCOLS[config.get('protocol', operational.TWICE_DAILY.name)]
+    args.root = args.root or Path(config.get('source_forecast_root', DEFAULT_ROOT))
+    args.output = args.output or Path(config.get('bundle_dir', DEFAULT_OUT))
+    OLD = Path(config.get('sample_cache', OLD)).resolve()
+    H5 = Path(config.get('source_power_h5', H5)).resolve()
+    REQUIRE_SAME_SAMPLES = config.get('require_same_samples', False)
+    out = args.output.resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    lock = (out / 'builder.lock').open('a+')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    if (out / 'SUCCESS.json').exists():
+        if args.activate:
+            activate_bundle(out, config)
+            print('Activated:', out)
+        print('Already complete:', out)
+        return
+    identity = dict(protocol=PROTOCOL.name, root=str(args.root.resolve()),
+        power_source=str(H5), old_cache=str(OLD), source_manifest_sha256=digest(OLD / 'manifest.json'),
+        source_power_h5_size=H5.stat().st_size, source_power_h5_mtime_ns=H5.stat().st_mtime_ns,
+        power_timezone='Asia/Shanghai', forecast_filename_timezone='UTC',
+        issue_hours_utc=list(range(0, 24, PROTOCOL.period_hours)),
+        issue_hours_beijing=[(x + 8) % 24 for x in range(0, 24, PROTOCOL.period_hours)],
+        availability_delay_hours=PROTOCOL.latency_hours,
+        max_required_hourly_forecast_lead=PROTOCOL.maximum_lead_hours, past_nodes=6, future_nodes=8,
+        future_node_alignment='floor(origin UTC hour) + [0..7] hours',
+        power_origin_and_targets='exactly preserve selected samples' if REQUIRE_SAME_SAMPLES else 'preserve old samples except explicit November and boundary exclusions',
+        require_same_samples=REQUIRE_SAME_SAMPLES,
+        regional_power_delay_minutes=config.get('regional_power_delay_minutes', 15),
+        excluded_month='2024-11', exclusion='local history/target/NWP valid window; UTC or local November issue',
+        forecast_power_steps=24, power_frequency_minutes=15,
+        full_test_evaluation_performed=False, data_preparation_only=True,
+        code_hashes={str(x.relative_to(PROJECT)): digest(x) for x in [Path(__file__), PROJECT / 'src/wind_forcing/data/operational.py', PHYSICS]})
+    fingerprint = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+    if (out / 'PROTOCOL.json').exists():
+        assert json.loads((out / 'PROTOCOL.json').read_text())['preprocess_fingerprint'] == fingerprint, 'Cannot resume with altered source/protocol/code'
+    atomic_json(out / 'PROTOCOL.json', dict(**identity, preprocess_fingerprint=fingerprint))
+    atomic_json(out / 'STATUS.json', dict(timestamp=now(), state='planning', pid=os.getpid()))
+    plans, keys, exclusions = build_plans(out, args.root)
+    if args.plan_only:
+        _, coverage = source_coverage(out, args.root, keys)
+        atomic_json(out / 'STATUS.json', dict(timestamp=now(), state='planned' if coverage['complete'] else 'awaiting_source',
+            required_files=len(keys), missing_files=coverage['missing_count'], sample_selection=exclusions,
+            training_ready=False, training_started=False))
+        print(json.dumps(dict(output=str(out), source_complete=coverage['complete'],
+            required_files=len(keys), missing_files=coverage['missing_count'], samples=exclusions), ensure_ascii=False))
+        return
+    raw = extract_raw(out, args.root, keys, max(1, min(args.workers, 8)))
+    mean, std = fit_normalization(out, raw, plans['train'])
+    static = out / 'cache/static'
+    lat = np.load(static / 'weather_latitude.npy')
+    lon = np.load(static / 'weather_longitude.npy')
+    slat = np.load(static / 'station_latitude.npy')
+    slon = np.load(static / 'station_longitude.npy')
+    ids, _, weights = build_station_patch_metadata(lat, lon, slat, slon, 'bilinear', 1)
+    assert ids.shape == weights.shape == (56, 4)
+    save(static / 'bilinear_patch_index.npy', ids)
+    save(static / 'bilinear_weight.npy', weights)
+    physics = load_physics()
+    near, geometry, mask = physics.neighbor_geometry(slat, slon)
+    for name, value in [('neighbor_ids', near), ('neighbor_geometry', geometry), ('neighbor_mask', mask)]:
+        save(out / 'physical' / f'{name}.npy', value)
+    dem = PROJECT / 'artifacts/column_weather_20260928_v1/data/station_dem_srtm30m.json'
+    elevations = json.loads(dem.read_text())['records']
+    save(out / 'physical/elevation.npy', np.array([x['terrain_elevation_m'] for x in elevations], dtype='f4'))
+    summaries = {}
+    for split, plan in plans.items():
+        summaries[split] = prepare_split(out, split, plan, raw, mean, std, ids, weights, slat)
+    old_manifest = json.loads((OLD / 'manifest.json').read_text())
+    arrays = []
+    for path in sorted((out / 'cache').glob('*/*.npy')):
+        a = np.load(path, mmap_mode='r')
+        arrays.append(dict(relative_path=str(path.relative_to(out / 'cache')), file=path.name, shape=list(a.shape), dtype=str(a.dtype)))
+    manifest = dict(schema_version=1, preprocess_fingerprint=fingerprint, source_h5=str(H5),
+        raw_forecast_root=str(args.root), operational_protocol=identity,
+        weather_values_are_prestandardized=True, no_spatial_interpolation=True, no_temporal_interpolation=True,
+        crop=old_manifest['crop'], station_count=56, total_capacity_mw=old_manifest['total_capacity_mw'],
+        history_power_steps=24, forecast_power_steps=24, future_nwp_nodes=8,
+        target_lead_hours=(np.arange(1, 25) / 4).tolist(), splits=summaries, arrays=arrays,
+        local_weather_dir=str(out / 'local_weather'), physics_dir=str(out / 'physical'))
+    atomic_json(out / 'cache/manifest.json', manifest)
+    atomic_json(out / 'local_weather/manifest.json', dict(preprocess_fingerprint=fingerprint,
+        source_cache=str(out / 'cache'), method='bilinear same-issue standardized Pangu', splits=summaries))
+    audit = validate(out, plans, raw, mean, std, ids, weights)
+    atomic_json(out / 'AUDIT.json', dict(timestamp=now(), passed=True, splits=audit,
+        source_frames=len(keys), sample_selection=exclusions, normalization_train_only=True,
+        test_data_prepared=True, test_model_evaluation_performed=False,
+        old_scientific_runs_unchanged=True, manifest_sha256=digest(out / 'cache/manifest.json')))
+    atomic_json(out / 'SUCCESS.json', dict(timestamp=now(), preprocess_fingerprint=fingerprint, audit_passed=True))
+    atomic_json(out / 'STATUS.json', dict(timestamp=now(), state='complete', splits=summaries))
+    if args.activate:
+        activate_bundle(out, config)
+    print(json.dumps(dict(output=str(out), audit=audit), ensure_ascii=False), flush=True)
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except BaseException as error:
+        # Keep partial extraction resumable; never publish a ready dataset on failure.
+        print(f'FAILED: {type(error).__name__}: {error}', file=sys.stderr, flush=True)
+        raise
+```
+
+## SOURCE: project/scripts/merge_verified_pangu_crops.py
+
+- project/scripts/merge_verified_pangu_crops.py
+
+SHA-256: 01c187096b58c193d1592ea4b345927e3bbdcfb4831c29f17571cb74689cd5bc
+
+```
+"""Reuse identical physical crops across protocols, never normalized caches or models."""
+from pathlib import Path
+import argparse
+import csv
+import fcntl
+import hashlib
+import json
+import os
+import sys
+import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
+from wind_forcing.data.operational import source_path
+from prepare_operational_pangu import atomic_json, digest, now
+
+
+def merge(old, out):
+    lock = (out / 'builder.lock').open('a+')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    assert not (out / 'SUCCESS.json').exists(), 'Only merge into an unfinished raw store'
+    protocol = json.loads((out / 'PROTOCOL.json').read_text())
+    assert json.loads((old / 'AUDIT.json').read_text())['passed']
+    assert (old / 'SUCCESS.json').is_file()
+    for name in ['weather_latitude', 'weather_longitude', 'nwp_channel_name']:
+        np.testing.assert_array_equal(np.load(old / f'cache/static/{name}.npy'),
+                                      np.load(Path(protocol['old_cache']) / f'static/{name}.npy'))
+    oi = np.load(old / 'frame_issue_unix.npy')
+    ol = np.load(old / 'frame_lead_hours.npy')
+    lookup = {(int(t), int(l)): i for i, (t, l) in enumerate(zip(oi, ol))}
+    ni = np.load(out / 'frame_issue_unix.npy')
+    nl = np.load(out / 'frame_lead_hours.npy')
+    raw = np.load(out / 'raw_frames.npy', mmap_mode='r+')
+    done = np.load(out / 'raw_done.npy', mmap_mode='r+')
+    previous = np.load(old / 'raw_frames.npy', mmap_mode='r')
+    assert raw.shape[1:] == previous.shape[1:] == (14, 24, 25)
+    with (old / 'source_crop_receipts.csv').open() as f:
+        receipts = {int(r['frame']): r for r in csv.DictReader(f)}
+    candidates = [int(i) for i in np.flatnonzero(~done) if (int(ni[i]), int(nl[i])) in lookup]
+    # Fresh source values independently verify relocated-file identity across years/leads.
+    fresh = set(np.asarray(candidates)[np.unique(np.linspace(0, len(candidates)-1, min(18, len(candidates))).astype(int))].tolist()) if candidates else set()
+    merged, skipped, verified = [], [], []
+    fields = ['frame','issue_unix','lead_hours','path','size','mtime_ns','clean_crop_sha256','q1000_clipped','q925_clipped']
+    with (out / 'source_crop_receipts.csv').open('a') as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        for start in range(0, len(candidates), 256):
+            batch = []
+            for i in candidates[start:start+256]:
+                j = lookup[(int(ni[i]), int(nl[i]))]
+                receipt = receipts[j]
+                path = source_path(protocol['root'], int(ni[i]), int(nl[i]))
+                st = path.stat()
+                if (st.st_size, st.st_mtime_ns) != (int(receipt['size']), int(receipt['mtime_ns'])):
+                    skipped.append(i)
+                    continue
+                block = np.asarray(previous[j])
+                assert np.isfinite(block).all()
+                assert hashlib.sha256(block.tobytes()).hexdigest() == receipt['clean_crop_sha256']
+                if i in fresh:
+                    global_data = np.load(path, mmap_mode='r')
+                    assert global_data.shape == (1, 14, 721, 1440) and global_data.dtype == np.dtype('f4')
+                    check = np.array(global_data[0, :, 171:195, 483:508])
+                    check[[6, 7]] = np.maximum(check[[6, 7]], 0)
+                    np.testing.assert_array_equal(block, check)
+                    verified.append(i)
+                raw[i] = block
+                writer.writerow(dict(receipt, frame=i, path=str(path)))
+                batch.append(i)
+            raw.flush(); f.flush(); os.fsync(f.fileno())
+            done[batch] = True; done.flush(); merged.extend(batch)
+    report = dict(timestamp=now(),old_bundle=str(old),new_bundle=str(out),
+                  preprocess_fingerprint=protocol['preprocess_fingerprint'],
+                  source_receipts_sha256=digest(old/'source_crop_receipts.csv'),
+                  reused=len(merged),skipped_source_metadata_mismatch=len(skipped),
+                  fresh_source_comparisons=verified,all_reused_crop_hashes_verified=True,
+                  normalized_features_or_statistics_reused=False,remaining=int((~done).sum()))
+    np.save(out / 'merged_old_frame_indices.npy', np.asarray(merged, dtype='i8'))
+    atomic_json(out / 'MERGE.json', report)
+    print(json.dumps(report, ensure_ascii=False), flush=True)
+
+
+if __name__ == '__main__':
+    p=argparse.ArgumentParser();p.add_argument('--old',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
+    a=p.parse_args();merge(a.old,a.output)
+```
+
+## SOURCE: project/scripts/audit_operational_pangu.py
+
+- project/scripts/audit_operational_pangu.py
+
+SHA-256: d6be5a7e7fb5de5ed753739c5de8bf0565377456d0cc1cb2f5cef11fa65a7928
+
+```
+"""Independent timestamp, source-value and BASE/SEL loader checks; no model eval."""
+from pathlib import Path
+import argparse
+import csv
+import hashlib
+import importlib.util
+import json
+import sys
+from datetime import datetime
+import h5py
+import numpy as np
+import torch
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / 'src'))
+from wind_forcing.data.operational import plan_times, source_path, november_exclusions, unix, PROTOCOLS
+from wind_forcing.data.operational_farm import OperationalFarmData
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--bundle', type=Path, default=Path('/shared_data_ssd3/liying/operational_pangu_20261027_v1'))
+    args = parser.parse_args()
+    torch.set_num_threads(1)
+    bundle = args.bundle.resolve()
+    assert json.loads((bundle / 'AUDIT.json').read_text())['passed']
+    assert (bundle / 'SUCCESS.json').exists()
+    cache = bundle / 'cache'
+    protocol = json.loads((bundle / 'PROTOCOL.json').read_text())
+    availability = PROTOCOLS[protocol['protocol']]
+    manifest = json.loads((cache / 'manifest.json').read_text())
+    assert manifest['preprocess_fingerprint'] == protocol['preprocess_fingerprint']
+    for name, expected in protocol['code_hashes'].items():
+        assert hashlib.sha256((PROJECT / name).read_bytes()).hexdigest() == expected
+    frame_issue = np.load(bundle / 'frame_issue_unix.npy')
+    frame_lead = np.load(bundle / 'frame_lead_hours.npy')
+    raw = np.load(bundle / 'raw_frames.npy', mmap_mode='r')
+    receipts = {}
+    with (bundle / 'source_crop_receipts.csv').open() as f:
+        for row in csv.DictReader(f):
+            receipts[int(row['frame'])] = row
+    assert len(receipts) == len(raw)
+    for i in range(len(raw)):
+        assert hashlib.sha256(np.asarray(raw[i]).tobytes()).hexdigest() == receipts[i]['clean_crop_sha256']
+    checks = []
+    # Compare fresh external crops at stratified positions with the extracted store.
+    for i in np.unique(np.linspace(0, len(raw) - 1, 18).astype(int)):
+        p = source_path(protocol['root'], int(frame_issue[i]), int(frame_lead[i]))
+        data = np.load(p, mmap_mode='r')
+        crop = np.array(data[0, :, 171:195, 483:508])
+        crop[[6, 7]] = np.maximum(crop[[6, 7]], 0)
+        np.testing.assert_array_equal(raw[i], crop)
+        checks.append(str(p))
+    h5 = PROJECT / 'data/jilin_56farm_pad8.h5'
+    with h5py.File(h5, 'r') as f:
+        times = f['power/timestamp_unix'][:]
+        power = f['power/station_mw'][:]
+        capacity = f['stations/capacity_mw'][:]
+        for split in ['train', 'val', 'test']:
+            origin = np.load(cache / split / 'origin_unix.npy')
+            p = plan_times(origin, availability)
+            np.testing.assert_array_equal(np.load(cache / split / 'origin_issue_unix.npy'), p['issue'])
+            np.testing.assert_array_equal(np.load(cache / split / 'origin_available_unix.npy'), p['available'])
+            selected = np.unique(np.linspace(0, len(origin) - 1, 40).astype(int))
+            positions = np.searchsorted(times, origin[selected])
+            np.testing.assert_array_equal(times[positions], origin[selected])
+            hpos = positions[:, None] + np.arange(-23, 1)
+            ypos = positions[:, None] + np.arange(1, 25)
+            np.testing.assert_array_equal(times[hpos], origin[selected, None] + np.arange(-23, 1)[None] * 900)
+            np.testing.assert_array_equal(times[ypos], origin[selected, None] + np.arange(1, 25)[None] * 900)
+            h = np.load(cache / split / 'station_history.npy', mmap_mode='r')
+            y = np.load(cache / split / 'station_future.npy', mmap_mode='r')
+            np.testing.assert_array_equal(h[selected], (power[hpos] / capacity).transpose(0, 2, 1))
+            np.testing.assert_array_equal(y[selected], (power[ypos] / capacity).transpose(0, 2, 1))
+            local_year = (origin + 8 * 3600).astype('datetime64[s]').astype('datetime64[Y]').astype(int) + 1970
+            assert (local_year == {'train': 2022, 'val': 2023, 'test': 2024}[split]).all()
+            if split == 'test':
+                assert not any(x.any() for x in november_exclusions(origin, availability).values())
+    # Exhaustive per-day switch invariants on 2023, including month/year rollovers.
+    origins = unix('2023-01-01 00:00:00') + np.arange(365 * 96) * 900
+    issue = plan_times(origins, availability)['issue']
+    changes = np.flatnonzero(np.diff(issue)) + 1
+    local_hours = ((origins[changes] + 28800) % 86400) / 3600
+    expected_hours = {(x + availability.latency_hours + 8) % 24
+                      for x in range(0, 24, availability.period_hours)}
+    assert set(local_hours) == expected_hours
+    assert len(changes) == 365 * (24 // availability.period_hours)
+    loaders = []
+    for features in ['BASE', 'SEL']:
+        train = OperationalFarmData(cache, 'train', 0, features, limit=128)
+        for split in ['val', 'test']:
+            data = OperationalFarmData(cache, split, 0, features, stats=train.stats, limit=128)
+            batch = data.batch(slice(0, 16))
+            assert data.h.shape == data.y.shape == (128, 24)
+            assert data.x.shape[-1] == (22 if features == 'SEL' else 0)
+            assert all(torch.isfinite(x).all() for x in batch.values())
+            assert np.all(data.available_unix <= data.origin)
+            loaders.append(dict(feature_set=features, split=split, samples=data.n,
+                                weather_shape=list(data.weather.shape), feature_shape=list(data.x.shape)))
+        invalid = dict(train.stats, data_fingerprint='legacy')
+        try:
+            OperationalFarmData(cache, 'val', 0, features, stats=invalid, limit=4)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('Legacy statistics incorrectly accepted')
+    result = dict(timestamp=datetime.now().astimezone().isoformat(), passed=True,
+        protocol=availability.name, preprocess_fingerprint=manifest['preprocess_fingerprint'],
+        raw_crop_hashes_verified=len(raw), fresh_archive_frames_verified=checks,
+        original_h5_power_time_and_values_verified=True, local_year_splits_verified=True,
+        exhaustive_2023_switches_verified=len(changes), loader_checks=loaders,
+        stale_normalization_rejected=True, test_model_evaluation_performed=False)
+    (bundle / 'INDEPENDENT_AUDIT.json').write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n')
+    print(json.dumps(result, ensure_ascii=False))
+
+
+if __name__ == '__main__':
+    main()
+```
+
+## SOURCE: project/scripts/review_daily_results_20261115.py
+
+- project/scripts/review_daily_results_20261115.py
+
+SHA-256: 72826d18f1aaec9b41bc46d52f485680d37de59a9840a88a30cdafc75967798a
+
+```
+"""Audit every completed artifact and compare paired farms/seeds from raw metrics."""
+from pathlib import Path
+import collections, csv, datetime, hashlib, json, math
+import numpy as np
+
+P=Path(__file__).resolve().parents[1]
+NAMES=['daily_protocol_restart_20261114_v1','daily_ablation_restart_20261114_v1','daily_site_finetune_20261114_v1']
+OUT=P/'analysis/daily_protocol_review_20261115'
+FP='bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036'
+SEEDS=list(range(42,47));NF=55
+COHORT=json.loads((P/'runs'/NAMES[0]/'assets/COHORT.json').read_text())
+hash_cache={}
+def sha(path):
+    path=path.resolve()
+    if path not in hash_cache:
+        h=hashlib.sha256()
+        with path.open('rb') as f:
+            for chunk in iter(lambda:f.read(4*1024*1024),b''):h.update(chunk)
+        hash_cache[path]=h.hexdigest()
+    return hash_cache[path]
+def dump(name,value):
+    (OUT/name).write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
+def csvwrite(name,rows):
+    if not rows:return
+    keys=list(dict.fromkeys(k for r in rows for k in r))
+    with (OUT/name).open('w') as f:
+        w=csv.DictWriter(f,fieldnames=keys);w.writeheader();w.writerows(rows)
+
+def main():
+    OUT.mkdir(parents=True,exist_ok=True);groups=collections.defaultdict(dict);audit=[];missing=[]
+    def add(group,spec,m,path,epoch,params):
+        sites=[spec['station']] if 'station' in spec else list(range(NF))
+        for i,station in enumerate(sites):
+            row=dict(group=group,seed=spec['seed'],station=station,station_id=COHORT['station_ids'][station],
+                     name=COHORT['names'][station],mae=m['per_farm_mae'][i],rmse=m['per_farm_rmse'][i],
+                     high_power_rmse=m['high_power_per_farm_rmse'][i],high_count=m['high_power_counts'][i],
+                     count=m['counts'][i],selected_epoch=epoch,parameter_count=params,source=str(path.relative_to(P)))
+            assert row['count']==29647,(group,row['count'])
+            for label,a,b in [('0_1h',0,4),('1_3h',4,12),('3_6h',12,24)]:
+                row['mae_'+label]=float(np.mean(m['lead_mae'][i][a:b]))
+                row['rmse_'+label]=float(np.sqrt(np.mean(np.square(m['lead_rmse'][i][a:b]))))
+            key=(spec['seed'],station);assert key not in groups[group],(group,key)
+            groups[group][key]=row
+    for name in NAMES:
+        r=P/'runs'/name;manifest=json.loads((r/'manifest.json').read_text());count=0;fixed=0;refs=0;norms=[]
+        for rel,h in json.loads((r/'SCIENCE_FREEZE.json').read_text())['files'].items():
+            assert sha(r/rel)==h,(name,'frozen hash',rel)
+        for spec in manifest:
+            job=r/'jobs'/spec['id']
+            if not (job/'SUCCESS.json').exists():missing.append(name+'/'+spec['id']);continue
+            assert not (job/'FAILURE.json').exists()
+            success=json.loads((job/'SUCCESS.json').read_text());assert success['passed']
+            d=json.loads((job/'metrics.json').read_text());assert d['requested_spec']==spec
+            assert not d['smoke_only'];assert spec['preprocess_fingerprint']==FP
+            expected_year=2022 if spec['family']=='B0' and spec.get('fold',-1)>=0 else 2023
+            assert d['evaluation_year']==expected_year
+            assert sha(job/'best.pt')==d['checkpoint_sha256'],spec['id']
+            if 'reference_sha256' in d:assert sha(job/'reference_prediction.npy')==d['reference_sha256'];refs+=1
+            if 'source_sha256' in d:assert sha(r/spec['pretrained'])==d['source_sha256']
+            m=d['metrics'];arr=np.array([m['mae'],m['rmse'],*m['per_farm_mae'],*m['per_farm_rmse']]);assert np.isfinite(arr).all()
+            assert np.isclose(np.mean(m['per_farm_mae']),m['mae'],atol=1e-12,rtol=0)
+            assert np.isclose(np.mean(m['per_farm_rmse']),m['rmse'],atol=1e-12,rtol=0)
+            count+=1
+            if spec['stage'] not in ['tune','reference']:
+                add(spec['group'],spec,m,job/'metrics.json',d['checkpoint_epoch'],d['parameter_count'])
+            if spec['stage']=='personalization':
+                for ep in [1,6]:
+                    fm=json.loads((job/f'epoch{ep}.json').read_text());assert sha(job/f'epoch{ep}.pt')==fm['checkpoint_sha256'];fixed+=1
+                    add(spec['group']+f'_E{ep}',spec,fm['metrics'],job/f'epoch{ep}.json',ep,d['parameter_count'])
+                if spec['mode']=='P1_FULL':
+                    z=json.loads((job/'Z1.json').read_text());assert z['preprocess_fingerprint']==FP and z['observed_power_delay_minutes']==0
+                    for key,mode in [('p0','P0_SHARED_Z1'),('e1','P1_FULL_E1_Z1')]:
+                        zm=z['analyses'][key]['bin30'];mm=dict(mae=zm['mae'],rmse=zm['rmse'],per_farm_mae=[zm['mae']],per_farm_rmse=[zm['rmse']],high_power_per_farm_rmse=[zm['high_power_rmse']],high_power_counts=[zm['high_power_count']],counts=[zm['count']],lead_mae=[zm['lead_mae']],lead_rmse=[np.sqrt(zm['lead_mse']).tolist()])
+                        add(spec['family']+'_'+mode,spec,mm,job/'Z1.json',0 if key=='p0' else 1,d['parameter_count'])
+        audit.append(dict(run=name,planned=len(manifest),completed=count,frozen_hashes_passed=True,
+                          selected_checkpoints_verified=count,fixed_checkpoints_verified=fixed,reference_arrays_verified=refs,
+                          complete=json.loads((r/'COMPLETE.json').read_text()) if (r/'COMPLETE.json').exists() else None))
+        print('audited',name,count,len(manifest),flush=True)
+    dump('COMPLETION_AUDIT.json',dict(timestamp=datetime.datetime.now().astimezone().isoformat(),passed=not missing,
+         planned=2571,completed=sum(x['completed'] for x in audit),missing=missing,runs=audit,
+         hashed_distinct_files=len(hash_cache),data_fingerprint=FP,scope='2571 training jobs including 2023 validation; excludes 2024 and conditional LM models'))
+    if missing:print('Waiting for',missing,flush=True);return
+    expected={(seed,s) for seed in SEEDS for s in range(NF)}
+    for g,v in groups.items():assert set(v)==expected,(g,len(v))
+    allrows=[row for g in sorted(groups) for _,row in sorted(groups[g].items())]
+    csvwrite('all_farm_seed_metrics.csv',allrows)
+    summaries=[];seedrows=[]
+    for g in sorted(groups):
+        v=list(groups[g].values());s=dict(group=g,cells=len(v),mae=float(np.mean([r['mae'] for r in v])),rmse=float(np.mean([r['rmse'] for r in v])),high_power_rmse=float(np.mean([r['high_power_rmse'] for r in v if r['high_count']>0])),epoch0_selected=sum(r['selected_epoch']==0 for r in v),selected_epoch_median=float(np.median([r['selected_epoch'] for r in v])),parameter_count=v[0]['parameter_count'])
+        summaries.append(s)
+        for seed in SEEDS:
+            vv=[r for r in v if r['seed']==seed]
+            seedrows.append(dict(group=g,seed=seed,**{m:float(np.mean([r[m] for r in vv])) for m in ['mae','rmse','high_power_rmse']}))
+    csvwrite('group_summary.csv',summaries);csvwrite('per_seed_summary.csv',seedrows)
+    pairs=[]
+    def pair(a,b):
+        if (a,b) not in pairs:pairs.append((a,b))
+    for a,b in [('W0_R3','TF_R3'),('SHARED_W0_BASE','TF_BASE'),('INDEPENDENT_W0_BASE','INDEPENDENT_TF_BASE'),('INDEPENDENT_W0_R3','INDEPENDENT_TF_R3'),('W0_R3','SHARED_W0_BASE'),('TF_R3','TF_BASE'),('INDEPENDENT_W0_R3','INDEPENDENT_W0_BASE'),('INDEPENDENT_TF_R3','INDEPENDENT_TF_BASE'),('M2_CBH','TF_R3'),('M2_CBH','W0_R3'),('M1_CB','W0_R3'),('M2_CBH','M1_CB'),('M2_CBH','M4H_WRONG_CBH'),('M1_CB','M4_WRONG_CB'),('W0_RM','W0_R3'),('TF_RM','TF_R3'),('W0_R3','TIDE_R3'),('W0_R3','TFT_R3'),('ENC_neutral_E2L','TF_R3'),('ENC_neutral_E2L','TF_P1_FULL'),('ENC_neutral_E2L','ENC_neutral_E0'),('ENC_neutral_E2L','ENC_neutral_E2N')]:pair(a,b)
+    for family in ['W0','TF']:
+        for inp in ['BASE','R3']:
+            shared='SHARED_W0_BASE' if (family,inp)==('W0','BASE') else family+'_'+inp
+            pair('INDEPENDENT_'+family+'_'+inp,shared)
+        for mode in ['P1_FULL','P2_HEAD']:
+            pair(family+'_'+mode,family+'_R3')
+            pair(family+'_'+mode+'_E1',family+'_R3');pair(family+'_'+mode+'_E6',family+'_R3')
+            pair('W0_'+mode,'TF_'+mode)
+            pair('W0_'+mode+'_E1','TF_'+mode+'_E1');pair('W0_'+mode+'_E6','TF_'+mode+'_E6')
+        pair(family+'_P0_SHARED_Z1',family+'_R3');pair(family+'_P1_FULL_E1_Z1',family+'_P1_FULL_E1')
+    for g in groups:
+        if g.startswith('ENC_'):pair(g,'W0_R3' if '_neutral_' in g else 'M2_CBH')
+        if g.startswith(('INPUT_','FACTOR_')):pair(g,g.split('_')[1]+'_R3')
+    comparisons=[];pairrows=[];farmrows=[];seedpairs=[];horizon=[]
+    rng=np.random.default_rng(20261115);ix=rng.integers(NF,size=(10000,NF))
+    def array(g,m):return np.array([[groups[g][seed,s][m] for s in range(NF)] for seed in SEEDS])
+    for a,b in pairs:
+        res=dict(candidate=a,reference=b)
+        for metric in ['mae','rmse','high_power_rmse']:
+            x=array(a,metric);y=array(b,metric);delta=100*(x/y-1);xf=x.mean(0);yf=y.mean(0)
+            ci=np.quantile(100*(xf[ix].mean(1)/yf[ix].mean(1)-1),[.025,.975])
+            res[metric]=dict(candidate_mean=float(x.mean()),reference_mean=float(y.mean()),change_percent=float(100*(x.mean()/y.mean()-1)),
+                 farm_mean_change_median=float(np.median(100*(xf/yf-1))),farm_wins=int((xf<yf).sum()),paired_cells_won=int((x<y).sum()),total_cells=275,
+                 farms_all5_seeds_improved=int(np.all(x<y,axis=0).sum()),seed_macro_wins=int((x.mean(1)<y.mean(1)).sum()),
+                 per_seed_change_percent=(100*(x.mean(1)/y.mean(1)-1)).tolist(),farm_bootstrap95_percent=ci.tolist())
+        xm=array(a,'mae');ym=array(b,'mae');xr=array(a,'rmse');yr=array(b,'rmse')
+        res['farms_both_metrics_improved']=int(((xm.mean(0)<ym.mean(0))&(xr.mean(0)<yr.mean(0))).sum())
+        res['farms_both_all5_seeds_improved']=int(np.all((xm<ym)&(xr<yr),axis=0).sum())
+        for i,seed in enumerate(SEEDS):
+            seedpairs.append(dict(candidate=a,reference=b,seed=seed,mae_change_percent=res['mae']['per_seed_change_percent'][i],rmse_change_percent=res['rmse']['per_seed_change_percent'][i],mae_farms_won=int((xm[i]<ym[i]).sum()),rmse_farms_won=int((xr[i]<yr[i]).sum()),both_farms_won=int(((xm[i]<ym[i])&(xr[i]<yr[i])).sum())))
+            for s in range(NF):
+                pairrows.append(dict(candidate=a,reference=b,seed=seed,station_id=COHORT['station_ids'][s],name=COHORT['names'][s],candidate_mae=xm[i,s],reference_mae=ym[i,s],mae_change_percent=100*(xm[i,s]/ym[i,s]-1),candidate_rmse=xr[i,s],reference_rmse=yr[i,s],rmse_change_percent=100*(xr[i,s]/yr[i,s]-1)))
+        for s in range(NF):
+            farmrows.append(dict(candidate=a,reference=b,station_id=COHORT['station_ids'][s],name=COHORT['names'][s],mae_change_percent=100*(xm[:,s].mean()/ym[:,s].mean()-1),rmse_change_percent=100*(xr[:,s].mean()/yr[:,s].mean()-1),mae_seed_wins=int((xm[:,s]<ym[:,s]).sum()),rmse_seed_wins=int((xr[:,s]<yr[:,s]).sum()),both_seed_wins=int(((xm[:,s]<ym[:,s])&(xr[:,s]<yr[:,s])).sum())))
+        for label in ['0_1h','1_3h','3_6h']:
+            row=dict(candidate=a,reference=b,horizon=label)
+            for metric in ['mae','rmse']:
+                x=array(a,metric+'_'+label);y=array(b,metric+'_'+label)
+                row[metric+'_change_percent']=float(100*(x.mean()/y.mean()-1));row[metric+'_farms_won']=int((x.mean(0)<y.mean(0)).sum())
+            horizon.append(row)
+        comparisons.append(res)
+    dump('COMPARISONS.json',dict(timestamp=datetime.datetime.now().astimezone().isoformat(),convention='100*(candidate/reference-1); negative is better. Farm means use all5 seeds; cells are dependent, not independent samples.',
+         caveat='2023 also selected checkpoints/configs; farm-bootstrap intervals are descriptive, ignore spatial correlation and multiple comparison selection, and do not establish independent significance.',comparisons=comparisons))
+    csvwrite('paired_farm_seed_comparisons.csv',pairrows);csvwrite('per_farm_comparisons.csv',farmrows);csvwrite('per_seed_comparisons.csv',seedpairs);csvwrite('horizon_comparisons.csv',horizon)
+    csvwrite('comparison_summary.csv',[dict(candidate=c['candidate'],reference=c['reference'],mae_change_percent=c['mae']['change_percent'],rmse_change_percent=c['rmse']['change_percent'],high_power_rmse_change_percent=c['high_power_rmse']['change_percent'],mae_farms_won=c['mae']['farm_wins'],rmse_farms_won=c['rmse']['farm_wins'],both_farms_won=c['farms_both_metrics_improved'],mae_paired_wins=c['mae']['paired_cells_won'],rmse_paired_wins=c['rmse']['paired_cells_won']) for c in comparisons])
+    print('Verified',sum(x['completed'] for x in audit),'jobs;',len(groups),'complete groups;',len(comparisons),'paired comparisons',flush=True)
+
+if __name__=='__main__':main()
+```
+
+## SOURCE: project/scripts/render_daily_review_20261115.py
+
+- project/scripts/render_daily_review_20261115.py
+
+SHA-256: fd0215ca9a0eae307b60a7fa9e9843a08c4496fd6a0b4c9e11ec76dd673d409b
+
+```
+"""Render the audited daily-protocol comparison, including all farms and seeds."""
+from pathlib import Path
+import csv,json,datetime
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+P=Path(__file__).resolve().parents[1];OUT=P/'analysis/daily_protocol_review_20261115'
+def read(name):return list(csv.DictReader((OUT/name).open()))
+summary={r['group']:r for r in read('group_summary.csv')}
+comp=json.loads((OUT/'COMPARISONS.json').read_text())['comparisons'];pairs={(x['candidate'],x['reference']):x for x in comp}
+keypairs=[('SHARED_W0_BASE','TF_BASE'),('W0_R3','TF_R3'),('INDEPENDENT_W0_BASE','INDEPENDENT_TF_BASE'),('INDEPENDENT_W0_R3','INDEPENDENT_TF_R3'),('W0_P1_FULL','TF_P1_FULL'),('W0_P2_HEAD','TF_P2_HEAD'),('ENC_neutral_E2L','TF_R3')]
+labels=['Shared / local input','Shared / regional input','Independent / local input','Independent / regional input','Full personalization','Head personalization','Shared E2L / regional input']
+fig,ax=plt.subplots(figsize=(10,5.2),layout='constrained');y=np.arange(len(keypairs));colors=['#147d92','#dc7941']
+for k,m in enumerate(['mae','rmse']):
+    values=[pairs[p][m]['change_percent'] for p in keypairs]
+    ax.barh(y+(k-.5)*.32,values,height=.30,color=colors[k],label=m.upper())
+    for j,v in enumerate(values):ax.text(v+(.018 if v>=0 else -.018),j+(k-.5)*.32,f'{v:+.3f}%',va='center',ha='left' if v>=0 else 'right',fontsize=9)
+ax.set_yticks(y,labels);ax.invert_yaxis();ax.axvline(0,color='0.3',lw=.8);ax.set_xlim(-.9,1.0)
+ax.set_xlabel('Relative error change vs matched Transformer (%) — negative is better')
+ax.set_title('2023 selection-set results: 55 farms × 5 seeds');ax.legend(loc='lower right');ax.grid(axis='x',alpha=.15);ax.set_axisbelow(True)
+fig.savefig(OUT/'matched_transformer_comparison.png',dpi=180);fig.savefig(OUT/'matched_transformer_comparison.svg');plt.close(fig)
+
+def mdtable(headers,rows):
+    return '|'+ '|'.join(headers)+'|\n|'+'|'.join(['---']*len(headers))+'|\n'+''.join('|'+ '|'.join(map(str,row))+'|\n' for row in rows)
+def pairtable(ps):
+    rows=[]
+    for a,b in ps:
+        c=pairs[a,b];rows.append([a,b,f"{c['mae']['change_percent']:+.3f}%",f"{c['rmse']['change_percent']:+.3f}%",f"{c['high_power_rmse']['change_percent']:+.3f}%",f"{c['mae']['farm_wins']}/55",f"{c['rmse']['farm_wins']}/55"])
+    return mdtable(['候选','参照','ΔMAE','ΔRMSE','Δ高功率RMSE','MAE改善站数','RMSE改善站数'],rows)
+
+seeds=read('per_seed_summary.csv');sp=read('per_seed_comparisons.csv');farms=read('per_farm_comparisons.csv')
+detail='# 全55风场与逐种子明细\n\n所有百分比均为100×(候选/参照−1)，负值更好。逐站汇总使用全部5个seed；原始单元见 [全部模型逐风场逐seed指标](all_farm_seed_metrics.csv) 和 [逐配对单元](paired_farm_seed_comparisons.csv)。\n\n'
+detail+='## 关键比较的每个随机种子\n\n'
+for a,b in keypairs:
+    detail+=f'### {a} 对 {b}\n\n'
+    raw={(r['group'],r['seed']):r for r in seeds};rows=[]
+    for seed in map(str,range(42,47)):
+        x=raw[a,seed];z=raw[b,seed];c=next(r for r in sp if r['candidate']==a and r['reference']==b and r['seed']==seed)
+        rows.append([seed,f"{float(x['mae']):.6f}",f"{float(z['mae']):.6f}",f"{float(c['mae_change_percent']):+.4f}%",f"{float(x['rmse']):.6f}",f"{float(z['rmse']):.6f}",f"{float(c['rmse_change_percent']):+.4f}%",c['mae_farms_won'],c['rmse_farms_won']])
+    detail+=mdtable(['seed','候选MAE','参照MAE','ΔMAE','候选RMSE','参照RMSE','ΔRMSE','MAE胜站','RMSE胜站'],rows)+'\n'
+detail+='## 全55站：三个核心比较\n\n不删去退化风场，不按结果挑评价站点；每格给出5seed等权指标变化与双指标同时改善的seed数。\n\n'
+core=[('W0_R3','TF_R3'),('INDEPENDENT_W0_R3','INDEPENDENT_TF_R3'),('ENC_neutral_E2L','TF_R3')]
+cohort=json.loads((P/'runs/daily_protocol_restart_20261114_v1/assets/COHORT.json').read_text());rows=[]
+for sid,name in zip(cohort['station_ids'],cohort['names']):
+    row=[sid,name]
+    for a,b in core:
+        c=next(x for x in farms if x['candidate']==a and x['reference']==b and x['station_id']==sid)
+        row.append(f"{float(c['mae_change_percent']):+.3f}% / {float(c['rmse_change_percent']):+.3f}% / {c['both_seed_wins']}/5")
+    rows.append(row)
+detail+=mdtable(['风场ID','名称','共享W0-R3：ΔMAE/ΔRMSE/双胜seed','独立W0-R3：ΔMAE/ΔRMSE/双胜seed','共享E2L：ΔMAE/ΔRMSE/双胜seed'],rows)
+(OUT/'FARM_AND_SEED_DETAILS_CN.md').write_text(detail)
+
+text='''# 每日起报新协议：完整重训结果与路线审查
+
+> **用户最新约束：编码不作为机制贡献或独立贡献。** E2L/E2C只作为架构选择与消融；此前围绕简化编码组织贡献的建议已撤回。现有内部编码对照尚不能区分与TF比较中的编码和骨干效应，需要同编码跨骨干对照。见 [编码定义、现有对照和后续定位](ENCODING_ROLE_CLARIFICATION_20261115_CN.md)。
+
+**2571/2571项已全部完成，失败0；最终完成时间2026-11-15 19:41（北京时间）。当前原版W0/E2C以及CBH路线不支持“0–6 h全面优于Transformer”。最有希望的本模型候选是去掉柱坐标与天气非线性映射的E2L共享版本，但仍未通过高功率退化约束，也尚无独立训练或新风场迁移验证。**
+
+本文只使用新协议结果。若以现有结果选择已见风场的预测方案，2023选模后的TF全参数微调在核心部署方案中表现最好；这不构成本模型性能优势。若必须体现本模型优势，优先验证E2L，不应继续把CBH、复杂柱坐标编码或新风场迁移写成已得到支持的主线。
+
+导航：[完成核验](#完成核验) · [主要比较](#主要比较) · [单风场训练方式](#单风场训练方式) · [消融与机制](#消融与机制) · [时效与风场边界](#时效与风场边界) · [建议路线与贡献边界](#建议路线与贡献边界) · [数据和代码入口](#数据和代码入口)。
+
+## 完成核验
+
+|队列|完成数|完成时间|
+|---|---:|---|
+|共享调参、baseline、B0/OOF、条件机制、RM|180/180|11-15 02:57|
+|55站×W0/TF×全参数/输出层×5 seeds微调|1100/1100|11-15 05:36|
+|补充调参与共享对照、消融191项＋逐站独立1100项|1291/1291|11-15 19:41|
+
+检查时有10项任务保留在繁忙的6002，6001已空闲。已停止本轮调度、确认无重复worker，迁移已有检查点并逐文件核对SHA256，恢复后完成最后10项；模型、样本、配置、种子、预算均未修改。前次17:00–19:00的预计没有覆盖这次保留任务停滞，不能继续用其解释完成状态。见 [尾部恢复记录](operations/eta_recovery_20261115/TAIL_RECOVERY.json)。
+
+[完成审计](analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)逐项验证2571份选中权重、2200份固定E1/E6权重、25份B0预测数组，以及spec、年份、数据指纹、冻结代码和有限指标；共核对5033个不同文件。70个完整模型组均为55站×5seeds；[独立重算检查](analysis/daily_protocol_review_20261115/INDEPENDENT_AGGREGATION_CHECK.json)与原收集器72行汇总在1e−12容差内一致。三机本轮训练进程已退出，见 [进程核验](analysis/daily_protocol_review_20261115/PROCESS_EXIT_AUDIT.json)。
+
+共享run中的`FAIL_NO_LARGE_SCALE_PERSONALIZATION`是预定性能门槛未通过的标签，不是训练失败；`personalization_started:false`是该收集器自身未触发后续的历史字段。本轮微调已按用户授权由独立followup执行并完成，不得据此误判1100项尚未运行。
+
+## 比较口径
+
+- 任务0–6 h、24个15 min预测点；Pangu每天00 UTC，15 h后可用；邻站/区域功率可用至起点。2022训练，2023选超参数与检查点；固定55站，每站验证起点29647个。
+- **W0**是本框架的无轨迹条件模型，默认天气编码E2C；**TF**是已调参Transformer。**BASE**使用本站历史、天气和站点信息；**R3**增加SEL物理/状态特征、近邻汇总与三环区域功率。单风场预测输出、参数共享训练、是否使用邻站输入是三个不同维度。
+- E2L使用原始14天气通道与三层线性映射，保留W0其余结构及R3输入；E2N是同输入、同参数数量但含GELU的控制。E2L不是新风场迁移模型，也不是已经验证的独立单站模型。
+- 指标是容量因子误差，不是MW。表中数值为55站×5seeds等权汇总，百分比为`100×(候选/参照−1)`；负数更好。改善站数比较每站完整5seed均值，不能替代逐seed原值。高功率按起点当前容量因子≥0.75定义，不是按未来目标筛选。
+- [逐风场逐seed原始指标](analysis/daily_protocol_review_20261115/all_farm_seed_metrics.csv)、[关键逐seed与全55站明细](analysis/daily_protocol_review_20261115/FARM_AND_SEED_DETAILS_CN.md)、[所有配对原值](analysis/daily_protocol_review_20261115/paired_farm_seed_comparisons.csv)保留全部改善和退化。
+- 2023同时用于选择和报告，尤其微调允许第0轮参与选模，相对底座的MAE收益存在选择优势。不能把这些差异直接当作独立泛化证据。描述性风场bootstrap没有处理空间依赖、多重比较或选模，不能据其宣称独立统计显著。2024尚未在本轮复评，且历史已看过，只能称探索性跨年复评。
+
+## 主要比较
+
+'''
+text+=pairtable(keypairs)
+text+='''
+![匹配Transformer对照](analysis/daily_protocol_review_20261115/matched_transformer_comparison.png)
+
+1. **原版W0共享R3没有全面赢。** MAE降低0.183%，RMSE增加0.227%，高功率RMSE增加0.619%；仅19/55站两项均改善。
+2. **独立训练没有解决RMSE问题。** W0-R3相对独立TF-R3的MAE降低0.501%，40/55站改善、5个seed总体MAE都改善；但RMSE增加0.239%，只有18/55站改善，5个seed总体RMSE全部退化。275个站点×seed配对中，MAE胜185个，RMSE仅胜99个。仅本站BASE也有同样分歧，RMSE增加0.655%。
+3. **微调不是W0优于TF的证据。** W0和TF都可从各自底座改善，但全参数微调后W0对TF的MAE/RMSE分别增加0.108%/0.369%。固定E1/E6比较也没有反转这点。
+4. **E2L是当前最值得继续验证的本模型候选。** 相对同输入共享TF，MAE降低0.457%、RMSE降低0.216%，改善站数42/55和33/55；双指标同时改善28/55站。5个seed的MAE都好，RMSE只有3/5个好。高功率RMSE增加0.153%，超过原预定“退化≤0.1%”门槛，因此整体门槛仍未通过。
+5. **E2L的比较边界很具体。** 它目前只在共享训练中有完整结果。与经过逐站选模的TF全参数微调作部署方案比较时，MAE/RMSE仍增加0.505%/0.484%；这不是同训练方式的结构归因比较，但说明它还不是当前最优部署方案。
+
+主要方案的绝对指标如下，全部属于2023选择集：
+
+'''
+show=['SHARED_W0_BASE','TF_BASE','W0_R3','TF_R3','TIDE_R3','TFT_R3','M2_CBH','ENC_neutral_E2L','INDEPENDENT_W0_BASE','INDEPENDENT_TF_BASE','INDEPENDENT_W0_R3','INDEPENDENT_TF_R3','W0_P1_FULL','TF_P1_FULL']
+text+=mdtable(['模型组','MAE','RMSE','高功率RMSE','参数量'],[[g,*[f"{float(summary[g][m]):.6f}" for m in ['mae','rmse','high_power_rmse']],summary[g]['parameter_count']] for g in show])
+text+='''
+同预算调参不等于同参数量：W0_BASE选择width128，TF_BASE选择64；R3的W0/TF都为64但结构参数量不同。E2L与E2N的比较才是严格同参数量非线性控制。E2L目前参数量215673，与原W0-R3的215737接近，不能未经实测称为显著轻量化。
+
+## 单风场训练方式
+
+'''
+text+=pairtable([('INDEPENDENT_W0_BASE','SHARED_W0_BASE'),('INDEPENDENT_W0_R3','W0_R3'),('INDEPENDENT_TF_BASE','TF_BASE'),('INDEPENDENT_TF_R3','TF_R3'),('W0_P1_FULL','W0_R3'),('TF_P1_FULL','TF_R3')])
+text+='''
+在现有固定55个已见风场上，共享参数总体优于从随机初始化逐站独立训练。独立W0-R3对共享W0-R3的MAE/RMSE增加2.524%/1.748%，改善仅4/55和7/55站；TF也有相同方向。独立训练沿用对应共享调参配置，并未为每站独立搜索超参数，故不能概括为“独立训练必然差”。共享与独立的每站样本曝光轮数相同，总优化器更新数不同。
+
+共享训练仍逐风场输出预测，符合单风场预测任务；R3需要业务上允许访问邻站/区域观测。若要求权重完全独立或只允许本站输入，就必须用对应独立/BASE结果，不能拿共享R3替代。
+
+微调是对已在共享训练中见过的风场做个性化。W0全参数/输出层分别有104/275、118/275个单元最终选回第0轮，TF为69/275、67/275；因此选模后的改善不能与一个固定训练轮数方案直接等同。**没有目标风场留出实验，不能写新风场迁移优势。**
+
+## 消融与机制
+
+### 信息输入有效，但不是W0独有收益
+
+'''
+text+=pairtable([('W0_R3','SHARED_W0_BASE'),('TF_R3','TF_BASE'),('INDEPENDENT_W0_R3','INDEPENDENT_W0_BASE'),('INDEPENDENT_TF_R3','INDEPENDENT_TF_BASE')])
+text+='''
+共享W0的R3对BASE改善2.768%/2.272%，共享TF改善3.095%/2.663%；独立训练的两模型也都在55/55站双指标均改善。R3是有价值的信息扩展，不能据此把全部增益归因于W0结构。
+
+从完整R3中移除各项的变化如下；正值表示移除后更差：
+
+'''
+ablations=[]
+for f in ['W0','TF']:
+    for suffix in ['LOCAL_SEL','NO_SEL','NO_NEAR','NO_RINGS','NO_DENSITY','NO_DYNAMICS','NO_STABILITY','NO_STATE']:
+        c=pairs[f'INPUT_{f}_{suffix}',f+'_R3']
+        ablations.append([f,suffix,f"{c['mae']['change_percent']:+.3f}%",f"{c['rmse']['change_percent']:+.3f}%"])
+text+=mdtable(['模型','消融','ΔMAE','ΔRMSE'],ablations)
+text+='''
+LOCAL_SEL保留本站SEL并移除近邻/三环；NO_SEL移除全部22维SEL。三环区域统计、动力、运行状态有较清晰增益；近邻汇总边际增益较小。此处不能写成“逐邻站传播机制得到验证”：当前近邻输入是池化历史加几何键，非完整逐邻站独立序列。
+
+### 更复杂的天气表示没有稳定胜出
+
+E2L对原E2C的MAE/RMSE改善0.275%/0.442%；对同参数GELU控制E2N改善0.267%/0.456%，该对照5个seed双指标总体均改善。E2L对单层E0仅改善0.253%/0.228%，逐seed方向不一致，说明优化参数化等因素还需区分，不能直接归为物理规律。E3分组编码没有优于E2C。
+
+E2L是仿射层的组合；它支持“当前任务中过强天气非线性未必有益”的经验假设，不支持原“柱坐标非线性编码是主要优势”的叙述。在E2L背景加入CBH后，汇总MAE/RMSE反而增加约0.206%/0.093%。
+
+### 条件轨迹、区域记忆与滚动校正
+
+'''
+text+=pairtable([('M1_CB','W0_R3'),('M2_CBH','W0_R3'),('M2_CBH','M4H_WRONG_CBH'),('W0_RM','W0_R3'),('TF_RM','TF_R3'),('W0_P0_SHARED_Z1','W0_R3'),('TF_P0_SHARED_Z1','TF_R3')])
+text+='''
+CBH比CB好，不足以证明条件机制有效：它没有同时胜过无条件W0和错日期控制。RM两模型均未改善全时效双指标。Z1明显降低RMSE，却使MAE恶化约3.5%–4.0%，属于目标权衡，不是整体增益。在主指标仍为MAE时，不建议据此继续扩大LM；LM档案完成不等于LM模型完成。
+
+### 历史与天气交互
+
+移除天气及全部天气派生SEL后，W0/TF的MAE都恶化约19.1%、RMSE约17.4%–17.6%；把本站历史替换为重复当前功率后，MAE恶化1.250%/1.028%，RMSE恶化1.348%/0.914%。天气在此0–6 h业务协议下不可忽略。
+
+差分交互 `(有真实历史时的天气收益)−(重复当前值时的天气收益)`：W0的MAE/RMSE为0.000336/0.001080，41/55与49/55站为正；TF为0.000255/0.000492，37/55与39/55站为正。当前功率锚点与区域观测仍保留，这是给定这些信息后的预测交互，不是因果识别，也不是W0独占现象。
+
+## 时效与风场边界
+
+'''
+hh=read('horizon_comparisons.csv');rows=[]
+for a,b in core:
+    for x in hh:
+        if (x['candidate'],x['reference'])==(a,b):rows.append([a,x['horizon'],f"{float(x['mae_change_percent']):+.3f}%",f"{float(x['rmse_change_percent']):+.3f}%",x['mae_farms_won']+'/55',x['rmse_farms_won']+'/55'])
+text+=mdtable(['相对同方式TF的候选','时效','ΔMAE','ΔRMSE','MAE胜站','RMSE胜站'],rows)
+text+='''
+原W0独立R3的最明确优势在0–1 h：MAE/RMSE改善1.680%/0.722%，53/55与43/55站改善；3–6 h RMSE反而增加0.452%。不能把0–1 h优势推广为已固定的0–6 h任务整体优势。E2L共享版本的三个时段汇总MAE/RMSE均改善，因而比原版更值得验证，但仍有seed及风场退化。
+
+完整独立R3配对中，仅6/55站在5个seed上双指标都改善；共享E2L对TF仅3/55站达到这一更严格条件。可把这些站作为解释性案例，但它们由成绩筛出，不能成为证明总体优势的唯一评价来源。现已完成全部55站，建议直接保留全站统计和全站明细；若论文版面只能展示少数站，应按容量、地域或训练期功率特性预定抽样，并同时提供全55站附件。
+
+## 建议路线与贡献边界
+
+**当前决策：原版E2C-CBH、新风场迁移、以及“独立训练全面压过TF”都不宜作为已确立的主路线。** 如果只考虑本轮已见风场的预测误差，TF全参数微调是核心部署方案中的优先参照；如果必须保持本模型，优先候选为“共享参数、逐风场输出、R3输入、E2L天气映射、无CB/CBH条件”。
+
+建议把后续工作限定为有判别力的验证，避免先铺大矩阵：
+
+1. 冻结E2L候选与同输入TF、E2C、E2N对照，先在预先固定的时间段/新增随机种子检查RMSE与高功率表现。现有E2L是在2023消融结果中挑出的优胜项，必须明确选择偏差。正式部署比较同时保留TF个性化参照。
+2. 如果硬约束是完全独立训练，则补E2L逐站独立对照；当前1100项独立矩阵只有默认E2C的W0与TF，不能把共享E2L成绩直接挪用。若需新风场迁移，必须另做训练风场完全留出的设计，本站数据预算及适应步骤对W0/TF一致。
+3. 保持0–6 h主任务和MAE/RMSE/高功率指标，冻结后再做2024探索性跨年复评。不能事后只保留有利时效、风场或将主指标改成RMSE来包装Z1。
+
+以下仅作为研究工作的组织结构，不能预设为三个独立贡献；编码不列为机制或独立创新：
+
+|方向|当前已有证据|尚不能宣称|
+|---|---|---|
+|整体单风场预测框架（方法贡献待验证）|完整框架已有性能与消融结果；编码只是实现选择|编码本身为创新；核心结构已在相同编码下胜过TF；独立/迁移已赢|
+|消融归因（支撑证据）|输入删除、编码替换、错日期条件、历史×天气矩阵已重训|将编码替换单列为机制贡献；信息收益只属于W0；预测交互等于因果机制|
+|业务适用边界：真实可用时刻、共享/独立/个性化、55站与分时效分析|统一每日00 UTC/15 h协议，全55站5seed原值，明确0–1 h与3–6 h差异|业务协议本身等于算法创新；只展示赢的风场可证明总体优势|
+
+以上是方法、支撑分析、适用边界三部分；不把编码列为贡献，也不强凑三个已经成立的机制点。若后续E2L仍不能在约定条件下胜过同输入Transformer，应明确否决该优势叙事。
+
+## 数据和代码入口
+
+- 新天气缓存：[每日Pangu数据](/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1/)，训练输入：[shared data](runs/daily_protocol_restart_20261114_v1/data/)，固定风场：[COHORT](runs/daily_protocol_restart_20261114_v1/assets/COHORT.json)。Pangu为预报，ERA5为再分析，不能称为场站实测天气。
+- [共享模型实现](runs/daily_protocol_restart_20261114_v1/code/model.py)、[补充天气编码/消融实现](runs/daily_ablation_restart_20261114_v1/code/model.py)、[单站与输入遮蔽数据实现](runs/daily_ablation_restart_20261114_v1/code/data.py)。
+- [微调训练与第0轮选模](runs/daily_site_finetune_20261114_v1/code/train.py)、[Z1校正](runs/daily_site_finetune_20261114_v1/code/z1.py)。
+- 三个冻结清单：[180](runs/daily_protocol_restart_20261114_v1/manifest.json)、[1291](runs/daily_ablation_restart_20261114_v1/manifest.json)、[1100](runs/daily_site_finetune_20261114_v1/manifest.json)。
+- [独立审计/配对分析脚本](scripts/review_daily_results_20261115.py)、[本文与明细生成脚本](scripts/render_daily_review_20261115.py)。先运行审计再运行渲染，任何缺项均不会生成完整配对结论。
+- [机器可读比较与描述性区间](analysis/daily_protocol_review_20261115/COMPARISONS.json)、[比较汇总](analysis/daily_protocol_review_20261115/comparison_summary.csv)、[全部70组汇总](analysis/daily_protocol_review_20261115/group_summary.csv)、[每组5seed原值](analysis/daily_protocol_review_20261115/per_seed_summary.csv)、[分时效比较](analysis/daily_protocol_review_20261115/horizon_comparisons.csv)。
+- 三个原始自动报告：[共享](runs/daily_protocol_restart_20261114_v1/analysis/RESULTS_CN.md)、[消融/独立](runs/daily_ablation_restart_20261114_v1/analysis/RESULTS_CN.md)、[个性化](runs/daily_site_finetune_20261114_v1/analysis/RESULTS_CN.md)。这些报告中的自动门槛标签应结合本文的选模与配对边界解释。
+
+本次已完成当前2571项重训的检查、补齐和分析；未启动额外科学实验。2024复评、条件性LM模型和目标风场留出迁移不属于已完成的2571项。
+'''
+(P/'DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md').write_text(text)
+print('Rendered complete review, all-farm/seed appendix and comparison figure')
+```
+
+## SOURCE: project/configs/operational_pangu_d1_08_lag15h.json
+
+- project/configs/operational_pangu_d1_08_lag15h.json
+
+SHA-256: b06d0e361aaffeb43dd128e14dc22a356ab988cf21c50db2837ffb1b447f17b8
+
+```
+{
+  "protocol": "daily_08_BJT_latency15h",
+  "source_forecast_root": "/shared_data_hdd1/All_Datasets/ERA5_forecasting/Pangu/Forecast_data",
+  "source_power_h5": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/jilin_56farm_pad8.h5",
+  "sample_cache": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/model_cache_operational_08_20_lag12h_v1",
+  "cache_dir": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/model_cache_operational_d1_08_lag15h_v1",
+  "bundle_dir": "/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1",
+  "power_timezone": "Asia/Shanghai",
+  "forecast_filename_timezone": "UTC",
+  "issue_hours_utc": [
+    0
+  ],
+  "issue_hours_beijing": [
+    8
+  ],
+  "availability_delay_hours": 15,
+  "switch_hour_beijing": 23,
+  "maximum_forecast_lead_hours": 45,
+  "required_forecast_lead_range_hours": [
+    9,
+    45
+  ],
+  "past_nodes": 6,
+  "future_nodes": 8,
+  "power_history_steps": 24,
+  "forecast_power_steps": 24,
+  "power_frequency_minutes": 15,
+  "regional_power_delay_minutes": 0,
+  "require_same_samples": true,
+  "test_excluded_month": "2024-11",
+  "experiment_cohort_file": "runs/shared_personalized_20261104_v1/assets/COHORT.json",
+  "experiment_train_origins": "runs/shared_personalized_20261104_v1/data/train/origin.npy",
+  "experiment_val_origins": "runs/shared_personalized_20261104_v1/data/val/origin.npy",
+  "preparation_entry": "scripts/prepare_operational_pangu.py",
+  "missing_file_policy": "stop; never use ERA5, another issue, extrapolation, or silent sample removal",
+  "result_reuse": false
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/PROTOCOL.json
+
+- project/runs/daily_protocol_restart_20261114_v1/PROTOCOL.json
+
+SHA-256: e943d4d57e88f81cbac25b60f9a1acdd3d1f1abe3232003da8de6e043932da4b
+
+```
+{
+  "timestamp": "2026-11-14T20:57:01.967267+08:00",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "test_status": "2024 exploratory, not read in stages1-2",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "tune_seeds": [
+    40,
+    41
+  ],
+  "configs": [
+    {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 64,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 64,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.0002,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.0,
+      "weight_decay": 0.0001
+    },
+    {
+      "width": 128,
+      "lr": 0.001,
+      "dropout": 0.05,
+      "weight_decay": 0.0001
+    }
+  ],
+  "data": "daily 00UTC issue, available after15h; fixed2022/2023 origins and55 farms; all regional power through origin; newly fitted training normalization",
+  "checkpoint": "minimum equal-farm macro MAE, one checkpoint for all metrics",
+  "loss": "unclipped capacity-factor MAE",
+  "optimizer": "AdamW; constant learning rate; grad norm clip1",
+  "batch_size": 512,
+  "validation_batch_size": 1024,
+  "precision": "float32, TF32 disabled, no AMP",
+  "input_fairness": "All models share local history, site lat/lon/logcapacity/elevation and learned embedding8. All R3 models receive identical SEL22, N3 pooled history, 3 ring statistics. TF_BASE omits SEL/region.",
+  "b0": "Shared local-history TCN with target attention; no cluster/global power. Architecture adaptation, not the old global-history ForcedEvolution checkpoint.",
+  "oof": "4 quarter blocks of2022, 12h purge; each OOF model early-stops on a separate21-day block from remaining2022 only. Final B0 uses full2022, selected on2023. No in-sample target-fitted trajectory is supplied to2022 mechanism training.",
+  "trajectory_controls": "same month/Beijing clock/different date >=2days;2023 wrong references drawn from2022 OOF archive. CBH also mismatches history summary. TF neutral adapter added for parameter-matched control.",
+  "budget": {
+    "tuning": 80,
+    "shared_baselines": 25,
+    "reference_oof_and_full": 25,
+    "mechanism": 40,
+    "regional_memory": 10,
+    "total": 180
+  },
+  "pass_rule": {
+    "minimum_relative_improvement_percent": 0.1,
+    "minimum_farm_win_fraction_strict": 0.5,
+    "metrics": [
+      "mae",
+      "rmse"
+    ],
+    "high_power": "current CF>=.75: report and require relative RMSE degradation <=.1% before scale-up"
+  },
+  "scale_up_gate": "M1 or M2 passes against W0_R3 and matched wrong-date control; selected candidate must also pass against best matched-input baseline selected by2023MAE among TF/TiDE/TFT. Stage1 rawW0-vsTF may fail if mechanism rescues it. Personalization is a separate matched W0/TF question; no2024 model evaluation before2023 selection is frozen.",
+  "inference": "one forecast per farm; shared parameters before personalization; per-farm equal-weight reporting",
+  "hardware": "Both V100 hosts and idle local4090 cards; no foreign process termination. Multi-process governed by memory reserve, external compute and measured throughput.",
+  "caveats": [
+    "All previous-protocol metrics are excluded; independent and personalization reruns use this daily dataset only.",
+    "P3 physical interpretation remains a hypothesis.",
+    "2024 cannot provide an untouched confirmation set."
+  ],
+  "weather_protocol": "daily_08_BJT_latency15h",
+  "regional_power_delay_minutes": 0,
+  "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "reuse_previous_weights": false
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/SCIENCE_FREEZE.json
+
+- project/runs/daily_protocol_restart_20261114_v1/SCIENCE_FREEZE.json
+
+SHA-256: 04223a9a2e3976a32129ce3242c4a16a484090d64fce22e5533a5aab0b762e49
+
+```
+{
+  "timestamp": "2026-11-14T20:57:13.259300+08:00",
+  "files": {
+    "code/data.py": "51a03cef6cd10237f6ba5fd882ad55e44378f687a470a783cef3e66410aedbdb",
+    "code/prepare_lm.py": "fea08b71629e4f8b10a1945d922e00faf0e03c20ad5ca7661018bae5f27b6f7d",
+    "code/operational.py": "2b98d93a241a58c771a06f1575a729af06935e520d6ed504ee57f5e99d6a53f7",
+    "code/prepare_rm.py": "e8b8d7e1f4bf9e51915b676811fabcd4af5764cb831f5f3702e8b53177249522",
+    "code/physics.py": "ef439fd7911e1c0bdabd19020bc31f4aadd71295d470db5459888fbcdd923161",
+    "code/train.py": "9a4c58e4dbf1af74fc7645894817a393e8cac4b43c040972b848d9afcc0afa0b",
+    "code/model.py": "a75f5326bf52e832715766fa9179d4bec10705eb3bddc8e2221b99312bdc55ab",
+    "code/plan.py": "e4af02b3995d2313a6e1d15d39d9ca79f60b7512c6832c6719ae801679583ecc",
+    "code/settings.py": "eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160",
+    "code/prepare.py": "8fc2ebbaab2a551155d17f85a4e93d903282a9f470c54d45dae88653ee21ebb9",
+    "code/legacy/column_original.py": "60be06d445f8e6ea5374605cc08b595c43184ea01957db98533372f3826582d6",
+    "code/legacy/reference_original.py": "3ac3609d1f0b412868792b3601adbc7a500b38971338825b1cb1222c5c296355",
+    "code/legacy/models.py": "726958ee1c9712a2a15d09e6485f0f8535fb512d8fee9b77f9b5fba0be56d195",
+    "code/legacy/common.py": "15620d16df2244350d58bafdea0fde899cb593d0d5e36e4e13ce4b4edeeee164",
+    "code/legacy/baselines_original.py": "fd0f007dd1963081ac11c59450fb1ba4f8b40abe09717dfc17ee76f1a23fd787",
+    "code/legacy/vendor/wind_forcing/config.py": "39ad026290fd9af6b458819af55cea52df4b73e7e520a6944ec2fb22a1366df6",
+    "code/legacy/vendor/wind_forcing/__init__.py": "f5cabe1d8ee96b466addf205691f2c7f954cded500737db697fdbff598ba55ce",
+    "code/legacy/vendor/wind_forcing/training.py": "62e8eb9514e5681bfdfcb80faab8254fbd5f8d8f3629fe6e102e412da27f6d20",
+    "code/legacy/vendor/wind_forcing/aggregate_training.py": "c147c52e7f14045058b3d7e11787342421b38016da47ff0a4b6296c4a3457f6a",
+    "code/legacy/vendor/wind_forcing/experiment_guard.py": "61adf9f35a445ee962fff7df3b5bdacd9ec5a904b2466ba07f445458b9e0e055",
+    "code/legacy/vendor/wind_forcing/models/baselines.py": "d337b443796a6e5961808f4d9e2e0ffcb02019fd4dc5126369aab6a9e70ba9d8",
+    "code/legacy/vendor/wind_forcing/models/local_to_global.py": "2443db37c2e9ae82bd0434eb3a29476793a4eb3798b525b86b12fdd3fec58fc7",
+    "code/legacy/vendor/wind_forcing/models/__init__.py": "9ab6ca15b7ba7fbc03319bf9b8e32df6a5a77d688648661ce340a205eb40c8ef",
+    "code/legacy/vendor/wind_forcing/models/aggregate_cluster.py": "1a5a0dfc36cee7211cced4b06cb508d79e8d7afabb0e0569a2423fd0822f0583",
+    "code/legacy/vendor/wind_forcing/models/incremental_correction.py": "144193dc4c89ca0dbfdeba9f316654b362f4c967f7f35d5ba3e1015cd2918ea2",
+    "code/legacy/vendor/wind_forcing/models/components.py": "e52d25e71bd707eea23afe92801d38fc3939fe1963d9b4d60cd2d546cee0fade",
+    "code/legacy/vendor/wind_forcing/models/p0i_legacy.py": "1ddb1098f0b309777b6a9da7c6d29508743e0e24080dda2208ef3116dde42e4b",
+    "code/legacy/vendor/wind_forcing/models/controlled_transition.py": "1ba4fa61b1b02f57b5cfb716bdfe97c1ad6adcf34748c5d5730ca35b99341adb",
+    "code/legacy/vendor/wind_forcing/models/forced_evolution.py": "e80286be4d2994169feec37652a3f4555787d67153b05f0bbadd1f51a4e9e2a4",
+    "code/legacy/vendor/wind_forcing/models/p0i_transfer.py": "8179cfd44f71c13cbf2393facd05e326d2f9dc0827ae26c7a7e8ce31342376ce",
+    "code/legacy/vendor/wind_forcing/models/local_state_identifiability.py": "46b4c4125de5276499cc44ac044bfcf8186deac1683c40fb3060ef1ec5679891",
+    "code/legacy/vendor/wind_forcing/data/__init__.py": "b35f5e72509120532583182cf51d58c73240e8a143153fe058f83505e953ed11",
+    "code/legacy/vendor/wind_forcing/data/dataset.py": "b9e24840f8e54d1fe915e2cb4b6ae3ab152cac402f9248cdcc0658dadb6a06c5",
+    "code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py": "e368ef92e3f4f9f15e7feaf230575a4b8585110f14288ef2941b070f228c3841",
+    "code/legacy/vendor/wind_forcing/data/aggregate_response.py": "2919332c5d17522d947fb4645f5e4952ba5b64e0d16cd538e565526c778993bc",
+    "code/legacy/vendor/wind_forcing/data/preprocess.py": "724e1825a58a940511ad7c620a26300ea4821d267110d49cdd0073e70b4b197f",
+    "code/legacy/vendor/wind_forcing/data/aggregate.py": "abb551d55486b2af7eb1669aff9a636b3d8d4953e619de5c3852aeebdde6d37b",
+    "operations/gpu_policy.py": "0888f1a0e9c1b6d0e4dae20d9bd568d92f5df5ff661471f072060c3cc13dc742",
+    "operations/coordinator.py": "2fc8e7c655e8532a13a80a894b1a5491a119c438b1f63d402b1e74e6231945ce",
+    "operations/pipeline.py": "cea3f9324fb7454263b592daf4715c485e7e066d894b1a9293ceee6866c009c5",
+    "operations/launch.py": "32d93ded36c51ec6cc22a6701aaff1b830ea6a99054ca81892eb3eb0ee6f1cd6",
+    "operations/resource_limits.py": "9d5fc2804d569af4e032d097d712fbecf2afb765c468f5d547ab326aa966c49c",
+    "operations/checks.py": "5410f2daa3c482b9ff8a8cfbc689dbd9882b8fe45bed09b3826c751f647c95fb",
+    "operations/recover_results.py": "e35e124d5e6901dcd46fd05d039f163ca7499f56c433ea23486ec09999bf2c00",
+    "operations/scheduler.py": "7519b0d65eed711aeb19e921d5e0e69062c5922b49b6c4ccf9bdb675551bf7b5",
+    "operations/supervise.py": "b8894f6373cf2d96ddcbb3b17d3ab1d05df831145f5e506e6c89c124970afbf3",
+    "operations/efficiency_v3.py": "8ddca8eb4543bbb373ba8a415f2262df22b7408b889d73c8ef34a0040d8ecca6",
+    "operations/collect.py": "061dbbffae304c8c01b1aa1bbac7c8e56118c5a06189d9ee886684402fedb9aa",
+    "operations/followup.py": "034fb268b33d8337f4fbd6e2da078ce2f034c815d735533d990cb254f261c739",
+    "operations/probe.py": "0998d6b3775c3e189bef08cd85a92b9177dbb097194d834e9ac86f939904211e",
+    "operations/storage_guard.py": "3944166ac1cbfcc603b638dc93e37b51fec7e9272c03c360666be9c43d283589",
+    "operations/bootstrap.py": "1ed0aafd611eb69245eedb0aa79fef1befa1ad8b5368b41b310baaef88b41c25",
+    "selection_inputs/val_origin.npy": "7aa563e0100044a1bd6fdc3d7db87fa5e7778f7816fb05a004c571e7434d7b81",
+    "selection_inputs/train_origin.npy": "d5bb087827170b6d026cde0473fd89f9c4abfe8d90d2109dcd07a79f955930be",
+    "selection_inputs/COHORT.json": "1b321483d3d6102d719489e797cb7f512545fcfa991f2742af426c3f468957b9",
+    "PROTOCOL.json": "e943d4d57e88f81cbac25b60f9a1acdd3d1f1abe3232003da8de6e043932da4b",
+    "QC_RULES.json": "7dc0f882af7c054db15257f132bb2d5d0984f08cb8c1fe09dd884beb0743fcda",
+    "manifest.json": "ee802d342561b4917d9151964852fe291fc361be51b1791c97b15b39fa523437",
+    "DATA_FREEZE.json": "21901407d7ff7cc4a32e3e4101743c0f6a642a2370884cdd1160494e004305ce",
+    "EXECUTION_PLAN_CN.md": "04efa4b130fdcb941628f5a1785e195e01835288a6418ec853c00722eda7d33f",
+    "data/READY.json": "c5f8653596baa9ed1d45ff290b89cf692fa3120dde27832325ffb615446eaa31",
+    "operations/LOCAL_ADMISSION.json": "83847b0eaa855ffdb4a9de195c1ca346f74097850bae9ff77d3c19aefcd56efd",
+    "operations/REMOTE_ADMISSION.json": "f456e914b22e36f12cc92abf1b79513e0a7f014ad6891c9025579a1f5eb4485c",
+    "operations/RESOURCE_POOLS.json": "b049508c3aa6112b3de3b992b5120bde4080e1d26823be63e7fa1789d0a456ec"
+  },
+  "operations_revision": {
+    "timestamp": "2026-11-14T21:03:11.382547+08:00",
+    "reason": "4090 GPU4-7 became occupied; admit any GPU0-7 with existing memory and compute checks",
+    "scientific_files_unchanged": true,
+    "changes": {
+      "operations/launch.py": {
+        "before": "7ad9b6a97822047a7b861f26bbc1b000040065487cc5b3c22c518ae7272ce69d",
+        "after": "32d93ded36c51ec6cc22a6701aaff1b830ea6a99054ca81892eb3eb0ee6f1cd6"
+      },
+      "operations/supervise.py": {
+        "before": "96e8c9af5eeec6979ebe660f0f539c8a4e7c352b1918d2d1aac49a64eed039a4",
+        "after": "b12b618437c1f5045f1e72c25a3de9fb28ffe740aba66b83c1eae6757cb49eea"
+      }
+    }
+  },
+  "operational_revision": {
+    "timestamp": "2026-11-14T22:28:42.609219+08:00",
+    "record": "operations/resource_expansion_20261114/REVISION.json",
+    "science_and_manifest_unchanged": true
+  },
+  "resource_recovery_20261115": {
+    "timestamp": "2026-11-15T01:36:47.743424+08:00",
+    "science_unchanged": true,
+    "reason": "migrate paused checkpoints off unavailable6002; lend idle6001 GPUs to ablations"
+  }
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/assets/selected/TFT_R3.json
+
+- project/runs/daily_protocol_restart_20261114_v1/assets/selected/TFT_R3.json
+- project/runs/daily_ablation_restart_20261114_v1/assets/selected/TFT_R3.json
+- project/runs/daily_site_finetune_20261114_v1/assets/selected/TFT_R3.json
+
+SHA-256: 3ad64d2bbdbee5b849a613c86253de368a04400d0666330f81b063b48a12bd06
+
+```
+{
+  "timestamp": "2026-11-14T22:28:18.613805+08:00",
+  "group": "TFT_R3",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08778060081970143,
+      "rmse": 0.1359104634483908,
+      "jobs": [
+        "TUNE_TFT_R3_c0_r40",
+        "TUNE_TFT_R3_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08765460076256468,
+      "rmse": 0.13608701314274724,
+      "jobs": [
+        "TUNE_TFT_R3_c1_r40",
+        "TUNE_TFT_R3_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08839937085303398,
+      "rmse": 0.1382238494938157,
+      "jobs": [
+        "TUNE_TFT_R3_c2_r40",
+        "TUNE_TFT_R3_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08864323474246491,
+      "rmse": 0.13832176580553146,
+      "jobs": [
+        "TUNE_TFT_R3_c3_r40",
+        "TUNE_TFT_R3_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08777401117913355,
+      "rmse": 0.1368808522338536,
+      "jobs": [
+        "TUNE_TFT_R3_c4_r40",
+        "TUNE_TFT_R3_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08789261117397734,
+      "rmse": 0.13730418342985007,
+      "jobs": [
+        "TUNE_TFT_R3_c5_r40",
+        "TUNE_TFT_R3_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09049206389272213,
+      "rmse": 0.1415501184778635,
+      "jobs": [
+        "TUNE_TFT_R3_c6_r40",
+        "TUNE_TFT_R3_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09008872980637099,
+      "rmse": 0.14067119135551598,
+      "jobs": [
+        "TUNE_TFT_R3_c7_r40",
+        "TUNE_TFT_R3_c7_r41"
+      ]
+    }
+  ]
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/assets/selected/TF_BASE.json
+
+- project/runs/daily_protocol_restart_20261114_v1/assets/selected/TF_BASE.json
+- project/runs/daily_ablation_restart_20261114_v1/assets/selected/TF_BASE.json
+- project/runs/daily_site_finetune_20261114_v1/assets/selected/TF_BASE.json
+
+SHA-256: 2d36ccee2770ea4de75afba84775549a0714398bb8e3bb3b600f1098dba26cef
+
+```
+{
+  "timestamp": "2026-11-14T22:19:58.960845+08:00",
+  "group": "TF_BASE",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08974101827700205,
+      "rmse": 0.13838074041042508,
+      "jobs": [
+        "TUNE_TF_BASE_c0_r40",
+        "TUNE_TF_BASE_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08910851633450712,
+      "rmse": 0.13772740755773155,
+      "jobs": [
+        "TUNE_TF_BASE_c1_r40",
+        "TUNE_TF_BASE_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09251368793812473,
+      "rmse": 0.14255301390636935,
+      "jobs": [
+        "TUNE_TF_BASE_c2_r40",
+        "TUNE_TF_BASE_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09166432596595969,
+      "rmse": 0.14214454523484374,
+      "jobs": [
+        "TUNE_TF_BASE_c3_r40",
+        "TUNE_TF_BASE_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08997276694909558,
+      "rmse": 0.13925949395980414,
+      "jobs": [
+        "TUNE_TF_BASE_c4_r40",
+        "TUNE_TF_BASE_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08954874983360675,
+      "rmse": 0.13899931787993183,
+      "jobs": [
+        "TUNE_TF_BASE_c5_r40",
+        "TUNE_TF_BASE_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.092911667918777,
+      "rmse": 0.1432235683998745,
+      "jobs": [
+        "TUNE_TF_BASE_c6_r40",
+        "TUNE_TF_BASE_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0925189361663512,
+      "rmse": 0.1421790162357477,
+      "jobs": [
+        "TUNE_TF_BASE_c7_r40",
+        "TUNE_TF_BASE_c7_r41"
+      ]
+    }
+  ]
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/assets/selected/TF_R3.json
+
+- project/runs/daily_protocol_restart_20261114_v1/assets/selected/TF_R3.json
+- project/runs/daily_ablation_restart_20261114_v1/assets/selected/TF_R3.json
+- project/runs/daily_site_finetune_20261114_v1/assets/selected/TF_R3.json
+
+SHA-256: 6f53a1943fc428270732028543f96fa01fd08c7b1e4cf5c25a833ad68a2f42b4
+
+```
+{
+  "timestamp": "2026-11-14T22:27:09.914746+08:00",
+  "group": "TF_R3",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08718072818874793,
+      "rmse": 0.13578047929318832,
+      "jobs": [
+        "TUNE_TF_R3_c0_r40",
+        "TUNE_TF_R3_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08683447794416527,
+      "rmse": 0.13524733983437082,
+      "jobs": [
+        "TUNE_TF_R3_c1_r40",
+        "TUNE_TF_R3_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08971856023551064,
+      "rmse": 0.13869956244292198,
+      "jobs": [
+        "TUNE_TF_R3_c2_r40",
+        "TUNE_TF_R3_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08836746507802001,
+      "rmse": 0.1379174615449461,
+      "jobs": [
+        "TUNE_TF_R3_c3_r40",
+        "TUNE_TF_R3_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08779552108731081,
+      "rmse": 0.1369418151745153,
+      "jobs": [
+        "TUNE_TF_R3_c4_r40",
+        "TUNE_TF_R3_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08746455173191078,
+      "rmse": 0.13649447630252068,
+      "jobs": [
+        "TUNE_TF_R3_c5_r40",
+        "TUNE_TF_R3_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.091917701547073,
+      "rmse": 0.14182787035986863,
+      "jobs": [
+        "TUNE_TF_R3_c6_r40",
+        "TUNE_TF_R3_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09066304708881825,
+      "rmse": 0.14052590891003863,
+      "jobs": [
+        "TUNE_TF_R3_c7_r40",
+        "TUNE_TF_R3_c7_r41"
+      ]
+    }
+  ]
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/assets/selected/TIDE_R3.json
+
+- project/runs/daily_protocol_restart_20261114_v1/assets/selected/TIDE_R3.json
+- project/runs/daily_ablation_restart_20261114_v1/assets/selected/TIDE_R3.json
+- project/runs/daily_site_finetune_20261114_v1/assets/selected/TIDE_R3.json
+
+SHA-256: 08253d438db9937424c6ce11da620ec0fcd4b9f84522c218d2e3edfa92fadc0e
+
+```
+{
+  "timestamp": "2026-11-14T22:16:33.110996+08:00",
+  "group": "TIDE_R3",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08834722971664405,
+      "rmse": 0.1361352821756427,
+      "jobs": [
+        "TUNE_TIDE_R3_c0_r40",
+        "TUNE_TIDE_R3_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08816090435369689,
+      "rmse": 0.13591805826053688,
+      "jobs": [
+        "TUNE_TIDE_R3_c1_r40",
+        "TUNE_TIDE_R3_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09242898105222756,
+      "rmse": 0.14162143071840044,
+      "jobs": [
+        "TUNE_TIDE_R3_c2_r40",
+        "TUNE_TIDE_R3_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0925051512362335,
+      "rmse": 0.14099583106387972,
+      "jobs": [
+        "TUNE_TIDE_R3_c3_r40",
+        "TUNE_TIDE_R3_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08849265312980654,
+      "rmse": 0.13654813426492687,
+      "jobs": [
+        "TUNE_TIDE_R3_c4_r40",
+        "TUNE_TIDE_R3_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0884707213599891,
+      "rmse": 0.1366141781898024,
+      "jobs": [
+        "TUNE_TIDE_R3_c5_r40",
+        "TUNE_TIDE_R3_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09082498597353042,
+      "rmse": 0.13985670142546364,
+      "jobs": [
+        "TUNE_TIDE_R3_c6_r40",
+        "TUNE_TIDE_R3_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0914420273594648,
+      "rmse": 0.1404836014654932,
+      "jobs": [
+        "TUNE_TIDE_R3_c7_r40",
+        "TUNE_TIDE_R3_c7_r41"
+      ]
+    }
+  ]
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/assets/selected/W0_R3.json
+
+- project/runs/daily_protocol_restart_20261114_v1/assets/selected/W0_R3.json
+- project/runs/daily_ablation_restart_20261114_v1/assets/selected/W0_R3.json
+- project/runs/daily_site_finetune_20261114_v1/assets/selected/W0_R3.json
+
+SHA-256: 76a036f7852198c398effe6bcb21158443faa27e16fa5e112c6800409524d5e7
+
+```
+{
+  "timestamp": "2026-11-14T23:10:29.984917+08:00",
+  "group": "W0_R3",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08693529169206443,
+      "rmse": 0.1357891345852129,
+      "jobs": [
+        "TUNE_W0_R3_c0_r40",
+        "TUNE_W0_R3_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08675161518797861,
+      "rmse": 0.13563281161751573,
+      "jobs": [
+        "TUNE_W0_R3_c1_r40",
+        "TUNE_W0_R3_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08842017404825256,
+      "rmse": 0.13761619119497626,
+      "jobs": [
+        "TUNE_W0_R3_c2_r40",
+        "TUNE_W0_R3_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08830028445708638,
+      "rmse": 0.13805559005812099,
+      "jobs": [
+        "TUNE_W0_R3_c3_r40",
+        "TUNE_W0_R3_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08706613470361413,
+      "rmse": 0.13654687473606797,
+      "jobs": [
+        "TUNE_W0_R3_c4_r40",
+        "TUNE_W0_R3_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0872199081344194,
+      "rmse": 0.1368178741583706,
+      "jobs": [
+        "TUNE_W0_R3_c5_r40",
+        "TUNE_W0_R3_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09020838332789362,
+      "rmse": 0.14025033769963313,
+      "jobs": [
+        "TUNE_W0_R3_c6_r40",
+        "TUNE_W0_R3_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09019841861931928,
+      "rmse": 0.13974594953732722,
+      "jobs": [
+        "TUNE_W0_R3_c7_r40",
+        "TUNE_W0_R3_c7_r41"
+      ]
+    }
+  ]
+}
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/operations/collect.py
+
+- project/runs/daily_protocol_restart_20261114_v1/operations/collect.py
+
+SHA-256: 061dbbffae304c8c01b1aa1bbac7c8e56118c5a06189d9ee886684402fedb9aa
+
+```
+from pathlib import Path
+import sys,json,csv,os
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+from settings import *
+import numpy as np
+
+def complete(spec):
+    out=JOBS/spec['id']
+    if not (out/'SUCCESS.json').exists():return None
+    d=json.loads((out/'metrics.json').read_text());assert d['requested_spec']==spec and not d['smoke_only'];return d
+def collect():
+    specs=json.loads((RUN/'manifest.json').read_text());done={s['id']:d for s in specs if (d:=complete(s)) is not None}
+    # Tuning: one configuration per family, equal-site MAE averaged across both seeds.
+    for group in ['TF_BASE','TF_R3','W0_R3','TIDE_R3','TFT_R3']:
+        jobs=[s for s in specs if s['stage']=='tune' and s['group']==group];out=ASSETS/'selected'/f'{group}.json'
+        if not out.exists() and all(s['id'] in done for s in jobs):
+            table=[]
+            for ci in range(8):
+                pair=[s for s in jobs if f'_c{ci}_' in s['id']];ms=[done[s['id']]['metrics'] for s in pair]
+                table.append(dict(index=ci,config=pair[0]['config'],mae=float(np.mean([m['mae'] for m in ms])),rmse=float(np.mean([m['rmse'] for m in ms])),jobs=[s['id'] for s in pair]))
+            best=min(table,key=lambda x:(x['mae'],x['index']));atomic_json(out,dict(timestamp=now(),group=group,config=best['config'],selected_by='2023 macroMAE averaged tune seeds40,41',selected_index=best['index'],table=table))
+    # Assemble genuinely out-of-fold2022 references; final full model predicts2023.
+    for seed in SEEDS:
+        ids=[f'B0_r{seed}_f{f}' for f in [-1,0,1,2,3]];folder=DATA/f'reference_r{seed}'
+        if not (folder/'READY.json').exists() and all(j in done for j in ids):
+            folder.mkdir(exist_ok=True);shape=np.load(DATA/'train/h.npy',mmap_mode='r').shape
+            path=folder/'train.partial.npy';a=np.lib.format.open_memmap(path,mode='w+',dtype='f4',shape=shape);covered=np.zeros(shape[0],bool)
+            sources={}
+            for f in range(4):
+                jid=f'B0_r{seed}_f{f}';p=JOBS/jid/'reference_prediction.npy';assert sha(p)==done[jid]['reference_sha256'];held=np.load(ASSETS/f'fold{f}.npz')['heldout'];v=np.load(p,mmap_mode='r');assert v.shape==(len(held),*shape[1:]);a[held]=v;covered[held]=True;sources[jid]=done[jid]['checkpoint_sha256']
+            assert covered.all() and np.isfinite(a).all();a.flush();del a;os.replace(path,folder/'train.npy')
+            jid=ids[0];p=JOBS/jid/'reference_prediction.npy';assert sha(p)==done[jid]['reference_sha256'];v=np.load(p,mmap_mode='r');assert v.shape==np.load(DATA/'val/h.npy',mmap_mode='r').shape
+            np.save(folder/'val.npy',v);sources[jid]=done[jid]['checkpoint_sha256']
+            atomic_json(folder/'READY.json',dict(timestamp=now(),passed=True,seed=seed,sources=sources,train_mode='purged-quarter-OOF',val_mode='full2022_model',files={x:sha(folder/x) for x in ['train.npy','val.npy']}))
+    grouped={}
+    for s in specs:
+        if s['id'] in done and s['stage'] in ['baseline','mechanism','regional_memory']:
+            grouped.setdefault(s['group'],[]).append(done[s['id']])
+    rows=[];byfarm=[]
+    cohort=json.loads((ASSETS/'COHORT.json').read_text());nf=cohort['count']
+    for group,ds in grouped.items():
+        m=np.array([d['metrics']['per_farm_mae'] for d in ds]);r=np.array([d['metrics']['per_farm_rmse'] for d in ds])
+        rows.append(dict(group=group,seeds=len(ds),mae=float(m.mean()),rmse=float(r.mean()),complete_5seeds=len(ds)==5))
+        for s in range(nf):byfarm.append(dict(group=group,station_id=cohort['station_ids'][s],name=cohort['names'][s],seeds=len(ds),mae=float(m[:,s].mean()),rmse=float(r[:,s].mean())))
+    for filename,data in [('shared_summary.csv',rows),('per_farm_metrics.csv',byfarm)]:
+        if data:
+            with (RUN/'analysis'/filename).open('w') as f:w=csv.DictWriter(f,fieldnames=list(data[0]));w.writeheader();w.writerows(data)
+    def compare(a,b):
+        aa=sorted(grouped[a],key=lambda d:d['spec']['seed']);bb=sorted(grouped[b],key=lambda d:d['spec']['seed']);res=dict(candidate=a,reference=b);rng=np.random.default_rng(1104)
+        for key in ['mae','rmse']:
+            x=np.array([d['metrics']['per_farm_'+key] for d in aa]);y=np.array([d['metrics']['per_farm_'+key] for d in bb]);xf=x.mean(0);yf=y.mean(0);delta=100*(xf.mean()/yf.mean()-1);wins=int((xf<yf).sum());draw=rng.integers(nf,size=(10000,nf));ci=np.quantile(100*(xf[draw].mean(1)/yf[draw].mean(1)-1),[.025,.975])
+            res[key]=dict(change_percent=float(delta),farms_improved=wins,total_farms=nf,paired_farm_bootstrap95_percent=ci.tolist(),per_seed_change_percent=(100*(x.mean(1)/y.mean(1)-1)).tolist(),passed=bool(delta<=-.1 and wins>nf/2))
+        hx=np.mean([d['metrics']['high_power_rmse'] for d in aa]);hy=np.mean([d['metrics']['high_power_rmse'] for d in bb]);res['high_power_rmse_change_percent']=float(100*(hx/hy-1));res['passed']=res['mae']['passed'] and res['rmse']['passed'] and res['high_power_rmse_change_percent']<=.1
+        return res
+    comparisons=[]
+    pairs=[('W0_RM','W0_R3'),('TF_RM','TF_R3'),('W0_RM','TF_RM'),('W0_RM','TF_R3'),('W0_R3','TF_R3'),('M1_CB','W0_R3'),('M1_CB','M4_WRONG_CB'),('M2_CBH','W0_R3'),('M2_CBH','M1_CB'),('M2_CBH','M4H_WRONG_CBH'),('M3_ANCHOR','M1_CB'),('M5_TF_CB','TF_R3'),('M5_TF_CB','M5N_TF_NEUTRAL'),('M5_TF_CB','M5W_TF_WRONG_CB')]
+    for a,b in pairs:
+        if len(grouped.get(a,[]))==5 and len(grouped.get(b,[]))==5:comparisons.append(compare(a,b))
+    gate=dict(timestamp=now(),stage='pending',complete_jobs=len(done),total_jobs=len(specs),comparisons=comparisons,personalization_started=False,test2024_read=False)
+    needed=['TF_R3','TIDE_R3','TFT_R3','W0_R3','M1_CB','M2_CBH','M4_WRONG_CB','M4H_WRONG_CBH']
+    if all(len(grouped.get(g,[]))==5 for g in needed):
+        strongest=min(['TF_R3','TIDE_R3','TFT_R3'],key=lambda g:np.mean([x['metrics']['mae'] for x in grouped[g]]));passed=[]
+        for cand,ctrl in [('M1_CB','M4_WRONG_CB'),('M2_CBH','M4H_WRONG_CBH')]:
+            checks=[compare(cand,ref) for ref in ['W0_R3',ctrl,strongest]];comparisons.extend(checks)
+            if all(c['passed'] for c in checks):passed.append(cand)
+        gate.update(stage='PASS_READY_FOR_PERSONALIZATION' if passed else 'FAIL_NO_LARGE_SCALE_PERSONALIZATION',eligible=passed,strongest_same_input_baseline=strongest,selected_candidate=min(passed,key=lambda g:np.mean([x['metrics']['mae'] for x in grouped[g]])) if passed else None)
+    atomic_json(RUN/'analysis/GATES.json',gate)
+    status='# 共享训练阶段结果\n\n'+f'更新时间：{now()}。完成 {len(done)}/{len(specs)} 个任务；未读取2024。\n\n'
+    if rows:
+        status+='|组别|seeds|MAE|RMSE|\n|---|---:|---:|---:|\n'
+        for r in sorted(rows,key=lambda r:r['mae']):status+=f'|{r["group"]}|{r["seeds"]}|{r["mae"]:.6f}|{r["rmse"]:.6f}|\n'
+    status+='\n判定：'+gate['stage']+'。未完成5 seeds的组只展示进度，不作验收结论。\n'
+    (RUN/'analysis/RESULTS_CN.md').write_text(status)
+    return gate
+if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
+```
+
+## SOURCE: project/runs/daily_protocol_restart_20261114_v1/operations/pipeline.py
+
+- project/runs/daily_protocol_restart_20261114_v1/operations/pipeline.py
+
+SHA-256: cea3f9324fb7454263b592daf4715c485e7e066d894b1a9293ceee6866c009c5
+
+```
+"""Resume weather preparation, audit the merged dataset, then deploy fresh training."""
+from pathlib import Path
+import fcntl
+import json
+import os
+import subprocess
+import sys
+import time
+import traceback
+
+RUN=Path(__file__).resolve().parents[1]
+PROJECT=RUN.parents[1]
+sys.path.insert(0,str(RUN/'code'))
+from settings import SOURCE,DATA,atomic_json,now,sha
+
+
+def state(stage,**extra):
+    atomic_json(RUN/'operations/PIPELINE_STATUS.json',dict(timestamp=now(),pid=os.getpid(),stage=stage,**extra))
+    if not (RUN/'LAUNCH_STATUS.json').exists():
+        prior=json.loads((RUN/'STATUS.json').read_text()) if (RUN/'STATUS.json').exists() else {}
+        prior.update(timestamp=now(),state=stage,training_started=False,training_completed=0,**extra)
+        if 'weather' in extra:
+            prior.update(weather_raw_ready=extra['weather'].get('done'),weather_raw_total=extra['weather'].get('total'))
+        prior['weather_data_rebuilt']=(SOURCE/'SUCCESS.json').exists()
+        prior['training_pipeline_migration_complete']=(DATA/'READY.json').exists()
+        atomic_json(RUN/'STATUS.json',prior)
+    print(now(),stage,extra,flush=True)
+
+
+def execute(label,script,*args):
+    state(label)
+    subprocess.run([sys.executable,'-u',str(script),*map(str,args)],cwd=PROJECT,check=True)
+
+
+def weather():
+    config=PROJECT/'configs/operational_pangu_d1_08_lag15h.json'
+    while not (SOURCE/'SUCCESS.json').exists():
+        with (SOURCE/'builder.lock').open('a+') as lock:
+            try:
+                fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+                running=False
+            except BlockingIOError:running=True
+        if not running:
+            execute('building_weather',PROJECT/'scripts/prepare_operational_pangu.py','--config',config,'--workers','8')
+            break
+        p=SOURCE/'STATUS.json'
+        state('waiting_for_weather_builder',weather=json.loads(p.read_text()) if p.exists() else {})
+        time.sleep(30)
+    if not (SOURCE/'INDEPENDENT_AUDIT.json').exists():
+        execute('independent_weather_audit',PROJECT/'scripts/audit_operational_pangu.py','--bundle',SOURCE)
+    execute('activating_daily_dataset',PROJECT/'scripts/prepare_operational_pangu.py','--config',config,'--activate')
+
+
+def freeze():
+    paths=[*RUN.glob('code/**/*.py'),*RUN.glob('operations/*.py'),*RUN.glob('selection_inputs/*')]
+    paths += [RUN/x for x in ['PROTOCOL.json','QC_RULES.json','manifest.json','DATA_FREEZE.json','EXECUTION_PLAN_CN.md','data/READY.json','operations/LOCAL_ADMISSION.json','operations/REMOTE_ADMISSION.json']]
+    files={str(p.relative_to(RUN)):sha(p) for p in paths if p.is_file() and '__pycache__' not in p.parts}
+    atomic_json(RUN/'SCIENCE_FREEZE.json',dict(timestamp=now(),files=files))
+
+
+def run():
+    lock=(RUN/'operations/pipeline.lock').open('a+');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    weather()
+    ready=DATA/'READY.json'
+    if not ready.exists():execute('preparing_fixed_cohort_training_data',RUN/'code/prepare.py')
+    assert json.loads(ready.read_text())['preprocess_fingerprint']==json.loads((SOURCE/'PROTOCOL.json').read_text())['preprocess_fingerprint']
+    execute('generating_fresh_job_manifest',RUN/'code/plan.py')
+    execute('checking_models_and_regional_time_alignment',RUN/'operations/checks.py')
+    freeze()
+    if not (RUN/'lm_archive/AUDIT.json').exists():
+        with (RUN/'operations/prepare_lm.log').open('a') as log:
+            archive=subprocess.Popen([sys.executable,'-u',str(RUN/'code/prepare_lm.py')],stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        atomic_json(RUN/'operations/LM_PID.json',dict(pid=archive.pid))
+    if not (RUN/'LAUNCH_STATUS.json').exists():
+        execute('deploying_two_v100_hosts_and_local_4090',RUN/'operations/launch.py')
+    # Bootstrap verifies every transferred data hash and tests GPU arithmetic before training.
+    state('waiting_for_all_host_bootstrap')
+    from launch import remote,REMOTE
+    while True:
+        statuses={}
+        for host in ['v1006001','v1006002']:
+            code=f"from pathlib import Path;import json,time;p=Path({(REMOTE+'/operations/GPU_FIXTURE.json')!r});q=Path({(REMOTE+'/schedulers/status.json')!r});print(json.dumps(dict(fixture=p.exists(),scheduler=q.exists() and time.time()-q.stat().st_mtime<120)))"
+            statuses[host]=json.loads(remote(host,code))
+        local_status=RUN/'schedulers/status.json'
+        statuses['local4090']=dict(fixture=(RUN/'operations/GPU_FIXTURE.json').exists(),scheduler=local_status.exists() and time.time()-local_status.stat().st_mtime<120)
+        state('bootstrap_progress',hosts=statuses)
+        if all(x['fixture'] and x['scheduler'] for x in statuses.values()):break
+        time.sleep(30)
+    log=(RUN/'operations/supervise.log').open('a')
+    supervisor=subprocess.Popen([sys.executable,'-u',str(RUN/'operations/supervise.py')],stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+    state('training_supervised',supervisor_pid=supervisor.pid,planned=180,old_weights_reused=False)
+    atomic_json(RUN/'MIGRATION_READY.json',dict(timestamp=now(),passed=True,preprocess_fingerprint=json.loads(ready.read_text())['preprocess_fingerprint'],training_hosts=['v1006001','v1006002','local4090']))
+    with (RUN/'operations/followup.log').open('a') as log:
+        child=subprocess.Popen([sys.executable,'-u',str(RUN/'operations/followup.py')],stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+    atomic_json(RUN/'operations/FOLLOWUP_PID.json',dict(pid=child.pid))
+
+
+if __name__=='__main__':
+    try:run()
+    except Exception:
+        state('failed',error=traceback.format_exc())
+        raise
+```
+
+## SOURCE: project/runs/daily_ablation_restart_20261114_v1/PROTOCOL.json
+
+- project/runs/daily_ablation_restart_20261114_v1/PROTOCOL.json
+
+SHA-256: 83b8863440b45521f1433b2588aca39b5ebbe484de5e9aa58947c6807633f642
+
+```
+{
+  "timestamp": "2026-11-14T21:28:09.446068+08:00",
+  "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "weather_protocol": "daily_08_BJT_latency15h",
+  "regional_delay_minutes": 0,
+  "train_year": 2022,
+  "selection_year": 2023,
+  "test2024_read": false,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "farms": 55,
+  "budget": {
+    "tune": 16,
+    "shared_local": 5,
+    "weather_encoder": 60,
+    "input_ablation": 80,
+    "history_weather": 30,
+    "independent": 1100
+  },
+  "total_jobs": 1291,
+  "old_protocol_weights_or_metrics_reused": false,
+  "initialization": "fresh for every job; no pretrained weights",
+  "independent": "Each optimizer sees only its target farm labels; regional input is the matched factor, using all observed farms through origin. Same train-fitted feature scaling as shared arms; not an unseen-farm transfer experiment.",
+  "factorial": "H0 repeats current local power across history and recomputes STATE; current-power anchor is retained. W0 replaces weather with training mean, zeroes ALL normalized weather-derived SEL fields; time, site and regional observed power remain. H1W1 is the new shared R3 baseline. Measures local-history x weather given current power and regional observations.",
+  "encoders": "E0 raw14 affine; E1 raw14+DEM affine; E2L raw14 deep affine; E2N raw14 deep GELU; E2 raw14+DEM GELU; E2C column15 GELU; E3 column groups (quarter,3/8,3/8 width). Neutral and CBH contexts both rerun; E2C controls are the newly trained shared W0_R3 and M2_CBH.",
+  "tuning": "W0_BASE:8configs x2seeds, same budget as existing families. Other ablations use their own family/input selected config to hold backbone budget fixed. Independent arms reuse same selected config and max80/patience10; same per-farm sample exposure, optimizer update count differs from shared.",
+  "dependencies": [
+    "verified daily data",
+    "per-family selected config when available",
+    "per-seed OOF reference when required"
+  ],
+  "dispatch": "concurrent with shared training and personalization on disjoint GPU pools; per-job dependencies unchanged"
+}
+```
+
+## SOURCE: project/runs/daily_ablation_restart_20261114_v1/SCIENCE_FREEZE.json
+
+- project/runs/daily_ablation_restart_20261114_v1/SCIENCE_FREEZE.json
+
+SHA-256: 8d1a3199876e9b87f16d5fc74f2f9103cfe0b00214e0213ff2a6d0d77e92d258
+
+```
+{
+  "timestamp": "2026-11-14T22:29:46.589641+08:00",
+  "files": {
+    "code/data.py": "c352c1233329d4cc0c258662c503cd59c83c068f7acbaf812cc45482443c2aaa",
+    "code/operational.py": "2b98d93a241a58c771a06f1575a729af06935e520d6ed504ee57f5e99d6a53f7",
+    "code/physics.py": "ef439fd7911e1c0bdabd19020bc31f4aadd71295d470db5459888fbcdd923161",
+    "code/train.py": "9a4c58e4dbf1af74fc7645894817a393e8cac4b43c040972b848d9afcc0afa0b",
+    "code/model.py": "03bf4e6d998ac6344fea305d4ef347f2c97682bb08241810256868998e9b78b9",
+    "code/plan.py": "184c522448641f8b2bfb0161d0622b21180d9c3d84c82bf00558cafb3f5c4ccb",
+    "code/settings.py": "eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160",
+    "code/legacy/column_original.py": "60be06d445f8e6ea5374605cc08b595c43184ea01957db98533372f3826582d6",
+    "code/legacy/reference_original.py": "3ac3609d1f0b412868792b3601adbc7a500b38971338825b1cb1222c5c296355",
+    "code/legacy/models.py": "726958ee1c9712a2a15d09e6485f0f8535fb512d8fee9b77f9b5fba0be56d195",
+    "code/legacy/common.py": "15620d16df2244350d58bafdea0fde899cb593d0d5e36e4e13ce4b4edeeee164",
+    "code/legacy/baselines_original.py": "fd0f007dd1963081ac11c59450fb1ba4f8b40abe09717dfc17ee76f1a23fd787",
+    "code/legacy/vendor/wind_forcing/config.py": "39ad026290fd9af6b458819af55cea52df4b73e7e520a6944ec2fb22a1366df6",
+    "code/legacy/vendor/wind_forcing/__init__.py": "f5cabe1d8ee96b466addf205691f2c7f954cded500737db697fdbff598ba55ce",
+    "code/legacy/vendor/wind_forcing/training.py": "62e8eb9514e5681bfdfcb80faab8254fbd5f8d8f3629fe6e102e412da27f6d20",
+    "code/legacy/vendor/wind_forcing/aggregate_training.py": "c147c52e7f14045058b3d7e11787342421b38016da47ff0a4b6296c4a3457f6a",
+    "code/legacy/vendor/wind_forcing/experiment_guard.py": "61adf9f35a445ee962fff7df3b5bdacd9ec5a904b2466ba07f445458b9e0e055",
+    "code/legacy/vendor/wind_forcing/models/baselines.py": "d337b443796a6e5961808f4d9e2e0ffcb02019fd4dc5126369aab6a9e70ba9d8",
+    "code/legacy/vendor/wind_forcing/models/local_to_global.py": "2443db37c2e9ae82bd0434eb3a29476793a4eb3798b525b86b12fdd3fec58fc7",
+    "code/legacy/vendor/wind_forcing/models/__init__.py": "9ab6ca15b7ba7fbc03319bf9b8e32df6a5a77d688648661ce340a205eb40c8ef",
+    "code/legacy/vendor/wind_forcing/models/aggregate_cluster.py": "1a5a0dfc36cee7211cced4b06cb508d79e8d7afabb0e0569a2423fd0822f0583",
+    "code/legacy/vendor/wind_forcing/models/incremental_correction.py": "144193dc4c89ca0dbfdeba9f316654b362f4c967f7f35d5ba3e1015cd2918ea2",
+    "code/legacy/vendor/wind_forcing/models/components.py": "e52d25e71bd707eea23afe92801d38fc3939fe1963d9b4d60cd2d546cee0fade",
+    "code/legacy/vendor/wind_forcing/models/p0i_legacy.py": "1ddb1098f0b309777b6a9da7c6d29508743e0e24080dda2208ef3116dde42e4b",
+    "code/legacy/vendor/wind_forcing/models/controlled_transition.py": "1ba4fa61b1b02f57b5cfb716bdfe97c1ad6adcf34748c5d5730ca35b99341adb",
+    "code/legacy/vendor/wind_forcing/models/forced_evolution.py": "e80286be4d2994169feec37652a3f4555787d67153b05f0bbadd1f51a4e9e2a4",
+    "code/legacy/vendor/wind_forcing/models/p0i_transfer.py": "8179cfd44f71c13cbf2393facd05e326d2f9dc0827ae26c7a7e8ce31342376ce",
+    "code/legacy/vendor/wind_forcing/models/local_state_identifiability.py": "46b4c4125de5276499cc44ac044bfcf8186deac1683c40fb3060ef1ec5679891",
+    "code/legacy/vendor/wind_forcing/data/__init__.py": "b35f5e72509120532583182cf51d58c73240e8a143153fe058f83505e953ed11",
+    "code/legacy/vendor/wind_forcing/data/dataset.py": "b9e24840f8e54d1fe915e2cb4b6ae3ab152cac402f9248cdcc0658dadb6a06c5",
+    "code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py": "e368ef92e3f4f9f15e7feaf230575a4b8585110f14288ef2941b070f228c3841",
+    "code/legacy/vendor/wind_forcing/data/aggregate_response.py": "2919332c5d17522d947fb4645f5e4952ba5b64e0d16cd538e565526c778993bc",
+    "code/legacy/vendor/wind_forcing/data/preprocess.py": "724e1825a58a940511ad7c620a26300ea4821d267110d49cdd0073e70b4b197f",
+    "code/legacy/vendor/wind_forcing/data/aggregate.py": "abb551d55486b2af7eb1669aff9a636b3d8d4953e619de5c3852aeebdde6d37b",
+    "operations/gpu_policy.py": "0888f1a0e9c1b6d0e4dae20d9bd568d92f5df5ff661471f072060c3cc13dc742",
+    "operations/coordinator.py": "e03806586e87df55b82b7c685fe84921f66d9f979669af93ae6798a70b0d1073",
+    "operations/deploy.py": "e74948a9e84cfb4f544884bf197efb79be109b652f5ae01556157936f414f8e2",
+    "operations/resource_limits.py": "9d5fc2804d569af4e032d097d712fbecf2afb765c468f5d547ab326aa966c49c",
+    "operations/checks.py": "6d5c8e4dd270388fda0bb74c375c141adc6eb41becb4a9aeab5c70bd5835956a",
+    "operations/scheduler.py": "7519b0d65eed711aeb19e921d5e0e69062c5922b49b6c4ccf9bdb675551bf7b5",
+    "operations/supervise.py": "b8894f6373cf2d96ddcbb3b17d3ab1d05df831145f5e506e6c89c124970afbf3",
+    "operations/efficiency_v3.py": "8ddca8eb4543bbb373ba8a415f2262df22b7408b889d73c8ef34a0040d8ecca6",
+    "operations/collect.py": "fe451dd2fee0d66c76ef128eddbca81f9a9299d516373fafcbf441c9ecc27fa6",
+    "operations/watch.py": "c7249677cc93b31aa745f019f20c37d5d093f41e72bb29817bf5fd897fdfaec1",
+    "operations/probe.py": "0998d6b3775c3e189bef08cd85a92b9177dbb097194d834e9ac86f939904211e",
+    "operations/storage_guard.py": "3944166ac1cbfcc603b638dc93e37b51fec7e9272c03c360666be9c43d283589",
+    "assets/QC_AUDIT.json": "8f471367d8f5099cb2a4e64fc058aa7d9e78ba94de2967ae290d671cef7d9e93",
+    "assets/fold1.npz": "a5b1d90f4f6d80038d072a257495660ed06c2d3df7549bb5e2bb35975903762d",
+    "assets/station_longitude.npy": "ca921558b48e23dcbf44c45f66c407eaf132f16fe90ac14a8ec6769147b7169b",
+    "assets/nwp_channel_name.npy": "0f8cd77e1cffe584b596cec9c85714f822840caca11d437bddd3f7f2fa96a61e",
+    "assets/station_latitude.npy": "33e7e6a35536c7e3bfbd592c834554f0fda2bb5ac23c866772f46eed0e333712",
+    "assets/oof_fold.npy": "340f965347e87fb5d17163e4d02f726e2b0c6ebdd2800575501795da124b6402",
+    "assets/fold3.npz": "4e294213319cf4b43fea47b6831baf70663b7e5ec49549b03254083a16aab12f",
+    "assets/topology.npz": "0ff5b5577957398e9bd8a29f5a4b31567983d82dc2025d82c16f0743e2e51ed8",
+    "assets/station_capacity_mw.npy": "4faa15f20935a43f0fc42705d9c9d35852f355ee9e7a7d009c25c7607e9cd8ac",
+    "assets/nwp_std.npy": "20904eb98fea30e53d71cbf46e4e4af2da8659bdc55314b0e44f1d62efe895e2",
+    "assets/site_static.npy": "2dbb492b76567d46aa0e00dab9d1ec59e622cc2f0b48383bef4facd13186f1d6",
+    "assets/fold0.npz": "842640d743ba4ebe156bf7ad11175a82d494d691def49c2a65cb703f89f40a1d",
+    "assets/nwp_mean.npy": "be00ec792949885d5c698db9a2735e9cb98a49b276fb4212dedaae6771e34d88",
+    "assets/elevation.npy": "1883f4f36461fee7e0e925a2a5bcd96f0273967d135bc99e4e2d20751239f3fd",
+    "assets/qc_by_farm.csv": "833dc169f91287eb4ed38a2bfe011ddae465743afcd2716cb8e3516014c46714",
+    "assets/fold2.npz": "6418b8b643a866955268aed298eda76d86db25a43c472e2bec61906b49dd8b9f",
+    "assets/station_id.npy": "9a879598e74387ec09990c0330bb7796dfb637d2d76fedf35c8c8124e0925490",
+    "assets/station_name.npy": "a1de9c063b2adb6eba5ceb51652d8cd6ff8cc04b35612dfe03e4a1dae42fb243",
+    "assets/COHORT.json": "1b321483d3d6102d719489e797cb7f512545fcfa991f2742af426c3f468957b9",
+    "assets/normalization.json": "d3e5afeb94d0182ec05847c00906b5751b0eb7ab2084e07642964e7c0231bfb3",
+    "PROTOCOL.json": "83b8863440b45521f1433b2588aca39b5ebbe484de5e9aa58947c6807633f642",
+    "manifest.json": "c16614e16b448cb7433d88cb1a41f8b694744588b870b6c8fa2610a7f1113b56",
+    "DATA_FREEZE.json": "21901407d7ff7cc4a32e3e4101743c0f6a642a2370884cdd1160494e004305ce",
+    "EXECUTION_PLAN_CN.md": "1cb072942fcc899a691094c2a8f3fb99424dc067a5792514c2a59c2ae63ab2b2",
+    "operations/LOCAL_ADMISSION.json": "83847b0eaa855ffdb4a9de195c1ca346f74097850bae9ff77d3c19aefcd56efd",
+    "operations/REMOTE_ADMISSION.json": "f456e914b22e36f12cc92abf1b79513e0a7f014ad6891c9025579a1f5eb4485c",
+    "operations/RESOURCE_POOLS.json": "6377243a4bac4f2a1fbaa714e00ba4e35a0c73ceb865203c935019d00997937f"
+  },
+  "resource_recovery_20261115": {
+    "timestamp": "2026-11-15T01:37:51.344243+08:00",
+    "science_unchanged": true,
+    "reason": "migrate paused checkpoints off unavailable6002; lend idle6001 GPUs to ablations"
+  }
+}
+```
+
+## SOURCE: project/runs/daily_ablation_restart_20261114_v1/assets/selected/W0_BASE.json
+
+- project/runs/daily_ablation_restart_20261114_v1/assets/selected/W0_BASE.json
+
+SHA-256: a2f7004a1311dd2bf95f594b0e59896a5b601897a2417b7209338f7330b06c32
+
+```
+{
+  "timestamp": "2026-11-15T02:41:54.357120+08:00",
+  "group": "W0_BASE",
+  "config": {
+    "width": 128,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_index": 5,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08876498977610378,
+      "jobs": [
+        "TUNE_W0_BASE_c0_r40",
+        "TUNE_W0_BASE_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08874240575803881,
+      "jobs": [
+        "TUNE_W0_BASE_c1_r40",
+        "TUNE_W0_BASE_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08975897076398828,
+      "jobs": [
+        "TUNE_W0_BASE_c2_r40",
+        "TUNE_W0_BASE_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09019568809823927,
+      "jobs": [
+        "TUNE_W0_BASE_c3_r40",
+        "TUNE_W0_BASE_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08870278985909329,
+      "jobs": [
+        "TUNE_W0_BASE_c4_r40",
+        "TUNE_W0_BASE_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08855218501435413,
+      "jobs": [
+        "TUNE_W0_BASE_c5_r40",
+        "TUNE_W0_BASE_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09163636606942999,
+      "jobs": [
+        "TUNE_W0_BASE_c6_r40",
+        "TUNE_W0_BASE_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0921594187003491,
+      "jobs": [
+        "TUNE_W0_BASE_c7_r40",
+        "TUNE_W0_BASE_c7_r41"
+      ]
+    }
+  ],
+  "selected_by": "2023 macroMAE averaged seeds40,41"
+}
+```
+
+## SOURCE: project/runs/daily_ablation_restart_20261114_v1/operations/collect.py
+
+- project/runs/daily_ablation_restart_20261114_v1/operations/collect.py
+
+SHA-256: fe451dd2fee0d66c76ef128eddbca81f9a9299d516373fafcbf441c9ecc27fa6
+
+```
+"""Complete matched tables; no historic metrics, partial groups never pass."""
+from pathlib import Path
+import sys,json,csv
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+from settings import *
+import numpy as np
+
+def collect():
+    # A source config is published only after all of its tune seeds finish.
+    source=PROJECT/'runs/daily_protocol_restart_20261114_v1'
+    for selected in (source/'assets/selected').glob('*.json'):
+        dest=ASSETS/'selected'/selected.name
+        if dest.exists():assert sha(dest)==sha(selected), 'Source selection changed'
+        else:
+            import shutil
+            dest.parent.mkdir(parents=True,exist_ok=True);tmp=dest.with_suffix('.copy.tmp');shutil.copy2(selected,tmp);os.replace(tmp,dest)
+
+    specs=json.loads((RUN/'manifest.json').read_text());done={}
+    for s in specs:
+        out=JOBS/s['id']
+        if not (out/'SUCCESS.json').exists():continue
+        d=json.loads((out/'metrics.json').read_text());assert d['requested_spec']==s and not d['smoke_only'];done[s['id']]=d
+    tune=[s for s in specs if s['stage']=='tune'];selected=ASSETS/'selected/W0_BASE.json'
+    if not selected.exists() and all(s['id'] in done for s in tune):
+        table=[]
+        for ci in range(8):
+            pair=[s for s in tune if f'_c{ci}_' in s['id']];assert len(pair)==2
+            table.append(dict(index=ci,config=pair[0]['config'],mae=float(np.mean([done[s['id']]['metrics']['mae'] for s in pair])),jobs=[s['id'] for s in pair]))
+        best=min(table,key=lambda x:(x['mae'],x['index']));atomic_json(selected,dict(timestamp=now(),group='W0_BASE',config=best['config'],selected_index=best['index'],table=table,selected_by='2023 macroMAE averaged seeds40,41'))
+    nf=json.loads((ASSETS/'COHORT.json').read_text())['count'];cohort=json.loads((ASSETS/'COHORT.json').read_text());records=[]
+    shared=PROJECT/'runs/daily_protocol_restart_20261114_v1'
+    source_specs=json.loads((shared/'manifest.json').read_text())
+    for s in source_specs:
+        q=shared/'jobs'/s['id']
+        if s['stage'] not in ['baseline','mechanism','regional_memory'] or not (q/'SUCCESS.json').exists():continue
+        d=json.loads((q/'metrics.json').read_text());assert d['requested_spec']==s and s['preprocess_fingerprint']==specs[0]['preprocess_fingerprint'];records.append(d)
+    records.extend(d for d in done.values() if d['spec']['stage']!='tune')
+    groups={};rows=[]
+    for d in records:
+        s=d['spec'];m=d['metrics'];g=groups.setdefault(s['group'],{})
+        sites=[s['station']] if 'station' in s else range(nf)
+        for i,station in enumerate(sites):
+            key=(s['seed'],station);assert key not in g
+            row=dict(group=s['group'],seed=s['seed'],station=station,station_id=cohort['station_ids'][station],mae=m['per_farm_mae'][i],rmse=m['per_farm_rmse'][i],high_power_rmse=m['high_power_per_farm_rmse'][i],high_power_count=m['high_power_counts'][i]);g[key]=row;rows.append(row)
+    complete={g:len(v)==nf*len(SEEDS) for g,v in groups.items()};summary=[];per_farm=[]
+    for g,rs in groups.items():
+        v=list(rs.values());summary.append(dict(group=g,cells=len(v),expected=nf*len(SEEDS),complete=complete[g],mae=float(np.mean([r['mae'] for r in v])),rmse=float(np.mean([r['rmse'] for r in v]))))
+        for station in range(nf):
+            vv=[x for x in v if x['station']==station]
+            if vv:per_farm.append(dict(group=g,station_id=cohort['station_ids'][station],name=cohort['names'][station],seeds=len(vv),mae=float(np.mean([x['mae'] for x in vv])),rmse=float(np.mean([x['rmse'] for x in vv]))))
+    comparisons=[]
+    def compare(a,b):
+        if not complete.get(a) or not complete.get(b):return
+        keys=sorted(groups[a]);assert keys==sorted(groups[b]);res=dict(candidate=a,reference=b)
+        for metric in ['mae','rmse']:
+            x=np.array([groups[a][k][metric] for k in keys]).reshape(5,nf);y=np.array([groups[b][k][metric] for k in keys]).reshape(5,nf)
+            res[metric]=dict(change_percent=float(100*(x.mean()/y.mean()-1)),farms_improved=int((x.mean(0)<y.mean(0)).sum()),per_seed_change_percent=(100*(x.mean(1)/y.mean(1)-1)).tolist())
+        comparisons.append(res)
+    for g in groups:
+        if g.startswith(('INPUT_','FACTOR_')):compare(g,('_'.join(g.split('_')[1:2]))+'_R3')
+        if g.startswith('ENC_'):compare(g,'W0_R3' if '_neutral_' in g else 'M2_CBH')
+        if g.startswith('INDEPENDENT_'):
+            base=g.removeprefix('INDEPENDENT_');compare(g,'SHARED_W0_BASE' if base=='W0_BASE' else base)
+    for cond in ['neutral','cbh']:
+        for a,b in [('E2N','E2L'),('E2N','E0'),('E2','E2N'),('E1','E0')]:compare(f'ENC_{cond}_{a}',f'ENC_{cond}_{b}')
+    for inp in ['BASE','R3']:compare(f'INDEPENDENT_W0_{inp}',f'INDEPENDENT_TF_{inp}')
+    compare('SHARED_W0_BASE','TF_BASE');compare('W0_R3','SHARED_W0_BASE')
+    interaction=[]
+    for f in ['W0','TF']:
+        gs=[f+'_R3',f'FACTOR_{f}_H0W1',f'FACTOR_{f}_H1W0',f'FACTOR_{f}_H0W0']
+        if all(complete.get(g) for g in gs):
+            for metric in ['mae','rmse']:
+                keys=sorted(groups[gs[0]]);a,b,c,d=[np.array([groups[g][k][metric] for k in keys]).reshape(5,nf) for g in gs]
+                v=(c-a)-(d-b);interaction.append(dict(family=f,metric=metric,weather_gain_with_real_history=float((c-a).mean()),weather_gain_with_constant_history=float((d-b).mean()),interaction=float(v.mean()),positive_farms=int((v.mean(0)>0).sum()),per_seed=v.mean(1).tolist()))
+    for name,values in [('all_seed_metrics.csv',rows),('summary.csv',summary),('per_farm_metrics.csv',per_farm)]:
+        if values:
+            with (RUN/'analysis'/name).open('w') as out:w=csv.DictWriter(out,fieldnames=list(values[0]));w.writeheader();w.writerows(values)
+    result=dict(timestamp=now(),stage='COMPLETE_REVIEW_ABLATIONS' if len(done)==len(specs) else 'pending',completed=len(done),planned=len(specs),groups=summary,comparisons=comparisons,history_weather_interaction=interaction,test2024_read=False)
+    atomic_json(RUN/'analysis/GATES.json',result)
+    text='# 新协议消融与独立训练\n\n'+f'完成 {len(done)}/{len(specs)}。仅完整 55 站 × 5 seeds 的组进行比较；旧协议成绩未导入。\n\n|组别|完成单元|MAE|RMSE|\n|---|---:|---:|---:|\n'
+    for s in summary:text+=f'|{s["group"]}|{s["cells"]}/{s["expected"]}|{s["mae"]:.6f}|{s["rmse"]:.6f}|\n'
+    (RUN/'analysis/RESULTS_CN.md').write_text(text)
+    return result
+if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
+```
+
+## SOURCE: project/runs/daily_site_finetune_20261114_v1/PROTOCOL.json
+
+- project/runs/daily_site_finetune_20261114_v1/PROTOCOL.json
+
+SHA-256: 097aef083a1178aec9fa58f3efed3b070b043d2ce1b70507c3bac34c6adc840a
+
+```
+{
+  "timestamp": "2026-11-15T02:57:46.416006+08:00",
+  "weather_protocol": "daily_08_BJT_latency15h",
+  "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "source_run": "daily_protocol_restart_20261114_v1",
+  "regional_delay_minutes": 0,
+  "farms": 55,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "train_year": 2022,
+  "selection_year": 2023,
+  "epochs": 30,
+  "patience": 6,
+  "finetune_lr": 2e-05,
+  "uniform_epochs": [
+    1,
+    6
+  ],
+  "validation_selection": "per-station2023MAE including epoch0; separately report fixedE1 andE6",
+  "test2024_read": false,
+  "new_farm_transfer_claim": false,
+  "previous_protocol_results_reused": false,
+  "jobs": 1100
+}
+```
+
+## SOURCE: project/runs/daily_site_finetune_20261114_v1/SCIENCE_FREEZE.json
+
+- project/runs/daily_site_finetune_20261114_v1/SCIENCE_FREEZE.json
+
+SHA-256: bad533cc96039f760df5932444836c67a1a8ded6e48dc30754523be034c8efb2
+
+```
+{
+  "timestamp": "2026-11-15T02:59:20.666299+08:00",
+  "files": {
+    "code/data.py": "51a03cef6cd10237f6ba5fd882ad55e44378f687a470a783cef3e66410aedbdb",
+    "code/operational.py": "2b98d93a241a58c771a06f1575a729af06935e520d6ed504ee57f5e99d6a53f7",
+    "code/prepare_daily.py": "29799b9db94e50c858a07853a7b13e8b557e24472c6aebec76b44fd26154c1f0",
+    "code/physics.py": "ef439fd7911e1c0bdabd19020bc31f4aadd71295d470db5459888fbcdd923161",
+    "code/train.py": "392a5e2730493371ec424bccb435e1a06c2981d8a75d7c092a24c69780544ece",
+    "code/z1.py": "0999931c8158014d3ceaa9a9d0219198ffbd2c70bdb330b2f49b6472be69d872",
+    "code/model.py": "a75f5326bf52e832715766fa9179d4bec10705eb3bddc8e2221b99312bdc55ab",
+    "code/settings.py": "eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160",
+    "code/site_data.py": "2c34b116b6c7b3249c05cf23437438a81e004255fee557903b08696aff5438e1",
+    "code/train_shared.py": "9a4c58e4dbf1af74fc7645894817a393e8cac4b43c040972b848d9afcc0afa0b",
+    "code/legacy/column_original.py": "60be06d445f8e6ea5374605cc08b595c43184ea01957db98533372f3826582d6",
+    "code/legacy/reference_original.py": "3ac3609d1f0b412868792b3601adbc7a500b38971338825b1cb1222c5c296355",
+    "code/legacy/models.py": "726958ee1c9712a2a15d09e6485f0f8535fb512d8fee9b77f9b5fba0be56d195",
+    "code/legacy/common.py": "15620d16df2244350d58bafdea0fde899cb593d0d5e36e4e13ce4b4edeeee164",
+    "code/legacy/baselines_original.py": "fd0f007dd1963081ac11c59450fb1ba4f8b40abe09717dfc17ee76f1a23fd787",
+    "code/legacy/vendor/wind_forcing/config.py": "39ad026290fd9af6b458819af55cea52df4b73e7e520a6944ec2fb22a1366df6",
+    "code/legacy/vendor/wind_forcing/__init__.py": "f5cabe1d8ee96b466addf205691f2c7f954cded500737db697fdbff598ba55ce",
+    "code/legacy/vendor/wind_forcing/training.py": "62e8eb9514e5681bfdfcb80faab8254fbd5f8d8f3629fe6e102e412da27f6d20",
+    "code/legacy/vendor/wind_forcing/aggregate_training.py": "c147c52e7f14045058b3d7e11787342421b38016da47ff0a4b6296c4a3457f6a",
+    "code/legacy/vendor/wind_forcing/experiment_guard.py": "61adf9f35a445ee962fff7df3b5bdacd9ec5a904b2466ba07f445458b9e0e055",
+    "code/legacy/vendor/wind_forcing/models/baselines.py": "d337b443796a6e5961808f4d9e2e0ffcb02019fd4dc5126369aab6a9e70ba9d8",
+    "code/legacy/vendor/wind_forcing/models/local_to_global.py": "2443db37c2e9ae82bd0434eb3a29476793a4eb3798b525b86b12fdd3fec58fc7",
+    "code/legacy/vendor/wind_forcing/models/__init__.py": "9ab6ca15b7ba7fbc03319bf9b8e32df6a5a77d688648661ce340a205eb40c8ef",
+    "code/legacy/vendor/wind_forcing/models/aggregate_cluster.py": "1a5a0dfc36cee7211cced4b06cb508d79e8d7afabb0e0569a2423fd0822f0583",
+    "code/legacy/vendor/wind_forcing/models/incremental_correction.py": "144193dc4c89ca0dbfdeba9f316654b362f4c967f7f35d5ba3e1015cd2918ea2",
+    "code/legacy/vendor/wind_forcing/models/components.py": "e52d25e71bd707eea23afe92801d38fc3939fe1963d9b4d60cd2d546cee0fade",
+    "code/legacy/vendor/wind_forcing/models/p0i_legacy.py": "1ddb1098f0b309777b6a9da7c6d29508743e0e24080dda2208ef3116dde42e4b",
+    "code/legacy/vendor/wind_forcing/models/controlled_transition.py": "1ba4fa61b1b02f57b5cfb716bdfe97c1ad6adcf34748c5d5730ca35b99341adb",
+    "code/legacy/vendor/wind_forcing/models/forced_evolution.py": "e80286be4d2994169feec37652a3f4555787d67153b05f0bbadd1f51a4e9e2a4",
+    "code/legacy/vendor/wind_forcing/models/p0i_transfer.py": "8179cfd44f71c13cbf2393facd05e326d2f9dc0827ae26c7a7e8ce31342376ce",
+    "code/legacy/vendor/wind_forcing/models/local_state_identifiability.py": "46b4c4125de5276499cc44ac044bfcf8186deac1683c40fb3060ef1ec5679891",
+    "code/legacy/vendor/wind_forcing/data/__init__.py": "b35f5e72509120532583182cf51d58c73240e8a143153fe058f83505e953ed11",
+    "code/legacy/vendor/wind_forcing/data/dataset.py": "b9e24840f8e54d1fe915e2cb4b6ae3ab152cac402f9248cdcc0658dadb6a06c5",
+    "code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py": "e368ef92e3f4f9f15e7feaf230575a4b8585110f14288ef2941b070f228c3841",
+    "code/legacy/vendor/wind_forcing/data/aggregate_response.py": "2919332c5d17522d947fb4645f5e4952ba5b64e0d16cd538e565526c778993bc",
+    "code/legacy/vendor/wind_forcing/data/preprocess.py": "724e1825a58a940511ad7c620a26300ea4821d267110d49cdd0073e70b4b197f",
+    "code/legacy/vendor/wind_forcing/data/aggregate.py": "abb551d55486b2af7eb1669aff9a636b3d8d4953e619de5c3852aeebdde6d37b",
+    "operations/gpu_policy.py": "0888f1a0e9c1b6d0e4dae20d9bd568d92f5df5ff661471f072060c3cc13dc742",
+    "operations/coordinator.py": "1241b5a48ec80f1930b7fd11e9a6e8ed1e92c23d4b48b767b7dc4d1215ce6432",
+    "operations/deploy.py": "28cba6ab3864a18249eb79e6b644c5c4566f5ee2891deac01b94cfebbb400dd7",
+    "operations/resource_limits.py": "9d5fc2804d569af4e032d097d712fbecf2afb765c468f5d547ab326aa966c49c",
+    "operations/checks.py": "7d8b1738717798192fd00562901c618eb4d60bc736a94c2b0e5a8a18ead6f404",
+    "operations/scheduler.py": "b10ff93e76e180c04e9c8d762a22a2b6426498fd97416b1afbe141a8889184f4",
+    "operations/supervise.py": "a85dc471e47138ff3fba5f0b22c34374dbf15aa8e930d6040e8551aff1b59f20",
+    "operations/efficiency_v3.py": "8ddca8eb4543bbb373ba8a415f2262df22b7408b889d73c8ef34a0040d8ecca6",
+    "operations/collect.py": "770ded7dcd1210971df82d0f2eb2446d81843f5cc1351a9f4fd6a7a3728137d5",
+    "operations/probe.py": "0998d6b3775c3e189bef08cd85a92b9177dbb097194d834e9ac86f939904211e",
+    "operations/storage_guard.py": "41fefb82ba8d6bcf45df8baa926e7d1b344bc1c7c70616a5dbc5ac7c080b09c8",
+    "assets/QC_AUDIT.json": "8f471367d8f5099cb2a4e64fc058aa7d9e78ba94de2967ae290d671cef7d9e93",
+    "assets/fold1.npz": "a5b1d90f4f6d80038d072a257495660ed06c2d3df7549bb5e2bb35975903762d",
+    "assets/station_longitude.npy": "ca921558b48e23dcbf44c45f66c407eaf132f16fe90ac14a8ec6769147b7169b",
+    "assets/nwp_channel_name.npy": "0f8cd77e1cffe584b596cec9c85714f822840caca11d437bddd3f7f2fa96a61e",
+    "assets/station_latitude.npy": "33e7e6a35536c7e3bfbd592c834554f0fda2bb5ac23c866772f46eed0e333712",
+    "assets/oof_fold.npy": "340f965347e87fb5d17163e4d02f726e2b0c6ebdd2800575501795da124b6402",
+    "assets/fold3.npz": "4e294213319cf4b43fea47b6831baf70663b7e5ec49549b03254083a16aab12f",
+    "assets/topology.npz": "0ff5b5577957398e9bd8a29f5a4b31567983d82dc2025d82c16f0743e2e51ed8",
+    "assets/station_capacity_mw.npy": "4faa15f20935a43f0fc42705d9c9d35852f355ee9e7a7d009c25c7607e9cd8ac",
+    "assets/nwp_std.npy": "20904eb98fea30e53d71cbf46e4e4af2da8659bdc55314b0e44f1d62efe895e2",
+    "assets/site_static.npy": "2dbb492b76567d46aa0e00dab9d1ec59e622cc2f0b48383bef4facd13186f1d6",
+    "assets/fold0.npz": "842640d743ba4ebe156bf7ad11175a82d494d691def49c2a65cb703f89f40a1d",
+    "assets/nwp_mean.npy": "be00ec792949885d5c698db9a2735e9cb98a49b276fb4212dedaae6771e34d88",
+    "assets/elevation.npy": "1883f4f36461fee7e0e925a2a5bcd96f0273967d135bc99e4e2d20751239f3fd",
+    "assets/qc_by_farm.csv": "833dc169f91287eb4ed38a2bfe011ddae465743afcd2716cb8e3516014c46714",
+    "assets/fold2.npz": "6418b8b643a866955268aed298eda76d86db25a43c472e2bec61906b49dd8b9f",
+    "assets/station_id.npy": "9a879598e74387ec09990c0330bb7796dfb637d2d76fedf35c8c8124e0925490",
+    "assets/station_name.npy": "a1de9c063b2adb6eba5ceb51652d8cd6ff8cc04b35612dfe03e4a1dae42fb243",
+    "assets/COHORT.json": "1b321483d3d6102d719489e797cb7f512545fcfa991f2742af426c3f468957b9",
+    "assets/normalization.json": "d3e5afeb94d0182ec05847c00906b5751b0eb7ab2084e07642964e7c0231bfb3",
+    "assets/selected/W0_R3.json": "76a036f7852198c398effe6bcb21158443faa27e16fa5e112c6800409524d5e7",
+    "assets/selected/TF_BASE.json": "2d36ccee2770ea4de75afba84775549a0714398bb8e3bb3b600f1098dba26cef",
+    "assets/selected/TIDE_R3.json": "08253d438db9937424c6ce11da620ec0fcd4b9f84522c218d2e3edfa92fadc0e",
+    "assets/selected/TF_R3.json": "6f53a1943fc428270732028543f96fa01fd08c7b1e4cf5c25a833ad68a2f42b4",
+    "assets/selected/TFT_R3.json": "3ad64d2bbdbee5b849a613c86253de368a04400d0666330f81b063b48a12bd06",
+    "pretrained/TF_r45.metrics.json": "918eb1215e1f398aea95c8ff161522989bc1d125321a7d05ff96862795da3b13",
+    "pretrained/TF_r42.metrics.json": "0f7bb7d624f2357394e4e0e8811b94a1d764ae24160d00d80fc5f0a7abbc779d",
+    "pretrained/TF_r43.metrics.json": "f9229701e0e2846a05765ca2afa7a1df9bb12ce6b07fe16ee1bb14d25e150199",
+    "pretrained/TF_r45.pt": "9ca656c3dddbe24f3b9f824c61eb99d54f0dfbd1b65df7cd69d187c12f501c28",
+    "pretrained/TF_r42.pt": "9171dbeb502c61d23873102fb0eafe269ac61673fb6a4047072066017c23c567",
+    "pretrained/W0_r46.pt": "b8cf4ce249175cea5b2c67c874f3f7f98db443ef0a7b6e9ede35e9579c9c6c08",
+    "pretrained/W0_r44.metrics.json": "f1320df1ef8265f742e61ad9aa0467e02303ccdb18815172f5316ce1f3464e0d",
+    "pretrained/W0_r46.metrics.json": "92aaf337280a5f887c1290a1fc4b20620db5a65a9555e3bfe747987e8caa17f8",
+    "pretrained/W0_r42.pt": "e06a68df4683c3dae1781fa9c2f54df201bee4ac5a5aa7dc95fcb2102ace9c4e",
+    "pretrained/W0_r43.pt": "26d070f865ea96893c361b0c9718c3e8e7646da000de8fd1901ae98732ee805c",
+    "pretrained/W0_r45.pt": "50ebb3d73c84a484d5ddb56559428225a77262ee4c40959208b873975f01c692",
+    "pretrained/TF_r44.metrics.json": "d82632b6f27669f285d3a716d3bac664f5a3a4395ac2eee26788eb0a64fa3281",
+    "pretrained/W0_r45.metrics.json": "60d4027464b6c139df9449c0bd9cc747f0626ba2caa9b3fcf21817e8c0e97d94",
+    "pretrained/TF_r46.metrics.json": "98982d1908eb3f2f7a71d2ca79153fd91ff5403b5236a11673038356b41e33a8",
+    "pretrained/TF_r43.pt": "2d70d6f98cac20f429e7b87461f12c441cb766bc600dd507374519ddf9b3ec6a",
+    "pretrained/W0_r43.metrics.json": "d2d056bfc93c231aca53914df7a97430e5ab4e03bdfbb1c6cae6241e742c6a20",
+    "pretrained/TF_r46.pt": "e10f7b6341a26a9b939850b352d56d8882bc56038ada89ca3b591de3eb98585f",
+    "pretrained/TF_r44.pt": "9cd444456271e939171309ceffab77793f11ce324249f517a5b71e30d326ce34",
+    "pretrained/W0_r42.metrics.json": "98472f3ad2f1122b32df11ef6ee643649b069eb706d9dbabde1b528b42240c77",
+    "pretrained/W0_r44.pt": "b9b1baf7637570d616279f1da20b7e6209e6506e89501f98e0df10493938c05e",
+    "PROTOCOL.json": "097aef083a1178aec9fa58f3efed3b070b043d2ce1b70507c3bac34c6adc840a",
+    "manifest.json": "c0df578a0ac61de3288397529ff0b588b2b6318391990d5c55d759e5829e93e1",
+    "SOURCE_DATA_FREEZE.json": "21901407d7ff7cc4a32e3e4101743c0f6a642a2370884cdd1160494e004305ce",
+    "EXECUTION_PLAN_CN.md": "fd5d601a073df915958916860d0aba783d86cbf52e7fa5267ffff1e7dadee4a8",
+    "operations/LOCAL_ADMISSION.json": "83847b0eaa855ffdb4a9de195c1ca346f74097850bae9ff77d3c19aefcd56efd",
+    "operations/REMOTE_ADMISSION.json": "f456e914b22e36f12cc92abf1b79513e0a7f014ad6891c9025579a1f5eb4485c",
+    "operations/RESOURCE_POOLS.json": "b049508c3aa6112b3de3b992b5120bde4080e1d26823be63e7fa1789d0a456ec"
+  }
+}
+```
+
+## SOURCE: project/runs/daily_site_finetune_20261114_v1/operations/collect.py
+
+- project/runs/daily_site_finetune_20261114_v1/operations/collect.py
+
+SHA-256: 770ded7dcd1210971df82d0f2eb2446d81843f5cc1351a9f4fd6a7a3728137d5
+
+```
+from pathlib import Path
+import sys,json,csv,collections
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+from settings import *
+import numpy as np
+
+def collect():
+    manifest=json.loads((RUN/'manifest.json').read_text());cohort=json.loads((ASSETS/'COHORT.json').read_text());nf=cohort['count'];rows=[];done={};groups=collections.defaultdict(dict)
+    for family in ['W0','TF']:
+        for seed in SEEDS:
+            d=json.loads((RUN/'pretrained'/f'{family}_r{seed}.metrics.json').read_text());m=d['metrics']
+            for s in range(nf):
+                row=dict(group=family+'_P0_SHARED',family=family,mode='P0_SHARED',seed=seed,station=s,station_id=cohort['station_ids'][s],name=cohort['names'][s],mae=m['per_farm_mae'][s],rmse=m['per_farm_rmse'][s],high_power_rmse=m['high_power_per_farm_rmse'][s],high_count=m['high_power_counts'][s],selected_epoch=0)
+                rows.append(row);groups[row['group']][seed,s]=row
+    for spec in manifest:
+        out=JOBS/spec['id']
+        if not (out/'SUCCESS.json').exists():continue
+        d=json.loads((out/'metrics.json').read_text());assert d['requested_spec']==spec and not d['smoke_only'] and d['evaluation_year']==2023
+        done[spec['id']]=d;m=d['metrics'];s=spec['station'];seed=spec['seed'];row=dict(group=spec['group'],family=spec['family'],mode=spec['mode'],seed=seed,station=s,station_id=spec['station_id'],name=cohort['names'][s],mae=m['mae'],rmse=m['rmse'],high_power_rmse=m['high_power_rmse'],high_count=m['high_power_counts'][0],selected_epoch=d['checkpoint_epoch'])
+        rows.append(row);groups[row['group']][seed,s]=row
+        for ep in [1,6]:
+            path=out/f'epoch{ep}.json'
+            if not path.exists():continue
+            fixed=json.loads(path.read_text());assert sha(out/f'epoch{ep}.pt')==fixed['checkpoint_sha256']
+            fm=fixed['metrics'];fr=dict(row,group=spec['group']+f'_E{ep}',mode=spec['mode']+f'_E{ep}',mae=fm['mae'],rmse=fm['rmse'],high_power_rmse=fm['high_power_rmse'],high_count=fm['high_power_counts'][0],selected_epoch=ep)
+            rows.append(fr);groups[fr['group']][seed,s]=fr
+        if spec['mode']=='P1_FULL':
+            correction=json.loads((out/'Z1.json').read_text())
+            assert correction['preprocess_fingerprint']==spec['preprocess_fingerprint']
+            for label,mode in [('p0','P0_SHARED_Z1'),('e1','P1_FULL_E1_Z1')]:
+                cm=correction['analyses'][label]['bin30'];cr=dict(row,group=spec['family']+'_'+mode,mode=mode,mae=cm['mae'],rmse=cm['rmse'],high_power_rmse=cm['high_power_rmse'],high_count=cm['high_power_count'],selected_epoch=0 if label=='p0' else 1)
+                rows.append(cr);groups[cr['group']][seed,s]=cr
+    summary=[]
+    for group,rs in sorted(groups.items()):
+        vals=list(rs.values());summary.append(dict(group=group,completed=len(vals),expected=nf*len(SEEDS),mae=float(np.mean([v['mae'] for v in vals])),rmse=float(np.mean([v['rmse'] for v in vals])),epoch0_selected=sum(v['selected_epoch']==0 for v in vals),complete=len(vals)==nf*len(SEEDS)))
+    for name,data in [('per_station_seed.csv',rows),('summary.csv',summary)]:
+        p=RUN/'analysis'/name;temp=p.with_suffix('.tmp')
+        with temp.open('w') as f:w=csv.DictWriter(f,fieldnames=list(data[0]));w.writeheader();w.writerows(data)
+        os.replace(temp,p)
+    def compare(a,b):
+        if len(groups[a])!=nf*len(SEEDS) or len(groups[b])!=nf*len(SEEDS):return None
+        out=dict(candidate=a,reference=b);passed=True
+        for metric in ['mae','rmse']:
+            x=np.array([[groups[a][seed,s][metric] for s in range(nf)] for seed in SEEDS]);y=np.array([[groups[b][seed,s][metric] for s in range(nf)] for seed in SEEDS]);xf=x.mean(0);yf=y.mean(0);delta=100*(x.mean()/y.mean()-1);wins=int((xf<yf).sum());ok=bool(delta<=-.1 and wins>nf/2);passed&=ok
+            rng=np.random.default_rng(1104);ix=rng.integers(nf,size=(10000,nf));ci=np.quantile(100*(xf[ix].mean(1)/yf[ix].mean(1)-1),[.025,.975])
+            out[metric]=dict(change_percent=float(delta),farms_improved=wins,total_farms=nf,passed=ok,per_seed_change_percent=(100*(x.mean(1)/y.mean(1)-1)).tolist(),farm_bootstrap95_percent=ci.tolist())
+        x=np.mean([v['high_power_rmse'] for v in groups[a].values() if v['high_count']>0]);y=np.mean([v['high_power_rmse'] for v in groups[b].values() if v['high_count']>0]);delta=float(100*(x/y-1));out['high_power_rmse_change_percent']=delta;out['passed']=bool(passed and delta<=.1);return out
+    pairs=[(f'{f}_{m}',f'{f}_P0_SHARED') for f in ['W0','TF'] for m in ['P1_FULL','P2_HEAD']]+[(f'W0_{m}',f'TF_{m}') for m in ['P0_SHARED','P1_FULL','P2_HEAD']]+[(f'{f}_P1_FULL',f'{f}_P2_HEAD') for f in ['W0','TF']]
+    pairs += [(f'W0_{m}_E{ep}',f'TF_{m}_E{ep}') for m in ['P1_FULL','P2_HEAD'] for ep in [1,6]]
+    pairs += [(f'{f}_{m}_E{ep}',f'{f}_P0_SHARED') for f in ['W0','TF'] for m in ['P1_FULL','P2_HEAD'] for ep in [1,6]]
+    pairs += [(f'{f}_{m}_Z1',f'{f}_{m}') for f in ['W0','TF'] for m in ['P0_SHARED','P1_FULL_E1']]
+    pairs += [(f'W0_{m}_Z1',f'TF_{m}_Z1') for m in ['P0_SHARED','P1_FULL_E1']]
+    comparisons=[c for a,b in pairs if (c:=compare(a,b)) is not None];complete=len(done)==len(manifest)
+    selected={}
+    if complete:
+        for family in ['W0','TF']:
+            opts=[s for s in summary if s['group'] in [family+'_'+m for m in ['P0_SHARED','P1_FULL','P2_HEAD']]];selected[family]=min(opts,key=lambda x:(x['mae'],x['group']))['group']
+        comparisons.append(compare(selected['W0'],selected['TF']))
+    gate=dict(timestamp=now(),stage='COMPLETE_REVIEW_PERSONALIZATION' if complete else 'pending',completed=len(done),planned=len(manifest),groups=summary,comparisons=comparisons,selected_by_2023_mae=selected,test2024_read=False,automatic_followup=False)
+    atomic_json(RUN/'analysis/GATES.json',gate)
+    text='# 共享预训练 + 逐站微调\n\n'+f'更新时间：{now()}。完成 {len(done)}/{len(manifest)} 次微调；55 站 × 5 seeds；2023 选择，未评价 2024。\n\n'
+    text+='|组别|完成|MAE|RMSE|选第 0 轮|\n|---|---:|---:|---:|---:|\n'
+    for s in summary:text+=f'|{s["group"]}|{s["completed"]}/275|{s["mae"]:.6f}|{s["rmse"]:.6f}|{s["epoch0_selected"]}|\n'
+    text+='\n未满 275 项的组仅展示进度，不能与完整组比较。微调前第 0 轮也参加按 2023 MAE 的选模，选择集的改善不能当作独立确认。\n'
+    for c in comparisons:text+=f'\n{c["candidate"]} 对 {c["reference"]}：MAE {c["mae"]["change_percent"]:+.4f}%（{c["mae"]["farms_improved"]}/55），RMSE {c["rmse"]["change_percent"]:+.4f}%（{c["rmse"]["farms_improved"]}/55），高功率 RMSE {c["high_power_rmse_change_percent"]:+.4f}%，验收 {c["passed"]}。\n'
+    (RUN/'analysis/RESULTS_CN.md').write_text(text)
+    return gate
+
+if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
+```
+
+## SOURCE: project/runs/ramp_information_diagnostic_20261115/README_CN.md
+
+- project/runs/ramp_information_diagnostic_20261115/README_CN.md
+
+SHA-256: e25a756aa53652563c04fcb85ac14f1ec0be994c255b76d0ae2dc291a6b38e86
+
+```
+# 大变化信息来源诊断（2026-11-15，零训练，2023，55 站）
+
+- `info.py`：实际变化 |Δ| > 0.3 的样本上，持续法、纯功率 B0（共享，5 seeds 平均）、W0_R3 / TF_R3（共享，5 seeds 平均）、Pangu 隐含变化、ERA5 隐含变化的捕获比例、相关、POD / FAR，以及模型残差与天气隐含变化的相关。
+  - 天气隐含变化 = 2022 年拟合的 10 m 风速–功率分箱曲线 f，取 f(目标时刻风速) − f(起点风速)。
+  - ERA5 取自 `privileged_wind_age_pilot` 的标签（已逆标准化），与每日协议起点逐一对齐。
+- `shift.py`：用 10 m / 1000 hPa / 925 hPa 风速重算 4 h 时效；并把隐含变化平移 −2 至 +2 h，检验时间错位信号。
+- `origin_err.py`：起点处 ERA5 − Pangu 的风速误差（本站与区域平均）能否解释 W0 残差。
+- `state.py`：按当前功率档、变化方向、平台段统计天气隐含变化的误报率；时间平滑的作用；以及考虑运行状态的换算方式（截断到可变化空间、以当前实际功率为基准）。
+```
+
+## SOURCE: project/runs/ramp_information_diagnostic_20261115/info.py
+
+- project/runs/ramp_information_diagnostic_20261115/info.py
+
+SHA-256: ed5edb3da658dcf4598d90acc7c5c697cf8cff430174d7f2be7a8e4470ff5c8f
+
+```
+"""Do large 0-6h power changes come from power extrapolation or weather? Zero training. 2022 fit curves, 2023 eval.
+Sources: persistence, B0 (shared power-only model, own history), W0_R3/TF_R3 (shared, seed-mean), Pangu-implied, ERA5-implied."""
+import numpy as np, json, sys
+sys.path.insert(0,'/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_protocol_restart_20261114_v1/code')
+from operational import interpolate_nodes
+P='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs'
+D=f'{P}/daily_protocol_restart_20261114_v1/data'; S=f'{P}/privileged_wind_age_pilot_20261101_v1/data'; FT=f'{P}/daily_site_finetune_20261114_v1'
+A=f'{P}/daily_protocol_restart_20261114_v1/assets'
+keep=np.array(json.load(open(f'{A}/COHORT.json'))['original_indices']); emu=np.load(f'{S}/cache/static/nwp_mean.npy')[1:3]; esd=np.load(f'{S}/cache/static/nwp_std.npy')[1:3]; mu=np.load(f'{A}/nwp_mean.npy'); sd=np.load(f'{A}/nwp_std.npy')
+LEADS=[3,7,15,23]  # 1h,2h,4h,6h (index into 24 steps)
+def load(sp):
+    o=np.load(f'{D}/{sp}/origin.npy'); cy=np.load(f'{D}/{sp}/cycle.npy'); off=np.load(f'{D}/{sp}/offset.npy')
+    o2=np.load(f'{S}/common/{sp}/origin_unix.npy'); assert np.array_equal(o,o2)
+    cy2=np.load(f'{S}/common/{sp}/cycle.npy'); off2=np.load(f'{S}/common/{sp}/weather_time_offset_hours.npy'); assert np.allclose(off,off2)
+    nodes=np.load(f'{D}/{sp}/nodes.npy',mmap_mode='r'); era=np.load(f'{S}/labels/{sp}/future_uv.npy',mmap_mode='r')
+    q=np.r_[0.,(np.array(LEADS)+1)/4]
+    wsP=np.zeros((len(o),55,len(q)),'f4'); wsE=np.zeros_like(wsP)
+    for s in range(55):
+        n=np.asarray(nodes[cy,s])*sd+mu; w=interpolate_nodes(n[...,1:3],off,q); wsP[:,s]=np.hypot(w[...,0],w[...,1])
+        e=(np.asarray(era[cy2,keep[s]])*esd+emu).astype('f4'); w=interpolate_nodes(e,off,q); wsE[:,s]=np.hypot(w[...,0],w[...,1])
+    h=np.load(f'{D}/{sp}/h.npy',mmap_mode='r'); y=np.load(f'{D}/{sp}/y.npy',mmap_mode='r')
+    return o,np.asarray(h[:,:,-1]),np.asarray(y[:,:,LEADS]),wsP,wsE
+o2,h2,y2,P2,E2=load('train'); o3,h3,y3,P3,E3=load('val')
+print('ERA5 10m ws mean %.2f, Pangu %.2f (2023)'%(E3.mean(),P3.mean()))
+B0=np.mean([np.asarray(np.load(f'{D}/reference_r{sd_}/val.npy',mmap_mode='r')[:,:,LEADS]) for sd_ in range(42,47)],0)
+def curve_fit(ws,p):
+    e=np.quantile(ws,np.linspace(0,1,41)); b=np.clip(np.searchsorted(e,ws)-1,0,39); m=np.array([p[b==i].mean() if (b==i).any() else np.nan for i in range(40)])
+    m=np.where(np.isnan(m),np.nanmean(p),m); return lambda w: m[np.clip(np.searchsorted(e,w)-1,0,39)]
+R={}
+def add(k,v): R.setdefault(k,[]).append(v)
+names=['persist','B0','W0','TF','Pangu','ERA5']
+for s in range(55):
+    # curves: 2022, weather-only, fitted per source on concurrent (valid-time) power: use lead pairs (ws at lead k, y at lead k) pooled
+    fP=curve_fit(P2[:,s,1:].ravel(),y2[:,s].ravel()); fE=curve_fit(E2[:,s,1:].ravel(),y2[:,s].ravel())
+    W0=np.mean([np.load(f'{FT}/jobs/W0_P1_FULL_s{s:02d}_r{x}/p0_prediction.npy')[:,0][:,LEADS] for x in range(42,47)],0)
+    TF=np.mean([np.load(f'{FT}/jobs/TF_P1_FULL_s{s:02d}_r{x}/p0_prediction.npy')[:,0][:,LEADS] for x in range(42,47)],0)
+    hl=h3[:,s][:,None]; dy=y3[:,s]-hl
+    pred_change={'persist':np.zeros_like(dy),'B0':B0[:,s]-hl,'W0':W0-hl,'TF':TF-hl,
+                 'Pangu':fP(P3[:,s,1:])-fP(P3[:,s,:1]),'ERA5':fE(E3[:,s,1:])-fE(E3[:,s,:1])}
+    for j,L in enumerate(LEADS):
+        d=dy[:,j]; ev=np.abs(d)>.3; add(('evfrac',L),ev.mean())
+        for nme in names:
+            pc=pred_change[nme][:,j]
+            add((nme,L,'capture'),(np.sign(d)*pc)[ev].sum()/np.abs(d)[ev].sum())
+            add((nme,L,'corr'),np.corrcoef(pc,d)[0,1] if pc.std()>0 else 0.)
+            # event detection: POD/FAR with |pred change|>0.15 in same direction as event
+            hit=(np.abs(pc)>.15)&(np.sign(pc)==np.sign(d))
+            add((nme,L,'POD'),hit[ev].mean())
+            fa=(np.abs(pc)>.15)&~((np.abs(d)>.15)&(np.sign(d)==np.sign(pc))); add((nme,L,'FAR'),fa.sum()/max((np.abs(pc)>.15).sum(),1))
+        # unused info: correlation of model residual with weather-implied change, on all and on events
+        for m,pm in [('W0',W0),('TF',TF)]:
+            res=y3[:,s,j]-pm[:,j]
+            for src in ['Pangu','ERA5']:
+                add((m,src,L,'rescorr'),np.corrcoef(res,pred_change[src][:,j])[0,1])
+M=lambda *k: np.mean(R[k])
+for L in LEADS:
+    print(f'\n== lead {(L+1)/4:.0f} h: share of samples with |Δ|>0.3: {M("evfrac",L):.3%}')
+    print('   source    capture(|Δ|>.3)  corr(predΔ,Δ)   POD(|predΔ|>.15 same dir)  FAR')
+    for nme in names: print(f'   {nme:8s}  {M(nme,L,"capture"):9.3f}  {M(nme,L,"corr"):12.3f}  {M(nme,L,"POD"):14.3f}  {M(nme,L,"FAR"):14.3f}')
+    for m in ['W0','TF']: print(f'   corr(residual of {m}, weather-implied Δ): Pangu {M(m,"Pangu",L,"rescorr"):+.3f}  ERA5 {M(m,"ERA5",L,"rescorr"):+.3f}')
+```
+
+## SOURCE: project/runs/ramp_information_diagnostic_20261115/origin_err.py
+
+- project/runs/ramp_information_diagnostic_20261115/origin_err.py
+
+SHA-256: b2dccb4261fbaf53ad350e7977f4f86d3769f8f69acd69344e68150329565221
+
+```
+"""If ERA5 up to the origin is available: does the forecast error at the origin (ERA5 - Pangu, 10 m wind at the base hour <= origin)
+explain W0's remaining 0-6 h error? Own-farm and 55-farm regional mean. 2023, zero training."""
+import numpy as np, json, sys
+sys.path.insert(0,'/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_protocol_restart_20261114_v1/code')
+P='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs'; D=f'{P}/daily_protocol_restart_20261114_v1/data'; S=f'{P}/privileged_wind_age_pilot_20261101_v1/data'; FT=f'{P}/daily_site_finetune_20261114_v1'; A=f'{P}/daily_protocol_restart_20261114_v1/assets'
+mu=np.load(f'{A}/nwp_mean.npy'); sd=np.load(f'{A}/nwp_std.npy'); emu=np.load(f'{S}/cache/static/nwp_mean.npy')[1:3]; esd=np.load(f'{S}/cache/static/nwp_std.npy')[1:3]
+keep=np.array(json.load(open(f'{A}/COHORT.json'))['original_indices'])
+cy=np.load(f'{D}/val/cycle.npy'); cy2=np.load(f'{S}/common/val/cycle.npy'); off=np.load(f'{D}/val/offset.npy')
+nodes=np.load(f'{D}/val/nodes.npy',mmap_mode='r'); era=np.load(f'{S}/labels/val/future_uv.npy',mmap_mode='r')
+y=np.asarray(np.load(f'{D}/val/y.npy',mmap_mode='r')); 
+LEADS=[3,7,15,23]
+# node 0 is valid at base hour (<= origin). ERA5 node j for j>0 is future -> only node 0 used as "available analysis".
+pg=np.hypot(*(np.asarray(nodes[cy][:,:,0,[1,2]])*sd[[1,2]]+mu[[1,2]]).transpose(2,0,1))
+er=np.asarray(era[cy2][:,keep,0])*esd+emu; er=np.hypot(er[...,0],er[...,1])
+err0=er-pg; reg=err0.mean(1,keepdims=True).repeat(55,1)
+# future forecast error at target (for reference: how persistent is the 10 m error?)
+R={}
+for s in range(55):
+    W0=np.mean([np.load(f'{FT}/jobs/W0_P1_FULL_s{s:02d}_r{x}/p0_prediction.npy')[:,0] for x in range(42,47)],0)
+    for L in LEADS:
+        res=y[:,s,L]-W0[:,L]
+        R.setdefault((L,'own'),[]).append(np.corrcoef(res,err0[:,s])[0,1]); R.setdefault((L,'reg'),[]).append(np.corrcoef(res,reg[:,s])[0,1])
+        X=np.stack([np.ones(len(res)),err0[:,s],reg[:,s]],1); half=len(res)//2
+        b=np.linalg.lstsq(X[:half],res[:half],rcond=None)[0]; r2=res[half:]-X[half:]@b
+        R.setdefault((L,'mse_gain'),[]).append((r2**2).mean()/(res[half:]**2).mean()-1); R.setdefault((L,'mae_gain'),[]).append(np.abs(r2).mean()/np.abs(res[half:]).mean()-1)
+for L in LEADS: print(f'lead {(L+1)/4:.0f}h: corr(W0 residual, own ERA5−Pangu at origin) {np.mean(R[(L,"own")]):+.3f}; regional mean {np.mean(R[(L,"reg")]):+.3f}; linear correction (fit H1 2023, eval H2) MSE {100*np.mean(R[(L,"mse_gain")]):+.2f}% MAE {100*np.mean(R[(L,"mae_gain")]):+.2f}%')
+```
+
+## SOURCE: project/runs/ramp_information_diagnostic_20261115/shift.py
+
+- project/runs/ramp_information_diagnostic_20261115/shift.py
+
+SHA-256: 3964a779dbae2d2fddc15cbefd14b511d7081a904a3cec2aaec0687e5486fc88
+
+```
+"""Extra: (a) Pangu implied change from 1000/925 hPa wind; (b) time-shifted implied change vs W0 residual (phase-error signal). 2023, zero training."""
+import numpy as np, json, sys
+sys.path.insert(0,'/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_protocol_restart_20261114_v1/code')
+from operational import interpolate_nodes
+P='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs'; D=f'{P}/daily_protocol_restart_20261114_v1/data'; FT=f'{P}/daily_site_finetune_20261114_v1'; A=f'{P}/daily_protocol_restart_20261114_v1/assets'
+mu=np.load(f'{A}/nwp_mean.npy'); sd=np.load(f'{A}/nwp_std.npy')
+CH={'10m':(1,2),'1000hPa':(10,12),'925hPa':(11,13)}
+def ws(sp,qs):
+    cy=np.load(f'{D}/{sp}/cycle.npy'); off=np.load(f'{D}/{sp}/offset.npy'); nodes=np.load(f'{D}/{sp}/nodes.npy',mmap_mode='r')
+    out={k:np.zeros((len(cy),55,len(qs)),'f4') for k in CH}
+    for s in range(55):
+        n=np.asarray(nodes[cy,s])*sd+mu
+        for k,(a,b) in CH.items():
+            w=interpolate_nodes(n[...,[a,b]],off,qs); out[k][:,s]=np.hypot(w[...,0],w[...,1])
+    return out
+# query times (h): 0, and 4h target with shifts -2..+2 (needs offset+7 >= 6 -> max 6h)
+qs=np.array([0.,2.,3.,4.,5.,6.])
+W2=ws('train',np.array([0.,1.,2.,3.,4.,5.,6.])); W3=ws('val',qs)
+y2=np.asarray(np.load(f'{D}/train/y.npy',mmap_mode='r')); y3=np.asarray(np.load(f'{D}/val/y.npy',mmap_mode='r')[:,:,15]); h3=np.asarray(np.load(f'{D}/val/h.npy',mmap_mode='r')[:,:,-1])
+idx2=[3,7,11,15,19,23]  # train y leads 1..6h for curve fit
+def curve(wtr,ptr):
+    e=np.quantile(wtr,np.linspace(0,1,41)); b=np.clip(np.searchsorted(e,wtr)-1,0,39); m=np.array([ptr[b==i].mean() if (b==i).any() else np.nan for i in range(40)]); m=np.where(np.isnan(m),np.nanmean(ptr),m)
+    return lambda w:m[np.clip(np.searchsorted(e,w)-1,0,39)]
+R={}
+for s in range(55):
+    W0=np.mean([np.load(f'{FT}/jobs/W0_P1_FULL_s{s:02d}_r{x}/p0_prediction.npy')[:,0,15] for x in range(42,47)],0); res=y3[:,s]-W0; d=y3[:,s]-h3[:,s]; ev=np.abs(d)>.3
+    for k in CH:
+        f=curve(W2[k][:,s,1:].ravel(),y2[:,s][:,idx2].ravel())
+        base=f(W3[k][:,s,0])
+        for j,sh in zip(range(1,6),[-2,-1,0,1,2]):
+            imp=f(W3[k][:,s,j])-base
+            R.setdefault((k,sh,'res'),[]).append(np.corrcoef(res,imp)[0,1]); R.setdefault((k,sh,'resev'),[]).append(np.corrcoef(res[ev],imp[ev])[0,1])
+            R.setdefault((k,sh,'dy'),[]).append(np.corrcoef(d,imp)[0,1])
+for k in CH:
+    print(k,'target 4h; implied change evaluated at 4h+shift')
+    for sh in [-2,-1,0,1,2]: print(f'   shift {sh:+d}h: corr(implied Δ, actual Δ) {np.mean(R[(k,sh,"dy")]):.3f} | corr(W0 residual, implied Δ) all {np.mean(R[(k,sh,"res")]):+.3f}, on |Δ|>.3 {np.mean(R[(k,sh,"resev")]):+.3f}')
+```
+
+## SOURCE: project/runs/ramp_information_diagnostic_20261115/state.py
+
+- project/runs/ramp_information_diagnostic_20261115/state.py
+
+SHA-256: cce6e255db57bd3c585178ec7cb272a10bb0062a9bf60a036d254f02696aa2eb
+
+```
+"""Why weather-implied large changes often do not appear in power: operating point, plateau (possible curtailment), direction, short-lived weather changes.
+2023, 4 h lead, ERA5 (true weather) and Pangu; zero training."""
+import numpy as np
+exec(open(__import__('os').path.join(__import__('os').path.dirname(__file__),'info.py')).read().split("R={}")[0])
+L=15; j=LEADS.index(L)
+# extra queries for smoothing: implied change using mean of ws over [3h,5h] vs point at 4h
+def ws_at(sp,qs):
+    import sys
+    o=np.load(f'{D}/{sp}/origin.npy'); cy2=np.load(f'{S}/common/{sp}/cycle.npy'); off=np.load(f'{D}/{sp}/offset.npy')
+    era=np.load(f'{S}/labels/{sp}/future_uv.npy',mmap_mode='r'); out=np.zeros((len(o),55,len(qs)),'f4')
+    for s in range(55):
+        e=(np.asarray(era[cy2,keep[s]])*esd+emu).astype('f4'); w=interpolate_nodes(e,off,qs); out[:,s]=np.hypot(w[...,0],w[...,1])
+    return out
+Esm=ws_at('val',np.array([3.,3.5,4.,4.5,5.]))
+H3=np.asarray(np.load(f'{D}/val/h.npy',mmap_mode='r'))
+rows=[]
+for s in range(55):
+    fE=curve_fit(E2[:,s,1:].ravel(),y2[:,s].ravel()); fP=curve_fit(P2[:,s,1:].ravel(),y2[:,s].ravel())
+    hl=h3[:,s]; d=y3[:,s,j]-hl
+    impE=fE(E3[:,s,1+j])-fE(E3[:,s,0]); impP=fP(P3[:,s,1+j])-fP(P3[:,s,0]); impEs=fE(Esm[:,s]).mean(1)-fE(E3[:,s,0])
+    hist=H3[:,s]; flat=(np.ptp(hist[:,-8:],1)<0.01)&(hl>0.05)&(hl<0.95)   # 2 h nearly constant, mid range: plateau (possible curtailment / limit)
+    lvl=np.digitize(hl,[.1,.3,.7])
+    rows.append((d,impE,impP,impEs,lvl,flat))
+def far(imp,d,mask):
+    sig=(np.abs(imp)>.15)&mask; ok=(np.abs(d)>.15)&(np.sign(d)==np.sign(imp)); return (sig&~ok).sum()/max(sig.sum(),1), sig.sum()
+def agg(fn):
+    a=np.array([fn(*r) for r in rows]); return a
+print('4 h lead. FAR = share of weather-implied |Δ|>0.15 signals NOT followed by same-direction power change >0.15')
+for name,k in [('ERA5',1),('Pangu',2),('ERA5 smoothed 3-5h',3)]:
+    tot=[far(r[k],r[0],np.ones_like(r[0],bool)) for r in rows]; print(f'  {name:20s} all: FAR {np.sum([t[0]*t[1] for t in tot])/np.sum([t[1] for t in tot]):.3f}')
+print('  ERA5 by current power level and direction (FAR, signal count):')
+for lv,lab in enumerate(['<0.1','0.1-0.3','0.3-0.7','>=0.7']):
+    for sgn,sl in [(1,'up'),(-1,'down')]:
+        t=[far(r[1],r[0],(r[4]==lv)&(np.sign(r[1])==sgn)) for r in rows]; n=np.sum([x[1] for x in t])
+        print(f'     level {lab:8s} {sl:4s}: FAR {np.sum([x[0]*x[1] for x in t])/max(n,1):.3f}  n={n}')
+t=[far(r[1],r[0],r[5]) for r in rows]; n=np.sum([x[1] for x in t]); t2=[far(r[1],r[0],~r[5]) for r in rows]; n2=np.sum([x[1] for x in t2])
+print(f'  ERA5 when last 2 h power is flat at mid level (plateau): FAR {np.sum([x[0]*x[1] for x in t])/max(n,1):.3f} n={n};  otherwise {np.sum([x[0]*x[1] for x in t2])/max(n2,1):.3f} n={n2}')
+# magnitude attenuation: actual / implied for true signals
+ratio=[]; 
+for d,iE,_,_,lv,_ in rows:
+    m=np.abs(iE)>.3; ratio.append(np.sum(d[m]*np.sign(iE[m]))/np.sum(np.abs(iE[m])))
+print(f'  On ERA5-implied |Δ|>0.3: realized change in that direction / implied magnitude = {np.mean(ratio):.3f}')
+
+print('\n  State-aware conversions of the same ERA5 / Pangu weather (4 h):')
+for src,k in [('ERA5',None),('Pangu',None)]:
+    acc={'curve change':[], 'anchored+clipped (headroom)':[], 'level: f(future)-current power':[]}
+    for s,(d,iE,iP,_,lv,_) in enumerate(rows):
+        hl=h3[:,s]
+        if src=='ERA5': fE=curve_fit(E2[:,s,1:].ravel(),y2[:,s].ravel()); fut=fE(E3[:,s,1+j]); imp=iE
+        else: fP=curve_fit(P2[:,s,1:].ravel(),y2[:,s].ravel()); fut=fP(P3[:,s,1+j]); imp=iP
+        cand={'curve change':imp,'anchored+clipped (headroom)':np.clip(hl+imp,0,1)-hl,'level: f(future)-current power':fut-hl}
+        for nme,c in cand.items():
+            sig=np.abs(c)>.15; ok=(np.abs(d)>.15)&(np.sign(d)==np.sign(c)); ev=np.abs(d)>.3
+            acc[nme].append(((sig&~ok).sum(),sig.sum(),(hit:=(sig&ok&ev)).sum(),ev.sum(),np.corrcoef(c,d)[0,1]))
+    for nme,v in acc.items():
+        v=np.array(v); print(f'     {src:5s} {nme:32s} FAR {v[:,0].sum()/v[:,1].sum():.3f}  POD(|Δ|>.3) {v[:,2].sum()/v[:,3].sum():.3f}  corr {v[:,4].mean():.3f}')
+```
+
+## SOURCE: project/runs/rmse_gap_diagnostic_20261115/README_CN.md
+
+- project/runs/rmse_gap_diagnostic_20261115/README_CN.md
+
+SHA-256: 15ef2492345ba6b9b850e3b4e4f8c10e34b55ec899f795134f04b6e5c6c0e8cd
+
+```
+# W0 与 TF 的 RMSE 差距诊断（2026-11-15，零训练）
+
+数据：`daily_site_finetune_20261114_v1` 保存的共享模型预测（`p0_prediction.npy`，即 W0_R3 / TF_R3）。55 站 × 5 seeds，2023 年，每日协议。只读 CPU，不训练，不读 2024。
+
+- `diag.py`：误差分布、预测与观测的回归斜率、按实际变化幅度 |y − 当前功率| 分解 ΔMSE / ΔMAE，以及 W0 与 TF 平均。
+- `ens.py`：5-seed 集成后的差距，以及 seed 方差占 MSE 的比例。
+- `ramp.py`：按"预测变化 × 实际变化"二维分箱的 ΔMSE；实际变化 > 0.3 时，模型捕获的变化比例。
+
+主要结论见对话记录与 `HISTORICAL_WEATHER_AND_W0_PLAN` 之后的分析。
+- `phase.py`：同一时效段内，目标落在整点与 :15 / :30 / :45 时的 MSE 对比（检验线性插值是否造成小时内部的损失）。
+```
+
+## SOURCE: project/runs/rmse_gap_diagnostic_20261115/diag.py
+
+- project/runs/rmse_gap_diagnostic_20261115/diag.py
+
+SHA-256: dbd897a1ddf1280ab2a2369b9c4cf3c6cfd5231d66db701dc851f202be2c0dd6
+
+```
+import numpy as np, json, os
+R='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_site_finetune_20261114_v1'
+seeds=[42,43,44,45,46]; F=55
+G=[('0-1h',0,4),('1-3h',4,12),('3-6h',12,24)]
+acc={}
+def add(k,v): acc.setdefault(k,[]).append(v)
+rampb=[0,.05,.15,.3,1.01]
+for s in range(F):
+    y=np.load(f'{R}/feature_cache/s{s:02d}/val/y.npy').astype('f8'); h=np.load(f'{R}/feature_cache/s{s:02d}/val/h.npy')[:,-1].astype('f8')
+    ramp=np.abs(y-h[:,None])
+    for sd in seeds:
+        P={m:np.load(f'{R}/jobs/{m}_P1_FULL_s{s:02d}_r{sd}/p0_prediction.npy')[:,0].astype('f8') for m in ['W0','TF']}
+        P['AVG']=(P['W0']+P['TF'])/2
+        for m,p in P.items():
+            e=p-y
+            add((m,'mae'),abs(e).mean()); add((m,'rmse'),np.sqrt((e**2).mean()))
+            add((m,'bias'),e.mean()); add((m,'q99abs'),np.quantile(abs(e),.99))
+            add((m,'tail_share'),(e[abs(e)>.3]**2).sum()/(e**2).sum())
+            for g,a,b in G:
+                ee=e[:,a:b]; pp=p[:,a:b]; yy=y[:,a:b]
+                add((m,g,'mse'),(ee**2).mean()); add((m,g,'mae'),abs(ee).mean())
+                add((m,g,'predstd'),pp.std()); add((m,g,'ystd'),yy.std())
+                c=np.cov(pp.ravel(),yy.ravel()); add((m,g,'slope'),c[0,1]/c[0,0])   # y on pred; <1 => over-responsive
+                for i in range(4):
+                    k=(ramp[:,a:b]>=rampb[i])&(ramp[:,a:b]<rampb[i+1])
+                    add((m,g,'sse_ramp',i),(ee[k]**2).sum()/ee.size); add((m,g,'ae_ramp',i),abs(ee[k]).sum()/ee.size)
+                hp=h>=.75; add((m,g,'hp_mse'),(ee[hp]**2).mean())
+                # mean minus median residual (MAE-loss median vs RMSE mean gap), pooled
+                add((m,g,'mean_minus_median'),np.mean(-ee)-np.median(-ee))
+M=lambda *k: np.mean(acc[k])
+print('macro MAE/RMSE: W0 %.6f/%.6f  TF %.6f/%.6f  AVG %.6f/%.6f'%(M('W0','mae'),M('W0','rmse'),M('TF','mae'),M('TF','rmse'),M('AVG','mae'),M('AVG','rmse')))
+for m in ['W0','TF']: print(m,'bias %.5f  q99|e| %.4f  share of SSE from |e|>0.3: %.3f'%(M(m,'bias'),M(m,'q99abs'),M(m,'tail_share')))
+for g,_,_ in G:
+    print(f'== {g}: W0/TF MSE ratio {M("W0",g,"mse")/M("TF",g,"mse")-1:+.3%}, MAE ratio {M("W0",g,"mae")/M("TF",g,"mae")-1:+.3%}, highpower MSE ratio {M("W0",g,"hp_mse")/M("TF",g,"hp_mse")-1:+.3%}')
+    for m in ['W0','TF']: print(f'   {m}: pred std {M(m,g,"predstd"):.4f} (obs {M(m,g,"ystd"):.4f}), slope y~pred {M(m,g,"slope"):.3f}, mean-median residual {M(m,g,"mean_minus_median"):+.4f}')
+    dS=[M('W0',g,'sse_ramp',i)-M('TF',g,'sse_ramp',i) for i in range(4)]; dA=[M('W0',g,'ae_ramp',i)-M('TF',g,'ae_ramp',i) for i in range(4)]
+    tS=sum(dS); tA=sum(dA)
+    print('   W0-TF ΔMSE by |y-h_last| bins [0,.05,.15,.3,1]:', ' '.join(f'{x:+.2e}' for x in dS), ' total %+.2e'%tS)
+    print('   W0-TF ΔMAE by same bins             :', ' '.join(f'{x:+.2e}' for x in dA), ' total %+.2e'%tA)
+```
+
+## SOURCE: project/runs/rmse_gap_diagnostic_20261115/ens.py
+
+- project/runs/rmse_gap_diagnostic_20261115/ens.py
+
+SHA-256: 5a67ed5fa88ce8441bb5c9738ec1041eddd70dbd33db3a7633cc7dc04d0dd5c2
+
+```
+import numpy as np
+R='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_site_finetune_20261114_v1'
+seeds=[42,43,44,45,46]; F=55; G=[('all',0,24),('0-1h',0,4),('1-3h',4,12),('3-6h',12,24)]
+res={}
+for s in range(F):
+    y=np.load(f'{R}/feature_cache/s{s:02d}/val/y.npy').astype('f8'); h=np.load(f'{R}/feature_cache/s{s:02d}/val/h.npy')[:,-1].astype('f8')
+    P={m:np.stack([np.load(f'{R}/jobs/{m}_P1_FULL_s{s:02d}_r{sd}/p0_prediction.npy')[:,0] for sd in seeds]).astype('f8') for m in ['W0','TF']}
+    cand={'W0_single':P['W0'],'TF_single':P['TF'],'W0_ens5':P['W0'].mean(0,keepdims=True),'TF_ens5':P['TF'].mean(0,keepdims=True),'W0TF_ens10':np.concatenate([P['W0'],P['TF']]).mean(0,keepdims=True)}
+    for k,p in cand.items():
+        e=p-y[None]
+        for g,a,b in G:
+            res.setdefault((k,g,'mae'),[]).append(np.abs(e[:,:,a:b]).mean(axis=(1,2)).mean())
+            res.setdefault((k,g,'rmse'),[]).append(np.sqrt((e[:,:,a:b]**2).mean(axis=(1,2))).mean())
+    # variance share: mean over seeds of MSE = MSE(ens) + mean seed variance
+    for m in ['W0','TF']:
+        e=P[m]-y[None]; v=P[m].var(0).mean(); res.setdefault((m,'var_share'),[]).append(v/(e**2).mean())
+M=lambda *k: np.mean(res[k])
+for g,_,_ in G:
+    print(g)
+    for k in ['W0_single','TF_single','W0_ens5','TF_ens5','W0TF_ens10']: print(f'   {k:11s} MAE {M(k,g,"mae"):.6f} RMSE {M(k,g,"rmse"):.6f}')
+    print(f'   W0 vs TF single: {M("W0_single",g,"mae")/M("TF_single",g,"mae")-1:+.3%} / {M("W0_single",g,"rmse")/M("TF_single",g,"rmse")-1:+.3%};  ens5 vs ens5: {M("W0_ens5",g,"mae")/M("TF_ens5",g,"mae")-1:+.3%} / {M("W0_ens5",g,"rmse")/M("TF_ens5",g,"rmse")-1:+.3%}')
+for m in ['W0','TF']: print(m,'seed-variance share of MSE: %.3f'%M(m,'var_share'))
+```
+
+## SOURCE: project/runs/rmse_gap_diagnostic_20261115/phase.py
+
+- project/runs/rmse_gap_diagnostic_20261115/phase.py
+
+SHA-256: dc42506f8a9ae3b75e7fc303cfc288cb2ab1cf0ca6e9b99147e046b9e9c69843
+
+```
+"""Error at on-the-hour vs sub-hour targets (same lead block), W0_R3 & TF_R3 shared P0, 2023, 5 seeds mean. Zero training."""
+import numpy as np
+R='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_site_finetune_20261114_v1'
+D='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_protocol_restart_20261114_v1/data'
+o=np.load(f'{D}/val/origin.npy'); minute=((o//60)%60)//15   # origin quarter
+k=np.arange(24); tq=(minute[:,None]+k[None]+1)%4             # target quarter: 0 = on the hour
+G=[('0-1h',0,4),('1-3h',4,12),('3-6h',12,24)]
+acc={}
+for s in range(55):
+    y=np.load(f'{R}/feature_cache/s{s:02d}/val/y.npy').astype('f8'); h=np.load(f'{R}/feature_cache/s{s:02d}/val/h.npy')[:,-1].astype('f8')
+    for m in ['W0','TF']:
+        p=np.mean([np.load(f'{R}/jobs/{m}_P1_FULL_s{s:02d}_r{x}/p0_prediction.npy')[:,0] for x in range(42,47)],0)
+        e2=(p-y)**2; ae=np.abs(p-y); dy2=(y-h[:,None])**2
+        for g,a,b in G:
+            for q in range(4):
+                msk=(tq[:,a:b]==q)
+                acc.setdefault((m,g,q,'mse'),[]).append(e2[:,a:b][msk].mean()); acc.setdefault((m,g,q,'mae'),[]).append(ae[:,a:b][msk].mean())
+                acc.setdefault((g,q,'var'),[]).append(dy2[:,a:b][msk].mean())
+for g,_,_ in G:
+    print(g)
+    for m in ['W0','TF']:
+        base=np.mean(acc[(m,g,0,'mse')])
+        print(f'  {m}: MSE by target minute :00/:15/:30/:45 = '+' '.join(f'{np.mean(acc[(m,g,q,"mse")]):.5f}' for q in range(4))+'   rel to :00 '+' '.join(f'{np.mean(acc[(m,g,q,"mse")])/base-1:+.2%}' for q in range(4)))
+    vb=np.mean(acc[(g,0,'var')]); print('  E[(y-h)^2] (difficulty) rel to :00 '+' '.join(f'{np.mean(acc[(g,q,"var")])/vb-1:+.2%}' for q in range(4)))
+```
+
+## SOURCE: project/runs/rmse_gap_diagnostic_20261115/ramp.py
+
+- project/runs/rmse_gap_diagnostic_20261115/ramp.py
+
+SHA-256: 8f540ffcf5200cb09282b0dc3ad1a0970661bb684cda122baf036c8f6008b561
+
+```
+import numpy as np
+R='/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_site_finetune_20261114_v1'
+seeds=[42,43,44,45,46]; F=55; b=[0,.05,.15,.3,1.01]; nb=4
+for g,a,c in [('1-3h',4,12),('3-6h',12,24)]:
+    dM=np.zeros((nb,nb)); cnt=np.zeros((nb,nb)); cap={'W0':[0,0],'TF':[0,0]}; tot=0
+    for s in range(F):
+        y=np.load(f'{R}/feature_cache/s{s:02d}/val/y.npy')[:,a:c].astype('f8'); h=np.load(f'{R}/feature_cache/s{s:02d}/val/h.npy')[:,-1:].astype('f8')
+        P={m:np.stack([np.load(f'{R}/jobs/{m}_P1_FULL_s{s:02d}_r{sd}/p0_prediction.npy')[:,0,a:c] for sd in seeds]).mean(0).astype('f8') for m in ['W0','TF']}
+        dy=y-h; ia=np.clip(np.digitize(abs(dy),b)-1,0,nb-1)
+        ref=(P['W0']+P['TF'])/2-h; ip=np.clip(np.digitize(abs(ref),b)-1,0,nb-1)   # predicted-change bin from the pair mean (same for both)
+        dmse=(P['W0']-y)**2-(P['TF']-y)**2
+        for i in range(nb):
+            for j in range(nb):
+                k=(ip==i)&(ia==j); dM[i,j]+=dmse[k].sum(); cnt[i,j]+=k.sum()
+        tot+=y.size
+        big=abs(dy)>.3
+        for m in ['W0','TF']:
+            cap[m][0]+=((P[m]-h)*np.sign(dy))[big].sum(); cap[m][1]+=abs(dy)[big].sum()
+    print(g,'W0−TF ΔMSE (×1e-4 of per-sample MSE), rows: predicted |change| bin, cols: actual |change| bin [0,.05,.15,.3,1]')
+    for i in range(nb): print('   pred',b[i],' '.join(f'{1e4*dM[i,j]/tot:+7.3f}' for j in range(nb)),'  n%:',' '.join(f'{100*cnt[i,j]/tot:5.1f}' for j in range(nb)))
+    for m in ['W0','TF']: print(f'   {m}: on |actual change|>0.3, fraction of change captured in correct direction = {cap[m][0]/cap[m][1]:.3f}')
+```
+

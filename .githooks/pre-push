@@ -1,0 +1,16 @@
+#!/bin/sh
+# Enable after cloning: git config --local core.hooksPath .githooks
+# Audit the exact main commit being pushed, including its generated reading files.
+set -eu
+repo_root=$(git rev-parse --show-toplevel)
+while read -r local_ref local_oid remote_ref remote_oid; do
+    case "$local_oid" in
+        0000000000000000000000000000000000000000) continue ;;
+    esac
+    case "$remote_ref" in
+        refs/heads/main)
+            python3 "$repo_root/project/scripts/export_gemini_reading.py" \
+                --check-only --revision "$local_oid"
+            ;;
+    esac
+done

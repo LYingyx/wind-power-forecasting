@@ -6,6 +6,8 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 ## 阅读顺序
 
+需要理解“结果怎样得到”，先读[数据 → 模型 → 训练 → 选轮 → 指标的完整导航](docs/RESULTS_TO_CODE_CN.md)。其中链接了全部 2571 项任务的实际配置与逐轮训练记录。导入附件出现解析问题时，使用[未压缩纯文本入口](docs/gemini_plain_text/README.md)。
+
 1. [给 Gemini / 编程助手的阅读入口](docs/GEMINI_READING_GUIDE_CN.md)：当前事实、代码地图、证据边界及可直接使用的提问。
 2. [最新协议](project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md)：每日 00 UTC、起报后 15 h 可用，0–6 h / 15 min。
 3. [新协议完整结果分析](project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)与[逐风场、逐种子结果](project/analysis/daily_protocol_review_20261115/FARM_AND_SEED_DETAILS_CN.md)。

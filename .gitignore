@@ -4,6 +4,7 @@
 !*/
 !.gitignore
 !.gitattributes
+!/.githooks/pre-push
 !*.py
 !*.sh
 !*.toml
@@ -41,6 +42,8 @@
 !project/analysis/**/*.png
 !project/analysis/**/*.svg
 !docs/*.json
+!docs/gemini_plain_text/*.txt
+!docs/gemini_plain_text/*.json
 
 # Local archives, generated artifacts, datasets and environments.
 /archives/
