@@ -19,6 +19,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[2]
 RUNS = ["daily_protocol_restart_20261114_v1", "daily_ablation_restart_20261114_v1",
         "daily_site_finetune_20261114_v1"]
+ACTIVE_RUN = "daily_state_representation_20261116_v2"
 REVIEW = "project/analysis/daily_protocol_review_20261115/"
 EXPORT = "docs/gemini_plain_text/"
 FINGERPRINT = "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
@@ -141,12 +142,18 @@ def refresh_training():
 
 def groups(files):
     code, pipeline = [], list(PIPELINE)
-    for run in RUNS:
+    active_prefix = f"project/runs/{ACTIVE_RUN}/"
+    extra = [ACTIVE_RUN] if active_prefix + "manifest.json" in files else []
+    for run in RUNS + extra:
         prefix = f"project/runs/{run}/"
         code += sorted(p for p in files if p.startswith(prefix + "code/") and p.endswith(".py"))
         pipeline += [prefix + "PROTOCOL.json", prefix + "SCIENCE_FREEZE.json"]
         pipeline += sorted(p for p in files if p.startswith(prefix + "assets/selected/") and p.endswith(".json"))
         pipeline += sorted(p for p in files if p in [prefix + "operations/collect.py", prefix + "operations/pipeline.py"])
+    if extra:
+        pipeline += [active_prefix + name for name in ["README_CN.md", "manifest.json", "diagnostic_manifest.json", "OPERATIONS_FREEZE.json"]]
+        pipeline += sorted(p for p in files if p.startswith(active_prefix + "operations/") and p.endswith(".py")
+                           and p != active_prefix + "operations/collect.py")
     pipeline += sorted(p for p in files if any(p.startswith(f"project/runs/{name}/") for name in
                        ["rmse_gap_diagnostic_20261115", "ramp_information_diagnostic_20261115"])
                        and p.endswith((".py", ".md")))
@@ -166,6 +173,13 @@ def check_core(files):
     for _, names in groups(files):
         for name in names:
             assert name in files, f"Required source missing: {name}"
+    active_prefix = f"project/runs/{ACTIVE_RUN}/"
+    if active_prefix + "SCIENCE_FREEZE.json" in files:
+        for rel, sha in json.loads(files[active_prefix + "SCIENCE_FREEZE.json"])["files"].items():
+            if rel.startswith("code/") and rel.endswith(".py"):
+                assert digest(files[active_prefix + rel]) == sha, (ACTIVE_RUN, rel)
+        for rel, sha in json.loads(files[active_prefix + "OPERATIONS_FREEZE.json"])["files"].items():
+            assert digest(files[active_prefix + rel]) == sha, (ACTIVE_RUN, rel)
     total_jobs = 0
     reported = {}
     for run in RUNS:

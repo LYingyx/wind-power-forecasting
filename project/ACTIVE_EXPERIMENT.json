@@ -1,13 +1,6 @@
 {
-  "timestamp": "2026-11-15T19:47:31.569755+08:00",
-  "run": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_site_finetune_20261114_v1",
-  "scope": "shared_plus_per_station_finetuning",
-  "status_path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_site_finetune_20261114_v1/STATUS.json",
-  "status": "complete",
-  "total_planned": 2571,
-  "total_completed": 2571,
-  "total_remaining": 0,
-  "current_phase": "complete_reviewed",
-  "result_report": "DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md",
-  "completion_audit": "analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json"
+  "timestamp": "2026-11-16T00:58:48.808859+08:00",
+  "run": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2",
+  "status_path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2/STATUS.json",
+  "scope": "v2 state representation; conditional stages; local4090 and v1006001"
 }

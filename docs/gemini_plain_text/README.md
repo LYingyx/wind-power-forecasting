@@ -3,7 +3,7 @@
 这四个 `.txt` 是 UTF-8 明文，包含原始文件正文，不是 ZIP。可在 GitHub 中打开单个文件，选择 **Raw / Download raw file** 下载，然后逐个上传到 Gemini。不要使用整个目录的 ZIP 作为普通附件。
 
 1. [01_context_and_results.txt](01_context_and_results.txt)：当前协议、结果、计划及结果到代码的导航。
-2. [02_models_and_training.txt](02_models_and_training.txt)：三轮实验的全部 `code/` Python 文件；内容完全相同的副本只显示一次，全部原路径保留。
+2. [02_models_and_training.txt](02_models_and_training.txt)：三轮已完成实验及 11-16 v2 新实验的全部 `code/` Python 文件；内容完全相同的副本只显示一次，全部原路径保留。
 3. [03_farm_seed_horizon_metrics.txt](03_farm_seed_horizon_metrics.txt)：逐风场、逐种子、分时效指标。
 4. [04_data_selection_evaluation.txt](04_data_selection_evaluation.txt)：天气准备和审计、实际选型配置、汇总计算及零训练诊断源码。
 

@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-11-16T00:55:30.894883+08:00",
+  "passed": true,
+  "device": "cuda:0",
+  "seconds": 24.75349371798802,
+  "equivalence_max_errors": {
+    "R0+H": 0.0,
+    "R1": 2.086162567138672e-07,
+    "R2": 2.086162567138672e-07,
+    "R3": 2.086162567138672e-07
+  },
+  "gradient_checks": {
+    "R2": 0.10721050947904587,
+    "R3": 0.21314126253128052,
+    "R4": 0.554772675037384,
+    "R4-noS": 0.554772675037384,
+    "R4-wrongS": 0.554772675037384,
+    "TF_R4": 0.6227202415466309,
+    "TF_E2L": 0.2818240821361542
+  },
+  "all_four_phases": true,
+  "inference_has_no_teacher": true,
+  "batch_invariant_sampling": true,
+  "wrong_state_donors_valid": true,
+  "backbone_cpu_cuda_initialization_rng_preserved": true,
+  "data_files_hashed": 58
+}

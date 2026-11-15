@@ -1,0 +1,1199 @@
+{
+  "timestamp": "2026-11-16T00:58:48.775764+08:00",
+  "run": "daily_state_representation_20261116_v2",
+  "stage1_planned": 25,
+  "maximum_training_jobs": 55,
+  "currently_enabled_training_jobs": 25,
+  "completed_training": 0,
+  "diagnostic_evaluations_completed": 0,
+  "active": [
+    {
+      "id": "R0plusH_r43",
+      "pid": 3389796,
+      "gpu": "0",
+      "host": "local4090"
+    },
+    {
+      "id": "R0plusH_r46",
+      "pid": 3389797,
+      "gpu": "1",
+      "host": "local4090"
+    },
+    {
+      "id": "R1_r44",
+      "pid": 3389798,
+      "gpu": "2",
+      "host": "local4090"
+    },
+    {
+      "id": "R2_r42",
+      "pid": 3389800,
+      "gpu": "3",
+      "host": "local4090"
+    },
+    {
+      "id": "R2_r45",
+      "pid": 3391005,
+      "gpu": "0",
+      "host": "local4090"
+    },
+    {
+      "id": "R3_r43",
+      "pid": 3391008,
+      "gpu": "1",
+      "host": "local4090"
+    },
+    {
+      "id": "R3_r46",
+      "pid": 3391009,
+      "gpu": "2",
+      "host": "local4090"
+    },
+    {
+      "id": "TF_E2L_r44",
+      "pid": 3391010,
+      "gpu": "3",
+      "host": "local4090"
+    },
+    {
+      "id": "REFERENCE_R0_r43",
+      "pid": 3392833,
+      "gpu": "0",
+      "host": "local4090"
+    },
+    {
+      "id": "REFERENCE_R0_r46",
+      "pid": 3392836,
+      "gpu": "1",
+      "host": "local4090"
+    },
+    {
+      "id": "REFERENCE_TF_R3_r44",
+      "pid": 3392838,
+      "gpu": "2",
+      "host": "local4090"
+    },
+    {
+      "id": "R0plusH_r42",
+      "pid": 309813,
+      "gpu": "0",
+      "host": "v1006001"
+    },
+    {
+      "id": "R0plusH_r44",
+      "pid": 309814,
+      "gpu": "1",
+      "host": "v1006001"
+    },
+    {
+      "id": "R0plusH_r45",
+      "pid": 309815,
+      "gpu": "2",
+      "host": "v1006001"
+    },
+    {
+      "id": "R1_r42",
+      "pid": 309816,
+      "gpu": "3",
+      "host": "v1006001"
+    },
+    {
+      "id": "R1_r43",
+      "pid": 309817,
+      "gpu": "4",
+      "host": "v1006001"
+    },
+    {
+      "id": "R1_r45",
+      "pid": 309818,
+      "gpu": "5",
+      "host": "v1006001"
+    },
+    {
+      "id": "R1_r46",
+      "pid": 309819,
+      "gpu": "6",
+      "host": "v1006001"
+    },
+    {
+      "id": "R2_r43",
+      "pid": 309820,
+      "gpu": "7",
+      "host": "v1006001"
+    },
+    {
+      "id": "R2_r44",
+      "pid": 309912,
+      "gpu": "0",
+      "host": "v1006001"
+    },
+    {
+      "id": "R2_r46",
+      "pid": 309913,
+      "gpu": "1",
+      "host": "v1006001"
+    },
+    {
+      "id": "R3_r42",
+      "pid": 309914,
+      "gpu": "2",
+      "host": "v1006001"
+    },
+    {
+      "id": "R3_r44",
+      "pid": 309915,
+      "gpu": "3",
+      "host": "v1006001"
+    },
+    {
+      "id": "R3_r45",
+      "pid": 309916,
+      "gpu": "4",
+      "host": "v1006001"
+    },
+    {
+      "id": "TF_E2L_r42",
+      "pid": 309917,
+      "gpu": "5",
+      "host": "v1006001"
+    },
+    {
+      "id": "TF_E2L_r43",
+      "pid": 309918,
+      "gpu": "6",
+      "host": "v1006001"
+    },
+    {
+      "id": "TF_E2L_r45",
+      "pid": 309919,
+      "gpu": "7",
+      "host": "v1006001"
+    },
+    {
+      "id": "TF_E2L_r46",
+      "pid": 310581,
+      "gpu": "0",
+      "host": "v1006001"
+    },
+    {
+      "id": "REFERENCE_R0_r42",
+      "pid": 310582,
+      "gpu": "1",
+      "host": "v1006001"
+    },
+    {
+      "id": "REFERENCE_R0_r44",
+      "pid": 310583,
+      "gpu": "2",
+      "host": "v1006001"
+    },
+    {
+      "id": "REFERENCE_R0_r45",
+      "pid": 310584,
+      "gpu": "3",
+      "host": "v1006001"
+    },
+    {
+      "id": "REFERENCE_TF_R3_r42",
+      "pid": 310585,
+      "gpu": "4",
+      "host": "v1006001"
+    },
+    {
+      "id": "REFERENCE_TF_R3_r43",
+      "pid": 310586,
+      "gpu": "5",
+      "host": "v1006001"
+    },
+    {
+      "id": "REFERENCE_TF_R3_r45",
+      "pid": 310587,
+      "gpu": "6",
+      "host": "v1006001"
+    },
+    {
+      "id": "REFERENCE_TF_R3_r46",
+      "pid": 310588,
+      "gpu": "7",
+      "host": "v1006001"
+    }
+  ],
+  "progress": {
+    "R0plusH_r43": {
+      "timestamp": "2026-11-16T00:58:46.024775+08:00",
+      "pid": 3389796,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 1050,
+      "total_steps": 3351,
+      "completed_steps": 1050,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.09462579695973546,
+      "loss": 0.09406255172122092,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 371.431640625,
+      "active_seconds": 114.48250639808248
+    },
+    "R0plusH_r46": {
+      "timestamp": "2026-11-16T00:58:46.953111+08:00",
+      "pid": 3389797,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 1000,
+      "total_steps": 3351,
+      "completed_steps": 1000,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.12478183375904336,
+      "loss": 0.09405610076338053,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 371.431640625,
+      "active_seconds": 115.51248228710028
+    },
+    "R1_r44": {
+      "timestamp": "2026-11-16T00:58:47.712049+08:00",
+      "pid": 3389798,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 1000,
+      "total_steps": 3351,
+      "completed_steps": 1000,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.12720383568084798,
+      "loss": 0.09388566155731679,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 368.9765625,
+      "active_seconds": 115.91753721906571
+    },
+    "R2_r42": {
+      "timestamp": "2026-11-16T00:58:46.842370+08:00",
+      "pid": 3389800,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 950,
+      "total_steps": 3351,
+      "completed_steps": 950,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.11851190823945217,
+      "loss": 0.09274084494302147,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0751953125,
+      "active_seconds": 116.16794691284304
+    },
+    "R2_r45": {
+      "timestamp": "2026-11-16T00:58:47.926304+08:00",
+      "pid": 3391005,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 800,
+      "total_steps": 3351,
+      "completed_steps": 800,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.12253582027973607,
+      "loss": 0.09344525530934333,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0751953125,
+      "active_seconds": 90.6798143449123
+    },
+    "R3_r43": {
+      "timestamp": "2026-11-16T00:58:46.738710+08:00",
+      "pid": 3391008,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 750,
+      "total_steps": 3351,
+      "completed_steps": 750,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.11678681456018239,
+      "loss": 0.09473045285542805,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0810546875,
+      "active_seconds": 88.96588089107536
+    },
+    "R3_r46": {
+      "timestamp": "2026-11-16T00:58:47.435978+08:00",
+      "pid": 3391009,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 750,
+      "total_steps": 3351,
+      "completed_steps": 750,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.1256152382004075,
+      "loss": 0.09454973314205806,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0810546875,
+      "active_seconds": 90.51201810807106
+    },
+    "TF_E2L_r44": {
+      "timestamp": "2026-11-16T00:58:48.423420+08:00",
+      "pid": 3391010,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
+      "step": 800,
+      "total_steps": 3351,
+      "completed_steps": 800,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.11555716752074659,
+      "loss": 0.09632739937864244,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 345.15625,
+      "active_seconds": 90.66986273409566
+    },
+    "R0plusH_r42": {
+      "timestamp": "2026-11-16T00:58:47.697765+08:00",
+      "pid": 309813,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 1800,
+      "total_steps": 3351,
+      "completed_steps": 1800,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.05664591755717993,
+      "loss": 0.09092084061354398,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 371.431640625,
+      "active_seconds": 107.35308335442096
+    },
+    "R0plusH_r44": {
+      "timestamp": "2026-11-16T00:58:48.540381+08:00",
+      "pid": 309814,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 1325,
+      "total_steps": 3351,
+      "completed_steps": 1325,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.0757349218428135,
+      "loss": 0.09213710872069844,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 371.431640625,
+      "active_seconds": 108.34575587324798
+    },
+    "R0plusH_r45": {
+      "timestamp": "2026-11-16T00:58:47.887788+08:00",
+      "pid": 309815,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 850,
+      "total_steps": 3351,
+      "completed_steps": 850,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.12799199648201465,
+      "loss": 0.0952310906087651,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 371.431640625,
+      "active_seconds": 107.00625084433705
+    },
+    "R1_r42": {
+      "timestamp": "2026-11-16T00:58:48.504920+08:00",
+      "pid": 309816,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 850,
+      "total_steps": 3351,
+      "completed_steps": 850,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.12571682907640935,
+      "loss": 0.09560477539020426,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 368.9765625,
+      "active_seconds": 107.44219814334065
+    },
+    "R1_r43": {
+      "timestamp": "2026-11-16T00:58:47.426940+08:00",
+      "pid": 309817,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 1525,
+      "total_steps": 3351,
+      "completed_steps": 1525,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.07562818501144647,
+      "loss": 0.09184492975961966,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 368.9765625,
+      "active_seconds": 107.13173635676503
+    },
+    "R1_r45": {
+      "timestamp": "2026-11-16T00:58:45.431055+08:00",
+      "pid": 309818,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 825,
+      "total_steps": 3351,
+      "completed_steps": 825,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.12447822250425816,
+      "loss": 0.09548527313904329,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 368.9765625,
+      "active_seconds": 104.36705610062927
+    },
+    "R1_r46": {
+      "timestamp": "2026-11-16T00:58:45.990501+08:00",
+      "pid": 309819,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 950,
+      "total_steps": 3351,
+      "completed_steps": 950,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.1080070660635829,
+      "loss": 0.09441261925979665,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 368.9765625,
+      "active_seconds": 104.77720909379423
+    },
+    "R2_r43": {
+      "timestamp": "2026-11-16T00:58:46.226563+08:00",
+      "pid": 309820,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 1100,
+      "total_steps": 3351,
+      "completed_steps": 1100,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.09752856247127056,
+      "loss": 0.09199635953388431,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0751953125,
+      "active_seconds": 105.80755427014083
+    },
+    "R2_r44": {
+      "timestamp": "2026-11-16T00:58:47.388246+08:00",
+      "pid": 309912,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 1200,
+      "total_steps": 3351,
+      "completed_steps": 1200,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.05781626213341951,
+      "loss": 0.09104728650301695,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0751953125,
+      "active_seconds": 82.22436706069857
+    },
+    "R2_r46": {
+      "timestamp": "2026-11-16T00:58:48.513084+08:00",
+      "pid": 309913,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 925,
+      "total_steps": 3351,
+      "completed_steps": 925,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.07639518775045871,
+      "loss": 0.09247123062610627,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0751953125,
+      "active_seconds": 84.89759005233645
+    },
+    "R3_r42": {
+      "timestamp": "2026-11-16T00:58:46.549882+08:00",
+      "pid": 309914,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 600,
+      "total_steps": 3351,
+      "completed_steps": 600,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.1272949894890189,
+      "loss": 0.0966866272315383,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0810546875,
+      "active_seconds": 80.62137696612626
+    },
+    "R3_r44": {
+      "timestamp": "2026-11-16T00:58:46.616322+08:00",
+      "pid": 309915,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 600,
+      "total_steps": 3351,
+      "completed_steps": 600,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.13154516264796257,
+      "loss": 0.09627683357646068,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0810546875,
+      "active_seconds": 81.60277590062469
+    },
+    "R3_r45": {
+      "timestamp": "2026-11-16T00:58:47.012850+08:00",
+      "pid": 309916,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 1000,
+      "total_steps": 3351,
+      "completed_steps": 1000,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.07728603687137366,
+      "loss": 0.09255923047661781,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 379.0810546875,
+      "active_seconds": 81.20695602335036
+    },
+    "TF_E2L_r42": {
+      "timestamp": "2026-11-16T00:58:45.747226+08:00",
+      "pid": 309917,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 600,
+      "total_steps": 3351,
+      "completed_steps": 600,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.12565372213721276,
+      "loss": 0.09758045346786579,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 345.15625,
+      "active_seconds": 79.8942820765078
+    },
+    "TF_E2L_r43": {
+      "timestamp": "2026-11-16T00:58:46.125252+08:00",
+      "pid": 309918,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 725,
+      "total_steps": 3351,
+      "completed_steps": 725,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.10334169905632734,
+      "loss": 0.09677045221986441,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 345.15625,
+      "active_seconds": 81.98067876324058
+    },
+    "TF_E2L_r45": {
+      "timestamp": "2026-11-16T00:58:47.293330+08:00",
+      "pid": 309919,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 825,
+      "total_steps": 3351,
+      "completed_steps": 825,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.09140179485082627,
+      "loss": 0.09546316077311834,
+      "best_mae": null,
+      "microbatch": 512,
+      "gpu_peak_mib": 345.15625,
+      "active_seconds": 82.2036175718531
+    }
+  },
+  "failures": [],
+  "errors": [],
+  "gates": {
+    "timestamp": "2026-11-16T00:58:48.726660+08:00",
+    "complete_groups": [
+      "R0",
+      "TF_R3"
+    ],
+    "stage1_complete": false,
+    "stage2_enabled": false,
+    "cross_backbone_enabled": false,
+    "loss_enabled": false,
+    "finished": false
+  },
+  "hosts": {
+    "local4090": {
+      "timestamp": "2026-11-16T00:58:40.048793+08:00",
+      "host": "local4090",
+      "pid": 3389777,
+      "active": [
+        {
+          "id": "R0plusH_r43",
+          "pid": 3389796,
+          "gpu": "0",
+          "host": "local4090"
+        },
+        {
+          "id": "R0plusH_r46",
+          "pid": 3389797,
+          "gpu": "1",
+          "host": "local4090"
+        },
+        {
+          "id": "R1_r44",
+          "pid": 3389798,
+          "gpu": "2",
+          "host": "local4090"
+        },
+        {
+          "id": "R2_r42",
+          "pid": 3389800,
+          "gpu": "3",
+          "host": "local4090"
+        },
+        {
+          "id": "R2_r45",
+          "pid": 3391005,
+          "gpu": "0",
+          "host": "local4090"
+        },
+        {
+          "id": "R3_r43",
+          "pid": 3391008,
+          "gpu": "1",
+          "host": "local4090"
+        },
+        {
+          "id": "R3_r46",
+          "pid": 3391009,
+          "gpu": "2",
+          "host": "local4090"
+        },
+        {
+          "id": "TF_E2L_r44",
+          "pid": 3391010,
+          "gpu": "3",
+          "host": "local4090"
+        },
+        {
+          "id": "REFERENCE_R0_r43",
+          "pid": 3392833,
+          "gpu": "0",
+          "host": "local4090"
+        },
+        {
+          "id": "REFERENCE_R0_r46",
+          "pid": 3392836,
+          "gpu": "1",
+          "host": "local4090"
+        },
+        {
+          "id": "REFERENCE_TF_R3_r44",
+          "pid": 3392838,
+          "gpu": "2",
+          "host": "local4090"
+        }
+      ],
+      "decisions": {
+        "3": {
+          "launch": true,
+          "yield_count": 0,
+          "reason": "fill_pair",
+          "free_mib": 15795,
+          "reserve_mib": 7371,
+          "worker_budget_mib": 2304,
+          "efficiency": {
+            "version": 4,
+            "cap": 3,
+            "workers": 2,
+            "slowdown_ratio": null,
+            "paired_incremental_slowdown": null,
+            "estimated_aggregate_gain": null,
+            "max_slowdown": 1.5,
+            "max_incremental_slowdown": 1.35,
+            "waiting_for_step_calibration": false,
+            "stable_seconds": 80.0,
+            "per_job_step_seconds": {
+              "R2_r42": 0.1359751527593471,
+              "TF_E2L_r44": 0.11895566527964548
+            }
+          }
+        },
+        "0": {
+          "launch": false,
+          "yield_count": 0,
+          "reason": "efficiency_cap",
+          "free_mib": 16913,
+          "reserve_mib": 7371,
+          "worker_budget_mib": 2304,
+          "efficiency": {
+            "version": 4,
+            "cap": 3,
+            "workers": 3,
+            "slowdown_ratio": null,
+            "paired_incremental_slowdown": null,
+            "estimated_aggregate_gain": null,
+            "max_slowdown": 1.5,
+            "max_incremental_slowdown": 1.35,
+            "waiting_for_step_calibration": true,
+            "stable_seconds": 18.3,
+            "per_job_step_seconds": {}
+          }
+        },
+        "1": {
+          "launch": false,
+          "yield_count": 0,
+          "reason": "efficiency_cap",
+          "free_mib": 15883,
+          "reserve_mib": 7371,
+          "worker_budget_mib": 2304,
+          "efficiency": {
+            "version": 4,
+            "cap": 3,
+            "workers": 3,
+            "slowdown_ratio": null,
+            "paired_incremental_slowdown": null,
+            "estimated_aggregate_gain": null,
+            "max_slowdown": 1.5,
+            "max_incremental_slowdown": 1.35,
+            "waiting_for_step_calibration": true,
+            "stable_seconds": 18.3,
+            "per_job_step_seconds": {}
+          }
+        },
+        "2": {
+          "launch": false,
+          "yield_count": 0,
+          "reason": "efficiency_cap",
+          "free_mib": 14653,
+          "reserve_mib": 7371,
+          "worker_budget_mib": 2304,
+          "efficiency": {
+            "version": 4,
+            "cap": 3,
+            "workers": 3,
+            "slowdown_ratio": null,
+            "paired_incremental_slowdown": null,
+            "estimated_aggregate_gain": null,
+            "max_slowdown": 1.5,
+            "max_incremental_slowdown": 1.35,
+            "waiting_for_step_calibration": true,
+            "stable_seconds": 18.3,
+            "per_job_step_seconds": {}
+          }
+        }
+      },
+      "failed": [],
+      "eligible": 11,
+      "stopping": false,
+      "storage": {
+        "ok": true,
+        "paths": [
+          {
+            "label": "metadata",
+            "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2",
+            "available_mib": 1034406.36328125,
+            "reserve_mib": 512.0,
+            "quota_headroom_mib": 1034406.36328125,
+            "ok": true
+          },
+          {
+            "label": "jobs",
+            "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2/jobs",
+            "available_mib": 1034406.36328125,
+            "reserve_mib": 2048.0,
+            "quota_headroom_mib": 1034406.36328125,
+            "ok": true
+          },
+          {
+            "label": "data",
+            "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_protocol_restart_20261114_v1/data",
+            "available_mib": 1034406.36328125,
+            "reserve_mib": 2048.0,
+            "quota_headroom_mib": 1034406.36328125,
+            "ok": true
+          }
+        ]
+      }
+    },
+    "v1006001": {
+      "done": [],
+      "failed": [],
+      "status": {
+        "timestamp": "2026-11-16T00:58:30.951548+08:00",
+        "host": "v1006001",
+        "pid": 309696,
+        "active": [
+          {
+            "id": "R0plusH_r42",
+            "pid": 309813,
+            "gpu": "0",
+            "host": "v1006001"
+          },
+          {
+            "id": "R0plusH_r44",
+            "pid": 309814,
+            "gpu": "1",
+            "host": "v1006001"
+          },
+          {
+            "id": "R0plusH_r45",
+            "pid": 309815,
+            "gpu": "2",
+            "host": "v1006001"
+          },
+          {
+            "id": "R1_r42",
+            "pid": 309816,
+            "gpu": "3",
+            "host": "v1006001"
+          },
+          {
+            "id": "R1_r43",
+            "pid": 309817,
+            "gpu": "4",
+            "host": "v1006001"
+          },
+          {
+            "id": "R1_r45",
+            "pid": 309818,
+            "gpu": "5",
+            "host": "v1006001"
+          },
+          {
+            "id": "R1_r46",
+            "pid": 309819,
+            "gpu": "6",
+            "host": "v1006001"
+          },
+          {
+            "id": "R2_r43",
+            "pid": 309820,
+            "gpu": "7",
+            "host": "v1006001"
+          },
+          {
+            "id": "R2_r44",
+            "pid": 309912,
+            "gpu": "0",
+            "host": "v1006001"
+          },
+          {
+            "id": "R2_r46",
+            "pid": 309913,
+            "gpu": "1",
+            "host": "v1006001"
+          },
+          {
+            "id": "R3_r42",
+            "pid": 309914,
+            "gpu": "2",
+            "host": "v1006001"
+          },
+          {
+            "id": "R3_r44",
+            "pid": 309915,
+            "gpu": "3",
+            "host": "v1006001"
+          },
+          {
+            "id": "R3_r45",
+            "pid": 309916,
+            "gpu": "4",
+            "host": "v1006001"
+          },
+          {
+            "id": "TF_E2L_r42",
+            "pid": 309917,
+            "gpu": "5",
+            "host": "v1006001"
+          },
+          {
+            "id": "TF_E2L_r43",
+            "pid": 309918,
+            "gpu": "6",
+            "host": "v1006001"
+          },
+          {
+            "id": "TF_E2L_r45",
+            "pid": 309919,
+            "gpu": "7",
+            "host": "v1006001"
+          },
+          {
+            "id": "TF_E2L_r46",
+            "pid": 310581,
+            "gpu": "0",
+            "host": "v1006001"
+          },
+          {
+            "id": "REFERENCE_R0_r42",
+            "pid": 310582,
+            "gpu": "1",
+            "host": "v1006001"
+          },
+          {
+            "id": "REFERENCE_R0_r44",
+            "pid": 310583,
+            "gpu": "2",
+            "host": "v1006001"
+          },
+          {
+            "id": "REFERENCE_R0_r45",
+            "pid": 310584,
+            "gpu": "3",
+            "host": "v1006001"
+          },
+          {
+            "id": "REFERENCE_TF_R3_r42",
+            "pid": 310585,
+            "gpu": "4",
+            "host": "v1006001"
+          },
+          {
+            "id": "REFERENCE_TF_R3_r43",
+            "pid": 310586,
+            "gpu": "5",
+            "host": "v1006001"
+          },
+          {
+            "id": "REFERENCE_TF_R3_r45",
+            "pid": 310587,
+            "gpu": "6",
+            "host": "v1006001"
+          },
+          {
+            "id": "REFERENCE_TF_R3_r46",
+            "pid": 310588,
+            "gpu": "7",
+            "host": "v1006001"
+          }
+        ],
+        "decisions": {
+          "0": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 12594,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R0plusH_r42": 0.05939038487151265,
+                "R2_r44": 0.0640510481595993
+              }
+            }
+          },
+          "1": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 8826,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R0plusH_r44": 0.08299487801268696,
+                "R2_r46": 0.08930459782481194
+              }
+            }
+          },
+          "2": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 11344,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R0plusH_r45": 0.12140795150771737,
+                "R3_r42": 0.12221830310299991
+              }
+            }
+          },
+          "3": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 10924,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R1_r42": 0.12707069162279366,
+                "R3_r44": 0.12952875295653937
+              }
+            }
+          },
+          "4": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 13318,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R1_r43": 0.0726778445392847,
+                "R3_r45": 0.07613498672842979
+              }
+            }
+          },
+          "5": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 10792,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R1_r45": 0.12597590597346425,
+                "TF_E2L_r42": 0.1256100151501596
+              }
+            }
+          },
+          "6": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 12666,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R1_r46": 0.10912715332582593,
+                "TF_E2L_r43": 0.1085460114851594
+              }
+            }
+          },
+          "7": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 12286,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "efficiency": {
+              "version": 4,
+              "cap": 3,
+              "workers": 2,
+              "slowdown_ratio": null,
+              "paired_incremental_slowdown": null,
+              "estimated_aggregate_gain": null,
+              "max_slowdown": 1.5,
+              "max_incremental_slowdown": 1.35,
+              "waiting_for_step_calibration": false,
+              "stable_seconds": 55.6,
+              "per_job_step_seconds": {
+                "R2_r43": 0.09973562484607101,
+                "TF_E2L_r45": 0.09541874639689923
+              }
+            }
+          }
+        },
+        "failed": [],
+        "eligible": 24,
+        "stopping": false,
+        "storage": {
+          "ok": true,
+          "paths": [
+            {
+              "label": "metadata",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_state_representation_20261116_v2",
+              "available_mib": 1487040.43359375,
+              "reserve_mib": 512.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "jobs",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_state_representation_20261116_v2/jobs",
+              "available_mib": 1487040.43359375,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "data",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_protocol_restart_20261114_v1/data",
+              "available_mib": 1487040.43359375,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "fresh": true
+    }
+  }
+}

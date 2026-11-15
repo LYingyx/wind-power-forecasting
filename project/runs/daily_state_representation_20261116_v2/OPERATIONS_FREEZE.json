@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-11-16T00:55:50.701481+08:00",
+  "files": {
+    "operations/checks.py": "bb0f56b6bc0f146847034ebdbd88c09f1dc832e7ffe041b1774142bf4cdf1715",
+    "operations/collect.py": "799c47d65304d16b462013a4ec3891bdd605026004e6461207cbef63bfabbd1c",
+    "operations/coordinator.py": "63f633e2ace168ead196977f1bf4c9a7ed7a981a9e211fc872720028964ad628",
+    "operations/efficiency_v3.py": "8ddca8eb4543bbb373ba8a415f2262df22b7408b889d73c8ef34a0040d8ecca6",
+    "operations/launch.py": "d8c84c07849cde6f9af7e0f266a023e40889c26e0aa537a571409c7151de51db",
+    "operations/probe.py": "0998d6b3775c3e189bef08cd85a92b9177dbb097194d834e9ac86f939904211e",
+    "operations/report_diagnostics.py": "42411b4420d111f3c9bd3cc04f73fe2b3373c92889634553b5c40da28ea6fa7c",
+    "operations/resource_limits.py": "9d5fc2804d569af4e032d097d712fbecf2afb765c468f5d547ab326aa966c49c",
+    "operations/scheduler.py": "151fb97c91af92d4e879ae7f0a2e37f73fd71e89d6b8676cc4f68a79f49ac573",
+    "operations/storage_guard.py": "3944166ac1cbfcc603b638dc93e37b51fec7e9272c03c360666be9c43d283589"
+  },
+  "scope": "pre-result gate, diagnostics, deployment and scheduling implementation"
+}

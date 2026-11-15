@@ -37,6 +37,10 @@
 !project/runs/daily*/selection_inputs/*.json
 !project/runs/daily*/analysis/*.csv
 !project/runs/daily*/analysis/*.json
+!project/runs/daily*/reference_metrics/**/*.json
+!project/runs/daily_state_representation_20261116_v2/operations/CHECKS.json
+!project/runs/daily_state_representation_20261116_v2/operations/ASSIGNMENTS.json
+!project/runs/daily_state_representation_20261116_v2/operations/RESOURCES.json
 !project/analysis/**/*.csv
 !project/analysis/**/*.json
 !project/analysis/**/*.png

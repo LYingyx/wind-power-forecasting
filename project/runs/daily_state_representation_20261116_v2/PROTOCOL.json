@@ -1,0 +1,81 @@
+{
+  "version": 2,
+  "date": "2026-11-16",
+  "data_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "task": "single-farm 0-6h every 15min; shared training over 55 farms",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "pangu_issue_utc": 0,
+  "latency_hours": 15,
+  "crop_leads": [
+    9,
+    45
+  ],
+  "regional_delay_minutes": 0,
+  "effective_batch": 512,
+  "optimizer": "AdamW",
+  "lr": 0.0002,
+  "weight_decay": 0.0001,
+  "dropout": 0.05,
+  "checkpoint_selection": "strict minimum 2023 farm-macro MAE; once each epoch; no RMSE tie break",
+  "generator": {
+    "width": 32,
+    "layers": 1,
+    "heads": 2,
+    "dropout": 0.0,
+    "hourly_nodes": 8,
+    "segments": 7,
+    "parameters_per_segment": 4,
+    "kernel": "normalized Gaussian centers at hourly-segment midpoints, sigma=0.75h",
+    "state_dimension": 17,
+    "history_span_hours": 5.75
+  },
+  "flow": {
+    "euler_steps": 8,
+    "training_samples": 4,
+    "evaluation_samples": 8,
+    "posterior_prior_std": 0.1,
+    "loss": "teacher MAE + student-mean MAE + 0.1 flow MSE + 0.001 posterior KL",
+    "posterior_target_detached_for_flow": true,
+    "evaluation_noise": "stateless per origin/site/seed/sample",
+    "inference_teacher": false,
+    "dispersion": "reported; mean-of-4 MAE does not guarantee noncollapse"
+  },
+  "stage1_runs": 25,
+  "stage2_conditional_runs": 15,
+  "cross_backbone_conditional_runs": 5,
+  "loss_review_runs": 10,
+  "main_gate": {
+    "mae_change_percent_max": -0.1,
+    "rmse_change_percent_max": -0.1,
+    "farm_wins_min": 28,
+    "both_metrics_seed_wins_min": 4,
+    "high_power_rmse_change_percent_max": 0.1,
+    "references": [
+      "R0",
+      "TF_R3",
+      "TF_E2L"
+    ]
+  },
+  "stage2_gate": "R3 strictly improves macro MAE and RMSE versus R2",
+  "mechanisms": {
+    "R3": [
+      "R2",
+      "R0+H"
+    ],
+    "R4": [
+      "R3",
+      "R4-noS",
+      "R4-wrongS"
+    ]
+  },
+  "loss_candidate_rule": "R4 if mechanism passes; else R3 if mechanism passes; else R1 if main gate passes; else R0",
+  "loss_adoption": "candidate beats loss-matched TF in MAE/RMSE and itself not worse than its MAE-trained version",
+  "limitations": [
+    "R0 selected among seven encodings on 2023",
+    "2023 is not an independent test set",
+    "2024 previously inspected; later review is exploratory",
+    "R1 and R0 are affine-equivalent"
+  ],
+  "baseline_reuse": "five existing R0 and five existing TF_R3; no changes to frozen original runs"
+}

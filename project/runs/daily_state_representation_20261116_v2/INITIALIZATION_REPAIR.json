@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-11-16T00:54:50.928937+08:00",
+  "reason": "Auxiliary CPU initialization used torch.manual_seed, which also changed CUDA RNG; now CPU-only seed under fork_rng. No previous 2571-job results changed.",
+  "old_model_sha256": "16ad3b0f0a70ffa86f7cdb4850920905879cea584435575986857d9806f16297",
+  "new_model_sha256": "4068ca2dbdb561bceeb2c48147b046850356879717d17835d0480c860e39c15b",
+  "completed_training_discarded": 0,
+  "uncompleted_training_attempts_restarted": 25
+}

@@ -65,6 +65,7 @@ class SharedData:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/baselines_original.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/baselines_original.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/baselines_original.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/baselines_original.py
 
 SHA-256: fd0f007dd1963081ac11c59450fb1ba4f8b40abe09717dfc17ee76f1a23fd787
 
@@ -374,6 +375,7 @@ def input_group(family):
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/column_original.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/column_original.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/column_original.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/column_original.py
 
 SHA-256: 60be06d445f8e6ea5374605cc08b595c43184ea01957db98533372f3826582d6
 
@@ -532,6 +534,7 @@ def install_builder() -> None:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/common.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/common.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/common.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/common.py
 
 SHA-256: 15620d16df2244350d58bafdea0fde899cb593d0d5e36e4e13ce4b4edeeee164
 
@@ -606,6 +609,7 @@ def source_hashes():
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/models.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/models.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/models.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/models.py
 
 SHA-256: 726958ee1c9712a2a15d09e6485f0f8535fb512d8fee9b77f9b5fba0be56d195
 
@@ -765,6 +769,7 @@ def named(family,width):
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/reference_original.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/reference_original.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/reference_original.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/reference_original.py
 
 SHA-256: 3ac3609d1f0b412868792b3601adbc7a500b38971338825b1cb1222c5c296355
 
@@ -1157,6 +1162,7 @@ def ensemble_from_states(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/__init__.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/__init__.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/__init__.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/__init__.py
 
 SHA-256: f5cabe1d8ee96b466addf205691f2c7f954cded500737db697fdbff598ba55ce
 
@@ -1173,6 +1179,7 @@ __all__ = ["load_config"]
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/aggregate_training.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/aggregate_training.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/aggregate_training.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/aggregate_training.py
 
 SHA-256: c147c52e7f14045058b3d7e11787342421b38016da47ff0a4b6296c4a3457f6a
 
@@ -1689,6 +1696,7 @@ def save_json(path: str | Path, value: Mapping[str, Any]) -> None:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/config.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/config.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/config.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/config.py
 
 SHA-256: 39ad026290fd9af6b458819af55cea52df4b73e7e520a6944ec2fb22a1366df6
 
@@ -1737,6 +1745,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/__init__.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/__init__.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/data/__init__.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/data/__init__.py
 
 SHA-256: b35f5e72509120532583182cf51d58c73240e8a143153fe058f83505e953ed11
 
@@ -1791,6 +1800,7 @@ __all__ = [
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/data/aggregate.py
 
 SHA-256: abb551d55486b2af7eb1669aff9a636b3d8d4953e619de5c3852aeebdde6d37b
 
@@ -2255,6 +2265,7 @@ def create_aggregate_loader(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py
 
 SHA-256: e368ef92e3f4f9f15e7feaf230575a4b8585110f14288ef2941b070f228c3841
 
@@ -2609,6 +2620,7 @@ def create_aggregate_dynamics_loader(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate_response.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate_response.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/data/aggregate_response.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/data/aggregate_response.py
 
 SHA-256: 2919332c5d17522d947fb4645f5e4952ba5b64e0d16cd538e565526c778993bc
 
@@ -3070,6 +3082,7 @@ def response_cache_manifest_identity(cache: str | Path) -> str:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/dataset.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/dataset.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/data/dataset.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/data/dataset.py
 
 SHA-256: b9e24840f8e54d1fe915e2cb4b6ae3ab152cac402f9248cdcc0658dadb6a06c5
 
@@ -3706,6 +3719,7 @@ def create_spatial_pretrain_loader(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/preprocess.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/data/preprocess.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/data/preprocess.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/data/preprocess.py
 
 SHA-256: 724e1825a58a940511ad7c620a26300ea4821d267110d49cdd0073e70b4b197f
 
@@ -4160,6 +4174,7 @@ class ModelDataPreparer:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/experiment_guard.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/experiment_guard.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/experiment_guard.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/experiment_guard.py
 
 SHA-256: 61adf9f35a445ee962fff7df3b5bdacd9ec5a904b2466ba07f445458b9e0e055
 
@@ -4230,6 +4245,7 @@ def require_test_authorized(config: dict, checkpoint: str | Path) -> None:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/__init__.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/__init__.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/__init__.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/__init__.py
 
 SHA-256: 9ab6ca15b7ba7fbc03319bf9b8e32df6a5a77d688648661ce340a205eb40c8ef
 
@@ -4348,6 +4364,7 @@ __all__ = [
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/aggregate_cluster.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/aggregate_cluster.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/aggregate_cluster.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/aggregate_cluster.py
 
 SHA-256: 1a5a0dfc36cee7211cced4b06cb508d79e8d7afabb0e0569a2423fd0822f0583
 
@@ -6312,6 +6329,7 @@ def build_aggregate_model(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/baselines.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/baselines.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/baselines.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/baselines.py
 
 SHA-256: d337b443796a6e5961808f4d9e2e0ffcb02019fd4dc5126369aab6a9e70ba9d8
 
@@ -6911,6 +6929,7 @@ def build_weather_baseline(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/components.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/components.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/components.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/components.py
 
 SHA-256: e52d25e71bd707eea23afe92801d38fc3939fe1963d9b4d60cd2d546cee0fade
 
@@ -7926,6 +7945,7 @@ def inverse_softplus(values: torch.Tensor) -> torch.Tensor:
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/controlled_transition.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/controlled_transition.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/controlled_transition.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/controlled_transition.py
 
 SHA-256: 1ba4fa61b1b02f57b5cfb716bdfe97c1ad6adcf34748c5d5730ca35b99341adb
 
@@ -8390,6 +8410,7 @@ def build_controlled_transition_model(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/forced_evolution.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/forced_evolution.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/forced_evolution.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/forced_evolution.py
 
 SHA-256: e80286be4d2994169feec37652a3f4555787d67153b05f0bbadd1f51a4e9e2a4
 
@@ -9109,6 +9130,7 @@ def build_forced_evolution_model(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/incremental_correction.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/incremental_correction.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/incremental_correction.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/incremental_correction.py
 
 SHA-256: 144193dc4c89ca0dbfdeba9f316654b362f4c967f7f35d5ba3e1015cd2918ea2
 
@@ -10758,6 +10780,7 @@ def build_incremental_correction_model(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/local_state_identifiability.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/local_state_identifiability.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/local_state_identifiability.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/local_state_identifiability.py
 
 SHA-256: 46b4c4125de5276499cc44ac044bfcf8186deac1683c40fb3060ef1ec5679891
 
@@ -11910,6 +11933,7 @@ def build_local_state_identifiability_model(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/local_to_global.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/local_to_global.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/local_to_global.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/local_to_global.py
 
 SHA-256: 2443db37c2e9ae82bd0434eb3a29476793a4eb3798b525b86b12fdd3fec58fc7
 
@@ -12334,6 +12358,7 @@ def build_local_to_global_model(
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/p0i_legacy.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/p0i_legacy.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/p0i_legacy.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/p0i_legacy.py
 
 SHA-256: 1ddb1098f0b309777b6a9da7c6d29508743e0e24080dda2208ef3116dde42e4b
 
@@ -12642,6 +12667,7 @@ class TemporalAlignedBaseline(CovariateBaseline):
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/p0i_transfer.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/models/p0i_transfer.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/models/p0i_transfer.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/models/p0i_transfer.py
 
 SHA-256: 8179cfd44f71c13cbf2393facd05e326d2f9dc0827ae26c7a7e8ce31342376ce
 
@@ -12735,6 +12761,7 @@ class P0IConditionTransfer(TemporalAlignedBaseline):
 - project/runs/daily_protocol_restart_20261114_v1/code/legacy/vendor/wind_forcing/training.py
 - project/runs/daily_ablation_restart_20261114_v1/code/legacy/vendor/wind_forcing/training.py
 - project/runs/daily_site_finetune_20261114_v1/code/legacy/vendor/wind_forcing/training.py
+- project/runs/daily_state_representation_20261116_v2/code/legacy/vendor/wind_forcing/training.py
 
 SHA-256: 62e8eb9514e5681bfdfcb80faab8254fbd5f8d8f3629fe6e102e412da27f6d20
 
@@ -14084,6 +14111,7 @@ class SharedModel(nn.Module):
 - project/runs/daily_protocol_restart_20261114_v1/code/operational.py
 - project/runs/daily_ablation_restart_20261114_v1/code/operational.py
 - project/runs/daily_site_finetune_20261114_v1/code/operational.py
+- project/runs/daily_state_representation_20261116_v2/code/operational.py
 
 SHA-256: 2b98d93a241a58c771a06f1575a729af06935e520d6ed504ee57f5e99d6a53f7
 
@@ -14188,6 +14216,7 @@ def interpolate_nodes(nodes, offsets, queries):
 - project/runs/daily_protocol_restart_20261114_v1/code/physics.py
 - project/runs/daily_ablation_restart_20261114_v1/code/physics.py
 - project/runs/daily_site_finetune_20261114_v1/code/physics.py
+- project/runs/daily_state_representation_20261116_v2/code/physics.py
 
 SHA-256: ef439fd7911e1c0bdabd19020bc31f4aadd71295d470db5459888fbcdd923161
 
@@ -14634,6 +14663,7 @@ if __name__=='__main__':main()
 - project/runs/daily_protocol_restart_20261114_v1/code/settings.py
 - project/runs/daily_ablation_restart_20261114_v1/code/settings.py
 - project/runs/daily_site_finetune_20261114_v1/code/settings.py
+- project/runs/daily_state_representation_20261116_v2/code/settings.py
 
 SHA-256: eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160
 
@@ -14783,6 +14813,7 @@ if __name__=='__main__':
 ## SOURCE: project/runs/daily_ablation_restart_20261114_v1/code/data.py
 
 - project/runs/daily_ablation_restart_20261114_v1/code/data.py
+- project/runs/daily_state_representation_20261116_v2/code/base_data.py
 
 SHA-256: c352c1233329d4cc0c258662c503cd59c83c068f7acbaf812cc45482443c2aaa
 
@@ -14848,6 +14879,7 @@ class SharedData:
 ## SOURCE: project/runs/daily_ablation_restart_20261114_v1/code/model.py
 
 - project/runs/daily_ablation_restart_20261114_v1/code/model.py
+- project/runs/daily_state_representation_20261116_v2/code/backbone.py
 
 SHA-256: 03bf4e6d998ac6344fea305d4ef347f2c97682bb08241810256868998e9b78b9
 
@@ -15373,5 +15405,634 @@ def self_test():
     a,_=correction(origin,pred,y);b,_=correction(origin,p2,y2)
     assert np.array_equal(a[:50],b[:50]),'future labels/predictions affected earlier outputs'
     return True
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/code/data.py
+
+- project/runs/daily_state_representation_20261116_v2/code/data.py
+
+SHA-256: f1371ad99d98184a6631071b009589612735b014602f1730fca5fdac6115ff85
+
+```
+"""Same frozen samples as R0, with the eight available forecast nodes exposed."""
+from base_data import SharedData as OriginalData
+from settings import DATA
+from physics import operating_state
+import numpy as np
+import torch
+
+
+class SharedData(OriginalData):
+    def __init__(self, split, spec, rows=None):
+        super().__init__(split, spec, rows)
+        self.wrong_state = spec.get('representation') == 'R4-wrongS'
+        if self.wrong_state:
+            self.state_donor = np.load(self.root / f'donor_r{spec["seed"]}.npy')
+            self.donor_history = np.load(DATA/'train/h.npy', mmap_mode='r')
+            self.donor_rings = np.load(DATA/'train/rings.npy', mmap_mode='r')
+
+    def batch(self, indices, device='cpu'):
+        inputs, y, local_si, ti = super().batch(indices, device)
+        si = self.sites[local_si]
+        cy = self.a['cycle'][ti]
+        inputs['hourly'] = torch.as_tensor(np.array(self.a['nodes'][cy, si]), device=device)
+        inputs['offset'] = torch.as_tensor(np.array(self.a['offset'][ti]), device=device, dtype=torch.float32)
+        inputs['sample_key'] = torch.as_tensor(np.asarray(self.a['origin'][ti])//900*55+si,
+                                             device=device, dtype=torch.long)
+        h = np.array(self.a['h'][ti, si])
+        rings = np.array(self.a['rings'][ti, si])
+        if self.wrong_state:
+            donor = self.state_donor[ti]
+            h = np.array(self.donor_history[donor, si])
+            rings = np.array(self.donor_rings[donor, si])
+        state = operating_state(h, self.flat[si, None])
+        state = (state-self.sm[si, 15:22])/self.ss[si, 15:22]
+        rings = (rings-self.rm[si])/self.rs[si]
+        # The unchanged 24-point history spans 23 intervals = 5.75 hours.
+        c = np.concatenate([h[:, -1:], 1-h[:, -1:], (h[:, -1:]-h[:, -5:-4]),
+                            (h[:, -1:]-h[:, :1])/5.75, state,
+                            rings[:, [0, 2, 4, 6, 8, 10]]], axis=-1).astype('f4')
+        inputs['state_c'] = torch.as_tensor(c, device=device)
+        return inputs, y, local_si, ti
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/code/diagnostics.py
+
+- project/runs/daily_state_representation_20261116_v2/code/diagnostics.py
+
+SHA-256: 48ebcafb34a44bdf403b997491145fe904dffd37506c2207486ae51ef6d05d47
+
+```
+"""Descriptive pooled diagnostics; checkpoint selection still uses farm-macro MAE."""
+import collections
+import numpy as np
+
+
+class Diagnostics:
+    def __init__(self):
+        self.bins = collections.defaultdict(lambda: np.zeros(5, dtype='f8'))
+        self.diversity = np.zeros(3, dtype='f8')
+        self.median_error = np.zeros(3, dtype='f8')
+
+    def update(self, b, y, p, samples=None):
+        y=y.cpu().numpy().astype('f8');p=p.cpu().numpy().astype('f8')
+        h=b['h'][:, -1:].cpu().numpy().astype('f8');err=p-y;dy=y-h;dp=p-h
+        phase=(b['phase'].cpu().numpy()[:, None]+np.arange(1,25)[None])%4
+        masks={f'clock_{int(q)*15:02d}':phase==q for q in range(4)}
+        masks.update(high_up=(h>=.75)&(dy>0), high_down=(h>=.75)&(dy<0))
+        for name,a,z in [('0_1h',0,4),('1_3h',4,12),('3_6h',12,24)]:
+            mask=np.zeros_like(dy,dtype=bool);mask[:,a:z]=abs(dy[:,a:z])>.3
+            masks['large_change_'+name]=mask
+        for name,mask in masks.items():
+            self.bins[name]+=np.array([mask.sum(),abs(err[mask]).sum(),(err[mask]**2).sum(),
+                                      (dp*np.sign(dy))[mask].sum(),abs(dy[mask]).sum()])
+        if samples is not None:
+            draws=samples.cpu().numpy().astype('f8');std=draws.std(1)
+            self.diversity+=np.array([std.size,std.sum(),(std>1e-6).sum()])
+            median=np.median(draws,axis=1)-y
+            self.median_error+=np.array([median.size,abs(median).sum(),(median**2).sum()])
+
+    def result(self):
+        bins={}
+        for name,(n,ab,sq,cap,den) in self.bins.items():
+            bins[name]=dict(count=int(n),mae=ab/n if n else None,mse=sq/n if n else None,
+                            capture_ratio=cap/den if den else None,
+                            abs_error_sum=ab,squared_error_sum=sq,capture_numerator=cap,capture_denominator=den)
+        result=dict(aggregation='pooled diagnostic cells; not farm-macro selection metrics',bins=bins)
+        n,sd,positive=self.diversity
+        if n:
+            count,ab,sq=self.median_error
+            result.update(sample_std_mean=sd/n,nonzero_sample_std_fraction=positive/n,
+                          sample_median_mae=ab/count,sample_median_rmse=float(np.sqrt(sq/count)))
+        return result
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/code/model.py
+
+- project/runs/daily_state_representation_20261116_v2/code/model.py
+
+SHA-256: 4068ca2dbdb561bceeb2c48147b046850356879717d17835d0480c860e39c15b
+
+```
+"""V2 changes only the weather-query path, plus the explicit R0+H control."""
+from backbone import SharedModel as Backbone, configure, seed_all, zero_last
+from representation import Window, Teacher, Flow, lerp, kernels, stateless_noise
+import torch
+from torch import nn
+
+
+class WeatherTimeE2L(nn.Module):
+    def __init__(self, d):
+        super().__init__()
+        self.weather = nn.Sequential(nn.Linear(14, d), nn.Identity(), nn.Linear(d, d),
+                                     nn.Identity(), nn.Linear(d, d))
+        self.time = nn.Linear(4, d, bias=False)
+
+    def forward(self, x):
+        return self.weather(x[..., :14])+self.time(x[..., 14:])
+
+
+class SharedModel(Backbone):
+    def __init__(self, spec):
+        super().__init__(spec)
+        self.representation = spec.get('representation', 'R0')
+        self.generative = self.representation.startswith('R4')
+        # Preserve all existing backbone parameters and its initialization RNG.
+        with torch.random.fork_rng(devices=[]):
+            # Seed CPU initialization only: torch.manual_seed also resets CUDA,
+            # which fork_rng(devices=[]) intentionally does not snapshot.
+            torch.default_generator.manual_seed(spec['seed']+20261116)
+            if self.family == 'TF' and self.representation != 'TF_R3':
+                self.original.w_in = WeatherTimeE2L(self.d)
+            if self.representation == 'R0+H':
+                old = self.head[0]
+                new = nn.Linear(self.d+2, old.out_features)
+                with torch.no_grad():
+                    new.weight[:, :self.d].copy_(old.weight)
+                    new.weight[:, self.d:].zero_()
+                    new.bias.copy_(old.bias)
+                self.head[0] = new
+            if self.representation in ['R2', 'R3'] or self.generative:
+                self.window = Window(self.d, self.representation not in ['R2', 'R4-noS'])
+                self.residual_projection = nn.Linear(4, self.d, bias=False)
+            if self.generative:
+                self.teacher = Teacher(self.d)
+                self.flow = Flow()
+                # At initialization, stochastic models also exactly recover R1.
+                nn.init.zeros_(self.residual_projection.weight)
+
+    def latent(self, b):
+        projection = self.weather_projection if self.family == 'W0' else self.original.w_in.weather
+        z = projection(b['hourly'])
+        return z, lerp(z, b['offset'])
+
+    def decode(self, b, weather):
+        h = b['h']; n = len(h)
+        site = torch.cat([self.static[b['site']], self.embedding(b['site'])], -1)
+        sv = self.site_projection(site)
+        lead = torch.arange(1, 25, device=h.device, dtype=h.dtype)[None].expand(n, -1)/24
+        extra = sv[:, None].expand(-1, 24, -1)
+        if self.has_region:
+            extra = extra+self.sel(b['x'])+self.regional(b['region'])[:, None]+self.neighbor(b)
+        if self.family == 'W0':
+            time = torch.stack([lead, torch.sin(2*torch.pi*lead/4), torch.cos(2*torch.pi*lead/4)], -1)
+            context = torch.cat([time, site[:, None].expand(-1, 24, -1),
+                                 b['phase'][:, None, None].to(h).expand(-1, 24, 1)/3], -1)
+            clock = torch.arange(-23, 1, device=h.device, dtype=h.dtype).expand_as(h)/24
+            memory = self.history_encoder(self.history_projection(torch.stack([h, clock], -1)))
+            w = self.align_out(self.align_v(weather))
+            q = self.context_projection(context)+w+self.condition_response(b, w, memory, lead)+extra
+            hidden = self.decoder(q, memory)
+            if self.representation == 'R0+H':
+                level = torch.stack([h[:, -1], 1-h[:, -1]], -1)
+                hidden = torch.cat([hidden, level[:, None].expand(-1, 24, -1)], -1)
+            return h[:, -1:]+self.head(hidden).squeeze(-1)
+        m = self.original
+        clock = torch.linspace(-1, 0, 24, device=h.device, dtype=h.dtype).expand_as(h)
+        memory = m.h_enc(m.pe(m.h_in(torch.stack([h, clock], -1))+sv[:, None]))
+        tf = torch.stack([lead, torch.sin(2*torch.pi*lead), torch.cos(2*torch.pi*lead),
+                          b['phase'][:, None].to(h).expand(-1, 24)/3], -1)
+        q = m.pe(weather+m.w_in.time(tf)+extra)
+        out = m.dec(q, memory)
+        return h[:, -1:]+m.head(torch.cat([out, h[:, -1:, None].expand(-1, 24, 1)], -1)).squeeze(-1)
+
+    def with_parameters(self, b, base, params):
+        return self.decode(b, base+self.residual_projection(kernels(b['offset'])@params))
+
+    def sampled_power(self, b, base, params):
+        n, count = params.shape[:2]
+        repeated = {k: v[:, None].expand(-1, count, *v.shape[1:]).reshape(n*count, *v.shape[1:])
+                    for k, v in b.items()}
+        power = self.with_parameters(repeated, base[:, None].expand(-1, count, -1, -1).reshape(n*count, 24, self.d),
+                                     params.reshape(n*count, 7, 4))
+        return power.reshape(n, count, 24)
+
+    def forward(self, b):
+        if self.representation in ['R0', 'TF_R3', 'TF_E2L']:
+            return super().forward(b)
+        if self.representation == 'R0+H':
+            return self.decode(b, self.weather_projection(b['weather']))
+        z, base = self.latent(b)
+        if self.representation == 'R1':
+            return self.decode(b, base)
+        if not self.generative:
+            return self.with_parameters(b, base, self.window(z, b['offset'], b['state_c']))
+        return self.prediction_samples(b, z, base).mean(1)
+
+    def prediction_samples(self, b, z=None, base=None):
+        if z is None:
+            z, base = self.latent(b)
+        context = self.window.features(z, b['offset'], b['state_c'])
+        noise = stateless_noise(b['sample_key'], 8, self.spec['seed'], z.dtype)
+        params = self.flow.sample(noise, context)
+        return self.sampled_power(b, base, params)
+
+    def training_loss(self, b, y):
+        mse_weight = self.spec.get('mse_weight', 0.0)
+        def point(p):
+            return (p-y).abs().mean()+mse_weight*(p-y).square().mean()
+        if not self.generative:
+            return point(self(b))
+        z, base = self.latent(b)
+        at_origin = lerp(z, b['offset'], z.new_zeros(1))
+        target, kl = self.teacher(y-b['h'][:, -1:], base-at_origin, b['offset'])
+        teacher_power = self.with_parameters(b, base, target)
+        context = self.window.features(z, b['offset'], b['state_c'])
+        noise = torch.randn_like(target)
+        t = torch.rand(len(y), device=y.device, dtype=y.dtype)
+        detached = target.detach()
+        mixed = (1-t[:, None, None])*noise+t[:, None, None]*detached
+        matching = (self.flow(mixed, t, context)-(detached-noise)).square().mean()
+        student_noise = torch.randn(len(y), 4, 7, 4, device=y.device, dtype=y.dtype)
+        student_params = self.flow.sample(student_noise, context)
+        student_power = self.sampled_power(b, base, student_params).mean(1)
+        return point(teacher_power)+point(student_power)+0.1*matching+0.001*kl
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/code/plan.py
+
+- project/runs/daily_state_representation_20261116_v2/code/plan.py
+
+SHA-256: 2dc14a4467fdd01c0c9df06263480f46c04f87babf8e33922b083cfd756b1d87
+
+```
+"""Predeclare all conditional jobs; future activation never changes the science specs."""
+from settings import *
+import argparse, shutil
+
+def main(freeze=False):
+    if freeze:
+        assert json.loads((RUN/'operations/CHECKS.json').read_text())['passed']
+        names=[p for p in (RUN/'code').rglob('*.py')]
+        names += [RUN/'manifest.json',RUN/'diagnostic_manifest.json',RUN/'PROTOCOL.json']
+        names += [p for p in ASSETS.rglob('*') if p.is_file() and p.name!='selected_candidate.json']
+        names += list((RUN/'reference_metrics').rglob('*.json'))
+        values={str(p.relative_to(RUN)):sha(p) for p in sorted(names)}
+        path=RUN/'SCIENCE_FREEZE.json'
+        if path.exists():assert json.loads(path.read_text())['files']==values,'Refuse changing a frozen experiment'
+        else:atomic_json(path,dict(timestamp=now(),files=values))
+        return
+    assert not (RUN/'SCIENCE_FREEZE.json').exists()
+    fingerprint=json.loads((DATA/'READY.json').read_text())['preprocess_fingerprint']
+    specs=[]
+    stages=[('stage1',['R0+H','R1','R2','R3','TF_E2L'],None),
+            ('stage2',['R4','R4-noS','R4-wrongS'],'operations/ENABLE_STAGE2.json'),
+            ('cross_backbone',['TF_R4'],'operations/ENABLE_TF_R4.json'),
+            ('loss_review',['LOSS_CANDIDATE','LOSS_TF'],'operations/ENABLE_LOSS.json')]
+    for stage,groups,gate in stages:
+        for group in groups:
+            for seed in SEEDS:
+                family='TF' if group in ['TF_E2L','TF_R4','LOSS_TF'] else 'W0'
+                rep={'TF_R4':'R4','LOSS_CANDIDATE':'SELECTED','LOSS_TF':'TF_R3'}.get(group,group)
+                specs.append(dict(id=f'{group.replace("+","plus").replace("-","_")}_r{seed}',
+                    stage=stage,group=group,representation=rep,family=family,input='R3',condition='neutral',
+                    weather_variant='E2L',seed=seed,config_from=family+'_R3',epochs=80,patience=10,
+                    mse_weight=.2 if stage=='loss_review' else 0.,
+                    dependencies=[f'assets/selected/{family}_R3.json']+([gate] if gate else []),
+                    preprocess_fingerprint=fingerprint))
+    atomic_json(RUN/'manifest.json',specs)
+    diagnostic=[]
+    for group,source_run,source_group in [('R0','daily_ablation_restart_20261114_v1','ENC_neutral_E2L'),
+                                          ('TF_R3','daily_protocol_restart_20261114_v1','TF_R3')]:
+        for source in json.loads((RUN.parent/source_run/'manifest.json').read_text()):
+            if source['group']!=source_group or source['seed'] not in SEEDS or source['stage']=='tune':continue
+            rel=f'assets/reference_weights/{group}_r{source["seed"]}.pt'
+            target=RUN/rel;target.parent.mkdir(exist_ok=True)
+            shutil.copyfile(RUN.parent/source_run/'jobs'/source['id']/'best.pt',target)
+            metric=json.loads((RUN/'reference_metrics'/group/str(source['seed'])/'metrics.json').read_text())
+            assert sha(target)==metric['checkpoint_sha256']
+            spec=dict(source,id=f'REFERENCE_{group}_r{source["seed"]}',group='REFERENCE_'+group,
+                      representation=group,stage='diagnostics',task='reference_evaluation',
+                      checkpoint=rel,checkpoint_sha256=sha(target),dependencies=[],mse_weight=0.)
+            diagnostic.append(spec)
+    atomic_json(RUN/'diagnostic_manifest.json',diagnostic)
+    # Eight jobs on four local GPUs; seventeen on eight V100s (one queued).
+    assignments={}
+    for stage,_,_ in stages:
+        jobs=[s for s in specs if s['stage']==stage]
+        for i,s in enumerate(jobs):assignments[s['id']]='local4090' if i%3==1 else 'v1006001'
+    for i,s in enumerate(diagnostic):assignments[s['id']]='local4090' if i%3==1 else 'v1006001'
+    atomic_json(RUN/'operations/ASSIGNMENTS.json',assignments)
+    atomic_json(RUN/'operations/RESOURCES.json',dict(local4090=dict(gpus=[0,1,2,3],target_per_gpu=2),
+                v1006001=dict(gpus=list(range(8)),target_per_gpu=2),minimum_free_mib=3072,
+                memory_reserve_fraction=.15,max_workers_per_gpu=3,
+                note='At least two processes on each used GPU when enough jobs and memory; third only with measured aggregate throughput gain.'))
+    atomic_json(RUN/'PROTOCOL.json',dict(version=2,date='2026-11-16',data_fingerprint=fingerprint,
+        task='single-farm 0-6h every 15min; shared training over 55 farms',train_year=2022,selection_year=2023,
+        pangu_issue_utc=0,latency_hours=15,crop_leads=[9,45],regional_delay_minutes=0,
+        effective_batch=512,optimizer='AdamW',lr=.0002,weight_decay=.0001,dropout=.05,
+        checkpoint_selection='strict minimum 2023 farm-macro MAE; once each epoch; no RMSE tie break',
+        generator=dict(width=32,layers=1,heads=2,dropout=0.,hourly_nodes=8,segments=7,parameters_per_segment=4,
+                       kernel='normalized Gaussian centers at hourly-segment midpoints, sigma=0.75h',
+                       state_dimension=17,history_span_hours=5.75),
+        flow=dict(euler_steps=8,training_samples=4,evaluation_samples=8,posterior_prior_std=.1,
+                  loss='teacher MAE + student-mean MAE + 0.1 flow MSE + 0.001 posterior KL',
+                  posterior_target_detached_for_flow=True,evaluation_noise='stateless per origin/site/seed/sample',
+                  inference_teacher=False,dispersion='reported; mean-of-4 MAE does not guarantee noncollapse'),
+        stage1_runs=25,stage2_conditional_runs=15,cross_backbone_conditional_runs=5,loss_review_runs=10,
+        main_gate=dict(mae_change_percent_max=-.1,rmse_change_percent_max=-.1,farm_wins_min=28,
+                       both_metrics_seed_wins_min=4,high_power_rmse_change_percent_max=.1,
+                       references=['R0','TF_R3','TF_E2L']),
+        stage2_gate='R3 strictly improves macro MAE and RMSE versus R2',
+        mechanisms=dict(R3=['R2','R0+H'],R4=['R3','R4-noS','R4-wrongS']),
+        loss_candidate_rule='R4 if mechanism passes; else R3 if mechanism passes; else R1 if main gate passes; else R0',
+        loss_adoption='candidate beats loss-matched TF in MAE/RMSE and itself not worse than its MAE-trained version',
+        limitations=['R0 selected among seven encodings on 2023','2023 is not an independent test set',
+                     '2024 previously inspected; later review is exploratory','R1 and R0 are affine-equivalent'],
+        baseline_reuse='five existing R0 and five existing TF_R3; no changes to frozen original runs'))
+    shutil.copyfile(RUN.parent/'daily_protocol_restart_20261114_v1/DATA_FREEZE.json',RUN/'DATA_FREEZE.json')
+    print(json.dumps(dict(stage1=25,conditional=30,all_specs=len(specs))))
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--freeze',action='store_true');main(p.parse_args().freeze)
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/code/reference_evaluation.py
+
+- project/runs/daily_state_representation_20261116_v2/code/reference_evaluation.py
+
+SHA-256: ba0cb7e5c8fc27f3d5be93927fa2aa16c8cf87dc69df4accde4b4d812197e8c3
+
+```
+"""Re-evaluate frozen R0/TF weights for the newly required diagnostics; no training."""
+from settings import *
+from train import resolve,evaluate
+from data import SharedData
+from model import SharedModel,configure
+import argparse,torch,traceback
+
+def main(jid):
+    configure()
+    requested={s['id']:s for s in json.loads((RUN/'diagnostic_manifest.json').read_text())}[jid]
+    spec=resolve(requested);out=JOBS/jid;out.mkdir(parents=True,exist_ok=True)
+    path=RUN/spec['checkpoint'];assert sha(path)==spec['checkpoint_sha256']
+    ck=torch.load(path,map_location='cpu',weights_only=False)
+    model=SharedModel(spec).cuda();model.load_state_dict(ck['model'])
+    data=SharedData('val',spec);metrics=evaluate(model,data,1024,'cuda:0',diagnostics=True)
+    group=spec['representation'];reference=json.loads((RUN/'reference_metrics'/group/str(spec['seed'])/'metrics.json').read_text())
+    for key in ['mae','rmse','high_power_rmse']:assert abs(metrics[key]-reference['metrics'][key])<2e-7,(key,metrics[key],reference['metrics'][key])
+    atomic_json(out/'metrics.json',dict(timestamp=now(),requested_spec=requested,spec=spec,smoke_only=False,
+                evaluation_year=2023,checkpoint_epoch=ck['epoch'],checkpoint_sha256=sha(path),
+                parameter_count=sum(p.numel() for p in model.parameters()),metrics=metrics,no_training=True))
+    atomic_json(out/'SUCCESS.json',dict(timestamp=now(),passed=True,no_training=True))
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--job-id',required=True);args=p.parse_args()
+    try:main(args.job_id)
+    except Exception:
+        atomic_json(JOBS/args.job_id/'FAILURE.json',dict(timestamp=now(),error=traceback.format_exc()));raise
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/code/representation.py
+
+- project/runs/daily_state_representation_20261116_v2/code/representation.py
+
+SHA-256: 528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818
+
+```
+"""Hourly-window residuals and a training-only posterior for conditional flow matching."""
+import math
+import torch
+from torch import nn
+
+
+def lerp(nodes, offset, queries=None):
+    if queries is None:
+        queries = torch.arange(1, 25, device=nodes.device, dtype=nodes.dtype)/4
+    x = queries[None]-offset[:, :1]
+    lo = x.floor().long().clamp(0, nodes.shape[1]-2)
+    frac = (x-lo)[..., None]
+    left = torch.gather(nodes, 1, lo[..., None].expand(-1, -1, nodes.shape[-1]))
+    right = torch.gather(nodes, 1, (lo+1)[..., None].expand(-1, -1, nodes.shape[-1]))
+    return left*(1-frac)+right*frac
+
+
+def kernels(offset):
+    query = torch.arange(1, 25, device=offset.device, dtype=offset.dtype)/4
+    centers = offset[:, :-1]+0.5
+    weights = torch.exp(-0.5*((query[None, :, None]-centers[:, None])/0.75)**2)
+    return weights/weights.sum(-1, keepdim=True)
+
+
+def encoder(width=32):
+    layer = nn.TransformerEncoderLayer(width, 2, width*2, dropout=0.0,
+                                      activation='gelu', batch_first=True, norm_first=True)
+    return nn.TransformerEncoder(layer, 1, enable_nested_tensor=False)
+
+
+class Window(nn.Module):
+    def __init__(self, d, state):
+        super().__init__()
+        self.use_state = state
+        self.input = nn.Linear(2*d+1+(17 if state else 0), 32)
+        self.encoder = encoder()
+        self.output = nn.Linear(32, 4)
+        nn.init.zeros_(self.output.weight); nn.init.zeros_(self.output.bias)
+
+    def features(self, z, offset, c):
+        dz = torch.cat([z[:, 1:]-z[:, :-1], torch.zeros_like(z[:, :1])], 1)
+        items = [z, dz, offset[..., None]/6]
+        if self.use_state:
+            items.append(c[:, None].expand(-1, 8, -1))
+        hidden = self.encoder(self.input(torch.cat(items, -1)))
+        return (hidden[:, :-1]+hidden[:, 1:])/2
+
+    def forward(self, z, offset, c):
+        return self.output(self.features(z, offset, c))
+
+
+class Teacher(nn.Module):
+    """Posterior sees labels only in training_loss; forward inference never calls it."""
+    def __init__(self, d):
+        super().__init__()
+        self.input = nn.Linear(d+2, 32)
+        self.encoder = encoder()
+        self.output = nn.Linear(32, 8)
+        nn.init.zeros_(self.output.weight); nn.init.zeros_(self.output.bias)
+
+    def forward(self, change, latent_change, offset):
+        clock = torch.arange(1, 25, device=change.device, dtype=change.dtype)/24
+        x = torch.cat([change[..., None], latent_change,
+                       clock[None, :, None].expand(len(change), -1, -1)], -1)
+        hidden = self.encoder(self.input(x))
+        weights = kernels(offset).transpose(1, 2)
+        weights = weights/weights.sum(-1, keepdim=True)
+        mu, logvar = self.output(weights@hidden).chunk(2, -1)
+        logvar = logvar.clamp(-6, 2)
+        # Posterior prior N(0, 0.1^2). KL is applied to standardized parameters.
+        sample = 0.1*(mu+torch.exp(0.5*logvar)*torch.randn_like(mu))
+        kl = 0.5*(mu.square()+logvar.exp()-1-logvar).mean()
+        return sample, kl
+
+
+def stateless_noise(key, count, seed, dtype):
+    """Batch/order invariant evaluation noise, with no change to the training RNG."""
+    s = torch.arange(count, device=key.device)[None, :, None, None]
+    j = torch.arange(28, device=key.device).reshape(1, 1, 7, 4)
+    m = 2147483647
+    x = (key[:, None, None, None]*104729+s*13007+j*7919+seed*15485863+1) % m
+    x = ((x ^ (x >> 16))*73244475) % m
+    x = ((x ^ (x >> 16))*73244475) % m
+    x = x ^ (x >> 16)
+    u1 = (x.to(torch.float64)+0.5)/m
+    x = ((x ^ (x >> 15))*73244475+17) % m
+    x = x ^ (x >> 16)
+    u2 = (x.to(torch.float64)+0.5)/m
+    return (torch.sqrt(-2*torch.log(u1))*torch.cos(2*math.pi*u2)).to(dtype)
+
+
+class Flow(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.input = nn.Linear(32+4+1, 32)
+        self.encoder = encoder()
+        self.output = nn.Linear(32, 4)
+        nn.init.zeros_(self.output.weight); nn.init.zeros_(self.output.bias)
+
+    def forward(self, x, t, context):
+        clock = t.reshape(-1, 1, 1).expand(-1, 7, 1)
+        return self.output(self.encoder(self.input(torch.cat([x, context, clock], -1))))
+
+    def sample(self, noise, context, steps=8):
+        n, count = noise.shape[:2]
+        x = noise.reshape(n*count, 7, 4)
+        context = context[:, None].expand(-1, count, -1, -1).reshape(n*count, 7, 32)
+        for i in range(steps):
+            t = x.new_full((len(x),), i/steps)
+            x = x+self(x, t, context)/steps
+        return x.reshape(n, count, 7, 4)
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/code/train.py
+
+- project/runs/daily_state_representation_20261116_v2/code/train.py
+
+SHA-256: 64e64c4d48da4c73c5150d7bdc2bf88d0b69eff2005945710414ea22252dbc97
+
+```
+from settings import *
+from data import SharedData
+from model import SharedModel,configure,seed_all
+from diagnostics import Diagnostics
+import torch,numpy as np,time,socket,argparse,traceback,signal
+
+class YieldJob(Exception):pass
+def save_torch(p,x):
+    tmp=p.with_suffix('.tmp');torch.save(x,tmp);os.replace(tmp,p)
+def requested(out):
+    if (out/'YIELD_REQUEST.json').exists():raise YieldJob()
+def resolve(spec):
+    s=dict(spec)
+    if s.get('representation')=='SELECTED':
+        p=ASSETS/'selected_candidate.json';selected=json.loads(p.read_text())
+        s['representation']=selected['representation'];s['candidate_selection_sha256']=sha(p)
+    if 'config_from' in s:
+        p=ASSETS/'selected'/f'{s["config_from"]}.json';sel=json.loads(p.read_text());s['config']=sel['config'];s['selection_sha256']=sha(p)
+    return s
+
+@torch.no_grad()
+def evaluate(model,data,batch_size,device,out=None,pred_path=None,diagnostics=False):
+    model.eval();nf=data.farms;ab=np.zeros((nf,24));sq=ab.copy();counts=np.zeros(nf);hi_ab=ab.copy();hi_sq=ab.copy();hi_count=np.zeros(nf)
+    diagnostic=Diagnostics() if diagnostics else None
+    pred=None
+    if pred_path is not None:pred=np.lib.format.open_memmap(pred_path,mode='w+',dtype='f4',shape=(len(data.rows),nf,24))
+    for st in range(0,data.n,batch_size):
+        if out is not None:requested(out)
+        inds=np.arange(st,min(st+batch_size,data.n));b,y,si,_=data.batch(inds,device)
+        samples=model.prediction_samples(b) if model.generative else None
+        p=samples.mean(1) if samples is not None else model(b)
+        err=(p-y).cpu().numpy().astype('f8')
+        if diagnostic is not None:diagnostic.update(b,y,p,samples)
+        if not np.isfinite(err).all():raise FloatingPointError('nonfinite predictions')
+        np.add.at(ab,si,abs(err));np.add.at(sq,si,err**2);np.add.at(counts,si,1)
+        high=b['h'][:,-1].cpu().numpy()>=.75
+        np.add.at(hi_ab,si[high],abs(err[high]));np.add.at(hi_sq,si[high],err[high]**2);np.add.at(hi_count,si[high],1)
+        if pred is not None:pred.reshape(-1,24)[inds]=p.cpu().numpy()
+    if pred is not None:pred.flush()
+    lead_mae=ab/counts[:,None];lead_mse=sq/counts[:,None];mae=lead_mae.mean(1);rmse=np.sqrt(lead_mse.mean(1))
+    high_rmse=np.sqrt(hi_sq.sum(1)/np.maximum(1,hi_count*24));valid=hi_count>0
+    result=dict(mae=float(mae.mean()),rmse=float(rmse.mean()),per_farm_mae=mae.tolist(),per_farm_rmse=rmse.tolist(),lead_mae=lead_mae.tolist(),lead_rmse=np.sqrt(lead_mse).tolist(),
+        high_power_rmse=float(high_rmse[valid].mean()) if valid.any() else None,high_power_per_farm_rmse=high_rmse.tolist(),high_power_counts=hi_count.astype(int).tolist(),counts=counts.astype(int).tolist(),
+        horizons={label:dict(mae=float(lead_mae[:,a:b].mean()),rmse=float(np.sqrt(lead_mse[:,a:b].mean(1)).mean())) for label,a,b in [('0_1h',0,4),('1_3h',4,12),('3_6h',12,24)]})
+    if diagnostic is not None:result['diagnostics']=diagnostic.result()
+    return result
+
+def run(requested_spec,smoke=False,device='cuda:0',max_batches=None):
+    configure();spec=resolve(requested_spec);seed_all(spec['seed']);out=(RUN/'smoke_jobs' if smoke else JOBS)/spec['id'];out.mkdir(parents=True,exist_ok=True)
+    if not smoke and (out/'SUCCESS.json').exists():return
+    atomic_json(out/'spec.json',spec)
+    if spec['family']=='B0' and spec['fold']>=0:
+        f=np.load(ASSETS/f'fold{spec["fold"]}.npz');train=SharedData('train',spec,f['train']);valid=SharedData('train',spec,f['valid'])
+    else:train=SharedData('train',spec);valid=SharedData('val',spec)
+    if smoke:
+        train.rows=train.rows[:32];train.n=len(train.rows)*train.farms;valid.rows=valid.rows[:16];valid.n=len(valid.rows)*valid.farms
+    model=SharedModel(spec).to(device);opt=torch.optim.AdamW(model.parameters(),lr=spec['config']['lr'],weight_decay=spec['config']['weight_decay'])
+    epoch=0;cursor=0;history=[];best=float('inf');bad=0;loss_sum=0.;seen=0;active_seconds=0.;micro=128 if model.generative else 512
+    ap=out/'adaptive_microbatch.json'
+    if ap.exists():micro=int(json.loads(ap.read_text())['microbatch'])
+    epoch_started=time.monotonic();epoch_elapsed_prior=0.
+    def checkpoint():
+        return dict(spec=spec,model=model.state_dict(),optimizer=opt.state_dict(),epoch=epoch,cursor=cursor,history=history,best=best,bad=bad,loss_sum=loss_sum,seen=seen,active_seconds=active_seconds,
+            epoch_elapsed=epoch_elapsed_prior+time.monotonic()-epoch_started,rng=torch.get_rng_state(),cuda_rng=torch.cuda.get_rng_state_all() if device.startswith('cuda') else None)
+    if (out/'latest.pt').exists():
+        ck=torch.load(out/'latest.pt',map_location=device,weights_only=False);assert ck['spec']==spec;model.load_state_dict(ck['model']);opt.load_state_dict(ck['optimizer'])
+        epoch=ck['epoch'];cursor=ck['cursor'];history=ck['history'];best=ck['best'];bad=ck['bad'];loss_sum=ck['loss_sum'];seen=ck['seen'];active_seconds=ck['active_seconds'];epoch_elapsed_prior=ck['epoch_elapsed']
+        torch.set_rng_state(ck['rng'].cpu())
+        if ck['cuda_rng'] is not None:torch.cuda.set_rng_state_all([x.cpu() for x in ck['cuda_rng']])
+    epochs=1 if smoke else spec['epochs'];start=time.monotonic();chunk_start=time.monotonic();chunk_steps=0;steps_done=0;last_save=time.monotonic()
+    if not (out/'latest.pt').exists():save_torch(out/'latest.pt',checkpoint())
+    signal.signal(signal.SIGTERM,lambda *_:atomic_json(out/'YIELD_REQUEST.json',dict(reason='signal')))
+    try:
+        while epoch<epochs and bad<spec['patience']:
+            model.train();order=np.random.default_rng(spec['seed']*100000+epoch).permutation(train.n)
+            while cursor<train.n:
+                requested(out);end=min(cursor+512,train.n);ids=order[cursor:end];opt.zero_grad(set_to_none=True);step_loss=0.
+                for j in range(0,len(ids),micro):
+                    ib=ids[j:j+micro];b,y,_,_=train.batch(ib,device);loss=model.training_loss(b,y)
+                    if not torch.isfinite(loss):raise FloatingPointError('nonfinite training loss')
+                    (loss*len(ib)/len(ids)).backward();step_loss+=float(loss.detach())*len(ib)
+                torch.nn.utils.clip_grad_norm_(model.parameters(),1.0,error_if_nonfinite=True);opt.step();loss_sum+=step_loss;seen+=len(ids);cursor=end;steps_done+=1;chunk_steps+=1
+                if chunk_steps>=25 or cursor==train.n:
+                    elapsed=time.monotonic()-chunk_start;active_seconds+=elapsed
+                    atomic_json(out/'progress.json',dict(timestamp=now(),pid=os.getpid(),host=socket.gethostname(),epoch=epoch+1,step=cursor//512,total_steps=(train.n+511)//512,completed_steps=steps_done,chunk_steps=chunk_steps,seconds_per_step=elapsed/chunk_steps,loss=loss_sum/max(seen,1),best_mae=None if best==float('inf') else best,microbatch=micro,gpu_peak_mib=torch.cuda.max_memory_allocated()/2**20 if device.startswith('cuda') else 0,active_seconds=active_seconds))
+                    chunk_start=time.monotonic();chunk_steps=0
+                if time.monotonic()-last_save>120:save_torch(out/'latest.pt',checkpoint());last_save=time.monotonic()
+                if max_batches and steps_done>=max_batches:raise YieldJob()
+            vm=evaluate(model,valid,max(micro,2*micro),device,out)
+            improved=vm['mae']<best
+            if improved:
+                best=vm['mae'];bad=0;save_torch(out/'best.pt',dict(model=model.state_dict(),spec=spec,epoch=epoch+1,validation=vm,normalization_sha256=sha(ASSETS/'normalization.json'),cohort_sha256=sha(ASSETS/'COHORT.json')))
+            else:bad+=1
+            row=dict(timestamp=now(),epoch=epoch+1,seconds=epoch_elapsed_prior+time.monotonic()-epoch_started,train_objective=loss_sum/max(seen,1),validation_mae=vm['mae'],validation_rmse=vm['rmse'],best_mae=best)
+            history.append(row);atomic_json(out/'history.json',history);print(json.dumps(row),flush=True)
+            epoch+=1;cursor=0;loss_sum=0.;seen=0;epoch_elapsed_prior=0.;epoch_started=time.monotonic();save_torch(out/'latest.pt',checkpoint());last_save=time.monotonic();chunk_start=time.monotonic();chunk_steps=0
+        ck=torch.load(out/'best.pt',map_location=device,weights_only=False);model.load_state_dict(ck['model'])
+        evaluation=valid;predict_path=None
+        if spec['family']=='B0' and not smoke:
+            if spec['fold']>=0:evaluation=SharedData('train',spec,np.load(ASSETS/f'fold{spec["fold"]}.npz')['heldout'])
+            predict_path=out/'reference_prediction.npy'
+        final=evaluate(model,evaluation,2*micro,device,out,predict_path,diagnostics=True)
+        result=dict(timestamp=now(),requested_spec=requested_spec,spec=spec,smoke_only=smoke,evaluation_year=2022 if spec['family']=='B0' and spec['fold']>=0 else 2023,validation_selection='2022 internal block' if spec['family']=='B0' and spec['fold']>=0 else '2023 macroMAE',checkpoint_epoch=ck['epoch'],checkpoint_sha256=sha(out/'best.pt'),elapsed_this_session_seconds=time.monotonic()-start,parameter_count=sum(x.numel() for x in model.parameters()),metrics=final)
+        if predict_path is not None:result['reference_sha256']=sha(predict_path)
+        atomic_json(out/'metrics.json',result);atomic_json(out/'SUCCESS.json',dict(timestamp=now(),passed=True,smoke_only=smoke));(out/'latest.pt').unlink(missing_ok=True)
+    except (YieldJob,torch.cuda.OutOfMemoryError) as exc:
+        opt.zero_grad(set_to_none=True)
+        if isinstance(exc,torch.cuda.OutOfMemoryError):
+            micro//=2
+            if micro<32:raise
+            atomic_json(ap,dict(microbatch=micro,effective_batch=512))
+        else:save_torch(out/'latest.pt',checkpoint())
+        # OOM rolls back to the last stable checkpoint, including optimizer/RNG;
+        # never persist a possibly partial Adam update.
+        atomic_json(out/'YIELDED.json',dict(timestamp=now(),reason='cuda_oom' if isinstance(exc,torch.cuda.OutOfMemoryError) else 'cooperative',epoch=epoch,cursor=cursor));return 75
+    return 0
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--job-id',required=True);p.add_argument('--smoke',action='store_true');p.add_argument('--device',default='cuda:0');p.add_argument('--max-batches',type=int);a=p.parse_args()
+    specs={s['id']:s for s in json.loads((RUN/'manifest.json').read_text())};spec=specs[a.job_id]
+    try:rc=run(spec,a.smoke,a.device,a.max_batches)
+    except Exception:
+        out=(RUN/'smoke_jobs' if a.smoke else JOBS)/spec['id'];atomic_json(out/'FAILURE.json',dict(timestamp=now(),error=traceback.format_exc()));raise
+    raise SystemExit(rc)
 ```
 

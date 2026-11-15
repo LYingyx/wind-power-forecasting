@@ -1,0 +1,3 @@
+candidate,reference,mae_change_percent,mae_farm_wins,rmse_change_percent,rmse_farm_wins,high_power_rmse_change_percent,high_power_rmse_farm_wins,both_metrics_seed_wins,dual_improvement,main_pass
+R0,TF_R3,-0.4568305669319317,42,-0.21592645478297756,33,0.15293806949376876,21,3,True,False
+TF_R3,R0,0.4589270861413475,13,0.2163937060408072,22,-0.15270452613946883,34,0,False,False

@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-11-16T00:58:48.726660+08:00",
+  "complete_groups": [
+    "R0",
+    "TF_R3"
+  ],
+  "stage1_complete": false,
+  "stage2_enabled": false,
+  "cross_backbone_enabled": false,
+  "loss_enabled": false,
+  "finished": false
+}

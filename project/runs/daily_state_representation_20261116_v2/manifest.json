@@ -1,0 +1,1077 @@
+[
+  {
+    "id": "R0plusH_r42",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r43",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r44",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r45",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r46",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r42",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r43",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r44",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r45",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r46",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r42",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r43",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r44",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r45",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r46",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r42",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r43",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r44",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r45",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r46",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r42",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r43",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r44",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r45",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r46",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r42",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r43",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r44",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r45",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r46",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r42",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r43",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r44",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r45",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r46",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r42",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r43",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r44",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r45",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r46",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r42",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r43",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r44",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r45",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r46",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r42",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r43",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r44",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r45",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r46",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r42",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r43",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r44",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r45",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r46",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  }
+]

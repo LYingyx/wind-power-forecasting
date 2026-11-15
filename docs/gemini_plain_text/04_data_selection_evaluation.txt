@@ -1689,6 +1689,7 @@ SHA-256: 04223a9a2e3976a32129ce3242c4a16a484090d64fce22e5533a5aab0b762e49
 - project/runs/daily_protocol_restart_20261114_v1/assets/selected/TFT_R3.json
 - project/runs/daily_ablation_restart_20261114_v1/assets/selected/TFT_R3.json
 - project/runs/daily_site_finetune_20261114_v1/assets/selected/TFT_R3.json
+- project/runs/daily_state_representation_20261116_v2/assets/selected/TFT_R3.json
 
 SHA-256: 3ad64d2bbdbee5b849a613c86253de368a04400d0666330f81b063b48a12bd06
 
@@ -1834,6 +1835,7 @@ SHA-256: 3ad64d2bbdbee5b849a613c86253de368a04400d0666330f81b063b48a12bd06
 - project/runs/daily_protocol_restart_20261114_v1/assets/selected/TF_BASE.json
 - project/runs/daily_ablation_restart_20261114_v1/assets/selected/TF_BASE.json
 - project/runs/daily_site_finetune_20261114_v1/assets/selected/TF_BASE.json
+- project/runs/daily_state_representation_20261116_v2/assets/selected/TF_BASE.json
 
 SHA-256: 2d36ccee2770ea4de75afba84775549a0714398bb8e3bb3b600f1098dba26cef
 
@@ -1979,6 +1981,7 @@ SHA-256: 2d36ccee2770ea4de75afba84775549a0714398bb8e3bb3b600f1098dba26cef
 - project/runs/daily_protocol_restart_20261114_v1/assets/selected/TF_R3.json
 - project/runs/daily_ablation_restart_20261114_v1/assets/selected/TF_R3.json
 - project/runs/daily_site_finetune_20261114_v1/assets/selected/TF_R3.json
+- project/runs/daily_state_representation_20261116_v2/assets/selected/TF_R3.json
 
 SHA-256: 6f53a1943fc428270732028543f96fa01fd08c7b1e4cf5c25a833ad68a2f42b4
 
@@ -2124,6 +2127,7 @@ SHA-256: 6f53a1943fc428270732028543f96fa01fd08c7b1e4cf5c25a833ad68a2f42b4
 - project/runs/daily_protocol_restart_20261114_v1/assets/selected/TIDE_R3.json
 - project/runs/daily_ablation_restart_20261114_v1/assets/selected/TIDE_R3.json
 - project/runs/daily_site_finetune_20261114_v1/assets/selected/TIDE_R3.json
+- project/runs/daily_state_representation_20261116_v2/assets/selected/TIDE_R3.json
 
 SHA-256: 08253d438db9937424c6ce11da620ec0fcd4b9f84522c218d2e3edfa92fadc0e
 
@@ -2269,6 +2273,7 @@ SHA-256: 08253d438db9937424c6ce11da620ec0fcd4b9f84522c218d2e3edfa92fadc0e
 - project/runs/daily_protocol_restart_20261114_v1/assets/selected/W0_R3.json
 - project/runs/daily_ablation_restart_20261114_v1/assets/selected/W0_R3.json
 - project/runs/daily_site_finetune_20261114_v1/assets/selected/W0_R3.json
+- project/runs/daily_state_representation_20261116_v2/assets/selected/W0_R3.json
 
 SHA-256: 76a036f7852198c398effe6bcb21158443faa27e16fa5e112c6800409524d5e7
 
@@ -2746,6 +2751,7 @@ SHA-256: 8d1a3199876e9b87f16d5fc74f2f9103cfe0b00214e0213ff2a6d0d77e92d258
 ## SOURCE: project/runs/daily_ablation_restart_20261114_v1/assets/selected/W0_BASE.json
 
 - project/runs/daily_ablation_restart_20261114_v1/assets/selected/W0_BASE.json
+- project/runs/daily_state_representation_20261116_v2/assets/selected/W0_BASE.json
 
 SHA-256: a2f7004a1311dd2bf95f594b0e59896a5b601897a2417b7209338f7330b06c32
 
@@ -3199,6 +3205,2296 @@ def collect():
     return gate
 
 if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/PROTOCOL.json
+
+- project/runs/daily_state_representation_20261116_v2/PROTOCOL.json
+
+SHA-256: 0913c566c29cdde42c119c6803a4568917a12aaec12659eaebd6bb8973eb68af
+
+```
+{
+  "version": 2,
+  "date": "2026-11-16",
+  "data_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+  "task": "single-farm 0-6h every 15min; shared training over 55 farms",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "pangu_issue_utc": 0,
+  "latency_hours": 15,
+  "crop_leads": [
+    9,
+    45
+  ],
+  "regional_delay_minutes": 0,
+  "effective_batch": 512,
+  "optimizer": "AdamW",
+  "lr": 0.0002,
+  "weight_decay": 0.0001,
+  "dropout": 0.05,
+  "checkpoint_selection": "strict minimum 2023 farm-macro MAE; once each epoch; no RMSE tie break",
+  "generator": {
+    "width": 32,
+    "layers": 1,
+    "heads": 2,
+    "dropout": 0.0,
+    "hourly_nodes": 8,
+    "segments": 7,
+    "parameters_per_segment": 4,
+    "kernel": "normalized Gaussian centers at hourly-segment midpoints, sigma=0.75h",
+    "state_dimension": 17,
+    "history_span_hours": 5.75
+  },
+  "flow": {
+    "euler_steps": 8,
+    "training_samples": 4,
+    "evaluation_samples": 8,
+    "posterior_prior_std": 0.1,
+    "loss": "teacher MAE + student-mean MAE + 0.1 flow MSE + 0.001 posterior KL",
+    "posterior_target_detached_for_flow": true,
+    "evaluation_noise": "stateless per origin/site/seed/sample",
+    "inference_teacher": false,
+    "dispersion": "reported; mean-of-4 MAE does not guarantee noncollapse"
+  },
+  "stage1_runs": 25,
+  "stage2_conditional_runs": 15,
+  "cross_backbone_conditional_runs": 5,
+  "loss_review_runs": 10,
+  "main_gate": {
+    "mae_change_percent_max": -0.1,
+    "rmse_change_percent_max": -0.1,
+    "farm_wins_min": 28,
+    "both_metrics_seed_wins_min": 4,
+    "high_power_rmse_change_percent_max": 0.1,
+    "references": [
+      "R0",
+      "TF_R3",
+      "TF_E2L"
+    ]
+  },
+  "stage2_gate": "R3 strictly improves macro MAE and RMSE versus R2",
+  "mechanisms": {
+    "R3": [
+      "R2",
+      "R0+H"
+    ],
+    "R4": [
+      "R3",
+      "R4-noS",
+      "R4-wrongS"
+    ]
+  },
+  "loss_candidate_rule": "R4 if mechanism passes; else R3 if mechanism passes; else R1 if main gate passes; else R0",
+  "loss_adoption": "candidate beats loss-matched TF in MAE/RMSE and itself not worse than its MAE-trained version",
+  "limitations": [
+    "R0 selected among seven encodings on 2023",
+    "2023 is not an independent test set",
+    "2024 previously inspected; later review is exploratory",
+    "R1 and R0 are affine-equivalent"
+  ],
+  "baseline_reuse": "five existing R0 and five existing TF_R3; no changes to frozen original runs"
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/SCIENCE_FREEZE.json
+
+- project/runs/daily_state_representation_20261116_v2/SCIENCE_FREEZE.json
+
+SHA-256: 9c308940f300c326cd35d313883179bf7f154cffece4bf00e6406623dea3ac91
+
+```
+{
+  "timestamp": "2026-11-16T00:55:50.589274+08:00",
+  "files": {
+    "PROTOCOL.json": "0913c566c29cdde42c119c6803a4568917a12aaec12659eaebd6bb8973eb68af",
+    "assets/COHORT.json": "1b321483d3d6102d719489e797cb7f512545fcfa991f2742af426c3f468957b9",
+    "assets/QC_AUDIT.json": "8f471367d8f5099cb2a4e64fc058aa7d9e78ba94de2967ae290d671cef7d9e93",
+    "assets/elevation.npy": "1883f4f36461fee7e0e925a2a5bcd96f0273967d135bc99e4e2d20751239f3fd",
+    "assets/fold0.npz": "842640d743ba4ebe156bf7ad11175a82d494d691def49c2a65cb703f89f40a1d",
+    "assets/fold1.npz": "a5b1d90f4f6d80038d072a257495660ed06c2d3df7549bb5e2bb35975903762d",
+    "assets/fold2.npz": "6418b8b643a866955268aed298eda76d86db25a43c472e2bec61906b49dd8b9f",
+    "assets/fold3.npz": "4e294213319cf4b43fea47b6831baf70663b7e5ec49549b03254083a16aab12f",
+    "assets/normalization.json": "d3e5afeb94d0182ec05847c00906b5751b0eb7ab2084e07642964e7c0231bfb3",
+    "assets/nwp_channel_name.npy": "0f8cd77e1cffe584b596cec9c85714f822840caca11d437bddd3f7f2fa96a61e",
+    "assets/nwp_mean.npy": "be00ec792949885d5c698db9a2735e9cb98a49b276fb4212dedaae6771e34d88",
+    "assets/nwp_std.npy": "20904eb98fea30e53d71cbf46e4e4af2da8659bdc55314b0e44f1d62efe895e2",
+    "assets/oof_fold.npy": "340f965347e87fb5d17163e4d02f726e2b0c6ebdd2800575501795da124b6402",
+    "assets/qc_by_farm.csv": "833dc169f91287eb4ed38a2bfe011ddae465743afcd2716cb8e3516014c46714",
+    "assets/reference_weights/R0_r42.pt": "733629734e83c660f1073998aa9425bcebbd26304c414d4bee7075cd30b054a8",
+    "assets/reference_weights/R0_r43.pt": "18fc88f4c01234f3021e7529f65f2c5471b2578dc42e9b56787896e3a0e74ac2",
+    "assets/reference_weights/R0_r44.pt": "418ef78d7825ddb40a1490fd1a802b1ff3347fc6744c53ebbec0e1385f5e6c78",
+    "assets/reference_weights/R0_r45.pt": "0584badba75cf5d82c4404c1f9b2b37bcbba2137ff43952db2f484230494a46b",
+    "assets/reference_weights/R0_r46.pt": "eb472160a532d51eb739dc6f61cc58714f35ea70a73646004e08aa5e1ab30acf",
+    "assets/reference_weights/TF_R3_r42.pt": "9171dbeb502c61d23873102fb0eafe269ac61673fb6a4047072066017c23c567",
+    "assets/reference_weights/TF_R3_r43.pt": "2d70d6f98cac20f429e7b87461f12c441cb766bc600dd507374519ddf9b3ec6a",
+    "assets/reference_weights/TF_R3_r44.pt": "9cd444456271e939171309ceffab77793f11ce324249f517a5b71e30d326ce34",
+    "assets/reference_weights/TF_R3_r45.pt": "9ca656c3dddbe24f3b9f824c61eb99d54f0dfbd1b65df7cd69d187c12f501c28",
+    "assets/reference_weights/TF_R3_r46.pt": "e10f7b6341a26a9b939850b352d56d8882bc56038ada89ca3b591de3eb98585f",
+    "assets/selected/TFT_R3.json": "3ad64d2bbdbee5b849a613c86253de368a04400d0666330f81b063b48a12bd06",
+    "assets/selected/TF_BASE.json": "2d36ccee2770ea4de75afba84775549a0714398bb8e3bb3b600f1098dba26cef",
+    "assets/selected/TF_R3.json": "6f53a1943fc428270732028543f96fa01fd08c7b1e4cf5c25a833ad68a2f42b4",
+    "assets/selected/TIDE_R3.json": "08253d438db9937424c6ce11da620ec0fcd4b9f84522c218d2e3edfa92fadc0e",
+    "assets/selected/W0_BASE.json": "a2f7004a1311dd2bf95f594b0e59896a5b601897a2417b7209338f7330b06c32",
+    "assets/selected/W0_R3.json": "76a036f7852198c398effe6bcb21158443faa27e16fa5e112c6800409524d5e7",
+    "assets/site_static.npy": "2dbb492b76567d46aa0e00dab9d1ec59e622cc2f0b48383bef4facd13186f1d6",
+    "assets/station_capacity_mw.npy": "4faa15f20935a43f0fc42705d9c9d35852f355ee9e7a7d009c25c7607e9cd8ac",
+    "assets/station_id.npy": "9a879598e74387ec09990c0330bb7796dfb637d2d76fedf35c8c8124e0925490",
+    "assets/station_latitude.npy": "33e7e6a35536c7e3bfbd592c834554f0fda2bb5ac23c866772f46eed0e333712",
+    "assets/station_longitude.npy": "ca921558b48e23dcbf44c45f66c407eaf132f16fe90ac14a8ec6769147b7169b",
+    "assets/station_name.npy": "a1de9c063b2adb6eba5ceb51652d8cd6ff8cc04b35612dfe03e4a1dae42fb243",
+    "assets/topology.npz": "0ff5b5577957398e9bd8a29f5a4b31567983d82dc2025d82c16f0743e2e51ed8",
+    "code/backbone.py": "03bf4e6d998ac6344fea305d4ef347f2c97682bb08241810256868998e9b78b9",
+    "code/base_data.py": "c352c1233329d4cc0c258662c503cd59c83c068f7acbaf812cc45482443c2aaa",
+    "code/data.py": "f1371ad99d98184a6631071b009589612735b014602f1730fca5fdac6115ff85",
+    "code/diagnostics.py": "48ebcafb34a44bdf403b997491145fe904dffd37506c2207486ae51ef6d05d47",
+    "code/legacy/baselines_original.py": "fd0f007dd1963081ac11c59450fb1ba4f8b40abe09717dfc17ee76f1a23fd787",
+    "code/legacy/column_original.py": "60be06d445f8e6ea5374605cc08b595c43184ea01957db98533372f3826582d6",
+    "code/legacy/common.py": "15620d16df2244350d58bafdea0fde899cb593d0d5e36e4e13ce4b4edeeee164",
+    "code/legacy/models.py": "726958ee1c9712a2a15d09e6485f0f8535fb512d8fee9b77f9b5fba0be56d195",
+    "code/legacy/reference_original.py": "3ac3609d1f0b412868792b3601adbc7a500b38971338825b1cb1222c5c296355",
+    "code/legacy/vendor/wind_forcing/__init__.py": "f5cabe1d8ee96b466addf205691f2c7f954cded500737db697fdbff598ba55ce",
+    "code/legacy/vendor/wind_forcing/aggregate_training.py": "c147c52e7f14045058b3d7e11787342421b38016da47ff0a4b6296c4a3457f6a",
+    "code/legacy/vendor/wind_forcing/config.py": "39ad026290fd9af6b458819af55cea52df4b73e7e520a6944ec2fb22a1366df6",
+    "code/legacy/vendor/wind_forcing/data/__init__.py": "b35f5e72509120532583182cf51d58c73240e8a143153fe058f83505e953ed11",
+    "code/legacy/vendor/wind_forcing/data/aggregate.py": "abb551d55486b2af7eb1669aff9a636b3d8d4953e619de5c3852aeebdde6d37b",
+    "code/legacy/vendor/wind_forcing/data/aggregate_dynamics.py": "e368ef92e3f4f9f15e7feaf230575a4b8585110f14288ef2941b070f228c3841",
+    "code/legacy/vendor/wind_forcing/data/aggregate_response.py": "2919332c5d17522d947fb4645f5e4952ba5b64e0d16cd538e565526c778993bc",
+    "code/legacy/vendor/wind_forcing/data/dataset.py": "b9e24840f8e54d1fe915e2cb4b6ae3ab152cac402f9248cdcc0658dadb6a06c5",
+    "code/legacy/vendor/wind_forcing/data/preprocess.py": "724e1825a58a940511ad7c620a26300ea4821d267110d49cdd0073e70b4b197f",
+    "code/legacy/vendor/wind_forcing/experiment_guard.py": "61adf9f35a445ee962fff7df3b5bdacd9ec5a904b2466ba07f445458b9e0e055",
+    "code/legacy/vendor/wind_forcing/models/__init__.py": "9ab6ca15b7ba7fbc03319bf9b8e32df6a5a77d688648661ce340a205eb40c8ef",
+    "code/legacy/vendor/wind_forcing/models/aggregate_cluster.py": "1a5a0dfc36cee7211cced4b06cb508d79e8d7afabb0e0569a2423fd0822f0583",
+    "code/legacy/vendor/wind_forcing/models/baselines.py": "d337b443796a6e5961808f4d9e2e0ffcb02019fd4dc5126369aab6a9e70ba9d8",
+    "code/legacy/vendor/wind_forcing/models/components.py": "e52d25e71bd707eea23afe92801d38fc3939fe1963d9b4d60cd2d546cee0fade",
+    "code/legacy/vendor/wind_forcing/models/controlled_transition.py": "1ba4fa61b1b02f57b5cfb716bdfe97c1ad6adcf34748c5d5730ca35b99341adb",
+    "code/legacy/vendor/wind_forcing/models/forced_evolution.py": "e80286be4d2994169feec37652a3f4555787d67153b05f0bbadd1f51a4e9e2a4",
+    "code/legacy/vendor/wind_forcing/models/incremental_correction.py": "144193dc4c89ca0dbfdeba9f316654b362f4c967f7f35d5ba3e1015cd2918ea2",
+    "code/legacy/vendor/wind_forcing/models/local_state_identifiability.py": "46b4c4125de5276499cc44ac044bfcf8186deac1683c40fb3060ef1ec5679891",
+    "code/legacy/vendor/wind_forcing/models/local_to_global.py": "2443db37c2e9ae82bd0434eb3a29476793a4eb3798b525b86b12fdd3fec58fc7",
+    "code/legacy/vendor/wind_forcing/models/p0i_legacy.py": "1ddb1098f0b309777b6a9da7c6d29508743e0e24080dda2208ef3116dde42e4b",
+    "code/legacy/vendor/wind_forcing/models/p0i_transfer.py": "8179cfd44f71c13cbf2393facd05e326d2f9dc0827ae26c7a7e8ce31342376ce",
+    "code/legacy/vendor/wind_forcing/training.py": "62e8eb9514e5681bfdfcb80faab8254fbd5f8d8f3629fe6e102e412da27f6d20",
+    "code/model.py": "4068ca2dbdb561bceeb2c48147b046850356879717d17835d0480c860e39c15b",
+    "code/operational.py": "2b98d93a241a58c771a06f1575a729af06935e520d6ed504ee57f5e99d6a53f7",
+    "code/physics.py": "ef439fd7911e1c0bdabd19020bc31f4aadd71295d470db5459888fbcdd923161",
+    "code/plan.py": "2dc14a4467fdd01c0c9df06263480f46c04f87babf8e33922b083cfd756b1d87",
+    "code/reference_evaluation.py": "ba0cb7e5c8fc27f3d5be93927fa2aa16c8cf87dc69df4accde4b4d812197e8c3",
+    "code/representation.py": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+    "code/settings.py": "eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160",
+    "code/train.py": "64e64c4d48da4c73c5150d7bdc2bf88d0b69eff2005945710414ea22252dbc97",
+    "diagnostic_manifest.json": "ca556eeeea73080172f7c964f7a535c136b10a61fd35f007a65a133cbb90b769",
+    "manifest.json": "7231ccb0e686f35b1736e7354f715b9df78bc1bab92d36157d9b70b8331a5b46",
+    "reference_metrics/R0/42/metrics.json": "0bea8dd4db187dcd26b074bd6f02fc7770b4d25082065d5dbb0f6cc24ab2fa88",
+    "reference_metrics/R0/43/metrics.json": "bd73218eecf0653417a6146ff97b51b93fafc31108b2e232979b40e37c46f9ea",
+    "reference_metrics/R0/44/metrics.json": "ad6aec07d4421e0a38bcea90008951c5023bd97267ef5fdd20d6cf004373f1a7",
+    "reference_metrics/R0/45/metrics.json": "4ae2a77ccb246e721dbc8ed807208373ff57ac41cf85e75d6460006e831c180d",
+    "reference_metrics/R0/46/metrics.json": "5aaddfb17a5d3032deb006f8f8fdb63798531f7b49e50c04fba2092ad3449579",
+    "reference_metrics/TF_R3/42/metrics.json": "0f7bb7d624f2357394e4e0e8811b94a1d764ae24160d00d80fc5f0a7abbc779d",
+    "reference_metrics/TF_R3/43/metrics.json": "f9229701e0e2846a05765ca2afa7a1df9bb12ce6b07fe16ee1bb14d25e150199",
+    "reference_metrics/TF_R3/44/metrics.json": "d82632b6f27669f285d3a716d3bac664f5a3a4395ac2eee26788eb0a64fa3281",
+    "reference_metrics/TF_R3/45/metrics.json": "918eb1215e1f398aea95c8ff161522989bc1d125321a7d05ff96862795da3b13",
+    "reference_metrics/TF_R3/46/metrics.json": "98982d1908eb3f2f7a71d2ca79153fd91ff5403b5236a11673038356b41e33a8"
+  }
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/collect.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/collect.py
+
+SHA-256: 799c47d65304d16b462013a4ec3891bdd605026004e6461207cbef63bfabbd1c
+
+```
+"""Predeclared gates. Missing jobs never count as evidence for a passing stage."""
+from pathlib import Path
+import sys,json,csv,collections
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+import numpy as np
+from settings import JOBS,ASSETS,atomic_json,now,sha
+
+
+def records():
+    groups=collections.defaultdict(dict)
+    for group in ['R0','TF_R3']:
+        for seed in range(42,47):
+            groups[group][seed]=json.loads((RUN/'reference_metrics'/group/str(seed)/'metrics.json').read_text())
+    for spec in json.loads((RUN/'manifest.json').read_text()):
+        out=JOBS/spec['id']
+        if not (out/'SUCCESS.json').exists():continue
+        value=json.loads((out/'metrics.json').read_text())
+        assert value['requested_spec']==spec and not value['smoke_only']
+        groups[spec['group']][spec['seed']]=value
+    return dict(groups)
+
+
+def compare(groups,a,b):
+    assert set(groups[a])==set(groups[b])==set(range(42,47))
+    out=dict(candidate=a,reference=b)
+    seed_improvements=[]
+    for metric in ['mae','rmse','high_power_rmse']:
+        key={'mae':'per_farm_mae','rmse':'per_farm_rmse','high_power_rmse':'high_power_per_farm_rmse'}[metric]
+        x=np.array([groups[a][seed]['metrics'][key] for seed in range(42,47)])
+        y=np.array([groups[b][seed]['metrics'][key] for seed in range(42,47)])
+        assert x.shape==y.shape==(5,55) and np.isfinite(x).all() and np.isfinite(y).all()
+        out[metric+'_change_percent']=float(100*(x.mean()/y.mean()-1))
+        out[metric+'_farm_wins']=int((x.mean(0)<y.mean(0)).sum())
+        out[metric+'_per_seed_change_percent']=(100*(x.mean(1)/y.mean(1)-1)).tolist()
+        if metric!='high_power_rmse':seed_improvements.append(x.mean(1)<y.mean(1))
+    out['both_metrics_seed_wins']=int(np.logical_and(*seed_improvements).sum())
+    out['dual_improvement']=out['mae_change_percent']<0 and out['rmse_change_percent']<0
+    out['main_pass']=bool(out['mae_change_percent']<=-.1 and out['rmse_change_percent']<=-.1 and
+        out['mae_farm_wins']>=28 and out['rmse_farm_wins']>=28 and out['both_metrics_seed_wins']>=4 and
+        out['high_power_rmse_change_percent']<=.1)
+    return out
+
+
+def enable(name,payload):
+    path=RUN/'operations'/name
+    if not path.exists():atomic_json(path,dict(timestamp=now(),**payload))
+
+
+def collect():
+    groups=records();complete={g for g,s in groups.items() if set(s)==set(range(42,47))}
+    state=dict(timestamp=now(),complete_groups=sorted(complete),stage1_complete=False,
+               stage2_enabled=False,cross_backbone_enabled=False,loss_enabled=False,finished=False)
+    rows=[]
+    for group in sorted(complete):
+        for reference in ['R0','TF_R3','TF_E2L']:
+            if reference in complete and group!=reference:rows.append(compare(groups,group,reference))
+    def dual(a,b):
+        row=compare(groups,a,b);rows.append(row);return row['dual_improvement']
+    def main_pass(group):
+        return all(compare(groups,group,ref)['main_pass'] for ref in ['R0','TF_R3','TF_E2L'] if group!=ref)
+    first={'R0+H','R1','R2','R3','TF_E2L'}
+    if first<=complete:
+        state['stage1_complete']=True
+        state['r3_mechanism']=all([dual('R3','R2'),dual('R3','R0+H')])
+        state['r3_main_pass']=main_pass('R3')
+        state['stage2_enabled']=compare(groups,'R3','R2')['dual_improvement']
+        if state['stage2_enabled']:enable('ENABLE_STAGE2.json',dict(reason='R3 improves both metrics versus R2'))
+        second={'R4','R4-noS','R4-wrongS'}
+        stage2_done=not state['stage2_enabled'] or second<=complete
+        state['stage2_complete_or_skipped']=stage2_done
+        if state['stage2_enabled'] and second<=complete:
+            state['r4_mechanism']=all([dual('R4',g) for g in ['R3','R4-noS','R4-wrongS']])
+            state['r4_main_pass']=main_pass('R4')
+            state['cross_backbone_enabled']=state['r4_mechanism'] and state['r4_main_pass']
+            if state['cross_backbone_enabled']:enable('ENABLE_TF_R4.json',dict(reason='R4 passes mechanism and main gates'))
+        if stage2_done:
+            candidate='R4' if state.get('r4_mechanism') else 'R3' if state['r3_mechanism'] else 'R1' if main_pass('R1') else 'R0'
+            path=ASSETS/'selected_candidate.json'
+            value=dict(representation=candidate,rule=json.loads((RUN/'PROTOCOL.json').read_text())['loss_candidate_rule'])
+            if path.exists():assert json.loads(path.read_text())==value,'Candidate selection is immutable'
+            else:atomic_json(path,value)
+            enable('ENABLE_LOSS.json',dict(candidate=candidate,selection_sha256=sha(path)))
+            state.update(loss_enabled=True,loss_candidate=candidate)
+            if {'LOSS_CANDIDATE','LOSS_TF'}<=complete:
+                versus_tf=compare(groups,'LOSS_CANDIDATE','LOSS_TF');rows.append(versus_tf)
+                versus_self=compare(groups,'LOSS_CANDIDATE',candidate);rows.append(versus_self)
+                state['adopt_mixed_loss']=bool(versus_tf['dual_improvement'] and versus_self['mae_change_percent']<=0 and versus_self['rmse_change_percent']<=0)
+                state['finished']=not state['cross_backbone_enabled'] or 'TF_R4' in complete
+                state['method_qualified']=main_pass(candidate) if candidate!='R0' else False
+    out=RUN/'analysis';out.mkdir(exist_ok=True)
+    atomic_json(out/'GATES.json',state);atomic_json(out/'COMPARISONS.json',rows)
+    summaries=[]
+    for group in sorted(complete):
+        values=[groups[group][s] for s in range(42,47)]
+        summaries.append(dict(group=group,seeds=5,**{k:float(np.mean([v['metrics'][k] for v in values])) for k in ['mae','rmse','high_power_rmse']},
+                              selected_epochs=[v['checkpoint_epoch'] for v in values]))
+    atomic_json(out/'GROUPS.json',summaries)
+    flat=[{k:v for k,v in r.items() if not isinstance(v,list)} for r in rows]
+    if flat:
+        with (out/'comparisons.csv').open('w') as f:
+            w=csv.DictWriter(f,fieldnames=list(flat[0]));w.writeheader();w.writerows(flat)
+    text=['# V2 实验进度与判定','',f'更新时间：{state["timestamp"]}。完整组：'+', '.join(sorted(complete))+'。',
+          '', '仅完整的五种子组参与比较；2023 同时用于选择，结论不是独立测试结果。',
+          '', '| 组 | MAE | RMSE | 高功率 RMSE |','|---|---:|---:|---:|']
+    text += [f'| {r["group"]} | {r["mae"]:.8f} | {r["rmse"]:.8f} | {r["high_power_rmse"]:.8f} |' for r in summaries]
+    text += ['', '详细阈值与阶段状态见 [GATES.json](GATES.json)，配对结果见 [comparisons.csv](comparisons.csv)。',
+             '每项任务的 metrics.json 另含整点/非整点、大变化跟上比例、高功率上行/下行及生成式离散度。']
+    (out/'README_CN.md').write_text('\n'.join(text)+'\n')
+    return state
+
+if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/README_CN.md
+
+- project/runs/daily_state_representation_20261116_v2/README_CN.md
+
+SHA-256: 731e8d4dc6b3e8ca202abcc04a2744282dc9cf08a7bb6ef695bc43c88172e278
+
+```
+# 状态条件中间表示 v2：执行入口
+
+本轮落实 [v2 方案](../../STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)。进度与自动判定见 [analysis/README_CN.md](analysis/README_CN.md) 和 [STATUS.json](STATUS.json)。不能把尚未完成的条件阶段当作已有结果。
+
+## 固定协议与任务
+
+复用每日 00 UTC 起报、延迟 15 h、气象裁剪 9–45 h 的已核验缓存。55 站共享训练，2022 训练、2023 选轮，种子 42–46。有效 batch 512，AdamW、常数学习率 0.0002、weight decay 0.0001、骨干 dropout 0.05，最多 80 epoch、patience 10。每轮验证一次，严格最小 macro-MAE 选轮，全部指标使用同一权重。R0 与 TF_R3 的十项原训练不重跑。
+
+- [manifest.json](manifest.json)：25 项阶段一；条件启动的 15 项 R4、5 项 TF+R4；10 项损失复核，最多 55 项训练。
+- [diagnostic_manifest.json](diagnostic_manifest.json)：另有 10 项原权重推理，补齐 R0/TF 的诊断，不属于新增训练。
+- [PROTOCOL.json](PROTOCOL.json)：启动前固定的超参数、损失、门槛和阶段规则。
+- [SCIENCE_FREEZE.json](SCIENCE_FREEZE.json)、[DATA_FREEZE.json](DATA_FREEZE.json)：源码、配置、参照及数据哈希。
+- [OPERATIONS_FREEZE.json](OPERATIONS_FREEZE.json)：结果产生前固定的判定、诊断与调度代码；[初始化修正记录](INITIALIZATION_REPAIR.json)说明正式结果产生前的一次 RNG 修正及重启。
+
+## 代码与实现细节
+
+[data.py](code/data.py) 继承原 [base_data.py](code/base_data.py)，保持原样本与常规输入，增加八个小时节点、时间偏移和 17 维 c。c 包含当前功率、1−当前功率、近 1 h 变化率、整个历史窗变化率、7 维原 SEL-STATE、三环当前值及 1 h 变化。24 个历史点实际覆盖 5.75 h，未增加第 25 个点。SEL 与区域特征沿用 2022 归一化。
+
+[model.py](code/model.py) 只改天气查询分量；R0+H 单独扩大输出头并将新增输入权重置零。原 [backbone.py](code/backbone.py) 保留。E2L 是仿射复合，所以 R1 在实数运算下与 R0 等价；该组是数值/实现对照，不是独立机制。等价测试采用非零预测头，排除零头导致所有模型都输出持久性的伪等价。
+
+[representation.py](code/representation.py) 的窗口生成器宽 32、1 层、2 heads、dropout 0；读取 z、相邻差分、节点相对时间及可选 c，输出 7 段 × 4 系数。固定高斯核宽 0.75 h、中心为小时段中点，展开为 24×4 后投影到天气潜空间。四维是可学习残差通道，不宣称每一维已有可辨识的物理含义。
+
+TF_E2L 的 14 维天气走相同的三层无激活线性编码，4 维时间特征保持独立线性投影，两者相加；历史编码和输出头不变。
+
+## R4 固定实现
+
+教师只在训练读取 y−h 和潜空间插值相对起点的变化，不进入推理。教师采用高斯后验，先验标准差 0.1，KL 权重 0.001；流匹配目标停止对教师反传。学生用 8 步 Euler 积分，训练 4 条功率样本的均值、评价 8 条样本的均值。评价噪声按起点、风场、种子、样本编号固定，不依赖 batch，不消耗训练 RNG。中位数只报告，不参与选择。
+
+目标为教师 MAE + 学生均值 MAE + 0.1 流匹配 MSE + 0.001 KL；损失复核对两个点预测项同时加入 0.2 MSE。R4 初始残差投影为零，初始输出等于 R1；参数样本有离散度，功率样本的离散度在投影学习后才出现。均值 MAE **不能保证不坍缩**，因此报告样本标准差和非零比例，并检查采样链路梯度。
+
+R4-wrongS 只替换新生成器的 c，骨干原历史、SEL 和区域输入不变。供体限定为 2022 训练池、同月同钟点、至少相隔两天；训练与验证均使用固定供体。R4-noS 同样只移除新生成器的 c。
+
+## 调度、判定与结果
+
+[调度器](operations/scheduler.py) 使用本机 4090 的 0–3 卡及 v1006001 的 0–7 卡。任务充足时每卡两个进程；第三进程须通过耗时/总吞吐检查。短队列集中到较少卡，保留显存和主机内存余量。OOM 可减小 microbatch 并从稳定检查点恢复，有效 batch 仍是 512。[协调器](operations/coordinator.py) 回传远端结果并核验配置、权重哈希。
+
+[判定器](operations/collect.py) 只比较完整五种子组。主门槛分别对 R0、TF_R3、TF_E2L 检查，避免“较强参照”的歧义。R3 对 R2 双指标改善才启动 R4 三组；R4 同时通过主门槛和三个机制对照后才启动 TF+R4。
+
+损失复核候选按预写定顺序选择：机制通过的 R4；否则机制通过的 R3；否则通过主门槛的 R1；否则 R0。最后一种只复核已有模型的损失，不代表新机制成立。混合损失采用条件仍是方案中的双指标条件。
+
+[diagnostics.py](code/diagnostics.py) 报告整点/非整点、真实变化超过 0.3 的 MSE 与跟上比例、高功率上行/下行、生成式离散度。诊断按 pooled cells 汇总，区别于选轮的风场等权指标，也区别于旧诊断的五种子集成后指标。
+
+启动前检查在 `operations/CHECKS.json`，完整小样本训练在 `smoke_jobs/`；冒烟结果不是正式结果。公开仓库不含数据、权重和全部运行日志。
+
+扩大到 10 seeds、统一轮数个性化和 2024 探索性复评依赖本轮结果与最终冻结，不提前读取 2024 标签或声称已完成。R0 从七种编码中按 2023 挑选，选择偏差仍在；10 seeds 只能检查随机种子稳定性，不能单独消除选择偏差。
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/manifest.json
+
+- project/runs/daily_state_representation_20261116_v2/manifest.json
+
+SHA-256: 7231ccb0e686f35b1736e7354f715b9df78bc1bab92d36157d9b70b8331a5b46
+
+```
+[
+  {
+    "id": "R0plusH_r42",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r43",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r44",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r45",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R0plusH_r46",
+    "stage": "stage1",
+    "group": "R0+H",
+    "representation": "R0+H",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r42",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r43",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r44",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r45",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R1_r46",
+    "stage": "stage1",
+    "group": "R1",
+    "representation": "R1",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r42",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r43",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r44",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r45",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R2_r46",
+    "stage": "stage1",
+    "group": "R2",
+    "representation": "R2",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r42",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r43",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r44",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r45",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R3_r46",
+    "stage": "stage1",
+    "group": "R3",
+    "representation": "R3",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r42",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r43",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r44",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r45",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_E2L_r46",
+    "stage": "stage1",
+    "group": "TF_E2L",
+    "representation": "TF_E2L",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r42",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r43",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r44",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r45",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_r46",
+    "stage": "stage2",
+    "group": "R4",
+    "representation": "R4",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r42",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r43",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r44",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r45",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_noS_r46",
+    "stage": "stage2",
+    "group": "R4-noS",
+    "representation": "R4-noS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r42",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r43",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r44",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r45",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "R4_wrongS_r46",
+    "stage": "stage2",
+    "group": "R4-wrongS",
+    "representation": "R4-wrongS",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_STAGE2.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r42",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r43",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r44",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r45",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "TF_R4_r46",
+    "stage": "cross_backbone",
+    "group": "TF_R4",
+    "representation": "R4",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.0,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_TF_R4.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r42",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r43",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r44",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r45",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_CANDIDATE_r46",
+    "stage": "loss_review",
+    "group": "LOSS_CANDIDATE",
+    "representation": "SELECTED",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/W0_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r42",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r43",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r44",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r45",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  },
+  {
+    "id": "LOSS_TF_r46",
+    "stage": "loss_review",
+    "group": "LOSS_TF",
+    "representation": "TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "weather_variant": "E2L",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "mse_weight": 0.2,
+    "dependencies": [
+      "assets/selected/TF_R3.json",
+      "operations/ENABLE_LOSS.json"
+    ],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
+  }
+]
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/diagnostic_manifest.json
+
+- project/runs/daily_state_representation_20261116_v2/diagnostic_manifest.json
+
+SHA-256: ca556eeeea73080172f7c964f7a535c136b10a61fd35f007a65a133cbb90b769
+
+```
+[
+  {
+    "id": "REFERENCE_R0_r42",
+    "stage": "diagnostics",
+    "group": "REFERENCE_R0",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "weather_variant": "E2L",
+    "representation": "R0",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/R0_r42.pt",
+    "checkpoint_sha256": "733629734e83c660f1073998aa9425bcebbd26304c414d4bee7075cd30b054a8",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_R0_r43",
+    "stage": "diagnostics",
+    "group": "REFERENCE_R0",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "weather_variant": "E2L",
+    "representation": "R0",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/R0_r43.pt",
+    "checkpoint_sha256": "18fc88f4c01234f3021e7529f65f2c5471b2578dc42e9b56787896e3a0e74ac2",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_R0_r44",
+    "stage": "diagnostics",
+    "group": "REFERENCE_R0",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "weather_variant": "E2L",
+    "representation": "R0",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/R0_r44.pt",
+    "checkpoint_sha256": "418ef78d7825ddb40a1490fd1a802b1ff3347fc6744c53ebbec0e1385f5e6c78",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_R0_r45",
+    "stage": "diagnostics",
+    "group": "REFERENCE_R0",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "weather_variant": "E2L",
+    "representation": "R0",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/R0_r45.pt",
+    "checkpoint_sha256": "0584badba75cf5d82c4404c1f9b2b37bcbba2137ff43952db2f484230494a46b",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_R0_r46",
+    "stage": "diagnostics",
+    "group": "REFERENCE_R0",
+    "family": "W0",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "W0_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "weather_variant": "E2L",
+    "representation": "R0",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/R0_r46.pt",
+    "checkpoint_sha256": "eb472160a532d51eb739dc6f61cc58714f35ea70a73646004e08aa5e1ab30acf",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_TF_R3_r42",
+    "stage": "diagnostics",
+    "group": "REFERENCE_TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 42,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "representation": "TF_R3",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/TF_R3_r42.pt",
+    "checkpoint_sha256": "9171dbeb502c61d23873102fb0eafe269ac61673fb6a4047072066017c23c567",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_TF_R3_r43",
+    "stage": "diagnostics",
+    "group": "REFERENCE_TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 43,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "representation": "TF_R3",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/TF_R3_r43.pt",
+    "checkpoint_sha256": "2d70d6f98cac20f429e7b87461f12c441cb766bc600dd507374519ddf9b3ec6a",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_TF_R3_r44",
+    "stage": "diagnostics",
+    "group": "REFERENCE_TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 44,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "representation": "TF_R3",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/TF_R3_r44.pt",
+    "checkpoint_sha256": "9cd444456271e939171309ceffab77793f11ce324249f517a5b71e30d326ce34",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_TF_R3_r45",
+    "stage": "diagnostics",
+    "group": "REFERENCE_TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 45,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "representation": "TF_R3",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/TF_R3_r45.pt",
+    "checkpoint_sha256": "9ca656c3dddbe24f3b9f824c61eb99d54f0dfbd1b65df7cd69d187c12f501c28",
+    "mse_weight": 0.0
+  },
+  {
+    "id": "REFERENCE_TF_R3_r46",
+    "stage": "diagnostics",
+    "group": "REFERENCE_TF_R3",
+    "family": "TF",
+    "input": "R3",
+    "condition": "neutral",
+    "seed": 46,
+    "config_from": "TF_R3",
+    "epochs": 80,
+    "patience": 10,
+    "dependencies": [],
+    "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036",
+    "representation": "TF_R3",
+    "task": "reference_evaluation",
+    "checkpoint": "assets/reference_weights/TF_R3_r46.pt",
+    "checkpoint_sha256": "e10f7b6341a26a9b939850b352d56d8882bc56038ada89ca3b591de3eb98585f",
+    "mse_weight": 0.0
+  }
+]
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/OPERATIONS_FREEZE.json
+
+- project/runs/daily_state_representation_20261116_v2/OPERATIONS_FREEZE.json
+
+SHA-256: 1d9e6f71599311aedc50f7ac7f3cddc660a2303027eff99ebd88d225c75c97cf
+
+```
+{
+  "timestamp": "2026-11-16T00:55:50.701481+08:00",
+  "files": {
+    "operations/checks.py": "bb0f56b6bc0f146847034ebdbd88c09f1dc832e7ffe041b1774142bf4cdf1715",
+    "operations/collect.py": "799c47d65304d16b462013a4ec3891bdd605026004e6461207cbef63bfabbd1c",
+    "operations/coordinator.py": "63f633e2ace168ead196977f1bf4c9a7ed7a981a9e211fc872720028964ad628",
+    "operations/efficiency_v3.py": "8ddca8eb4543bbb373ba8a415f2262df22b7408b889d73c8ef34a0040d8ecca6",
+    "operations/launch.py": "d8c84c07849cde6f9af7e0f266a023e40889c26e0aa537a571409c7151de51db",
+    "operations/probe.py": "0998d6b3775c3e189bef08cd85a92b9177dbb097194d834e9ac86f939904211e",
+    "operations/report_diagnostics.py": "42411b4420d111f3c9bd3cc04f73fe2b3373c92889634553b5c40da28ea6fa7c",
+    "operations/resource_limits.py": "9d5fc2804d569af4e032d097d712fbecf2afb765c468f5d547ab326aa966c49c",
+    "operations/scheduler.py": "151fb97c91af92d4e879ae7f0a2e37f73fd71e89d6b8676cc4f68a79f49ac573",
+    "operations/storage_guard.py": "3944166ac1cbfcc603b638dc93e37b51fec7e9272c03c360666be9c43d283589"
+  },
+  "scope": "pre-result gate, diagnostics, deployment and scheduling implementation"
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/checks.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/checks.py
+
+SHA-256: bb0f56b6bc0f146847034ebdbd88c09f1dc832e7ffe041b1774142bf4cdf1715
+
+```
+"""Actual-data checks for equivalence, label isolation, gradients and donor validity."""
+from pathlib import Path
+import argparse, copy, json, sys, time
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+import numpy as np
+import torch
+from settings import atomic_json,now,sha,DATA,ASSETS
+from data import SharedData
+from backbone import SharedModel as Original
+from model import SharedModel,configure
+from train import resolve
+from representation import lerp,stateless_noise
+
+
+def main(device):
+    configure();started=time.monotonic()
+    specs={s['group']:resolve(s) for s in json.loads((RUN/'manifest.json').read_text()) if s['seed']==42 and s['representation']!='SELECTED'}
+    data=SharedData('train',specs['R3']);ids=np.arange(16)*55+np.arange(16)
+    b,y,_,_=data.batch(ids,device)
+    assert b['hourly'].shape==(16,8,14) and b['state_c'].shape==(16,17)
+    # Every quarter-hour phase, including the edge 6h prediction, must match.
+    assert set(b['phase'].cpu().tolist())=={0,1,2,3}
+    torch.testing.assert_close(lerp(b['hourly'],b['offset']),b['weather'],rtol=2e-6,atol=2e-6)
+    base=Original(dict(specs['R1'],representation='R0')).to(device).eval()
+    cpu_rng=torch.get_rng_state().clone()
+    cuda_rng=torch.cuda.get_rng_state().clone() if device.startswith('cuda') else None
+    for group in ['R0+H','R1','R2','R3','TF_E2L','R4']:
+        original=Original(specs[group])
+        expected_cpu=torch.get_rng_state().clone()
+        expected_cuda=torch.cuda.get_rng_state().clone() if device.startswith('cuda') else None
+        checked=SharedModel(specs[group])
+        assert torch.equal(expected_cpu,torch.get_rng_state()),('CPU RNG changed',group)
+        if expected_cuda is not None:assert torch.equal(expected_cuda,torch.cuda.get_rng_state()),('CUDA RNG changed',group)
+    torch.set_rng_state(cpu_rng)
+    if cuda_rng is not None:torch.cuda.set_rng_state(cuda_rng)
+    torch.manual_seed(123)
+    with torch.no_grad():
+        # A zero final forecast head would make any equivalence test vacuous.
+        base.head[-1].weight.normal_(std=.1);base.head[-1].bias.fill_(.03)
+        expected=base(b)
+    diffs={};gradients={}
+    for group in ['R0+H','R1','R2','R3']:
+        model=SharedModel(specs[group]).to(device).eval()
+        model.head[-1].load_state_dict(base.head[-1].state_dict())
+        out=model(b)
+        torch.testing.assert_close(out,expected,rtol=2e-5,atol=2e-6)
+        diffs[group]=float((out-expected).abs().max().detach())
+        if group in ['R2','R3']:
+            (out-y).square().mean().backward()
+            gradient=float(model.window.output.weight.grad.abs().sum())
+            assert gradient>0;gradients[group]=gradient
+        if group=='R0+H':
+            (out-y).square().mean().backward();assert model.head[0].weight.grad[:,-2:].abs().sum()>0
+    # State isolation: changing c changes only R3's generator after a nonzero update.
+    for group,uses_state in [('R2',False),('R3',True)]:
+        model=SharedModel(specs[group]).to(device).eval()
+        with torch.no_grad():model.window.output.weight.normal_(std=.1)
+        z,_=model.latent(b);a=model.window(z,b['offset'],b['state_c']);other=model.window(z,b['offset'],b['state_c']+1)
+        assert bool((a-other).abs().max()>1e-7)==uses_state
+    for group in ['R4','R4-noS','R4-wrongS','TF_R4','TF_E2L']:
+        model=SharedModel(specs[group]).to(device)
+        head=model.head if model.family=='W0' else model.original.head
+        last=[m for m in head.modules() if isinstance(m,torch.nn.Linear)][-1]
+        with torch.no_grad():last.weight.normal_(std=.1)
+        small={k:v[:4] for k,v in b.items()};target=y[:4]
+        model.train();loss=model.training_loss(small,target);assert torch.isfinite(loss)
+        loss.backward();assert all(p.grad is None or torch.isfinite(p.grad).all() for p in model.parameters())
+        if model.generative:
+            assert model.residual_projection.weight.grad.abs().sum()>0
+            assert model.flow.output.weight.grad.abs().sum()>0
+            # Verify power/flow gradients beyond the zero-initialized projection.
+            optimizer=torch.optim.AdamW(model.parameters(),lr=.0002)
+            optimizer.step();optimizer.zero_grad();model.training_loss(small,target).backward()
+            assert model.teacher.output.weight.grad.abs().sum()>0
+            assert model.flow.output.weight.grad.abs().sum()>0
+            model.eval()
+            def forbidden(*args,**kwargs):raise AssertionError('Teacher used at inference')
+            handle=model.teacher.register_forward_pre_hook(forbidden)
+            rng=torch.get_rng_state().clone()
+            with torch.no_grad():
+                draws=model.prediction_samples(small);mean=model(small)
+                assert draws.shape==(4,8,24) and torch.isfinite(draws).all()
+                assert float(draws.std(1).mean())>0
+                torch.testing.assert_close(mean,draws.mean(1))
+                parts=torch.cat([model({k:v[:2] for k,v in small.items()}),model({k:v[2:] for k,v in small.items()})])
+                torch.testing.assert_close(parts,mean,rtol=2e-5,atol=2e-6)
+                assert torch.equal(rng,torch.get_rng_state())
+            handle.remove()
+        gradients[group]=float(loss.detach())
+    # A wrong-state donor comes from training only, same month/clock, >=2 days away.
+    for split in ['train','val']:
+        wrong=SharedData(split,specs['R4-wrongS'])
+        origin=np.asarray(wrong.a['origin'])+28800
+        train_origin=np.load(DATA/'train/origin.npy')[wrong.state_donor]+28800
+        assert np.all(origin%86400==train_origin%86400)
+        assert np.all(origin.astype('datetime64[s]').astype('datetime64[M]').astype(int)%12==train_origin.astype('datetime64[s]').astype('datetime64[M]').astype(int)%12)
+        assert np.all(abs(origin//86400-train_origin//86400)>=2)
+        wb,_,_,_=wrong.batch(ids[:4],device)
+        assert not torch.allclose(wb['state_c'],b['state_c'][:4])
+    frozen=json.loads((RUN/'DATA_FREEZE.json').read_text())
+    for path,value in frozen['files'].items():
+        assert sha(RUN/path)==value,('data changed',path)
+    report=dict(timestamp=now(),passed=True,device=device,seconds=time.monotonic()-started,
+                equivalence_max_errors=diffs,gradient_checks=gradients,all_four_phases=True,
+                inference_has_no_teacher=True,batch_invariant_sampling=True,wrong_state_donors_valid=True,
+                backbone_cpu_cuda_initialization_rng_preserved=True,
+                data_files_hashed=len(frozen['files']))
+    atomic_json(RUN/'operations/CHECKS.json',report);print(json.dumps(report),flush=True)
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--device',default='cuda:0');main(p.parse_args().device)
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/coordinator.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/coordinator.py
+
+SHA-256: 63f633e2ace168ead196977f1bf4c9a7ed7a981a9e211fc872720028964ad628
+
+```
+"""Collect remote evidence and activate only predeclared, gate-qualified stages."""
+from pathlib import Path
+import sys,os,json,time,subprocess,shlex,fcntl,datetime
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+from settings import JOBS,ASSETS,atomic_json,now,sha
+from collect import collect
+from report_diagnostics import report as report_diagnostics
+HOST='v1006001';REMOTE='/home/liying/wind_physics_project/project/runs/'+RUN.name
+
+
+def remote(code):
+    p=subprocess.run(['ssh','-o','BatchMode=yes','-o','ConnectTimeout=8',HOST,'python3 -c '+shlex.quote(code)],
+                     check=True,capture_output=True,text=True,timeout=40)
+    return json.loads(p.stdout)
+
+
+def main():
+    lock=(RUN/'operations/coordinator.lock').open('a+');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    specs=json.loads((RUN/'manifest.json').read_text());diagnostic=json.loads((RUN/'diagnostic_manifest.json').read_text())
+    by_id={s['id']:s for s in specs+diagnostic};assignments=json.loads((RUN/'operations/ASSIGNMENTS.json').read_text())
+    remote_ids=[j for j,h in assignments.items() if h==HOST]
+    while True:
+        errors=[];state={}
+        try:
+            state=remote(f'''from pathlib import Path
+import json,time
+r=Path({REMOTE!r}); ids={remote_ids!r}
+p=r/'schedulers/status.json'
+print(json.dumps(dict(done=[j for j in ids if (r/'jobs'/j/'SUCCESS.json').exists()],
+ failed=[j for j in ids if (r/'jobs'/j/'FAILURE.json').exists()],
+ status=json.loads(p.read_text()) if p.exists() else {{}},fresh=p.exists() and time.time()-p.stat().st_mtime<120)))''')
+            subprocess.run(['rsync','-a','--exclude=SUCCESS.json','--include=*/','--include=*.json','--exclude=*',
+                            HOST+':'+REMOTE+'/jobs/',str(JOBS)+'/'],check=True,timeout=45,stdout=subprocess.DEVNULL)
+            for jid in state['done']:
+                out=JOBS/jid
+                if (out/'SUCCESS.json').exists():continue
+                subprocess.run(['rsync','-a','--exclude=SUCCESS.json','--exclude=worker.lock','--exclude=YIELD_REQUEST.json',
+                                HOST+':'+REMOTE+'/jobs/'+jid+'/',str(out)+'/'],check=True,timeout=90,stdout=subprocess.DEVNULL)
+                value=json.loads((out/'metrics.json').read_text())
+                assert value['requested_spec']==by_id[jid] and not value['smoke_only'] and value['evaluation_year']==2023
+                if value.get('no_training'):assert sha(RUN/by_id[jid]['checkpoint'])==value['checkpoint_sha256']
+                else:assert sha(out/'best.pt')==value['checkpoint_sha256']
+                atomic_json(out/'SUCCESS.json',dict(timestamp=now(),passed=True,source_host=HOST,verified_return=True))
+            gates=collect()
+            for p in [ASSETS/'selected_candidate.json',*sorted((RUN/'operations').glob('ENABLE_*.json'))]:
+                if p.exists():
+                    rel=str(p.parent.relative_to(RUN))
+                    subprocess.run(['rsync','-a',str(p),HOST+':'+REMOTE+'/'+rel+'/'],check=True,timeout=30,stdout=subprocess.DEVNULL)
+        except Exception as exc:
+            errors.append(repr(exc));gates=collect()
+        localfile=RUN/'schedulers/status.json'
+        local=json.loads(localfile.read_text()) if localfile.exists() else {}
+        local_fresh=localfile.exists() and time.time()-localfile.stat().st_mtime<120
+        active=(local.get('active',[]) if local_fresh else [])+(state.get('status',{}).get('active',[]) if state.get('fresh') else [])
+        active=[x for x in active if not (JOBS/x['id']/'SUCCESS.json').exists()]
+        progress={}
+        for item in active:
+            path=JOBS/item['id']/'progress.json'
+            if path.exists():progress[item['id']]=json.loads(path.read_text())
+        required=[s for s in specs if all((RUN/d).exists() for d in s['dependencies'])]
+        finished=[s['id'] for s in required if (JOBS/s['id']/'SUCCESS.json').exists()]
+        diagnostic_done=sum((JOBS/s['id']/'SUCCESS.json').exists() for s in diagnostic)
+        failures=[s['id'] for s in specs+diagnostic if (JOBS/s['id']/'FAILURE.json').exists()]
+        report=dict(timestamp=now(),run=RUN.name,stage1_planned=25,maximum_training_jobs=55,
+                    currently_enabled_training_jobs=len(required),completed_training=len(finished),
+                    diagnostic_evaluations_completed=diagnostic_done,active=active,progress=progress,
+                    failures=failures,errors=errors,gates=gates,hosts=dict(local4090=local,v1006001=state))
+        atomic_json(RUN/'STATUS.json',report)
+        report_diagnostics()
+        atomic_json(RUN.parents[1]/'ACTIVE_EXPERIMENT.json',dict(timestamp=now(),run=str(RUN),status_path=str(RUN/'STATUS.json'),
+                    scope='v2 state representation; conditional stages; local4090 and v1006001'))
+        if gates['finished'] and diagnostic_done==len(diagnostic):
+            atomic_json(RUN/'COMPLETE.json',dict(timestamp=now(),training_completed=len(finished),diagnostic_completed=diagnostic_done,gates=gates))
+            atomic_json(RUN/'operations/STOP.json',{})
+            remote(f"from pathlib import Path;Path({(REMOTE+'/operations/STOP.json')!r}).write_text('{{}}');print('true')")
+            break
+        time.sleep(30)
+
+if __name__=='__main__':main()
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/efficiency_v3.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/efficiency_v3.py
+
+SHA-256: 8ddca8eb4543bbb373ba8a415f2262df22b7408b889d73c8ef34a0040d8ecca6
+
+```
+"""Robust paired update-cost windows and bounded, reversible concurrency trials."""
+import json,time,datetime,statistics
+from pathlib import Path
+
+class EfficiencyGovernor:
+    def __init__(self,jobs,ceiling=8):
+        self.jobs=Path(jobs);self.ceiling=ceiling;self.cards={}
+    def control(self,gpu,items,decision):
+        now=time.time();members=tuple(sorted((j,it['p'].pid) for j,it in items));count=len(items)
+        s=self.cards.setdefault(gpu,dict(members=(),count=0,changed=now,cap=self.ceiling,until=0,windows={},baseline={},reference={},bad=0,fingerprint=None,trial_from=0))
+        if members!=s['members']:
+            previous=s['count'];reference={j:statistics.median(v[-5:]) for j,v in s['windows'].items() if len(v)>=3}
+            s.update(members=members,count=count,changed=now,windows={},reference=reference if count>previous else {},trial_from=previous if count>previous else 0,bad=0,fingerprint=None)
+        if now>s['until'] and s['cap']<self.ceiling:s['cap']+=1;s['until']=now+180
+        paired=[];absolute=[];fingerprint=[];ready=True
+        for jid,it in items:
+            try:r=json.loads((self.jobs/jid/'progress.json').read_text())
+            except (OSError,ValueError):ready=False;continue
+            stamp=datetime.datetime.fromisoformat(r['timestamp']).timestamp()
+            if r['pid']!=it['p'].pid or stamp<s['changed']+10 or now-stamp>120:ready=False;continue
+            key=(jid,it['p'].pid,r['epoch'],r['completed_steps']);fingerprint.append(key)
+            w=s['windows'].setdefault(jid,[]);seen=s.setdefault('seen',{})
+            if seen.get(jid)!=key and r.get('chunk_steps',25)>=10:
+                w.append(r['seconds_per_step']);del w[:-5];seen[jid]=key
+            if len(w)<3:ready=False;continue
+            cost=statistics.median(w);prior=s['baseline'].get(jid)
+            if prior is None or count<prior['count']:s['baseline'][jid]=dict(cost=cost,count=count)
+            elif count==prior['count']:prior['cost']=.8*prior['cost']+.2*cost
+            prior=s['baseline'][jid]
+            if count>prior['count']:absolute.append(cost/prior['cost'])
+            if jid in s['reference']:paired.append(cost/s['reference'][jid])
+        ratio=statistics.median(absolute) if absolute else None
+        marginal=statistics.median(paired) if paired else None
+        gain=count/s['trial_from']/marginal if marginal and s['trial_from'] else None
+        bad=ready and ((ratio is not None and ratio>1.5) or (marginal is not None and marginal>1.35) or (gain is not None and gain<1.02))
+        if tuple(fingerprint)!=s['fingerprint']:
+            s['bad']=s['bad']+1 if bad else 0;s['fingerprint']=tuple(fingerprint)
+        decision['efficiency']=dict(version=4,cap=s['cap'],workers=count,slowdown_ratio=ratio,paired_incremental_slowdown=marginal,estimated_aggregate_gain=gain,max_slowdown=1.5,max_incremental_slowdown=1.35,waiting_for_step_calibration=not ready,stable_seconds=round(now-s['changed'],1),per_job_step_seconds={j:statistics.median(v) for j,v in s['windows'].items() if len(v)>=3})
+        if decision.get('yield_count'):return decision
+        if count>1 and s['bad']>=3:
+            s.update(cap=count-1,until=now+180,bad=0)
+            return dict(decision,launch=False,yield_count=1,reason='sustained_paired_throughput_regression')
+        if count>=s['cap']:return dict(decision,launch=False,reason='efficiency_cap')
+        if count and (not ready or now-s['changed']<45):return dict(decision,launch=False,reason='measuring_robust_step_windows')
+        return decision
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/launch.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/launch.py
+
+SHA-256: d8c84c07849cde6f9af7e0f266a023e40889c26e0aa537a571409c7151de51db
+
+```
+"""Deploy to exactly the current 4090 host and v1006001; reuse verified local caches."""
+from pathlib import Path
+import sys,os,json,subprocess,shlex
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+from settings import atomic_json,now
+HOST='v1006001';REMOTE='/home/liying/wind_physics_project/project/runs/'+RUN.name
+RPY='/home/liying/wind_physics_project/project/.runtime/chronos/bin/python'
+
+
+def remote(code,timeout=60):
+    result=subprocess.run(['ssh','-o','BatchMode=yes','-o','ConnectTimeout=8',HOST,'python3 -c '+shlex.quote(code)],
+                          check=True,capture_output=True,text=True,timeout=timeout)
+    return result.stdout.strip()
+
+
+def main():
+    assert (RUN/'SCIENCE_FREEZE.json').exists()
+    assert not (RUN/'LAUNCH_STATUS.json').exists(),'Already launched: inspect status rather than duplicating schedulers'
+    remote(f"from pathlib import Path;p=Path({REMOTE!r});p.mkdir(parents=True,exist_ok=True)")
+    for name in ['code','operations','assets','reference_metrics','manifest.json','diagnostic_manifest.json',
+                 'PROTOCOL.json','SCIENCE_FREEZE.json','DATA_FREEZE.json','README_CN.md']:
+        subprocess.run(['rsync','-a','--exclude=__pycache__','--exclude=*.log','--exclude=*.lock',
+                        str(RUN/name),HOST+':'+REMOTE+'/'],check=True,timeout=180)
+    remote(f'''from pathlib import Path
+r=Path({REMOTE!r})
+for name in ['jobs','schedulers','analysis']:(r/name).mkdir(exist_ok=True)
+if not (r/'data').exists():(r/'data').symlink_to('../daily_protocol_restart_20261114_v1/data',target_is_directory=True)
+print('ready')''')
+    # Independently hash the data on the V100; model smoke was tested on 4090.
+    script=f'''from pathlib import Path
+import json,hashlib
+r=Path({REMOTE!r})
+for name,expected in json.loads((r/'DATA_FREEZE.json').read_text())['files'].items():
+ h=hashlib.sha256()
+ with (r/name).open('rb') as f:
+  for chunk in iter(lambda:f.read(4<<20),b''):h.update(chunk)
+ assert h.hexdigest()==expected,name
+print('remote data hashes passed')'''
+    print(remote(script),flush=True)
+    check=f'''import subprocess,os
+env=dict(os.environ,CUDA_VISIBLE_DEVICES='0',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+subprocess.run([{RPY!r},'-u',{(REMOTE+'/operations/checks.py')!r}],env=env,check=True)'''
+    print(remote(check,timeout=180),flush=True)
+    code=f'''from pathlib import Path
+import subprocess,os,json
+r=Path({REMOTE!r});log=(r/'operations/scheduler.log').open('a')
+env=dict(os.environ,OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',PYTHONNOUSERSITE='1')
+p=subprocess.Popen([{RPY!r},'-u',str(r/'operations/scheduler.py'),'--host',{HOST!r}],env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+print(json.dumps(dict(host={HOST!r},pid=p.pid)))'''
+    records=[json.loads(remote(code))]
+    env=dict(os.environ,OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',PYTHONNOUSERSITE='1')
+    for name,args in [('scheduler',['--host','local4090']),('coordinator',[])]:
+        log=(RUN/f'operations/{name}.log').open('a')
+        p=subprocess.Popen([sys.executable,'-u',str(RUN/f'operations/{name}.py'),*args],env=env,
+                           stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        records.append(dict(host='local4090',process=name,pid=p.pid))
+    atomic_json(RUN/'LAUNCH_STATUS.json',dict(timestamp=now(),processes=records));print(json.dumps(records))
+
+if __name__=='__main__':main()
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/probe.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/probe.py
+
+SHA-256: 0998d6b3775c3e189bef08cd85a92b9177dbb097194d834e9ac86f939904211e
+
+```
+import subprocess
+def command(args):
+    return subprocess.check_output(args,text=True,timeout=15,stderr=subprocess.DEVNULL)
+
+
+def probe(own_pids=()):
+    own=set(own_pids);gpus={}
+    for line in command(['nvidia-smi','--query-gpu=index,uuid,name,memory.total,memory.free,utilization.gpu','--format=csv,noheader,nounits']).splitlines():
+        idx,uuid,name,total,free,util=[s.strip() for s in line.split(',')]
+        gpus[idx]=dict(uuid=uuid,name=name,total_mib=int(total),free_mib=int(free),utilization=int(util),other_pids=[],own_pids=[],process_memory_mib={},external_sm=0,process_utilization_known=True)
+    uuids={g['uuid']:g for g in gpus.values()}
+    for line in command(['nvidia-smi','--query-compute-apps=gpu_uuid,pid,used_memory','--format=csv,noheader,nounits']).splitlines():
+        fields=[s.strip() for s in line.split(',')]
+        if len(fields)!=3 or fields[0] not in uuids:continue
+        uuid,pid,memory=fields;pid=int(pid);g=uuids[uuid]
+        g['own_pids' if pid in own else 'other_pids'].append(pid)
+        if memory.isdigit():g['process_memory_mib'][str(pid)]=int(memory)
+    process_sm={}
+    try:
+        for line in command(['nvidia-smi','pmon','-c','1','-s','um']).splitlines():
+            cols=line.split()
+            if not cols or cols[0].startswith('#') or len(cols)<5:continue
+            if cols[1].isdigit() and cols[3].isdigit():process_sm[(cols[0],int(cols[1]))]=int(cols[3])
+    except (subprocess.SubprocessError,OSError):pass
+    for idx,g in gpus.items():
+        g['external_sm']=sum(process_sm.get((idx,pid),0) for pid in g['other_pids'])
+        g['process_utilization_known']=all((idx,pid) in process_sm for pid in g['other_pids'])
+    return gpus
+
+
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/report_diagnostics.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/report_diagnostics.py
+
+SHA-256: 42411b4420d111f3c9bd3cc04f73fe2b3373c92889634553b5c40da28ea6fa7c
+
+```
+"""Persist the required diagnostic comparisons as soon as both groups are complete."""
+from pathlib import Path
+import json,sys,csv
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+from settings import atomic_json,now,JOBS
+from collect import records
+
+
+def report():
+    groups=records()
+    for group in ['R0','TF_R3']:
+        for seed in range(42,47):
+            out=JOBS/f'REFERENCE_{group}_r{seed}'
+            if (out/'SUCCESS.json').exists():groups[group][seed]=json.loads((out/'metrics.json').read_text())
+    complete={g:values for g,values in groups.items() if set(values)==set(range(42,47)) and
+              all('diagnostics' in v['metrics'] for v in values.values())}
+    rows=[];diversity=[]
+    def pooled(group,bin_name):
+        bins=[complete[group][seed]['metrics']['diagnostics']['bins'][bin_name] for seed in range(42,47)]
+        count=sum(v['count'] for v in bins)
+        squared=sum(v['squared_error_sum'] for v in bins)
+        cap=sum(v['capture_numerator'] for v in bins);den=sum(v['capture_denominator'] for v in bins)
+        return count,squared/count if count else None,cap/den if den else None
+    for group,values in complete.items():
+        for ref in ['R0','TF_R3','TF_E2L','R2','R0+H','R3','R4-noS','R4-wrongS']:
+            if group==ref or ref not in complete:continue
+            for name in values[42]['metrics']['diagnostics']['bins']:
+                n,x,cx=pooled(group,name);nr,y,cy=pooled(ref,name);assert n==nr
+                rows.append(dict(candidate=group,reference=ref,bin=name,count=n,candidate_mse=x,reference_mse=y,
+                                 delta_mse=x-y if n else None,mse_change_percent=100*(x/y-1) if n and y else None,
+                                 candidate_capture_ratio=cx,reference_capture_ratio=cy))
+        for seed,value in values.items():
+            d=value['metrics']['diagnostics']
+            if 'sample_std_mean' in d:
+                diversity.append(dict(group=group,seed=seed,**{k:d[k] for k in ['sample_std_mean','nonzero_sample_std_fraction','sample_median_mae','sample_median_rmse']}))
+    atomic_json(RUN/'analysis/DIAGNOSTICS.json',dict(timestamp=now(),complete_groups=sorted(complete),comparisons=rows,
+                stochastic_diversity=diversity,note='Pooled per-seed diagnostic errors; not errors of an ensemble prediction. No selection by these diagnostics.'))
+    if rows:
+        with (RUN/'analysis/diagnostic_comparisons.csv').open('w') as f:
+            w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+
+if __name__=='__main__':report()
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/resource_limits.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/resource_limits.py
+
+SHA-256: 9d5fc2804d569af4e032d097d712fbecf2afb765c468f5d547ab326aa966c49c
+
+```
+"""Host and hierarchical cgroup memory headroom with pending-worker reservations."""
+from pathlib import Path
+import os,time,json
+RUN=Path(__file__).resolve().parents[1]
+
+def memory_status():
+    mem={line.split(':')[0]:int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith(('MemTotal:','MemAvailable:'))}
+    available=mem['MemAvailable'];total=mem['MemTotal'];groups=[]
+    for line in Path('/proc/self/cgroup').read_text().splitlines():
+        if not line.startswith('0::'):continue
+        start=Path('/sys/fs/cgroup')/line[3:].lstrip('/')
+        for folder in [start,*start.parents]:
+            if not folder.is_relative_to('/sys/fs/cgroup'):break
+            limit=folder/'memory.max';current=folder/'memory.current'
+            if not limit.exists() or not current.exists():continue
+            raw=limit.read_text().strip()
+            if raw=='max':continue
+            ceiling=int(raw);used=int(current.read_text());statfile=folder/'memory.stat'
+            stats=dict(line.split() for line in statfile.read_text().splitlines()) if statfile.exists() else {}
+            reclaim=max(0,int(stats.get('inactive_file',0))-int(stats.get('file_dirty',0))-int(stats.get('file_writeback',0)))
+            free=max(0,ceiling-used+reclaim);available=min(available,free);total=min(total,ceiling)
+            groups.append(dict(path=str(folder),limit_mib=ceiling/2**20,current_mib=used/2**20,inactive_reclaimable_mib=reclaim/2**20,available_mib=free/2**20))
+    # A worker not yet resident must not look free to simultaneous CPU/GPU dispatchers.
+    uptime=float(Path('/proc/uptime').read_text().split()[0]);hz=os.sysconf('SC_CLK_TCK');reserved=0;pending=[]
+    for folder in Path('/proc').iterdir():
+        if not folder.name.isdigit():continue
+        try:
+            if folder.stat().st_uid!=os.getuid():continue
+            cmd=(folder/'cmdline').read_bytes()
+            if str(RUN.parents[1]/'runs').encode() not in cmd or b'--job-id' not in cmd:continue
+            # Once this PID has completed an epoch, loading is over and its real
+            # resident memory is already counted by the cgroup. Do not reserve
+            # another3GiB throughout a short training job's first minute.
+            parts=cmd.split(b'\0')
+            if b'--job-id' in parts:
+                jid=parts[parts.index(b'--job-id')+1].decode()
+                progress=RUN/'jobs'/jid/'progress.json'
+                if progress.exists():
+                    try:
+                        if json.loads(progress.read_text()).get('pid')==int(folder.name):continue
+                    except (OSError,ValueError):pass
+            stat=(folder/'stat').read_text().rsplit(')',1)[1].split();age=uptime-int(stat[19])/hz
+            if age>=60 or stat[0] in ['Z','X']:continue
+            row=next((x for x in (folder/'status').read_text().splitlines() if x.startswith('VmRSS:')),None)
+            rss=int(row.split()[1])*1024 if row else 0
+            amount=max(0,3*2**30-rss);reserved+=amount;pending.append(dict(pid=int(folder.name),age_seconds=age,reserved_mib=amount/2**20))
+        except (OSError,ValueError,IndexError,ProcessLookupError):continue
+    return dict(available_mib=max(0,available-reserved)/2**20,total_mib=total/2**20,pending_reserved_mib=reserved/2**20,cgroups=groups,pending_workers=pending)
+
+def effective_memory_available():
+    d=memory_status();return d['available_mib'],d['total_mib']
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/scheduler.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/scheduler.py
+
+SHA-256: 151fb97c91af92d4e879ae7f0a2e37f73fd71e89d6b8676cc4f68a79f49ac573
+
+```
+"""Two workers per used GPU, with memory reserve, resumable OOM and bounded third-worker trials."""
+from pathlib import Path
+import sys,os,json,time,socket,subprocess,fcntl,argparse,collections,signal,math
+RUN=Path(__file__).resolve().parents[1];sys.path.insert(0,str(RUN/'code'))
+from settings import JOBS,atomic_json,now,sha
+from probe import probe
+from resource_limits import effective_memory_available
+from storage_guard import storage_headroom
+from efficiency_v3 import EfficiencyGovernor
+
+
+def main(host):
+    lock=(RUN/'schedulers/scheduler.lock').open('a+');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    assert json.loads((RUN/'operations/CHECKS.json').read_text())['passed']
+    for path,value in json.loads((RUN/'SCIENCE_FREEZE.json').read_text())['files'].items():assert sha(RUN/path)==value,path
+    policy=json.loads((RUN/'operations/RESOURCES.json').read_text());pool=list(map(str,policy[host]['gpus']))
+    governor=EfficiencyGovernor(JOBS,3);running={};failed=set();last=collections.defaultdict(float);cooldown=collections.defaultdict(float)
+    assignments=json.loads((RUN/'operations/ASSIGNMENTS.json').read_text());stopping=False
+    def stop(*args):
+        nonlocal stopping
+        stopping=True
+    signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
+    while True:
+        for jid,item in list(running.items()):
+            rc=item['p'].poll()
+            if rc is None:continue
+            item['lock'].close();item['log'].close();del running[jid]
+            if rc==75:cooldown[item['gpu']]=time.monotonic()+30
+            elif rc:failed.add(jid)
+        stopping=stopping or (RUN/'operations/STOP.json').exists()
+        specs=json.loads((RUN/'manifest.json').read_text())+json.loads((RUN/'diagnostic_manifest.json').read_text())
+        eligible=[s for s in specs if assignments[s['id']]==host and all((RUN/d).exists() for d in s.get('dependencies',[])) and
+                  not any((JOBS/s['id']/f).exists() for f in ['SUCCESS.json','FAILURE.json'])]
+        # Concentrate short queues into pairs instead of one worker on many cards.
+        used=[g for g in pool if any(x['gpu']==g for x in running.values())]
+        limit=min(len(pool),max(1,len(eligible)//2))
+        selected=used+[g for g in pool if g not in used][:max(0,limit-len(used))]
+        try:
+            gpus=probe(x['p'].pid for x in running.values());ram,totalram=effective_memory_available()
+            storage=storage_headroom(RUN)
+        except Exception as exc:
+            atomic_json(RUN/'schedulers/status.json',dict(timestamp=now(),host=host,error=repr(exc)));time.sleep(10);continue
+        decisions={}
+        for gpu in sorted(selected,key=lambda g:sum(x['gpu']==g for x in running.values())):
+            items=[(j,x) for j,x in running.items() if x['gpu']==gpu];g=gpus[gpu];count=len(items)
+            reserve=max(policy['minimum_free_mib'],int(g['total_mib']*policy['memory_reserve_fraction']))
+            observed=[g['process_memory_mib'].get(str(x['p'].pid),0) for _,x in items]
+            budget=max(2304,int(max(observed,default=0)*1.3+384))
+            ready=not any(x['p'].pid not in g['own_pids'] for _,x in items)
+            decision=dict(launch=count<2,yield_count=0,reason='fill_pair',free_mib=g['free_mib'],reserve_mib=reserve,worker_budget_mib=budget)
+            trial=governor.control(gpu,items,dict(decision,launch=count<3))
+            if count>=2:
+                decision=trial
+                if decision.get('yield_count') and count<=2:decision.update(yield_count=0,launch=False)
+            if g['free_mib']<reserve and items:
+                decision.update(launch=False,yield_count=1,reason='memory_reserve')
+            if stopping:decision.update(launch=False,yield_count=count,reason='cooperative_stop')
+            if decision.get('yield_count'):
+                for jid,item in sorted(items,key=lambda it:it[1]['started'],reverse=True)[:decision['yield_count']]:
+                    if not item['diagnostic']:atomic_json(JOBS/jid/'YIELD_REQUEST.json',dict(timestamp=now(),reason=decision['reason']))
+            if g['free_mib']<reserve+budget or not ready or time.monotonic()-last[gpu]<20 or time.monotonic()<cooldown[gpu]:
+                decision.update(launch=False,reason='memory_or_warmup')
+            if ram<max(8192,totalram*.1)+2048 or not storage['ok']:decision.update(launch=False,reason='host_memory_or_storage')
+            if len(failed)>=2:decision.update(launch=False,reason='failure_circuit_breaker')
+            decisions[gpu]=decision
+            if not decision['launch']:continue
+            for spec in eligible:
+                jid=spec['id']
+                if jid in running or jid in failed:continue
+                out=JOBS/jid;out.mkdir(parents=True,exist_ok=True);claim=(out/'worker.lock').open('a+')
+                try:fcntl.flock(claim,fcntl.LOCK_EX|fcntl.LOCK_NB)
+                except BlockingIOError:claim.close();continue
+                (out/'YIELD_REQUEST.json').unlink(missing_ok=True)
+                diagnostic=spec.get('task')=='reference_evaluation'
+                entry='reference_evaluation.py' if diagnostic else 'train.py'
+                env=dict(os.environ,CUDA_VISIBLE_DEVICES=gpu,OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',PYTHONNOUSERSITE='1')
+                log=(out/'worker.log').open('a')
+                p=subprocess.Popen([sys.executable,'-u',str(RUN/'code'/entry),'--job-id',jid],env=env,
+                    stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,pass_fds=(claim.fileno(),))
+                running[jid]=dict(p=p,lock=claim,log=log,gpu=gpu,started=time.monotonic(),diagnostic=diagnostic)
+                last[gpu]=time.monotonic();ram-=2048
+                print(now(),'launch',jid,'gpu',gpu,'workers',count+1,flush=True);break
+        active=[dict(id=j,pid=x['p'].pid,gpu=x['gpu'],host=host) for j,x in running.items()]
+        atomic_json(RUN/'schedulers/status.json',dict(timestamp=now(),host=host,pid=os.getpid(),active=active,
+                    decisions=decisions,failed=sorted(failed),eligible=len(eligible),stopping=stopping,storage=storage))
+        if not running and (stopping or len(failed)>=2):break
+        time.sleep(8)
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--host',required=True);main(p.parse_args().host)
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/storage_guard.py
+
+- project/runs/daily_state_representation_20261116_v2/operations/storage_guard.py
+
+SHA-256: 3944166ac1cbfcc603b638dc93e37b51fec7e9272c03c360666be9c43d283589
+
+```
+"""Include user quotas: df free space alone does not ensure writable output."""
+from pathlib import Path
+import os,shutil,subprocess
+
+def storage_headroom(run):
+    rows=[];quota_cache={}
+    for label,path,reserve in [('metadata',Path(run),512*2**20),('jobs',Path(run)/'jobs',2*2**30),('data',Path(run)/'data',2*2**30)]:
+        target=path.resolve();available=shutil.disk_usage(target).free;quota=None
+        mount=next((m for m in ['/shared_data_ssd2','/shared_data_ssd3'] if target.is_relative_to(m)),None)
+        if mount and shutil.which('lfs'):
+            if mount not in quota_cache:
+                out=subprocess.check_output(['lfs','quota','-u',str(os.getuid()),mount],text=True,timeout=15)
+                line=next(x.split() for x in out.splitlines() if x.startswith(mount+' '))
+                used=int(line[1].rstrip('*'));limit=int(line[3].rstrip('*'))
+                quota_cache[mount]=max(0,limit-used)*1024 if limit else None
+            quota=quota_cache[mount]
+            if quota is not None:available=min(available,quota)
+        rows.append(dict(label=label,path=str(target),available_mib=available/2**20,reserve_mib=reserve/2**20,quota_headroom_mib=quota/2**20 if quota is not None else None,ok=available>=reserve))
+    return dict(ok=all(x['ok'] for x in rows),paths=rows)
 ```
 
 ## SOURCE: project/runs/ramp_information_diagnostic_20261115/README_CN.md
