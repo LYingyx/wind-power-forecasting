@@ -1,631 +1,185 @@
 {
-  "timestamp": "2026-11-16T01:08:15.935486+08:00",
+  "timestamp": "2026-11-16T13:34:26.003825+08:00",
   "run": "daily_state_representation_20261116_v2",
   "stage1_planned": 25,
   "maximum_training_jobs": 55,
-  "currently_enabled_training_jobs": 25,
-  "completed_training": 0,
+  "currently_enabled_training_jobs": 40,
+  "completed_training": 34,
   "diagnostic_evaluations_completed": 10,
   "active": [
     {
-      "id": "R0plusH_r43",
-      "pid": 3389796,
+      "id": "R4_r46",
+      "pid": 103939,
       "gpu": "0",
       "host": "local4090"
     },
     {
-      "id": "R0plusH_r46",
-      "pid": 3389797,
-      "gpu": "1",
-      "host": "local4090"
-    },
-    {
-      "id": "R1_r44",
-      "pid": 3389798,
-      "gpu": "2",
-      "host": "local4090"
-    },
-    {
-      "id": "R2_r42",
-      "pid": 3389800,
-      "gpu": "3",
-      "host": "local4090"
-    },
-    {
-      "id": "R2_r45",
-      "pid": 3391005,
+      "id": "R4_noS_r44",
+      "pid": 104426,
       "gpu": "0",
       "host": "local4090"
     },
     {
-      "id": "R3_r43",
-      "pid": 3391008,
-      "gpu": "1",
-      "host": "local4090"
-    },
-    {
-      "id": "R3_r46",
-      "pid": 3391009,
-      "gpu": "2",
-      "host": "local4090"
-    },
-    {
-      "id": "TF_E2L_r44",
-      "pid": 3391010,
-      "gpu": "3",
-      "host": "local4090"
-    },
-    {
-      "id": "R0plusH_r42",
-      "pid": 309813,
+      "id": "R4_r44",
+      "pid": 765281,
       "gpu": "0",
       "host": "v1006001"
     },
     {
-      "id": "R0plusH_r44",
-      "pid": 309814,
+      "id": "R4_noS_r46",
+      "pid": 765282,
       "gpu": "1",
       "host": "v1006001"
     },
     {
-      "id": "R0plusH_r45",
-      "pid": 309815,
-      "gpu": "2",
-      "host": "v1006001"
-    },
-    {
-      "id": "R1_r42",
-      "pid": 309816,
-      "gpu": "3",
-      "host": "v1006001"
-    },
-    {
-      "id": "R1_r43",
-      "pid": 309817,
-      "gpu": "4",
-      "host": "v1006001"
-    },
-    {
-      "id": "R1_r45",
-      "pid": 309818,
-      "gpu": "5",
-      "host": "v1006001"
-    },
-    {
-      "id": "R1_r46",
-      "pid": 309819,
-      "gpu": "6",
-      "host": "v1006001"
-    },
-    {
-      "id": "R2_r43",
-      "pid": 309820,
-      "gpu": "7",
-      "host": "v1006001"
-    },
-    {
-      "id": "R2_r44",
-      "pid": 309912,
+      "id": "R4_wrongS_r44",
+      "pid": 765532,
       "gpu": "0",
       "host": "v1006001"
     },
     {
-      "id": "R2_r46",
-      "pid": 309913,
+      "id": "R4_wrongS_r46",
+      "pid": 765533,
       "gpu": "1",
-      "host": "v1006001"
-    },
-    {
-      "id": "R3_r42",
-      "pid": 309914,
-      "gpu": "2",
-      "host": "v1006001"
-    },
-    {
-      "id": "R3_r44",
-      "pid": 309915,
-      "gpu": "3",
-      "host": "v1006001"
-    },
-    {
-      "id": "R3_r45",
-      "pid": 309916,
-      "gpu": "4",
-      "host": "v1006001"
-    },
-    {
-      "id": "TF_E2L_r42",
-      "pid": 309917,
-      "gpu": "5",
-      "host": "v1006001"
-    },
-    {
-      "id": "TF_E2L_r43",
-      "pid": 309918,
-      "gpu": "6",
-      "host": "v1006001"
-    },
-    {
-      "id": "TF_E2L_r45",
-      "pid": 309919,
-      "gpu": "7",
-      "host": "v1006001"
-    },
-    {
-      "id": "TF_E2L_r46",
-      "pid": 310581,
-      "gpu": "0",
       "host": "v1006001"
     }
   ],
   "progress": {
-    "R0plusH_r43": {
-      "timestamp": "2026-11-16T01:08:15.552188+08:00",
-      "pid": 3389796,
+    "R4_r46": {
+      "timestamp": "2026-11-16T03:03:56.134794+08:00",
+      "pid": 3538386,
       "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1700,
-      "total_steps": 3351,
-      "completed_steps": 5051,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.1241653457202483,
-      "loss": 0.08246364448876942,
-      "best_mae": 0.08687928891671946,
-      "microbatch": 512,
-      "gpu_peak_mib": 371.431640625,
-      "active_seconds": 561.2681709080935
-    },
-    "R0plusH_r46": {
-      "timestamp": "2026-11-16T01:08:13.160094+08:00",
-      "pid": 3389797,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1275,
-      "total_steps": 3351,
-      "completed_steps": 4626,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.12613143583992495,
-      "loss": 0.0824272230033781,
-      "best_mae": 0.08651205087538352,
-      "microbatch": 512,
-      "gpu_peak_mib": 371.431640625,
-      "active_seconds": 554.0045687682577
-    },
-    "R1_r44": {
-      "timestamp": "2026-11-16T01:08:15.861236+08:00",
-      "pid": 3389798,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1325,
-      "total_steps": 3351,
-      "completed_steps": 4676,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.13297678839997387,
-      "loss": 0.08267649206912743,
-      "best_mae": 0.08653176749955964,
-      "microbatch": 512,
-      "gpu_peak_mib": 368.9765625,
-      "active_seconds": 554.027168374043
-    },
-    "R2_r42": {
-      "timestamp": "2026-11-16T01:08:15.394070+08:00",
-      "pid": 3389800,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1100,
-      "total_steps": 3351,
-      "completed_steps": 4451,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.13680113640031777,
-      "loss": 0.08132867599075491,
-      "best_mae": 0.08712963157952469,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0751953125,
-      "active_seconds": 556.2242884388252
-    },
-    "R2_r45": {
-      "timestamp": "2026-11-16T01:08:15.661440+08:00",
-      "pid": 3391005,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1400,
-      "total_steps": 3351,
-      "completed_steps": 4751,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.12658783435937948,
-      "loss": 0.08097003364669425,
-      "best_mae": 0.08710571485853004,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0751953125,
-      "active_seconds": 534.5693761829461
-    },
-    "R3_r43": {
-      "timestamp": "2026-11-16T01:08:13.336190+08:00",
-      "pid": 3391008,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1025,
-      "total_steps": 3351,
-      "completed_steps": 4376,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.12606731076026334,
-      "loss": 0.08175990860636641,
-      "best_mae": 0.08683906756953495,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0810546875,
-      "active_seconds": 526.4840795451601
-    },
-    "R3_r46": {
-      "timestamp": "2026-11-16T01:08:13.104476+08:00",
-      "pid": 3391009,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1000,
-      "total_steps": 3351,
-      "completed_steps": 4351,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.12907488547964022,
-      "loss": 0.08146859758347273,
-      "best_mae": 0.08660665450252555,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0810546875,
-      "active_seconds": 526.8936872663035
-    },
-    "TF_E2L_r44": {
-      "timestamp": "2026-11-16T01:08:15.026377+08:00",
-      "pid": 3391010,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 2,
-      "step": 1300,
-      "total_steps": 3351,
-      "completed_steps": 4651,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.1260110394807998,
-      "loss": 0.0832410226475734,
-      "best_mae": 0.08687396038558674,
-      "microbatch": 512,
-      "gpu_peak_mib": 345.15625,
-      "active_seconds": 526.8399725311028
-    },
-    "R0plusH_r42": {
-      "timestamp": "2026-11-16T01:08:14.777217+08:00",
-      "pid": 309813,
-      "host": "iipserver1",
-      "epoch": 3,
-      "step": 975,
-      "total_steps": 3351,
-      "completed_steps": 7677,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.062857975512743,
-      "loss": 0.07945185836309042,
-      "best_mae": 0.08539084546910419,
-      "microbatch": 512,
-      "gpu_peak_mib": 371.431640625,
-      "active_seconds": 487.0989088527858
-    },
-    "R0plusH_r44": {
-      "timestamp": "2026-11-16T01:08:14.583133+08:00",
-      "pid": 309814,
-      "host": "iipserver1",
-      "epoch": 2,
+      "epoch": 1,
       "step": 3350,
       "total_steps": 3351,
-      "completed_steps": 6702,
+      "completed_steps": 3351,
       "chunk_steps": 1,
-      "seconds_per_step": 0.08187355101108551,
-      "loss": 0.08165772128455749,
-      "best_mae": 0.08652827554247179,
-      "microbatch": 512,
-      "gpu_peak_mib": 371.431640625,
-      "active_seconds": 559.0017811190337
+      "seconds_per_step": 0.23260704599670134,
+      "loss": 0.15671046557874047,
+      "best_mae": null,
+      "microbatch": 128,
+      "gpu_peak_mib": 510.70654296875,
+      "active_seconds": 1473.6998100691126
     },
-    "R0plusH_r45": {
-      "timestamp": "2026-11-16T01:08:14.650432+08:00",
-      "pid": 309815,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 675,
-      "total_steps": 3351,
-      "completed_steps": 4026,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.1221993663534522,
-      "loss": 0.08281166343777269,
-      "best_mae": 0.08696474991479845,
-      "microbatch": 512,
-      "gpu_peak_mib": 371.431640625,
-      "active_seconds": 514.5380347333848
-    },
-    "R1_r42": {
-      "timestamp": "2026-11-16T01:08:13.725921+08:00",
-      "pid": 309816,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 1150,
-      "total_steps": 3351,
-      "completed_steps": 4501,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.10429078016430139,
-      "loss": 0.08257538586207058,
-      "best_mae": 0.08662611683566888,
-      "microbatch": 512,
-      "gpu_peak_mib": 368.9765625,
-      "active_seconds": 524.5148014463484
-    },
-    "R1_r43": {
-      "timestamp": "2026-11-16T01:08:15.688877+08:00",
-      "pid": 309817,
-      "host": "iipserver1",
-      "epoch": 3,
-      "step": 650,
-      "total_steps": 3351,
-      "completed_steps": 7352,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.061581051014363765,
-      "loss": 0.07987981400810755,
-      "best_mae": 0.08650338235696085,
-      "microbatch": 512,
-      "gpu_peak_mib": 368.9765625,
-      "active_seconds": 489.4182283701375
-    },
-    "R1_r45": {
-      "timestamp": "2026-11-16T01:08:14.270973+08:00",
-      "pid": 309818,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 775,
-      "total_steps": 3351,
-      "completed_steps": 4126,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.10964595202356577,
-      "loss": 0.08273420156009735,
-      "best_mae": 0.0869282295008171,
-      "microbatch": 512,
-      "gpu_peak_mib": 368.9765625,
-      "active_seconds": 519.390083340928
-    },
-    "R1_r46": {
-      "timestamp": "2026-11-16T01:08:15.590238+08:00",
-      "pid": 309819,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 1250,
-      "total_steps": 3351,
-      "completed_steps": 4601,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.11304347667843104,
-      "loss": 0.08248983279466629,
-      "best_mae": 0.0865734647979184,
-      "microbatch": 512,
-      "gpu_peak_mib": 368.9765625,
-      "active_seconds": 529.3773264139891
-    },
-    "R2_r43": {
-      "timestamp": "2026-11-16T01:08:15.652912+08:00",
-      "pid": 309820,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 2375,
-      "total_steps": 3351,
-      "completed_steps": 5726,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.09038637347519397,
-      "loss": 0.08085838295597779,
-      "best_mae": 0.08683490002298881,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0751953125,
-      "active_seconds": 549.0926102390513
-    },
-    "R2_r44": {
-      "timestamp": "2026-11-16T01:08:15.605633+08:00",
-      "pid": 309912,
-      "host": "iipserver1",
-      "epoch": 3,
-      "step": 25,
-      "total_steps": 3351,
-      "completed_steps": 6727,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.06975322462618351,
-      "loss": 0.07993166238069534,
-      "best_mae": 0.08619706247706202,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0751953125,
-      "active_seconds": 468.5042725186795
-    },
-    "R2_r46": {
-      "timestamp": "2026-11-16T01:08:15.314745+08:00",
-      "pid": 309913,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 2700,
-      "total_steps": 3351,
-      "completed_steps": 6051,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.07151257328689098,
-      "loss": 0.0806674303666309,
-      "best_mae": 0.08661346766984246,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0751953125,
-      "active_seconds": 536.4833890134469
-    },
-    "R3_r42": {
-      "timestamp": "2026-11-16T01:08:14.591165+08:00",
-      "pid": 309914,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 400,
-      "total_steps": 3351,
-      "completed_steps": 3751,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.12083757273852826,
-      "loss": 0.08173956695944071,
-      "best_mae": 0.0867702486524345,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0810546875,
-      "active_seconds": 490.15894431527704
-    },
-    "R3_r44": {
-      "timestamp": "2026-11-16T01:08:13.073690+08:00",
-      "pid": 309915,
-      "host": "iipserver1",
-      "epoch": 2,
-      "step": 750,
-      "total_steps": 3351,
-      "completed_steps": 4101,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.10488352119922638,
-      "loss": 0.08173058746258417,
-      "best_mae": 0.08632214330064777,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0810546875,
-      "active_seconds": 497.9198653101921
-    },
-    "R3_r45": {
-      "timestamp": "2026-11-16T01:07:23.885163+08:00",
-      "pid": 309916,
-      "host": "iipserver1",
-      "epoch": 2,
+    "R4_noS_r44": {
+      "timestamp": "2026-11-16T03:03:47.580802+08:00",
+      "pid": 3538859,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 1,
       "step": 3350,
       "total_steps": 3351,
-      "completed_steps": 6702,
+      "completed_steps": 3351,
       "chunk_steps": 1,
-      "seconds_per_step": 0.053120555356144905,
-      "loss": 0.08047842275792666,
-      "best_mae": 0.08710410334715406,
-      "microbatch": 512,
-      "gpu_peak_mib": 379.0810546875,
-      "active_seconds": 496.2507317336276
+      "seconds_per_step": 0.2350629860011395,
+      "loss": 0.162555736818896,
+      "best_mae": null,
+      "microbatch": 128,
+      "gpu_peak_mib": 510.63818359375,
+      "active_seconds": 1445.1664131598372
     },
-    "TF_E2L_r42": {
-      "timestamp": "2026-11-16T01:08:15.189740+08:00",
-      "pid": 309917,
+    "R4_r44": {
+      "timestamp": "2026-11-16T13:34:17.901315+08:00",
+      "pid": 765281,
       "host": "iipserver1",
-      "epoch": 2,
-      "step": 575,
+      "epoch": 1,
+      "step": 3206,
       "total_steps": 3351,
-      "completed_steps": 3926,
+      "completed_steps": 50,
       "chunk_steps": 25,
-      "seconds_per_step": 0.10964733492583037,
-      "loss": 0.08337203814931538,
-      "best_mae": 0.08683456757483417,
-      "microbatch": 512,
-      "gpu_peak_mib": 345.15625,
-      "active_seconds": 493.9923550253734
+      "seconds_per_step": 0.4316234225779772,
+      "loss": 0.15751269242377092,
+      "best_mae": null,
+      "microbatch": 128,
+      "gpu_peak_mib": 513.7333984375,
+      "active_seconds": 1824.4226057641208
     },
-    "TF_E2L_r43": {
-      "timestamp": "2026-11-16T01:08:13.689008+08:00",
-      "pid": 309918,
+    "R4_noS_r46": {
+      "timestamp": "2026-11-16T13:34:22.443260+08:00",
+      "pid": 765282,
       "host": "iipserver1",
-      "epoch": 2,
-      "step": 1025,
+      "epoch": 1,
+      "step": 3342,
       "total_steps": 3351,
-      "completed_steps": 4376,
+      "completed_steps": 50,
       "chunk_steps": 25,
-      "seconds_per_step": 0.10858518999069929,
-      "loss": 0.08319825837524926,
-      "best_mae": 0.0868912362882124,
-      "microbatch": 512,
-      "gpu_peak_mib": 345.15625,
-      "active_seconds": 505.2386972727254
+      "seconds_per_step": 0.5139209211617708,
+      "loss": 0.16457157008704368,
+      "best_mae": null,
+      "microbatch": 128,
+      "gpu_peak_mib": 513.6591796875,
+      "active_seconds": 1942.3615202140063
     },
-    "TF_E2L_r45": {
-      "timestamp": "2026-11-16T01:08:13.627607+08:00",
-      "pid": 309919,
+    "R4_wrongS_r44": {
+      "timestamp": "2026-11-16T03:11:57.122909+08:00",
+      "pid": 366461,
       "host": "iipserver1",
-      "epoch": 2,
-      "step": 2250,
-      "total_steps": 3351,
-      "completed_steps": 5601,
-      "chunk_steps": 25,
-      "seconds_per_step": 0.08582942225039006,
-      "loss": 0.08225188042720159,
-      "best_mae": 0.08707589117958654,
-      "microbatch": 512,
-      "gpu_peak_mib": 345.15625,
-      "active_seconds": 523.2702143201604
-    },
-    "TF_E2L_r46": {
-      "timestamp": "2026-11-16T01:07:29.215724+08:00",
-      "pid": 310581,
-      "host": "iipserver1",
-      "epoch": 2,
+      "epoch": 1,
       "step": 3350,
       "total_steps": 3351,
-      "completed_steps": 6702,
+      "completed_steps": 3351,
       "chunk_steps": 1,
-      "seconds_per_step": 0.05614783056080341,
-      "loss": 0.0818107222991119,
-      "best_mae": 0.08640487679385854,
-      "microbatch": 512,
-      "gpu_peak_mib": 345.15625,
-      "active_seconds": 421.09606222528964
+      "seconds_per_step": 0.2524755569174886,
+      "loss": 0.16942947676634254,
+      "best_mae": null,
+      "microbatch": 128,
+      "gpu_peak_mib": 510.70654296875,
+      "active_seconds": 1906.760043842718
+    },
+    "R4_wrongS_r46": {
+      "timestamp": "2026-11-16T03:11:31.633061+08:00",
+      "pid": 366462,
+      "host": "iipserver1",
+      "epoch": 1,
+      "step": 3350,
+      "total_steps": 3351,
+      "completed_steps": 3351,
+      "chunk_steps": 1,
+      "seconds_per_step": 0.24738672003149986,
+      "loss": 0.16513647174692053,
+      "best_mae": null,
+      "microbatch": 128,
+      "gpu_peak_mib": 510.70654296875,
+      "active_seconds": 1881.0097851920873
     }
   },
   "failures": [],
   "errors": [],
   "gates": {
-    "timestamp": "2026-11-16T01:08:15.898328+08:00",
+    "timestamp": "2026-11-16T13:34:25.527427+08:00",
     "complete_groups": [
       "R0",
+      "R0+H",
+      "R1",
+      "R2",
+      "R3",
+      "TF_E2L",
       "TF_R3"
     ],
-    "stage1_complete": false,
-    "stage2_enabled": false,
+    "stage1_complete": true,
+    "stage2_enabled": true,
     "cross_backbone_enabled": false,
     "loss_enabled": false,
-    "finished": false
+    "finished": false,
+    "r3_mechanism": false,
+    "r3_main_pass": false,
+    "stage2_complete_or_skipped": false
   },
   "hosts": {
     "local4090": {
-      "timestamp": "2026-11-16T01:08:11.137563+08:00",
+      "timestamp": "2026-11-16T13:34:17.839062+08:00",
       "host": "local4090",
-      "pid": 3389777,
+      "pid": 103926,
       "active": [
         {
-          "id": "R0plusH_r43",
-          "pid": 3389796,
+          "id": "R4_r46",
+          "pid": 103939,
           "gpu": "0",
           "host": "local4090"
         },
         {
-          "id": "R0plusH_r46",
-          "pid": 3389797,
-          "gpu": "1",
-          "host": "local4090"
-        },
-        {
-          "id": "R1_r44",
-          "pid": 3389798,
-          "gpu": "2",
-          "host": "local4090"
-        },
-        {
-          "id": "R2_r42",
-          "pid": 3389800,
-          "gpu": "3",
-          "host": "local4090"
-        },
-        {
-          "id": "R2_r45",
-          "pid": 3391005,
+          "id": "R4_noS_r44",
+          "pid": 104426,
           "gpu": "0",
-          "host": "local4090"
-        },
-        {
-          "id": "R3_r43",
-          "pid": 3391008,
-          "gpu": "1",
-          "host": "local4090"
-        },
-        {
-          "id": "R3_r46",
-          "pid": 3391009,
-          "gpu": "2",
-          "host": "local4090"
-        },
-        {
-          "id": "TF_E2L_r44",
-          "pid": 3391010,
-          "gpu": "3",
           "host": "local4090"
         }
       ],
@@ -634,101 +188,13 @@
           "launch": true,
           "yield_count": 0,
           "reason": "fill_pair",
-          "free_mib": 17345,
+          "free_mib": 23416,
           "reserve_mib": 7371,
-          "worker_budget_mib": 2304,
-          "efficiency": {
-            "version": 4,
-            "cap": 3,
-            "workers": 2,
-            "slowdown_ratio": null,
-            "paired_incremental_slowdown": null,
-            "estimated_aggregate_gain": null,
-            "max_slowdown": 1.5,
-            "max_incremental_slowdown": 1.35,
-            "waiting_for_step_calibration": false,
-            "stable_seconds": 437.1,
-            "per_job_step_seconds": {
-              "R0plusH_r43": 0.1177644044405315,
-              "R2_r45": 0.12137590548023582
-            }
-          }
-        },
-        "1": {
-          "launch": true,
-          "yield_count": 0,
-          "reason": "fill_pair",
-          "free_mib": 16300,
-          "reserve_mib": 7371,
-          "worker_budget_mib": 2304,
-          "efficiency": {
-            "version": 4,
-            "cap": 3,
-            "workers": 2,
-            "slowdown_ratio": null,
-            "paired_incremental_slowdown": null,
-            "estimated_aggregate_gain": null,
-            "max_slowdown": 1.5,
-            "max_incremental_slowdown": 1.35,
-            "waiting_for_step_calibration": false,
-            "stable_seconds": 428.0,
-            "per_job_step_seconds": {
-              "R0plusH_r46": 0.12313980012084358,
-              "R3_r43": 0.12260229639941826
-            }
-          }
-        },
-        "2": {
-          "launch": true,
-          "yield_count": 0,
-          "reason": "fill_pair",
-          "free_mib": 15088,
-          "reserve_mib": 7371,
-          "worker_budget_mib": 2304,
-          "efficiency": {
-            "version": 4,
-            "cap": 3,
-            "workers": 2,
-            "slowdown_ratio": null,
-            "paired_incremental_slowdown": null,
-            "estimated_aggregate_gain": null,
-            "max_slowdown": 1.5,
-            "max_incremental_slowdown": 1.35,
-            "waiting_for_step_calibration": false,
-            "stable_seconds": 437.1,
-            "per_job_step_seconds": {
-              "R1_r44": 0.12229217323940247,
-              "R3_r46": 0.1237130887596868
-            }
-          }
-        },
-        "3": {
-          "launch": true,
-          "yield_count": 0,
-          "reason": "fill_pair",
-          "free_mib": 15651,
-          "reserve_mib": 7371,
-          "worker_budget_mib": 2304,
-          "efficiency": {
-            "version": 4,
-            "cap": 3,
-            "workers": 2,
-            "slowdown_ratio": null,
-            "paired_incremental_slowdown": null,
-            "estimated_aggregate_gain": null,
-            "max_slowdown": 1.5,
-            "max_incremental_slowdown": 1.35,
-            "waiting_for_step_calibration": false,
-            "stable_seconds": 651.1,
-            "per_job_step_seconds": {
-              "R2_r42": 0.13187558699981308,
-              "TF_E2L_r44": 0.11942994444048964
-            }
-          }
+          "worker_budget_mib": 2304
         }
       },
       "failed": [],
-      "eligible": 8,
+      "eligible": 2,
       "stopping": false,
       "storage": {
         "ok": true,
@@ -736,25 +202,25 @@
           {
             "label": "metadata",
             "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2",
-            "available_mib": 1034379.453125,
+            "available_mib": 1034369.046875,
             "reserve_mib": 512.0,
-            "quota_headroom_mib": 1034379.453125,
+            "quota_headroom_mib": 1034369.046875,
             "ok": true
           },
           {
             "label": "jobs",
             "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2/jobs",
-            "available_mib": 1034379.453125,
+            "available_mib": 1034369.046875,
             "reserve_mib": 2048.0,
-            "quota_headroom_mib": 1034379.453125,
+            "quota_headroom_mib": 1034369.046875,
             "ok": true
           },
           {
             "label": "data",
             "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_protocol_restart_20261114_v1/data",
-            "available_mib": 1034379.453125,
+            "available_mib": 1034369.046875,
             "reserve_mib": 2048.0,
-            "quota_headroom_mib": 1034379.453125,
+            "quota_headroom_mib": 1034369.046875,
             "ok": true
           }
         ]
@@ -762,6 +228,29 @@
     },
     "v1006001": {
       "done": [
+        "R0plusH_r42",
+        "R0plusH_r44",
+        "R0plusH_r45",
+        "R1_r42",
+        "R1_r43",
+        "R1_r45",
+        "R1_r46",
+        "R2_r43",
+        "R2_r44",
+        "R2_r46",
+        "R3_r42",
+        "R3_r44",
+        "R3_r45",
+        "TF_E2L_r42",
+        "TF_E2L_r43",
+        "TF_E2L_r45",
+        "TF_E2L_r46",
+        "R4_r42",
+        "R4_r45",
+        "R4_noS_r42",
+        "R4_noS_r43",
+        "R4_noS_r45",
+        "R4_wrongS_r43",
         "REFERENCE_R0_r42",
         "REFERENCE_R0_r44",
         "REFERENCE_R0_r45",
@@ -772,310 +261,55 @@
       ],
       "failed": [],
       "status": {
-        "timestamp": "2026-11-16T01:08:11.374667+08:00",
+        "timestamp": "2026-11-16T13:34:17.002186+08:00",
         "host": "v1006001",
-        "pid": 309696,
+        "pid": 765268,
         "active": [
           {
-            "id": "R0plusH_r42",
-            "pid": 309813,
+            "id": "R4_r44",
+            "pid": 765281,
             "gpu": "0",
             "host": "v1006001"
           },
           {
-            "id": "R0plusH_r44",
-            "pid": 309814,
+            "id": "R4_noS_r46",
+            "pid": 765282,
             "gpu": "1",
             "host": "v1006001"
           },
           {
-            "id": "R0plusH_r45",
-            "pid": 309815,
-            "gpu": "2",
-            "host": "v1006001"
-          },
-          {
-            "id": "R1_r42",
-            "pid": 309816,
-            "gpu": "3",
-            "host": "v1006001"
-          },
-          {
-            "id": "R1_r43",
-            "pid": 309817,
-            "gpu": "4",
-            "host": "v1006001"
-          },
-          {
-            "id": "R1_r45",
-            "pid": 309818,
-            "gpu": "5",
-            "host": "v1006001"
-          },
-          {
-            "id": "R1_r46",
-            "pid": 309819,
-            "gpu": "6",
-            "host": "v1006001"
-          },
-          {
-            "id": "R2_r43",
-            "pid": 309820,
-            "gpu": "7",
-            "host": "v1006001"
-          },
-          {
-            "id": "R2_r44",
-            "pid": 309912,
+            "id": "R4_wrongS_r44",
+            "pid": 765532,
             "gpu": "0",
             "host": "v1006001"
           },
           {
-            "id": "R2_r46",
-            "pid": 309913,
+            "id": "R4_wrongS_r46",
+            "pid": 765533,
             "gpu": "1",
-            "host": "v1006001"
-          },
-          {
-            "id": "R3_r42",
-            "pid": 309914,
-            "gpu": "2",
-            "host": "v1006001"
-          },
-          {
-            "id": "R3_r44",
-            "pid": 309915,
-            "gpu": "3",
-            "host": "v1006001"
-          },
-          {
-            "id": "R3_r45",
-            "pid": 309916,
-            "gpu": "4",
-            "host": "v1006001"
-          },
-          {
-            "id": "TF_E2L_r42",
-            "pid": 309917,
-            "gpu": "5",
-            "host": "v1006001"
-          },
-          {
-            "id": "TF_E2L_r43",
-            "pid": 309918,
-            "gpu": "6",
-            "host": "v1006001"
-          },
-          {
-            "id": "TF_E2L_r45",
-            "pid": 309919,
-            "gpu": "7",
-            "host": "v1006001"
-          },
-          {
-            "id": "TF_E2L_r46",
-            "pid": 310581,
-            "gpu": "0",
             "host": "v1006001"
           }
         ],
         "decisions": {
+          "0": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 15170,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304
+          },
           "1": {
             "launch": true,
             "yield_count": 0,
             "reason": "fill_pair",
-            "free_mib": 8682,
+            "free_mib": 15172,
             "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 2,
-              "slowdown_ratio": null,
-              "paired_incremental_slowdown": null,
-              "estimated_aggregate_gain": null,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 389.4,
-              "per_job_step_seconds": {
-                "R2_r46": 0.08115738835185766,
-                "R0plusH_r44": 0.08006220456212759
-              }
-            }
-          },
-          "2": {
-            "launch": true,
-            "yield_count": 0,
-            "reason": "fill_pair",
-            "free_mib": 11200,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 2,
-              "slowdown_ratio": null,
-              "paired_incremental_slowdown": null,
-              "estimated_aggregate_gain": null,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 340.3,
-              "per_job_step_seconds": {
-                "R3_r42": 0.1224276065826416,
-                "R0plusH_r45": 0.1220455439016223
-              }
-            }
-          },
-          "3": {
-            "launch": true,
-            "yield_count": 0,
-            "reason": "fill_pair",
-            "free_mib": 11244,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 2,
-              "slowdown_ratio": null,
-              "paired_incremental_slowdown": null,
-              "estimated_aggregate_gain": null,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 351.4,
-              "per_job_step_seconds": {
-                "R1_r42": 0.1046155059710145,
-                "R3_r44": 0.10695993788540363
-              }
-            }
-          },
-          "4": {
-            "launch": true,
-            "yield_count": 0,
-            "reason": "fill_pair",
-            "free_mib": 13162,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 2,
-              "slowdown_ratio": null,
-              "paired_incremental_slowdown": null,
-              "estimated_aggregate_gain": null,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 418.0,
-              "per_job_step_seconds": {
-                "R3_r45": 0.0681415392830968,
-                "R1_r43": 0.061852406449615954
-              }
-            }
-          },
-          "5": {
-            "launch": true,
-            "yield_count": 0,
-            "reason": "fill_pair",
-            "free_mib": 10650,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 2,
-              "slowdown_ratio": null,
-              "paired_incremental_slowdown": null,
-              "estimated_aggregate_gain": null,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 362.4,
-              "per_job_step_seconds": {
-                "R1_r45": 0.12275800112634898,
-                "TF_E2L_r42": 0.12255850799381733
-              }
-            }
-          },
-          "6": {
-            "launch": true,
-            "yield_count": 0,
-            "reason": "fill_pair",
-            "free_mib": 12524,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 2,
-              "slowdown_ratio": null,
-              "paired_incremental_slowdown": null,
-              "estimated_aggregate_gain": null,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 362.4,
-              "per_job_step_seconds": {
-                "R1_r46": 0.11241489864885806,
-                "TF_E2L_r43": 0.10890909075737
-              }
-            }
-          },
-          "7": {
-            "launch": true,
-            "yield_count": 0,
-            "reason": "fill_pair",
-            "free_mib": 12144,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 2,
-              "slowdown_ratio": null,
-              "paired_incremental_slowdown": null,
-              "estimated_aggregate_gain": null,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 389.4,
-              "per_job_step_seconds": {
-                "R2_r43": 0.08932345774024725,
-                "TF_E2L_r45": 0.08574898228049278
-              }
-            }
-          },
-          "0": {
-            "launch": false,
-            "yield_count": 0,
-            "reason": "efficiency_cap",
-            "free_mib": 11584,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304,
-            "efficiency": {
-              "version": 4,
-              "cap": 3,
-              "workers": 3,
-              "slowdown_ratio": 1.088287944190965,
-              "paired_incremental_slowdown": 1.0899353293630676,
-              "estimated_aggregate_gain": 1.3762284418072441,
-              "max_slowdown": 1.5,
-              "max_incremental_slowdown": 1.35,
-              "waiting_for_step_calibration": false,
-              "stable_seconds": 550.4,
-              "per_job_step_seconds": {
-                "R0plusH_r42": 0.06477875370532274,
-                "R2_r44": 0.069760731048882,
-                "TF_E2L_r46": 0.06077523455023766
-              }
-            }
+            "worker_budget_mib": 2304
           }
         },
         "failed": [],
-        "eligible": 17,
+        "eligible": 4,
         "stopping": false,
         "storage": {
           "ok": true,
@@ -1083,7 +317,7 @@
             {
               "label": "metadata",
               "path": "/home/liying/wind_physics_project/project/runs/daily_state_representation_20261116_v2",
-              "available_mib": 1486519.375,
+              "available_mib": 1479026.44140625,
               "reserve_mib": 512.0,
               "quota_headroom_mib": null,
               "ok": true
@@ -1091,7 +325,7 @@
             {
               "label": "jobs",
               "path": "/home/liying/wind_physics_project/project/runs/daily_state_representation_20261116_v2/jobs",
-              "available_mib": 1486519.375,
+              "available_mib": 1479026.44140625,
               "reserve_mib": 2048.0,
               "quota_headroom_mib": null,
               "ok": true
@@ -1099,7 +333,7 @@
             {
               "label": "data",
               "path": "/home/liying/wind_physics_project/project/runs/daily_protocol_restart_20261114_v1/data",
-              "available_mib": 1486519.375,
+              "available_mib": 1479026.44140625,
               "reserve_mib": 2048.0,
               "quota_headroom_mib": null,
               "ok": true

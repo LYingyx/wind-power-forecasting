@@ -1,0 +1,88 @@
+{
+  "timestamp": "2026-11-16T13:32:37.035486+08:00",
+  "device": "cuda:0",
+  "validation_samples": 1630585,
+  "seeds": [
+    {
+      "seed": 42,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 43,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 44,
+      "repaired_coordinates": [
+        {
+          "index": 245853,
+          "key": 102483043,
+          "sample": 6,
+          "segment": 0,
+          "channel": 3
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 45,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 46,
+      "repaired_coordinates": [
+        {
+          "index": 50954,
+          "key": 102277694,
+          "sample": 7,
+          "segment": 6,
+          "channel": 1
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    }
+  ],
+  "checkpoints": [
+    {
+      "job": "R4_r44",
+      "epoch": 0,
+      "cursor": 1615872,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    },
+    {
+      "job": "R4_noS_r46",
+      "epoch": 0,
+      "cursor": 1685504,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    },
+    {
+      "job": "R4_wrongS_r44",
+      "epoch": 0,
+      "cursor": 1608192,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    },
+    {
+      "job": "R4_wrongS_r46",
+      "epoch": 0,
+      "cursor": 1631744,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    }
+  ],
+  "original_sha256": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+  "repaired_sha256": "448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2",
+  "batch_invariant": true,
+  "training_rng_unchanged": true,
+  "passed": true
+}

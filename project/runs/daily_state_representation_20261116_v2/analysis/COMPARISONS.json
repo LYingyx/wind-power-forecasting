@@ -34,6 +34,516 @@
     "main_pass": false
   },
   {
+    "candidate": "R0",
+    "reference": "TF_E2L",
+    "mae_change_percent": -0.1568371356878484,
+    "mae_farm_wins": 33,
+    "mae_per_seed_change_percent": [
+      -1.12577977867796,
+      -0.3397700437254181,
+      0.24354283932330745,
+      0.2545201589975621,
+      0.1831927320346649
+    ],
+    "rmse_change_percent": -0.1577780967643383,
+    "rmse_farm_wins": 30,
+    "rmse_per_seed_change_percent": [
+      -0.6988480613906223,
+      0.17995475502001756,
+      0.07408866516620538,
+      -0.5056814589887604,
+      0.16408381201593603
+    ],
+    "high_power_rmse_change_percent": -0.12676390435668594,
+    "high_power_rmse_farm_wins": 36,
+    "high_power_rmse_per_seed_change_percent": [
+      -1.3807371767788457,
+      0.04655898313583595,
+      0.601608758285721,
+      0.4688801315589908,
+      -0.3567783886847642
+    ],
+    "both_metrics_seed_wins": 1,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
+    "candidate": "R0+H",
+    "reference": "R0",
+    "mae_change_percent": -0.004082540708538751,
+    "mae_farm_wins": 31,
+    "mae_per_seed_change_percent": [
+      -0.005679126308677507,
+      -0.009131708167342545,
+      0.009331468567563839,
+      0.04394919226868854,
+      -0.05904748668646986
+    ],
+    "rmse_change_percent": -0.01701225733317102,
+    "rmse_farm_wins": 35,
+    "rmse_per_seed_change_percent": [
+      -0.003748832065741947,
+      -0.11051177894868536,
+      0.01122329482508011,
+      -0.014586542704297933,
+      0.03272612575333511
+    ],
+    "high_power_rmse_change_percent": -0.04436413090911362,
+    "high_power_rmse_farm_wins": 34,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.010512872088852543,
+      -0.5221819214355827,
+      -0.020737174872986763,
+      -0.04649358871177123,
+      0.3684056196112673
+    ],
+    "both_metrics_seed_wins": 2,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
+    "candidate": "R0+H",
+    "reference": "TF_R3",
+    "mae_change_percent": -0.4608944573465945,
+    "mae_farm_wins": 42,
+    "mae_per_seed_change_percent": [
+      -1.2706076633170582,
+      -0.33528626676635476,
+      -0.25905679505447976,
+      -0.04501240336071133,
+      -0.3978105050721936
+    ],
+    "rmse_change_percent": -0.2329019781520003,
+    "rmse_farm_wins": 33,
+    "rmse_per_seed_change_percent": [
+      -0.7429057364785829,
+      0.10467802132947401,
+      -0.4092507594458672,
+      -0.24516088191419705,
+      0.12962563717893172
+    ],
+    "high_power_rmse_change_percent": 0.10850608893930858,
+    "high_power_rmse_farm_wins": 24,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.5483499614141074,
+      -1.5895064030493011,
+      -0.3668812436536273,
+      1.6368145507259513,
+      1.4249039470675573
+    ],
+    "both_metrics_seed_wins": 3,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
+    "candidate": "R0+H",
+    "reference": "TF_E2L",
+    "mae_change_percent": -0.16091327345646445,
+    "mae_farm_wins": 31,
+    "mae_per_seed_change_percent": [
+      -1.131394970531041,
+      -0.34887072508393846,
+      0.2528970340143877,
+      0.2985812108202923,
+      0.12403707464414548
+    ],
+    "rmse_change_percent": -0.17476351248166822,
+    "rmse_farm_wins": 34,
+    "rmse_per_seed_change_percent": [
+      -0.7025706948161514,
+      0.06924410487025856,
+      0.08532027518060037,
+      -0.5201942402510928,
+      0.1968636360439424
+    ],
+    "high_power_rmse_change_percent": -0.1710717975613285,
+    "high_power_rmse_farm_wins": 35,
+    "high_power_rmse_per_seed_change_percent": [
+      -1.3911048937344295,
+      -0.4758660608924936,
+      0.5807468267524651,
+      0.4221685436473166,
+      0.010312839293025178
+    ],
+    "both_metrics_seed_wins": 1,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
+    "candidate": "R1",
+    "reference": "R0",
+    "mae_change_percent": 0.016065703480117044,
+    "mae_farm_wins": 18,
+    "mae_per_seed_change_percent": [
+      0.00491938800382119,
+      0.004004983226879588,
+      0.013367470575964546,
+      0.04588584799907203,
+      0.011899460630226955
+    ],
+    "rmse_change_percent": 0.01588652277337843,
+    "rmse_farm_wins": 17,
+    "rmse_per_seed_change_percent": [
+      -0.022493310523363785,
+      0.04250848600753088,
+      0.02223794385112221,
+      0.02363711511987887,
+      0.013257802780830552
+    ],
+    "high_power_rmse_change_percent": 0.02756704610007432,
+    "high_power_rmse_farm_wins": 17,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.05258695443153272,
+      0.01574856521260326,
+      0.08173870737702149,
+      0.09414868352377592,
+      -0.002015200966898334
+    ],
+    "both_metrics_seed_wins": 0,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "R1",
+    "reference": "TF_R3",
+    "mae_change_percent": -0.44083825649609,
+    "mae_farm_wins": 40,
+    "mae_per_seed_change_percent": [
+      -1.2601432202506868,
+      -0.32219242520289404,
+      -0.25503162419109326,
+      -0.043077469753294295,
+      -0.32710404177546115
+    ],
+    "rmse_change_percent": -0.20007423521500867,
+    "rmse_farm_wins": 32,
+    "rmse_per_seed_change_percent": [
+      -0.7615116586352388,
+      0.2580279345884229,
+      -0.39828241896380234,
+      -0.20702537089404283,
+      0.11013845566822944
+    ],
+    "high_power_rmse_change_percent": 0.1805472761019722,
+    "high_power_rmse_farm_wins": 19,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.5901977299448746,
+      -1.0573475184416092,
+      -0.264760149164911,
+      1.7798253669986552,
+      1.0505840013117052
+    ],
+    "both_metrics_seed_wins": 3,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
+    "candidate": "R1",
+    "reference": "TF_E2L",
+    "mae_change_percent": -0.14079662919688207,
+    "mae_farm_wins": 33,
+    "mae_per_seed_change_percent": [
+      -1.1209157721495222,
+      -0.335778668231812,
+      0.256942865416665,
+      0.30052279572994056,
+      0.19511399161191711
+    ],
+    "rmse_change_percent": -0.14191663944421729,
+    "rmse_farm_wins": 30,
+    "rmse_per_seed_change_percent": [
+      -0.7211841778494543,
+      0.22253973706940489,
+      0.09634308481307752,
+      -0.4821638723774835,
+      0.1773633687049525
+    ],
+    "high_power_rmse_change_percent": -0.09923180332056525,
+    "high_power_rmse_farm_wins": 36,
+    "high_power_rmse_per_seed_change_percent": [
+      -1.432598043580413,
+      0.062314880720260035,
+      0.6838392128852178,
+      0.5634702595539443,
+      -0.3587863998501195
+    ],
+    "both_metrics_seed_wins": 1,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
+    "candidate": "R2",
+    "reference": "R0",
+    "mae_change_percent": 0.3423367817170231,
+    "mae_farm_wins": 19,
+    "mae_per_seed_change_percent": [
+      1.3318742943435824,
+      0.3872627636993142,
+      -0.37348440332655164,
+      0.321007801927764,
+      0.058111810041716616
+    ],
+    "rmse_change_percent": 0.3997215575384683,
+    "rmse_farm_wins": 16,
+    "rmse_per_seed_change_percent": [
+      0.9884973857239965,
+      -0.03856771234975742,
+      0.11019617237961743,
+      0.5999835504292728,
+      0.3430519251033104
+    ],
+    "high_power_rmse_change_percent": 0.6379781144343344,
+    "high_power_rmse_farm_wins": 18,
+    "high_power_rmse_per_seed_change_percent": [
+      0.6752122902900615,
+      0.05881731406864876,
+      -0.15571273935773844,
+      1.9454761708813217,
+      0.655977612856895
+    ],
+    "both_metrics_seed_wins": 0,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "R2",
+    "reference": "TF_R3",
+    "mae_change_percent": -0.11605768427562779,
+    "mae_farm_wins": 32,
+    "mae_per_seed_change_percent": [
+      0.050025701508293885,
+      0.05981522838942599,
+      -0.6408453299427852,
+      0.23179983881491673,
+      -0.2810483352073567
+    ],
+    "rmse_change_percent": 0.18293199816730166,
+    "rmse_farm_wins": 25,
+    "rmse_per_seed_change_percent": [
+      0.24200594992431768,
+      0.1767770755011444,
+      -0.31069399046113055,
+      0.36799196356072095,
+      0.44025204233566484
+    ],
+    "high_power_rmse_change_percent": 0.7918918953401244,
+    "high_power_rmse_farm_wins": 21,
+    "high_power_rmse_per_seed_change_percent": [
+      0.13368672894635836,
+      -1.0147408658692791,
+      -0.5013895013213809,
+      3.6623308964292,
+      1.7155029818210377
+    ],
+    "both_metrics_seed_wins": 1,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "R2",
+    "reference": "TF_E2L",
+    "mae_change_percent": 0.18496273482633274,
+    "mae_farm_wins": 22,
+    "mae_per_seed_change_percent": [
+      0.19110054418247646,
+      0.0461769171123505,
+      -0.13085115852352613,
+      0.5763449904931939,
+      0.2414109986888402
+    ],
+    "rmse_change_percent": 0.24131278770829212,
+    "rmse_farm_wins": 20,
+    "rmse_per_seed_change_percent": [
+      0.28274122951634784,
+      0.14131763823799215,
+      0.18436648041899595,
+      0.0912680858690118,
+      0.5076986297951613
+    ],
+    "high_power_rmse_change_percent": 0.5104054841108319,
+    "high_power_rmse_farm_wins": 19,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.7148477936029907,
+      0.10540368194780214,
+      0.4449592374502265,
+      2.4234782536697974,
+      0.29685883781482847
+    ],
+    "both_metrics_seed_wins": 0,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "R3",
+    "reference": "R0",
+    "mae_change_percent": 0.2655802752908887,
+    "mae_farm_wins": 22,
+    "mae_per_seed_change_percent": [
+      0.8390931583630357,
+      0.3557234883521332,
+      -0.2289160588411776,
+      0.319151799189199,
+      0.05024106343018975
+    ],
+    "rmse_change_percent": 0.24351603240400088,
+    "rmse_farm_wins": 18,
+    "rmse_per_seed_change_percent": [
+      0.8336961835940349,
+      -0.07165652508960285,
+      0.22111576500685182,
+      0.18655994254486163,
+      0.052334451110058744
+    ],
+    "high_power_rmse_change_percent": 0.4478275265895393,
+    "high_power_rmse_farm_wins": 18,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.2832858917373504,
+      -0.5783839088745468,
+      0.6628812483110647,
+      1.5889678530251805,
+      0.8221206514527735
+    ],
+    "both_metrics_seed_wins": 0,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "R3",
+    "reference": "TF_R3",
+    "mae_change_percent": -0.1924635435183064,
+    "mae_farm_wins": 35,
+    "mae_per_seed_change_percent": [
+      -0.43652175123949366,
+      0.02837882922086532,
+      -0.49666495372379105,
+      0.22994548648065383,
+      -0.28889240288685336
+    ],
+    "rmse_change_percent": 0.02706376208543304,
+    "rmse_farm_wins": 29,
+    "rmse_per_seed_change_percent": [
+      0.08834901446466148,
+      0.14361698023566127,
+      -0.2002407336037404,
+      -0.044478256505364744,
+      0.14925295669108163
+    ],
+    "high_power_rmse_change_percent": 0.6014504948571364,
+    "high_power_rmse_farm_wins": 18,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.8196557523453829,
+      -1.6451053841269658,
+      0.3143703840989831,
+      3.299818653600628,
+      1.883394875958766
+    ],
+    "both_metrics_seed_wins": 1,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "R3",
+    "reference": "TF_E2L",
+    "mae_change_percent": 0.10832661110633524,
+    "mae_farm_wins": 25,
+    "mae_per_seed_change_percent": [
+      -0.2961329614160513,
+      0.014744802774790955,
+      0.014069271812755524,
+      0.5744842638535141,
+      0.2335258334415613
+    ],
+    "rmse_change_percent": 0.08535372067843827,
+    "rmse_farm_wins": 25,
+    "rmse_per_seed_change_percent": [
+      0.12902185258647503,
+      0.10816928060624065,
+      0.2953682518918255,
+      -0.32006491548325355,
+      0.21650413548839342
+    ],
+    "high_power_rmse_change_percent": 0.3204959385753714,
+    "high_power_rmse_farm_wins": 17,
+    "high_power_rmse_per_seed_change_percent": [
+      -1.6601116348924139,
+      -0.5320942154053099,
+      1.2684779582436523,
+      2.0652983391438617,
+      0.4624091139547204
+    ],
+    "both_metrics_seed_wins": 0,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "TF_E2L",
+    "reference": "R0",
+    "mae_change_percent": 0.15708350095138268,
+    "mae_farm_wins": 22,
+    "mae_per_seed_change_percent": [
+      1.138597883409842,
+      0.3409284163547355,
+      -0.24295114919639094,
+      -0.25387399849295944,
+      -0.18285774992684578
+    ],
+    "rmse_change_percent": 0.15802742943487047,
+    "rmse_farm_wins": 25,
+    "rmse_per_seed_change_percent": [
+      0.7037663186653331,
+      -0.17963149959498992,
+      -0.07403381450127311,
+      0.5082515930598719,
+      -0.16381501808960808
+    ],
+    "high_power_rmse_change_percent": 0.12692479918774424,
+    "high_power_rmse_farm_wins": 19,
+    "high_power_rmse_per_seed_change_percent": [
+      1.400068442261504,
+      -0.0465373158347937,
+      -0.5980110713052267,
+      -0.46669190593646714,
+      0.3580558545933865
+    ],
+    "both_metrics_seed_wins": 2,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "TF_E2L",
+    "reference": "TF_R3",
+    "mae_change_percent": -0.300464671428502,
+    "mae_farm_wins": 40,
+    "mae_per_seed_change_percent": [
+      -0.14080576209659634,
+      0.013632016432141292,
+      -0.510662379058402,
+      -0.3425707622511598,
+      -0.521201097122459
+    ],
+    "rmse_change_percent": -0.058240248374075154,
+    "rmse_farm_wins": 29,
+    "rmse_per_seed_change_percent": [
+      -0.0406204288919354,
+      0.03540939753883254,
+      -0.494149424977286,
+      0.27647154740242375,
+      -0.06710589176648352
+    ],
+    "high_power_rmse_change_percent": 0.2800569850190948,
+    "high_power_rmse_farm_wins": 19,
+    "high_power_rmse_per_seed_change_percent": [
+      0.8546439257960614,
+      -1.1189651173836523,
+      -0.9421565262767051,
+      1.2095397108963235,
+      1.4144452383102024
+    ],
+    "both_metrics_seed_wins": 3,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
     "candidate": "TF_R3",
     "reference": "R0",
     "mae_change_percent": 0.4589270861413475,
@@ -62,6 +572,108 @@
       0.34741868276464416,
       -1.6561992294608974,
       -1.0416557337906474
+    ],
+    "both_metrics_seed_wins": 0,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "TF_R3",
+    "reference": "TF_E2L",
+    "mae_change_percent": 0.3013701823566972,
+    "mae_farm_wins": 15,
+    "mae_per_seed_change_percent": [
+      0.1410043042818332,
+      -0.013630158366717549,
+      0.5132835249180623,
+      0.34374834357195905,
+      0.5239318355977574
+    ],
+    "rmse_change_percent": 0.05827418740556034,
+    "rmse_farm_wins": 26,
+    "rmse_per_seed_change_percent": [
+      0.040636935789550854,
+      -0.03539686372264761,
+      0.4966033877623399,
+      -0.27570928966295094,
+      0.06715095401299553
+    ],
+    "high_power_rmse_change_percent": -0.2792748562767011,
+    "high_power_rmse_farm_wins": 36,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.8474016589904099,
+      1.1316276358879218,
+      0.9511175422737939,
+      -1.1950846870278808,
+      -1.3947177199327587
+    ],
+    "both_metrics_seed_wins": 1,
+    "dual_improvement": false,
+    "main_pass": false
+  },
+  {
+    "candidate": "R3",
+    "reference": "R2",
+    "mae_change_percent": -0.07649463714713978,
+    "mae_farm_wins": 36,
+    "mae_per_seed_change_percent": [
+      -0.4863041756724362,
+      -0.03141760665537063,
+      0.1451103088565775,
+      -0.0018500638891527643,
+      -0.007866175434600997
+    ],
+    "rmse_change_percent": -0.15558362384994195,
+    "rmse_farm_wins": 39,
+    "rmse_per_seed_change_percent": [
+      -0.15328597428150292,
+      -0.03310157926171842,
+      0.1107974980253168,
+      -0.4109579279177322,
+      -0.28972357170304885
+    ],
+    "high_power_rmse_change_percent": -0.18894515908156606,
+    "high_power_rmse_farm_wins": 27,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.9520696904652737,
+      -0.6368266586073257,
+      0.8198706306870474,
+      -0.3497048925040658,
+      0.16506028011065155
+    ],
+    "both_metrics_seed_wins": 4,
+    "dual_improvement": true,
+    "main_pass": false
+  },
+  {
+    "candidate": "R3",
+    "reference": "R0+H",
+    "mae_change_percent": 0.26967382554314856,
+    "mae_farm_wins": 22,
+    "mae_per_seed_change_percent": [
+      0.8448202630815249,
+      0.3648885170739913,
+      -0.23822529748999122,
+      0.27508171073056253,
+      0.10935312038584666
+    ],
+    "rmse_change_percent": 0.2605726190216595,
+    "rmse_farm_wins": 19,
+    "rmse_per_seed_change_percent": [
+      0.8374764112440314,
+      0.038898240997187195,
+      0.209868915974587,
+      0.2011758298474886,
+      0.01960191041088244
+    ],
+    "high_power_rmse_change_percent": 0.4924101109649026,
+    "high_power_rmse_farm_wins": 18,
+    "high_power_rmse_per_seed_change_percent": [
+      -0.27280169894216,
+      -0.05649700458304485,
+      0.683760215735707,
+      1.636222180147806,
+      0.4520496555071807
     ],
     "both_metrics_seed_wins": 0,
     "dual_improvement": false,

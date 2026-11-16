@@ -74,7 +74,7 @@
     "code/physics.py": "ef439fd7911e1c0bdabd19020bc31f4aadd71295d470db5459888fbcdd923161",
     "code/plan.py": "2dc14a4467fdd01c0c9df06263480f46c04f87babf8e33922b083cfd756b1d87",
     "code/reference_evaluation.py": "ba0cb7e5c8fc27f3d5be93927fa2aa16c8cf87dc69df4accde4b4d812197e8c3",
-    "code/representation.py": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+    "code/representation.py": "448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2",
     "code/settings.py": "eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160",
     "code/train.py": "64e64c4d48da4c73c5150d7bdc2bf88d0b69eff2005945710414ea22252dbc97",
     "diagnostic_manifest.json": "ca556eeeea73080172f7c964f7a535c136b10a61fd35f007a65a133cbb90b769",
@@ -89,5 +89,13 @@
     "reference_metrics/TF_R3/44/metrics.json": "d82632b6f27669f285d3a716d3bac664f5a3a4395ac2eee26788eb0a64fa3281",
     "reference_metrics/TF_R3/45/metrics.json": "918eb1215e1f398aea95c8ff161522989bc1d125321a7d05ff96862795da3b13",
     "reference_metrics/TF_R3/46/metrics.json": "98982d1908eb3f2f7a71d2ca79153fd91ff5403b5236a11673038356b41e33a8"
-  }
+  },
+  "amendments": [
+    {
+      "timestamp": "2026-11-16T13:33:30.570009+08:00",
+      "record": "NOISE_ENDPOINT_REPAIR.json",
+      "file": "code/representation.py",
+      "scope": "Box-Muller upper endpoint only; originally finite values bit-identical"
+    }
+  ]
 }

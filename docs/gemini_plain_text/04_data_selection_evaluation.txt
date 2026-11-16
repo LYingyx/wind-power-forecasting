@@ -1764,6 +1764,105 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
+## SOURCE: project/scripts/audit_stateless_noise_repair_20261116.py
+
+- project/scripts/audit_stateless_noise_repair_20261116.py
+
+SHA-256: 9ea566aea0386dc236550639593a2cadd79652ff5f54d40b12ed5dc725b52e21
+
+```
+"""Exhaustive validation-noise regression and failed-checkpoint recovery checks."""
+from pathlib import Path
+import argparse
+import datetime
+import hashlib
+import json
+import sys
+import types
+
+import numpy as np
+import torch
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--run", type=Path, required=True)
+    parser.add_argument("--device", default="cuda:0")
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--checkpoints", nargs="*", default=[])
+    parser.add_argument("--skip-exhaustive", action="store_true")
+    args = parser.parse_args()
+    run = args.run.resolve()
+    sys.path.insert(0, str(run / "code"))
+    from representation import stateless_noise
+    from data import SharedData
+    from model import SharedModel, configure
+    configure()
+    original = (run / "monitoring/noise_repair/representation_before.txt").read_text()
+    before = types.ModuleType("original_representation")
+    exec(compile(original, "original_representation", "exec"), before.__dict__)
+    origin = np.load(run / "data/val/origin.npy")
+    keys = (origin[:, None] // 900 * 55 + np.arange(55)[None]).reshape(-1)
+    report = dict(timestamp=datetime.datetime.now().astimezone().isoformat(),
+                  device=args.device, validation_samples=len(keys), seeds=[], checkpoints=[],
+                  original_sha256=hashlib.sha256(original.encode()).hexdigest(),
+                  repaired_sha256=hashlib.sha256((run / "code/representation.py").read_bytes()).hexdigest())
+    if not args.skip_exhaustive:
+        for seed in range(42, 47):
+            bad = []
+            for start in range(0, len(keys), 8192):
+                key = torch.tensor(keys[start:start+8192], device=args.device, dtype=torch.long)
+                old = before.stateless_noise(key, 8, seed, torch.float32)
+                new = stateless_noise(key, 8, seed, torch.float32)
+                finite = torch.isfinite(old)
+                assert torch.isfinite(new).all()
+                assert torch.equal(old[finite], new[finite]), "Originally finite noise changed"
+                for a, b, c, d in (~finite).nonzero().cpu().tolist():
+                    bad.append(dict(index=start+a, key=int(keys[start+a]), sample=b, segment=c, channel=d))
+            report["seeds"].append(dict(seed=seed, repaired_coordinates=bad,
+                                        originally_finite_values_identical=True, all_repaired_finite=True))
+            print("seed", seed, "repaired coordinates", bad, flush=True)
+    special = torch.tensor([102483043, 102277694, int(keys[0]), int(keys[-1])],
+                           device=args.device, dtype=torch.long)
+    torch.manual_seed(87654)
+    cpu_rng = torch.get_rng_state().clone()
+    cuda_rng = torch.cuda.get_rng_state_all()
+    for seed in range(42, 47):
+        whole = stateless_noise(special, 8, seed, torch.float32)
+        split = torch.cat([stateless_noise(k[None], 8, seed, torch.float32) for k in special])
+        assert torch.equal(whole, split)
+    assert torch.equal(cpu_rng, torch.get_rng_state())
+    assert all(torch.equal(a, b) for a, b in zip(cuda_rng, torch.cuda.get_rng_state_all()))
+    report.update(batch_invariant=True, training_rng_unchanged=True)
+    for jid in args.checkpoints:
+        ck = torch.load(run / "jobs" / jid / "latest.pt", map_location="cpu", weights_only=False)
+        spec = ck["spec"]
+        model = SharedModel(spec).to(args.device)
+        model.load_state_dict(ck["model"])
+        model.eval()
+        assert all(torch.isfinite(v).all() for v in ck["model"].values() if v.is_floating_point())
+        index = {44: 245853, 46: 50954}[spec["seed"]]
+        data = SharedData("val", spec)
+        batch, _, _, _ = data.batch(np.array([index, index+1]), args.device)
+        with torch.no_grad():
+            noise = before.stateless_noise(batch["sample_key"], 8, spec["seed"], torch.float32)
+            assert not torch.isfinite(noise).all(), "Original failure did not reproduce"
+            samples = model.prediction_samples(batch)
+            assert torch.isfinite(samples).all(), "Failed checkpoint still invalid"
+        report["checkpoints"].append(dict(job=jid, epoch=ck["epoch"], cursor=ck["cursor"],
+                                          parameters_finite=True, failing_batch_now_finite=True))
+        print("checkpoint passed", jid, flush=True)
+        del model, data, ck
+    report["passed"] = True
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print("all checks passed", str(args.output), flush=True)
+
+
+if __name__ == "__main__":
+    main()
+```
+
 ## SOURCE: project/configs/operational_pangu_d1_08_lag15h.json
 
 - project/configs/operational_pangu_d1_08_lag15h.json
@@ -3646,7 +3745,7 @@ SHA-256: 0913c566c29cdde42c119c6803a4568917a12aaec12659eaebd6bb8973eb68af
 
 - project/runs/daily_state_representation_20261116_v2/SCIENCE_FREEZE.json
 
-SHA-256: 9c308940f300c326cd35d313883179bf7f154cffece4bf00e6406623dea3ac91
+SHA-256: 31217b6298558d3f5baacd4f5fb228b7d89c2954ad3dbde67bb300716c5f861c
 
 ```
 {
@@ -3725,7 +3824,7 @@ SHA-256: 9c308940f300c326cd35d313883179bf7f154cffece4bf00e6406623dea3ac91
     "code/physics.py": "ef439fd7911e1c0bdabd19020bc31f4aadd71295d470db5459888fbcdd923161",
     "code/plan.py": "2dc14a4467fdd01c0c9df06263480f46c04f87babf8e33922b083cfd756b1d87",
     "code/reference_evaluation.py": "ba0cb7e5c8fc27f3d5be93927fa2aa16c8cf87dc69df4accde4b4d812197e8c3",
-    "code/representation.py": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+    "code/representation.py": "448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2",
     "code/settings.py": "eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160",
     "code/train.py": "64e64c4d48da4c73c5150d7bdc2bf88d0b69eff2005945710414ea22252dbc97",
     "diagnostic_manifest.json": "ca556eeeea73080172f7c964f7a535c136b10a61fd35f007a65a133cbb90b769",
@@ -3740,7 +3839,15 @@ SHA-256: 9c308940f300c326cd35d313883179bf7f154cffece4bf00e6406623dea3ac91
     "reference_metrics/TF_R3/44/metrics.json": "d82632b6f27669f285d3a716d3bac664f5a3a4395ac2eee26788eb0a64fa3281",
     "reference_metrics/TF_R3/45/metrics.json": "918eb1215e1f398aea95c8ff161522989bc1d125321a7d05ff96862795da3b13",
     "reference_metrics/TF_R3/46/metrics.json": "98982d1908eb3f2f7a71d2ca79153fd91ff5403b5236a11673038356b41e33a8"
-  }
+  },
+  "amendments": [
+    {
+      "timestamp": "2026-11-16T13:33:30.570009+08:00",
+      "record": "NOISE_ENDPOINT_REPAIR.json",
+      "file": "code/representation.py",
+      "scope": "Box-Muller upper endpoint only; originally finite values bit-identical"
+    }
+  ]
 }
 ```
 
@@ -3868,7 +3975,7 @@ if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
 
 - project/runs/daily_state_representation_20261116_v2/README_CN.md
 
-SHA-256: d26401c0d8140a15631435b133d0281a15ebb79416a3e95c911b6b29c49b971b
+SHA-256: f1c1e2c112fb53b34d319cc26ca858d0f5816a194ef105b06eba76e133feecf2
 
 ```
 # 状态条件中间表示 v2：执行入口
@@ -3876,6 +3983,8 @@ SHA-256: d26401c0d8140a15631435b133d0281a15ebb79416a3e95c911b6b29c49b971b
 本轮落实 [v2 方案](../../STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)。进度与自动判定见 [analysis/README_CN.md](analysis/README_CN.md) 和 [STATUS.json](STATUS.json)。不能把尚未完成的条件阶段当作已有结果。
 
 已配置服务器每小时整点巡检，按冻结门槛自动接续后续阶段；配置、恢复保护及检查记录入口见 [每小时巡检说明](HOURLY_MONITOR_CN.md)。
+
+11 月 16 日中午核查：阶段一 25/25 完成；阶段二于 02:39 自动开启，9/15 已完成，另 6 项因验证采样的数值边界错误中断。13:33 已修复并从检查点恢复。详见 [阶段进度与故障修复](STATUS_REVIEW_20261116_CN.md)，实时状态仍以 `STATUS.json` 为准。
 
 ## 固定协议与任务
 
@@ -3951,6 +4060,365 @@ crontab -l
 python3 -m json.tool /shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2/HOURLY_STATUS.json
 ```
 ````
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/STATUS_REVIEW_20261116_CN.md
+
+- project/runs/daily_state_representation_20261116_v2/STATUS_REVIEW_20261116_CN.md
+
+SHA-256: 8b8df07ca081eefbf5891001969e0ffd673f7e728600fbc35fb65cb5e44622fb
+
+```
+# 2026-11-16 阶段核查及验证采样修复
+
+截至北京时间 13:30，实验没有全部结束。第一阶段 25/25 完成；第二阶段已于 02:39:06 自动启动，完成 9/15，另 6 项验证失败。TF_R4 跨骨干对照与损失复核均未启用。另有 10/10 原权重诊断完成。
+
+## 第一阶段已得结论
+
+以下为五种子宏平均指标的相对变化百分比，负数更好。详见 [COMPARISONS.json](analysis/COMPARISONS.json)。
+
+| 比较 | MAE | RMSE | 高功率 RMSE |
+|---|---:|---:|---:|
+| R3 / R2 | −0.0765% | −0.1556% | −0.1889% |
+| R3 / R0 | +0.2656% | +0.2435% | +0.4478% |
+| R3 / R0+H | +0.2697% | +0.2606% | +0.4924% |
+| R3 / TF_R3 | −0.1925% | +0.0271% | +0.6015% |
+| R3 / TF_E2L | +0.1083% | +0.0854% | +0.3205% |
+| R0+H / R0 | −0.0041% | −0.0170% | −0.0444% |
+| TF_E2L / TF_R3 | −0.3005% | −0.0582% | +0.2801% |
+
+R3 对 R2 双指标改善，满足预写定的生成式阶段启动条件；但没有胜过 R0+H，也没有通过主门槛，尚不支持状态条件机制成立。输出头加当前功率的收益仍极小。TF 使用 E2L 后也有部分改善，因此 E2L 不能归为特定骨干的机制优势。R1 与仿射 E2L 的 R0 数学等价，观测微小差异仍应视作实现数值对照。
+
+## 六项失败的共同原因
+
+R4、R4-noS、R4-wrongS 的 seed 44 与 46 均在第一次验证出现 `FloatingPointError: nonfinite predictions`。已有训练损失及检查点参数有限；这不是显存不足，也不是已证明的模型发散。
+
+[stateless_noise](code/representation.py) 的整型哈希取模后又做 XOR，可能恰好得到 `x = 2147483647`。随后 `u1 = (x + 0.5)/2147483647` 略大于 1，Box–Muller 的 `sqrt(-2 log(u1))` 产生 NaN。
+
+两台机器分别穷举全部 1,630,585 条验证样本 × 8 条噪声样本 × 28 个分量 × 5 seeds，找到完全相同的两个异常坐标：
+
+- seed 44：验证样本下标 245853，sample key 102483043，第 6 条样本、第 0 段、第 3 通道（均从 0 开始）。
+- seed 46：验证样本下标 50954，sample key 102277694，第 7 条样本、第 6 段、第 1 通道。
+
+只将 `u1` 的上端限制为 `(m−0.5)/m`。原本有限的所有噪声值逐元素完全相同，seed 42/43/45 没有任何改变。验证了批次切分不改变噪声、训练随机数状态不改变、六个失败检查点的原异常批次修正后全部输出有限值。训练使用 `torch.randn`，不调用这个固定验证噪声生成器。
+
+证据与完整复核脚本：
+
+- [修复审计](NOISE_ENDPOINT_REPAIR.json)：原/新源码哈希、已有 44 项成功记录（34 训练 + 10 诊断）的指标文件哈希。
+- [4090 核查](NOISE_REPAIR_CHECKS_LOCAL.json)、[V100 核查](NOISE_REPAIR_CHECKS_REMOTE.json)。
+- [复核脚本](../../scripts/audit_stateless_noise_repair_20261116.py)。
+- [原冻结清单](SCIENCE_FREEZE_BEFORE_NOISE_REPAIR.json) 与 [附修订记录的冻结清单](SCIENCE_FREEZE.json)。
+
+原失败记录已归档在各服务器 `monitoring/noise_repair/<job>/FAILURE.json`。13:33 从六项原 `latest.pt` 恢复模型、优化器、训练游标及随机数状态。原有 9 项第二阶段结果和第一阶段结果保留；数据、损失、选轮、阶段门槛均未修改。调度仍使用本机 4090 和 v1006001，任务足够时每张使用的卡至少两个进程。
+
+每小时巡检确实持续执行，但按设计保留了科学计算失败与熔断，没有自动清除 NaN 错误；因此不能把“巡检仍在执行”等同于“所有训练都仍在运行”。此处是定位并验证具体修复后的有记录恢复。后续仍需等三组 R4 各五种子完整后才能确定下一阶段及论文结论。
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/NOISE_ENDPOINT_REPAIR.json
+
+- project/runs/daily_state_representation_20261116_v2/NOISE_ENDPOINT_REPAIR.json
+
+SHA-256: 9c0909173abf83ddc70bb73593d9c8147123b6f6670406cfcb0c53085600c040
+
+```
+{
+  "timestamp": "2026-11-16T13:33:30.570009+08:00",
+  "reason": "Validation sampling u1 > 1 when xor hash reaches 2147483647; sqrt(-2 log(u1)) produces NaN.",
+  "original_source_sha256": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+  "repaired_source_sha256": "448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2",
+  "original_source_commit": "f2be001",
+  "original_freeze": "SCIENCE_FREEZE_BEFORE_NOISE_REPAIR.json",
+  "repair": "Clamp u1 upper endpoint to (m - 0.5)/m. No other finite noise values change.",
+  "validation_samples": 1630585,
+  "draws_per_sample": 224,
+  "seeds": [
+    {
+      "seed": 42,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 43,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 44,
+      "repaired_coordinates": [
+        {
+          "index": 245853,
+          "key": 102483043,
+          "sample": 6,
+          "segment": 0,
+          "channel": 3
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 45,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 46,
+      "repaired_coordinates": [
+        {
+          "index": 50954,
+          "key": 102277694,
+          "sample": 7,
+          "segment": 6,
+          "channel": 1
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    }
+  ],
+  "audits": [
+    "NOISE_REPAIR_CHECKS_LOCAL.json",
+    "NOISE_REPAIR_CHECKS_REMOTE.json"
+  ],
+  "affected_jobs": [
+    "R4_r46",
+    "R4_noS_r44",
+    "R4_r44",
+    "R4_noS_r46",
+    "R4_wrongS_r44",
+    "R4_wrongS_r46"
+  ],
+  "existing_completed_metrics_sha256": {
+    "R4_noS_r42": "17ed79c9ff16c1ce850d2450c14a84d82977acf31940cc74ed98da5ade1d433f",
+    "TF_E2L_r45": "469bab0f8e4c3183d15396dd200be9f5138537cdb1bb1886f31e7841801a88f8",
+    "TF_E2L_r46": "bad6efda50b7799a0a58dbbeaba80d2df279bc7d9296ae9a04befd8180dd2de6",
+    "REFERENCE_TF_R3_r43": "b8b5985fa11560a40929f63c22a67a976d86b969d297f3e844221b63377b08c8",
+    "REFERENCE_R0_r44": "cac054b0a248138e5242d8a0d23c5996dcb50f6b612944c132f597c9a54d6336",
+    "R2_r43": "93144c1de42d082bc020cff503b5cbaeacb60b3ec16dcaccabcc0ef73e38b813",
+    "R0plusH_r42": "865b79ba45e922af7f080ebe82ee3f036ffda09e7cc9335b337fd1b794f823ad",
+    "R3_r46": "115d963404427b0b2cca6bfaf8c0d9f49e150ce9149dc6324bb58cf6a1f79741",
+    "R3_r45": "886ffe1ce638da645a7ee2271d0fe4febbaab6b83885a4a29a0418ba90bb0caf",
+    "R4_r42": "b83932610378d0561302585b171e190f365092f459b3afa0f75466259cdbe544",
+    "R1_r45": "0dfe99b180aee2b12764ed2fb2fe00a9bc191de7dc3dd2768bbf6db37fe15ae8",
+    "TF_E2L_r43": "db50b6ca55a67f8b7064b21bc0fd0e1b32ff2e5fa6fc248fdde17d4cbca06430",
+    "R4_noS_r45": "0d4189a0a2a5aaee6215a3613999d471c0651311f3be74702b589e35aedbc719",
+    "R4_wrongS_r42": "d705aebd21477922bb0b7d4c196f0dc29e8f2ff5a6da9ffcc0a818d5b5840e94",
+    "REFERENCE_R0_r42": "f1d34376378a9282ae8beb5aeb6f38ddde0e8fb212366625a01acf33c5c19640",
+    "R1_r43": "183cf1bbbf7a8b26cb82cedd622872cbfeca5213f68f7ae59f015d7815eba3e1",
+    "REFERENCE_TF_R3_r46": "22508641e894eff4ff045e6f477f31b8a1ff2f759594482f3a64cf167af40acc",
+    "R4_wrongS_r45": "c076360691c32ac77cbb6829e0dbe37d1c679414878b7ee031e9fd733c4c7dcf",
+    "R1_r44": "31026e16b5bbafa6401301fd207b04e67103a6554ceb5b8beec3a079f9cb8f35",
+    "R4_noS_r43": "3cd112d55792d76903654c975de3638602dba3bae0923645cd8fca12e06c3e1c",
+    "R2_r46": "77a7483fb3718dabdc3e4bf3655a1370e56229cfb271e6edd8c55665bcfb1b75",
+    "REFERENCE_TF_R3_r44": "f991993441c746e4590437fce49818c55f8f1e740fd70da725881ac7f729cdb0",
+    "REFERENCE_TF_R3_r45": "05af46e7373313ae47c129d3b8e410bf0a015794a3d78bd2c5354880b4d1ed2c",
+    "REFERENCE_TF_R3_r42": "f417e055fa75359abbd64bc040ad2b4cee7c56ef8241d77347e0712aceab0993",
+    "R2_r44": "c552593359bae0b37e90c9eadb6a061447377838c491f1665de1556419729c80",
+    "R2_r42": "e2606613ee94cc8bac9db824a4c0013065c03b6848dc7677c68af0a710c8e771",
+    "R1_r46": "2ae467ddcbbc6f2bab404c9a6561b0463aa97f6123f0274072740b11c62c308d",
+    "R3_r43": "1cdc9579f68e908f641b1208209b2259522d52c07f5703c73c0a9473f15fab71",
+    "TF_E2L_r42": "6f33323698f68eb53b16abd49ac9062073f780344e09dc77df12e474d00cfd0b",
+    "R3_r44": "783a67449e3d40d2b91d0bad7f6ef2726c84d5ed6fa9ae0dc1e957f33b3faadf",
+    "R4_r43": "3866e2ca47b48420a2f4a5bafeaef910f5ecae013bb6f4b8c834c3d3528f4e79",
+    "REFERENCE_R0_r45": "908580657bafbbd9914568f3c0fcc4398af65a6fcc8bb1a65658ad291f3f07db",
+    "R2_r45": "9b04b990aeea40c38308396875b7ce95b938c691cba2e8365b131c8802cc7e39",
+    "R0plusH_r45": "ce24a3cf0d063c123231537661f57ff8fc8715f4a9b2166cb4ee84f99fff09ce",
+    "R4_wrongS_r43": "012227b0a6caa9a40371a9784aeb4cf989cd72c428e7f1d003f4d1ce35cbb672",
+    "R1_r42": "5b9f55d7315ea24ce3a6b052ca9b0c2dfb4b3dcc047d5ef90b4e7389eb4f3af7",
+    "R0plusH_r44": "a5134cb17a69bc4603a2a9315fc8a96582b909f235787a68e2708a9639bdea00",
+    "R4_r45": "b32561d121bee1e2a8119d437e7eeacfca3eab99e31e2e27ea6f90c6fb169d4d",
+    "REFERENCE_R0_r46": "72aef9b9e9538080e2f66489d11e850fac25b31196a5ca5eaa04456760229bec",
+    "R0plusH_r46": "1431cb47aedb7abfeaa262491a8210b309fa3a3db10f34a3c1223b3fe64574be",
+    "R3_r42": "8275d4fa910b660feae5dd71d642713d20e4d27045a333ba8068beda54205594",
+    "TF_E2L_r44": "b77ab040b483e1cde66de62d0d4bd2b4eb5f9fa3c38e90c271bbdd43f15b0017",
+    "REFERENCE_R0_r43": "c9cf9826b664200a12f6806b09671f2fd6cf9e501b6920582b21726ab41ab98e",
+    "R0plusH_r43": "1964dfee6ac24846749d2d4803ae25853e9546460fd877dc127a65cc98385f6a"
+  },
+  "training_impact": "Training uses torch.randn and never stateless_noise. Resume model, optimizer and RNG from existing latest.pt. Training protocol, gates and existing successful results unchanged."
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/NOISE_REPAIR_CHECKS_LOCAL.json
+
+- project/runs/daily_state_representation_20261116_v2/NOISE_REPAIR_CHECKS_LOCAL.json
+
+SHA-256: 805e2c05f78249f0c589c810090c88a0f61919fc01393fb9b59bc6bc465e6436
+
+```
+{
+  "timestamp": "2026-11-16T13:32:27.438098+08:00",
+  "device": "cuda:0",
+  "validation_samples": 1630585,
+  "seeds": [
+    {
+      "seed": 42,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 43,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 44,
+      "repaired_coordinates": [
+        {
+          "index": 245853,
+          "key": 102483043,
+          "sample": 6,
+          "segment": 0,
+          "channel": 3
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 45,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 46,
+      "repaired_coordinates": [
+        {
+          "index": 50954,
+          "key": 102277694,
+          "sample": 7,
+          "segment": 6,
+          "channel": 1
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    }
+  ],
+  "checkpoints": [
+    {
+      "job": "R4_r46",
+      "epoch": 0,
+      "cursor": 1685504,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    },
+    {
+      "job": "R4_noS_r44",
+      "epoch": 0,
+      "cursor": 1712640,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    }
+  ],
+  "original_sha256": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+  "repaired_sha256": "448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2",
+  "batch_invariant": true,
+  "training_rng_unchanged": true,
+  "passed": true
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/NOISE_REPAIR_CHECKS_REMOTE.json
+
+- project/runs/daily_state_representation_20261116_v2/NOISE_REPAIR_CHECKS_REMOTE.json
+
+SHA-256: 6d80c5123e780a7e974c1455fc6073722dd47657cccf5d0e9f5545c40ca844da
+
+```
+{
+  "timestamp": "2026-11-16T13:32:37.035486+08:00",
+  "device": "cuda:0",
+  "validation_samples": 1630585,
+  "seeds": [
+    {
+      "seed": 42,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 43,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 44,
+      "repaired_coordinates": [
+        {
+          "index": 245853,
+          "key": 102483043,
+          "sample": 6,
+          "segment": 0,
+          "channel": 3
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 45,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 46,
+      "repaired_coordinates": [
+        {
+          "index": 50954,
+          "key": 102277694,
+          "sample": 7,
+          "segment": 6,
+          "channel": 1
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    }
+  ],
+  "checkpoints": [
+    {
+      "job": "R4_r44",
+      "epoch": 0,
+      "cursor": 1615872,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    },
+    {
+      "job": "R4_noS_r46",
+      "epoch": 0,
+      "cursor": 1685504,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    },
+    {
+      "job": "R4_wrongS_r44",
+      "epoch": 0,
+      "cursor": 1608192,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    },
+    {
+      "job": "R4_wrongS_r46",
+      "epoch": 0,
+      "cursor": 1631744,
+      "parameters_finite": true,
+      "failing_batch_now_finite": true
+    }
+  ],
+  "original_sha256": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+  "repaired_sha256": "448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2",
+  "batch_invariant": true,
+  "training_rng_unchanged": true,
+  "passed": true
+}
+```
 
 ## SOURCE: project/runs/daily_state_representation_20261116_v2/manifest.json
 

@@ -15787,7 +15787,7 @@ if __name__=='__main__':
 
 - project/runs/daily_state_representation_20261116_v2/code/representation.py
 
-SHA-256: 528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818
+SHA-256: 448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2
 
 ```
 """Hourly-window residuals and a training-only posterior for conditional flow matching."""
@@ -15875,6 +15875,9 @@ def stateless_noise(key, count, seed, dtype):
     x = ((x ^ (x >> 16))*73244475) % m
     x = x ^ (x >> 16)
     u1 = (x.to(torch.float64)+0.5)/m
+    # XOR can produce x == m, making u1 slightly > 1 and sqrt(-log(u1)) NaN.
+    # Repair only that endpoint; all originally finite evaluation noise is identical.
+    u1 = u1.clamp_max((m-0.5)/m)
     x = ((x ^ (x >> 15))*73244475+17) % m
     x = x ^ (x >> 16)
     u2 = (x.to(torch.float64)+0.5)/m

@@ -1,68 +1,49 @@
 {
-  "timestamp": "2026-11-16T01:08:01.386337+08:00",
+  "timestamp": "2026-11-16T13:34:28.692750+08:00",
   "run": "daily_state_representation_20261116_v2",
   "interval_seconds": 3600,
   "hosts": {
     "local4090": {
       "host": "local4090",
-      "timestamp": "2026-11-16T01:08:01.405164+08:00",
+      "timestamp": "2026-11-16T13:34:28.710114+08:00",
       "stopped": false,
       "complete": false,
-      "scheduler_age_seconds": 9.4,
+      "scheduler_age_seconds": 2.7,
       "failures": [],
       "actions": [],
       "warnings": [],
       "processes": {
         "scheduler": [
-          3389777
+          103926
         ],
         "coordinator": [
           3389778
         ],
         "workers": [
-          3389796,
-          3389797,
-          3389798,
-          3389800,
-          3391005,
-          3391008,
-          3391009,
-          3391010
+          103939,
+          104426
         ]
       }
     },
     "v1006001": {
       "host": "v1006001",
-      "timestamp": "2026-11-16T01:08:01.813947+08:00",
+      "timestamp": "2026-11-16T13:34:29.082061+08:00",
       "stopped": false,
       "complete": false,
-      "scheduler_age_seconds": 0.8,
+      "scheduler_age_seconds": 3.7,
       "failures": [],
       "actions": [],
       "warnings": [],
       "processes": {
         "scheduler": [
-          309696
+          765268
         ],
         "coordinator": [],
         "workers": [
-          309813,
-          309814,
-          309815,
-          309816,
-          309817,
-          309818,
-          309819,
-          309820,
-          309912,
-          309913,
-          309914,
-          309915,
-          309916,
-          309917,
-          309918,
-          309919,
-          310581
+          765281,
+          765282,
+          765532,
+          765533
         ]
       }
     }
@@ -70,29 +51,37 @@
   "warnings": [],
   "complete": null,
   "progress": {
-    "timestamp": "2026-11-16T01:07:44.307218+08:00",
-    "currently_enabled_training_jobs": 25,
-    "completed_training": 0,
+    "timestamp": "2026-11-16T13:34:26.003825+08:00",
+    "currently_enabled_training_jobs": 40,
+    "completed_training": 34,
     "diagnostic_evaluations_completed": 10,
     "failures": [],
     "errors": []
   },
   "active_by_host": {
-    "local4090": 8,
-    "v1006001": 17
+    "local4090": 2,
+    "v1006001": 4
   },
   "gates": {
-    "timestamp": "2026-11-16T01:07:44.273485+08:00",
+    "timestamp": "2026-11-16T13:34:25.527427+08:00",
     "complete_groups": [
       "R0",
+      "R0+H",
+      "R1",
+      "R2",
+      "R3",
+      "TF_E2L",
       "TF_R3"
     ],
-    "stage1_complete": false,
-    "stage2_enabled": false,
+    "stage1_complete": true,
+    "stage2_enabled": true,
     "cross_backbone_enabled": false,
     "loss_enabled": false,
-    "finished": false
+    "finished": false,
+    "r3_mechanism": false,
+    "r3_main_pass": false,
+    "stage2_complete_or_skipped": false
   },
   "newly_enabled_stages": [],
-  "coordinator_age_seconds": 17.9
+  "coordinator_age_seconds": 3.2
 }

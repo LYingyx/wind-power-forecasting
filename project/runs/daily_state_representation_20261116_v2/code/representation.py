@@ -83,6 +83,9 @@ def stateless_noise(key, count, seed, dtype):
     x = ((x ^ (x >> 16))*73244475) % m
     x = x ^ (x >> 16)
     u1 = (x.to(torch.float64)+0.5)/m
+    # XOR can produce x == m, making u1 slightly > 1 and sqrt(-log(u1)) NaN.
+    # Repair only that endpoint; all originally finite evaluation noise is identical.
+    u1 = u1.clamp_max((m-0.5)/m)
     x = ((x ^ (x >> 15))*73244475+17) % m
     x = x ^ (x >> 16)
     u2 = (x.to(torch.float64)+0.5)/m

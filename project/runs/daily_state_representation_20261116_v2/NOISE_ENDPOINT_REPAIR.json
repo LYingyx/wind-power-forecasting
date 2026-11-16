@@ -1,0 +1,118 @@
+{
+  "timestamp": "2026-11-16T13:33:30.570009+08:00",
+  "reason": "Validation sampling u1 > 1 when xor hash reaches 2147483647; sqrt(-2 log(u1)) produces NaN.",
+  "original_source_sha256": "528df808d259d6d578f029439a658c9a5477c7636c3c07a49e8afebf477e7818",
+  "repaired_source_sha256": "448ea4bba13f76c127f3f024ef2d97b69caed1dc5dac43d0f40360c4d3f7dfa2",
+  "original_source_commit": "f2be001",
+  "original_freeze": "SCIENCE_FREEZE_BEFORE_NOISE_REPAIR.json",
+  "repair": "Clamp u1 upper endpoint to (m - 0.5)/m. No other finite noise values change.",
+  "validation_samples": 1630585,
+  "draws_per_sample": 224,
+  "seeds": [
+    {
+      "seed": 42,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 43,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 44,
+      "repaired_coordinates": [
+        {
+          "index": 245853,
+          "key": 102483043,
+          "sample": 6,
+          "segment": 0,
+          "channel": 3
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 45,
+      "repaired_coordinates": [],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    },
+    {
+      "seed": 46,
+      "repaired_coordinates": [
+        {
+          "index": 50954,
+          "key": 102277694,
+          "sample": 7,
+          "segment": 6,
+          "channel": 1
+        }
+      ],
+      "originally_finite_values_identical": true,
+      "all_repaired_finite": true
+    }
+  ],
+  "audits": [
+    "NOISE_REPAIR_CHECKS_LOCAL.json",
+    "NOISE_REPAIR_CHECKS_REMOTE.json"
+  ],
+  "affected_jobs": [
+    "R4_r46",
+    "R4_noS_r44",
+    "R4_r44",
+    "R4_noS_r46",
+    "R4_wrongS_r44",
+    "R4_wrongS_r46"
+  ],
+  "existing_completed_metrics_sha256": {
+    "R4_noS_r42": "17ed79c9ff16c1ce850d2450c14a84d82977acf31940cc74ed98da5ade1d433f",
+    "TF_E2L_r45": "469bab0f8e4c3183d15396dd200be9f5138537cdb1bb1886f31e7841801a88f8",
+    "TF_E2L_r46": "bad6efda50b7799a0a58dbbeaba80d2df279bc7d9296ae9a04befd8180dd2de6",
+    "REFERENCE_TF_R3_r43": "b8b5985fa11560a40929f63c22a67a976d86b969d297f3e844221b63377b08c8",
+    "REFERENCE_R0_r44": "cac054b0a248138e5242d8a0d23c5996dcb50f6b612944c132f597c9a54d6336",
+    "R2_r43": "93144c1de42d082bc020cff503b5cbaeacb60b3ec16dcaccabcc0ef73e38b813",
+    "R0plusH_r42": "865b79ba45e922af7f080ebe82ee3f036ffda09e7cc9335b337fd1b794f823ad",
+    "R3_r46": "115d963404427b0b2cca6bfaf8c0d9f49e150ce9149dc6324bb58cf6a1f79741",
+    "R3_r45": "886ffe1ce638da645a7ee2271d0fe4febbaab6b83885a4a29a0418ba90bb0caf",
+    "R4_r42": "b83932610378d0561302585b171e190f365092f459b3afa0f75466259cdbe544",
+    "R1_r45": "0dfe99b180aee2b12764ed2fb2fe00a9bc191de7dc3dd2768bbf6db37fe15ae8",
+    "TF_E2L_r43": "db50b6ca55a67f8b7064b21bc0fd0e1b32ff2e5fa6fc248fdde17d4cbca06430",
+    "R4_noS_r45": "0d4189a0a2a5aaee6215a3613999d471c0651311f3be74702b589e35aedbc719",
+    "R4_wrongS_r42": "d705aebd21477922bb0b7d4c196f0dc29e8f2ff5a6da9ffcc0a818d5b5840e94",
+    "REFERENCE_R0_r42": "f1d34376378a9282ae8beb5aeb6f38ddde0e8fb212366625a01acf33c5c19640",
+    "R1_r43": "183cf1bbbf7a8b26cb82cedd622872cbfeca5213f68f7ae59f015d7815eba3e1",
+    "REFERENCE_TF_R3_r46": "22508641e894eff4ff045e6f477f31b8a1ff2f759594482f3a64cf167af40acc",
+    "R4_wrongS_r45": "c076360691c32ac77cbb6829e0dbe37d1c679414878b7ee031e9fd733c4c7dcf",
+    "R1_r44": "31026e16b5bbafa6401301fd207b04e67103a6554ceb5b8beec3a079f9cb8f35",
+    "R4_noS_r43": "3cd112d55792d76903654c975de3638602dba3bae0923645cd8fca12e06c3e1c",
+    "R2_r46": "77a7483fb3718dabdc3e4bf3655a1370e56229cfb271e6edd8c55665bcfb1b75",
+    "REFERENCE_TF_R3_r44": "f991993441c746e4590437fce49818c55f8f1e740fd70da725881ac7f729cdb0",
+    "REFERENCE_TF_R3_r45": "05af46e7373313ae47c129d3b8e410bf0a015794a3d78bd2c5354880b4d1ed2c",
+    "REFERENCE_TF_R3_r42": "f417e055fa75359abbd64bc040ad2b4cee7c56ef8241d77347e0712aceab0993",
+    "R2_r44": "c552593359bae0b37e90c9eadb6a061447377838c491f1665de1556419729c80",
+    "R2_r42": "e2606613ee94cc8bac9db824a4c0013065c03b6848dc7677c68af0a710c8e771",
+    "R1_r46": "2ae467ddcbbc6f2bab404c9a6561b0463aa97f6123f0274072740b11c62c308d",
+    "R3_r43": "1cdc9579f68e908f641b1208209b2259522d52c07f5703c73c0a9473f15fab71",
+    "TF_E2L_r42": "6f33323698f68eb53b16abd49ac9062073f780344e09dc77df12e474d00cfd0b",
+    "R3_r44": "783a67449e3d40d2b91d0bad7f6ef2726c84d5ed6fa9ae0dc1e957f33b3faadf",
+    "R4_r43": "3866e2ca47b48420a2f4a5bafeaef910f5ecae013bb6f4b8c834c3d3528f4e79",
+    "REFERENCE_R0_r45": "908580657bafbbd9914568f3c0fcc4398af65a6fcc8bb1a65658ad291f3f07db",
+    "R2_r45": "9b04b990aeea40c38308396875b7ce95b938c691cba2e8365b131c8802cc7e39",
+    "R0plusH_r45": "ce24a3cf0d063c123231537661f57ff8fc8715f4a9b2166cb4ee84f99fff09ce",
+    "R4_wrongS_r43": "012227b0a6caa9a40371a9784aeb4cf989cd72c428e7f1d003f4d1ce35cbb672",
+    "R1_r42": "5b9f55d7315ea24ce3a6b052ca9b0c2dfb4b3dcc047d5ef90b4e7389eb4f3af7",
+    "R0plusH_r44": "a5134cb17a69bc4603a2a9315fc8a96582b909f235787a68e2708a9639bdea00",
+    "R4_r45": "b32561d121bee1e2a8119d437e7eeacfca3eab99e31e2e27ea6f90c6fb169d4d",
+    "REFERENCE_R0_r46": "72aef9b9e9538080e2f66489d11e850fac25b31196a5ca5eaa04456760229bec",
+    "R0plusH_r46": "1431cb47aedb7abfeaa262491a8210b309fa3a3db10f34a3c1223b3fe64574be",
+    "R3_r42": "8275d4fa910b660feae5dd71d642713d20e4d27045a333ba8068beda54205594",
+    "TF_E2L_r44": "b77ab040b483e1cde66de62d0d4bd2b4eb5f9fa3c38e90c271bbdd43f15b0017",
+    "REFERENCE_R0_r43": "c9cf9826b664200a12f6806b09671f2fd6cf9e501b6920582b21726ab41ab98e",
+    "R0plusH_r43": "1964dfee6ac24846749d2d4803ae25853e9546460fd877dc127a65cc98385f6a"
+  },
+  "training_impact": "Training uses torch.randn and never stateless_noise. Resume model, optimizer and RNG from existing latest.pt. Training protocol, gates and existing successful results unchanged."
+}
