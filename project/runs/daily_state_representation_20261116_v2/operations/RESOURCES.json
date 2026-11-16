@@ -1,6 +1,10 @@
 {
   "local4090": {
     "gpus": [
+      4,
+      5,
+      6,
+      7,
       0,
       1,
       2,
@@ -24,5 +28,5 @@
   "minimum_free_mib": 3072,
   "memory_reserve_fraction": 0.15,
   "max_workers_per_gpu": 3,
-  "note": "At least two processes on each used GPU when enough jobs and memory; third only with measured aggregate throughput gain."
+  "note": "User requested 4090 priority on 2026-11-16. Prefer currently lightly loaded cards 4-7; cards 0-3 provide additional local capacity. Pair workers on each used GPU, allow a third only after throughput checks. All 21 outstanding or conditional jobs currently fit the local pool (maximum concurrent phase 15, two-per-card capacity 16). V100 retained as overflow reserve."
 }

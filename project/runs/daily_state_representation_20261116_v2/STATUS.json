@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-16T13:34:26.003825+08:00",
+  "timestamp": "2026-11-16T13:57:17.708854+08:00",
   "run": "daily_state_representation_20261116_v2",
   "stage1_planned": 25,
   "maximum_training_jobs": 55,
@@ -8,144 +8,144 @@
   "diagnostic_evaluations_completed": 10,
   "active": [
     {
+      "id": "R4_r44",
+      "pid": 147658,
+      "gpu": "4",
+      "host": "local4090"
+    },
+    {
       "id": "R4_r46",
-      "pid": 103939,
-      "gpu": "0",
+      "pid": 147659,
+      "gpu": "5",
       "host": "local4090"
     },
     {
       "id": "R4_noS_r44",
-      "pid": 104426,
-      "gpu": "0",
+      "pid": 147662,
+      "gpu": "6",
       "host": "local4090"
     },
     {
-      "id": "R4_r44",
-      "pid": 765281,
-      "gpu": "0",
-      "host": "v1006001"
-    },
-    {
       "id": "R4_noS_r46",
-      "pid": 765282,
-      "gpu": "1",
-      "host": "v1006001"
+      "pid": 148765,
+      "gpu": "4",
+      "host": "local4090"
     },
     {
       "id": "R4_wrongS_r44",
-      "pid": 765532,
-      "gpu": "0",
-      "host": "v1006001"
+      "pid": 148766,
+      "gpu": "5",
+      "host": "local4090"
     },
     {
       "id": "R4_wrongS_r46",
-      "pid": 765533,
-      "gpu": "1",
-      "host": "v1006001"
+      "pid": 148767,
+      "gpu": "6",
+      "host": "local4090"
     }
   ],
   "progress": {
-    "R4_r46": {
-      "timestamp": "2026-11-16T03:03:56.134794+08:00",
-      "pid": 3538386,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 1,
-      "step": 3350,
-      "total_steps": 3351,
-      "completed_steps": 3351,
-      "chunk_steps": 1,
-      "seconds_per_step": 0.23260704599670134,
-      "loss": 0.15671046557874047,
-      "best_mae": null,
-      "microbatch": 128,
-      "gpu_peak_mib": 510.70654296875,
-      "active_seconds": 1473.6998100691126
-    },
-    "R4_noS_r44": {
-      "timestamp": "2026-11-16T03:03:47.580802+08:00",
-      "pid": 3538859,
-      "host": "user-SYS-420GP-TNR",
-      "epoch": 1,
-      "step": 3350,
-      "total_steps": 3351,
-      "completed_steps": 3351,
-      "chunk_steps": 1,
-      "seconds_per_step": 0.2350629860011395,
-      "loss": 0.162555736818896,
-      "best_mae": null,
-      "microbatch": 128,
-      "gpu_peak_mib": 510.63818359375,
-      "active_seconds": 1445.1664131598372
-    },
     "R4_r44": {
-      "timestamp": "2026-11-16T13:34:17.901315+08:00",
-      "pid": 765281,
-      "host": "iipserver1",
-      "epoch": 1,
-      "step": 3206,
+      "timestamp": "2026-11-16T13:57:16.476037+08:00",
+      "pid": 147658,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 2,
+      "step": 1849,
       "total_steps": 3351,
-      "completed_steps": 50,
+      "completed_steps": 625,
       "chunk_steps": 25,
-      "seconds_per_step": 0.4316234225779772,
-      "loss": 0.15751269242377092,
-      "best_mae": null,
+      "seconds_per_step": 0.2926380054792389,
+      "loss": 0.1357006338249193,
+      "best_mae": 0.0888401546155831,
       "microbatch": 128,
       "gpu_peak_mib": 513.7333984375,
-      "active_seconds": 1824.4226057641208
+      "active_seconds": 2633.6760439716745
     },
-    "R4_noS_r46": {
-      "timestamp": "2026-11-16T13:34:22.443260+08:00",
-      "pid": 765282,
-      "host": "iipserver1",
-      "epoch": 1,
-      "step": 3342,
+    "R4_r46": {
+      "timestamp": "2026-11-16T13:57:16.003543+08:00",
+      "pid": 147659,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 2,
+      "step": 1088,
       "total_steps": 3351,
-      "completed_steps": 50,
+      "completed_steps": 625,
       "chunk_steps": 25,
-      "seconds_per_step": 0.5139209211617708,
-      "loss": 0.16457157008704368,
-      "best_mae": null,
+      "seconds_per_step": 0.28001139920088464,
+      "loss": 0.13438905492555075,
+      "best_mae": 0.08987227378691563,
+      "microbatch": 128,
+      "gpu_peak_mib": 513.7333984375,
+      "active_seconds": 1989.9112116252363
+    },
+    "R4_noS_r44": {
+      "timestamp": "2026-11-16T13:57:10.943279+08:00",
+      "pid": 147662,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 2,
+      "step": 1112,
+      "total_steps": 3351,
+      "completed_steps": 600,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.29216874383972025,
+      "loss": 0.14016485092122938,
+      "best_mae": 0.08807843601750853,
       "microbatch": 128,
       "gpu_peak_mib": 513.6591796875,
-      "active_seconds": 1942.3615202140063
+      "active_seconds": 1959.3711775698466
+    },
+    "R4_noS_r46": {
+      "timestamp": "2026-11-16T13:57:13.451119+08:00",
+      "pid": 148765,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 2,
+      "step": 1894,
+      "total_steps": 3351,
+      "completed_steps": 500,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.322121383639751,
+      "loss": 0.14139542478572384,
+      "best_mae": 0.08850995839906513,
+      "microbatch": 128,
+      "gpu_peak_mib": 513.6591796875,
+      "active_seconds": 2776.895788091817
     },
     "R4_wrongS_r44": {
-      "timestamp": "2026-11-16T03:11:57.122909+08:00",
-      "pid": 366461,
-      "host": "iipserver1",
-      "epoch": 1,
-      "step": 3350,
+      "timestamp": "2026-11-16T13:57:13.683550+08:00",
+      "pid": 148766,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 2,
+      "step": 1661,
       "total_steps": 3351,
-      "completed_steps": 3351,
-      "chunk_steps": 1,
-      "seconds_per_step": 0.2524755569174886,
-      "loss": 0.16942947676634254,
-      "best_mae": null,
+      "completed_steps": 550,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.2875742681196425,
+      "loss": 0.146066091110294,
+      "best_mae": 0.08842126228694273,
       "microbatch": 128,
-      "gpu_peak_mib": 510.70654296875,
-      "active_seconds": 1906.760043842718
+      "gpu_peak_mib": 513.7333984375,
+      "active_seconds": 2581.335847483948
     },
     "R4_wrongS_r46": {
-      "timestamp": "2026-11-16T03:11:31.633061+08:00",
-      "pid": 366462,
-      "host": "iipserver1",
-      "epoch": 1,
-      "step": 3350,
+      "timestamp": "2026-11-16T13:57:16.174861+08:00",
+      "pid": 148767,
+      "host": "user-SYS-420GP-TNR",
+      "epoch": 2,
+      "step": 1788,
       "total_steps": 3351,
-      "completed_steps": 3351,
-      "chunk_steps": 1,
-      "seconds_per_step": 0.24738672003149986,
-      "loss": 0.16513647174692053,
-      "best_mae": null,
+      "completed_steps": 550,
+      "chunk_steps": 25,
+      "seconds_per_step": 0.29414457523962484,
+      "loss": 0.13715816940383058,
+      "best_mae": 0.08779313733162429,
       "microbatch": 128,
-      "gpu_peak_mib": 510.70654296875,
-      "active_seconds": 1881.0097851920873
+      "gpu_peak_mib": 513.7333984375,
+      "active_seconds": 2630.8097532144748
     }
   },
   "failures": [],
   "errors": [],
   "gates": {
-    "timestamp": "2026-11-16T13:34:25.527427+08:00",
+    "timestamp": "2026-11-16T13:57:17.255176+08:00",
     "complete_groups": [
       "R0",
       "R0+H",
@@ -166,35 +166,123 @@
   },
   "hosts": {
     "local4090": {
-      "timestamp": "2026-11-16T13:34:17.839062+08:00",
+      "timestamp": "2026-11-16T13:57:10.487612+08:00",
       "host": "local4090",
-      "pid": 103926,
+      "pid": 147614,
       "active": [
         {
+          "id": "R4_r44",
+          "pid": 147658,
+          "gpu": "4",
+          "host": "local4090"
+        },
+        {
           "id": "R4_r46",
-          "pid": 103939,
-          "gpu": "0",
+          "pid": 147659,
+          "gpu": "5",
           "host": "local4090"
         },
         {
           "id": "R4_noS_r44",
-          "pid": 104426,
-          "gpu": "0",
+          "pid": 147662,
+          "gpu": "6",
+          "host": "local4090"
+        },
+        {
+          "id": "R4_noS_r46",
+          "pid": 148765,
+          "gpu": "4",
+          "host": "local4090"
+        },
+        {
+          "id": "R4_wrongS_r44",
+          "pid": 148766,
+          "gpu": "5",
+          "host": "local4090"
+        },
+        {
+          "id": "R4_wrongS_r46",
+          "pid": 148767,
+          "gpu": "6",
           "host": "local4090"
         }
       ],
       "decisions": {
-        "0": {
+        "4": {
           "launch": true,
           "yield_count": 0,
           "reason": "fill_pair",
-          "free_mib": 23416,
-          "reserve_mib": 7371,
-          "worker_budget_mib": 2304
+          "free_mib": 21690,
+          "reserve_mib": 3684,
+          "worker_budget_mib": 2304,
+          "efficiency": {
+            "version": 4,
+            "cap": 3,
+            "workers": 2,
+            "slowdown_ratio": null,
+            "paired_incremental_slowdown": null,
+            "estimated_aggregate_gain": null,
+            "max_slowdown": 1.5,
+            "max_incremental_slowdown": 1.35,
+            "waiting_for_step_calibration": false,
+            "stable_seconds": 149.2,
+            "per_job_step_seconds": {
+              "R4_r44": 0.29040786844096145,
+              "R4_noS_r46": 0.3093037060799543
+            }
+          }
+        },
+        "5": {
+          "launch": true,
+          "yield_count": 0,
+          "reason": "fill_pair",
+          "free_mib": 22043,
+          "reserve_mib": 3684,
+          "worker_budget_mib": 2304,
+          "efficiency": {
+            "version": 4,
+            "cap": 3,
+            "workers": 2,
+            "slowdown_ratio": null,
+            "paired_incremental_slowdown": null,
+            "estimated_aggregate_gain": null,
+            "max_slowdown": 1.5,
+            "max_incremental_slowdown": 1.35,
+            "waiting_for_step_calibration": false,
+            "stable_seconds": 149.2,
+            "per_job_step_seconds": {
+              "R4_r46": 0.2849024304002523,
+              "R4_wrongS_r44": 0.276409693879541
+            }
+          }
+        },
+        "6": {
+          "launch": true,
+          "yield_count": 0,
+          "reason": "fill_pair",
+          "free_mib": 22043,
+          "reserve_mib": 3684,
+          "worker_budget_mib": 2304,
+          "efficiency": {
+            "version": 4,
+            "cap": 3,
+            "workers": 2,
+            "slowdown_ratio": null,
+            "paired_incremental_slowdown": null,
+            "estimated_aggregate_gain": null,
+            "max_slowdown": 1.5,
+            "max_incremental_slowdown": 1.35,
+            "waiting_for_step_calibration": false,
+            "stable_seconds": 149.2,
+            "per_job_step_seconds": {
+              "R4_noS_r44": 0.2918057735194452,
+              "R4_wrongS_r46": 0.28813301711925304
+            }
+          }
         }
       },
       "failed": [],
-      "eligible": 2,
+      "eligible": 6,
       "stopping": false,
       "storage": {
         "ok": true,
@@ -202,25 +290,25 @@
           {
             "label": "metadata",
             "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2",
-            "available_mib": 1034369.046875,
+            "available_mib": 1034349.796875,
             "reserve_mib": 512.0,
-            "quota_headroom_mib": 1034369.046875,
+            "quota_headroom_mib": 1034349.796875,
             "ok": true
           },
           {
             "label": "jobs",
             "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2/jobs",
-            "available_mib": 1034369.046875,
+            "available_mib": 1034349.796875,
             "reserve_mib": 2048.0,
-            "quota_headroom_mib": 1034369.046875,
+            "quota_headroom_mib": 1034349.796875,
             "ok": true
           },
           {
             "label": "data",
             "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_protocol_restart_20261114_v1/data",
-            "available_mib": 1034369.046875,
+            "available_mib": 1034349.796875,
             "reserve_mib": 2048.0,
-            "quota_headroom_mib": 1034369.046875,
+            "quota_headroom_mib": 1034349.796875,
             "ok": true
           }
         ]
@@ -261,55 +349,22 @@
       ],
       "failed": [],
       "status": {
-        "timestamp": "2026-11-16T13:34:17.002186+08:00",
+        "timestamp": "2026-11-16T13:57:08.505221+08:00",
         "host": "v1006001",
-        "pid": 765268,
-        "active": [
-          {
-            "id": "R4_r44",
-            "pid": 765281,
-            "gpu": "0",
-            "host": "v1006001"
-          },
-          {
-            "id": "R4_noS_r46",
-            "pid": 765282,
-            "gpu": "1",
-            "host": "v1006001"
-          },
-          {
-            "id": "R4_wrongS_r44",
-            "pid": 765532,
-            "gpu": "0",
-            "host": "v1006001"
-          },
-          {
-            "id": "R4_wrongS_r46",
-            "pid": 765533,
-            "gpu": "1",
-            "host": "v1006001"
-          }
-        ],
+        "pid": 775958,
+        "active": [],
         "decisions": {
           "0": {
             "launch": true,
             "yield_count": 0,
             "reason": "fill_pair",
-            "free_mib": 15170,
-            "reserve_mib": 3072,
-            "worker_budget_mib": 2304
-          },
-          "1": {
-            "launch": true,
-            "yield_count": 0,
-            "reason": "fill_pair",
-            "free_mib": 15172,
+            "free_mib": 16142,
             "reserve_mib": 3072,
             "worker_budget_mib": 2304
           }
         },
         "failed": [],
-        "eligible": 4,
+        "eligible": 0,
         "stopping": false,
         "storage": {
           "ok": true,
@@ -317,7 +372,7 @@
             {
               "label": "metadata",
               "path": "/home/liying/wind_physics_project/project/runs/daily_state_representation_20261116_v2",
-              "available_mib": 1479026.44140625,
+              "available_mib": 1479020.734375,
               "reserve_mib": 512.0,
               "quota_headroom_mib": null,
               "ok": true
@@ -325,7 +380,7 @@
             {
               "label": "jobs",
               "path": "/home/liying/wind_physics_project/project/runs/daily_state_representation_20261116_v2/jobs",
-              "available_mib": 1479026.44140625,
+              "available_mib": 1479020.734375,
               "reserve_mib": 2048.0,
               "quota_headroom_mib": null,
               "ok": true
@@ -333,7 +388,7 @@
             {
               "label": "data",
               "path": "/home/liying/wind_physics_project/project/runs/daily_protocol_restart_20261114_v1/data",
-              "available_mib": 1479026.44140625,
+              "available_mib": 1479020.734375,
               "reserve_mib": 2048.0,
               "quota_headroom_mib": null,
               "ok": true

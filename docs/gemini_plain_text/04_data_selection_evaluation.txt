@@ -3975,7 +3975,7 @@ if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
 
 - project/runs/daily_state_representation_20261116_v2/README_CN.md
 
-SHA-256: da4bb82acaae435ff8c6c80b227815969288e12da8a23f9803556f88ef382f2c
+SHA-256: 25bea148f8a1ffcd0fcf7eb7a4ac34605e07706fad51f519d76121670f5a77c7
 
 ```
 # 状态条件中间表示 v2：执行入口
@@ -3987,6 +3987,8 @@ SHA-256: da4bb82acaae435ff8c6c80b227815969288e12da8a23f9803556f88ef382f2c
 11 月 16 日中午核查：阶段一 25/25 完成；阶段二于 02:39 自动开启，9/15 已完成，另 6 项因验证采样的数值边界错误中断。13:33 已修复并从检查点恢复。详见 [阶段进度与故障修复](STATUS_REVIEW_20261116_CN.md)，实时状态仍以 `STATUS.json` 为准。
 
 已完成实验的正反馈、负反馈及后续路线约束见 [实验反馈分析](analysis/LEARNINGS_20261116_CN.md)，包含完整五种子对照和明确标注的 R4 三种子局部结果。
+
+11 月 16 日 13:54 按用户要求改为 4090 优先：剩余 6 项全部在本机恢复，后续 15 项条件任务也分配到本机；V100 暂时待命。迁移检查点及调度变更见 [迁移记录](MIGRATION_4090_20261116.json)。
 
 ## 固定协议与任务
 
@@ -4018,7 +4020,9 @@ R4-wrongS 只替换新生成器的 c，骨干原历史、SEL 和区域输入不�
 
 ## 调度、判定与结果
 
-[调度器](operations/scheduler.py) 使用本机 4090 的 0–3 卡及 v1006001 的 0–7 卡。任务充足时每卡两个进程；第三进程须通过耗时/总吞吐检查。短队列集中到较少卡，保留显存和主机内存余量。OOM 可减小 microbatch 并从稳定检查点恢复，有效 batch 仍是 512。[协调器](operations/coordinator.py) 回传远端结果并核验配置、权重哈希。
+[调度器](operations/scheduler.py) 按当前资源配置优先使用本机 4090 的 4、5、6、7 号卡，需要更多容量时再使用 0–3 号卡；v1006001 的 0–7 卡保留作容量不足时的备用。任务充足时每卡两个进程；第三进程须通过耗时/总吞吐检查。短队列集中到较少卡，保留显存和主机内存余量。OOM 可减小 microbatch 并从稳定检查点恢复，有效 batch 仍是 512。[协调器](operations/coordinator.py) 回传远端结果并核验配置、权重哈希。
+
+当前分配表是静态的，两端调度器和协调器启动时读取。13:54 迁移时已全部重启以加载新分配；源端迁出目录移到 `monitoring/migrate_4090_20261116/jobs/`，防止通用回传覆盖本机的新进度。本机 8 张卡按双进程共 16 个名额，足以覆盖预定阶段的最大 15 项并发；若后续实际资源不足，转回 V100 也需执行检查点交接与分配更新，不能让两端同时抢跑同一任务。跨 GPU 型号恢复保留模型、优化器、训练游标及 RNG，但不承诺不同硬件上的浮点计算逐位一致。
 
 [判定器](operations/collect.py) 只比较完整五种子组。主门槛分别对 R0、TF_R3、TF_E2L 检查，避免“较强参照”的歧义。R3 对 R2 双指标改善才启动 R4 三组；R4 同时通过主门槛和三个机制对照后才启动 TF+R4。
 
@@ -4035,7 +4039,7 @@ R4-wrongS 只替换新生成器的 c，骨干原历史、SEL 和区域输入不�
 
 - project/runs/daily_state_representation_20261116_v2/HOURLY_MONITOR_CN.md
 
-SHA-256: 9117c5428cb77798d6abeca9c17488f7ae913d535b4282100d06bf662c4c0f9f
+SHA-256: 8e986c8282bd27cf878c7429c9596bc012ae40b9e2a314104d45c0b6bd9b2f1b
 
 ````
 # 每小时检查与自动接续
@@ -4050,6 +4054,8 @@ SHA-256: 9117c5428cb77798d6abeca9c17488f7ae913d535b4282100d06bf662c4c0f9f
 - 全部应做任务及诊断结束后生成 [COMPLETE.json](COMPLETE.json)。之后巡检仅记录完成状态，不再恢复进程或启动训练。
 
 巡检不直接写阶段启用文件，阶段决策仍由唯一持锁协调器执行。两台机器继续使用原多进程资源策略和固定任务分配。
+
+2026-11-16 13:54 更新：按用户要求将剩余任务分配到 4090，优先 GPU 4–7，再使用 0–3；V100 调度器存活待命，但没有未完成任务的分配。巡检仍检查两端健康状态。它负责进程恢复，不自动进行跨机器任务迁移；当前本机容量可覆盖预定最大并发，资源不足时的后续转移仍须通过检查点交接和两端分配同步，见 [迁移记录](MIGRATION_4090_20261116.json)。
 
 恢复保护：核对精确进程路径与用户，并使用互斥锁；缺失的管理进程只有在冻结文件哈希和启动检查通过后才可恢复。尊重 STOP、完成标志和失败熔断，每组件六小时内最多恢复两次。如果调度器退出但其训练子进程仍存活，先让已有训练完成，下次巡检再判断恢复；不会重复开进程挤占资源。失败任务、心跳陈旧或网络中断记录在 `warnings`，不会清除失败标志或降低实验门槛。保护策略的临时进程验证见 [test_hourly_state_representation.py](../../scripts/test_hourly_state_representation.py)。
 
@@ -5736,6 +5742,311 @@ SHA-256: 1d9e6f71599311aedc50f7ac7f3cddc660a2303027eff99ebd88d225c75c97cf
     "operations/storage_guard.py": "3944166ac1cbfcc603b638dc93e37b51fec7e9272c03c360666be9c43d283589"
   },
   "scope": "pre-result gate, diagnostics, deployment and scheduling implementation"
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/MIGRATION_4090_20261116.json
+
+- project/runs/daily_state_representation_20261116_v2/MIGRATION_4090_20261116.json
+
+SHA-256: 58dcbd7d7072fdf8276d8d2162d43fd3fef6320459e5a0e0d48c9bb4fbfc2de7
+
+```
+{
+  "timestamp": "2026-11-16T13:53:38.239292+08:00",
+  "reason": "User requested maximum placement on 4090 with V100 only for overflow",
+  "migrated_jobs": [
+    "R4_r44",
+    "R4_noS_r46",
+    "R4_wrongS_r44",
+    "R4_wrongS_r46"
+  ],
+  "checkpoint_sha256": {
+    "R4_r44": "547cc63458fb115f9969a7016c4588ca8077fdd006c2e31280aae6500dfdf287",
+    "R4_noS_r46": "6ff8aeaef1e87eabcfdea3dafe9168504791a525e7914be1bbeb0b27dafb7f9b",
+    "R4_wrongS_r44": "eb027e781571e5afad8ea251f102c5781e5b43a5c4b5bf636010732e1be871ed",
+    "R4_wrongS_r46": "4274250019a811dd22a69aa4400d88a8aed74de9ce0ee055f55a0945e2ee5753"
+  },
+  "local_gpu_priority": [
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3
+  ],
+  "assignment_changes": {
+    "R4_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "R4_noS_r46": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "R4_wrongS_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "R4_wrongS_r46": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "TF_R4_r42": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "TF_R4_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "TF_R4_r45": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_CANDIDATE_r42": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_CANDIDATE_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_CANDIDATE_r45": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r42": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r43": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r45": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r46": {
+      "before": "v1006001",
+      "after": "local4090"
+    }
+  },
+  "outstanding_training_jobs": 21,
+  "current_active_to_resume": 6,
+  "science_freeze_sha256": "31217b6298558d3f5baacd4f5fb228b7d89c2954ad3dbde67bb300716c5f861c",
+  "operations_freeze_sha256": "1d9e6f71599311aedc50f7ac7f3cddc660a2303027eff99ebd88d225c75c97cf",
+  "scientific_protocol_changed": false,
+  "restarted_at": "2026-11-16T13:54:05.167162+08:00",
+  "processes": [
+    {
+      "host": "local4090",
+      "component": "scheduler",
+      "pid": 147614
+    },
+    {
+      "host": "local4090",
+      "component": "coordinator",
+      "pid": 147616
+    }
+  ],
+  "verified_at": "2026-11-16T13:56:58.711644+08:00",
+  "verified_placement_and_progress": [
+    {
+      "id": "R4_r44",
+      "pid": 147658,
+      "gpu": "4",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:54.957087+08:00",
+      "epoch": 2,
+      "step": 1774,
+      "completed_steps": 550,
+      "seconds_per_step": 0.2989071583992336
+    },
+    {
+      "id": "R4_r46",
+      "pid": 147659,
+      "gpu": "5",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:55.577480+08:00",
+      "epoch": 2,
+      "step": 1013,
+      "completed_steps": 550,
+      "seconds_per_step": 0.2831950354389846
+    },
+    {
+      "id": "R4_noS_r44",
+      "pid": 147662,
+      "gpu": "6",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:56.530810+08:00",
+      "epoch": 2,
+      "step": 1062,
+      "completed_steps": 550,
+      "seconds_per_step": 0.2911648175201844
+    },
+    {
+      "id": "R4_noS_r46",
+      "pid": 148765,
+      "gpu": "4",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:57.659778+08:00",
+      "epoch": 2,
+      "step": 1844,
+      "completed_steps": 450,
+      "seconds_per_step": 0.29485549220000395
+    },
+    {
+      "id": "R4_wrongS_r44",
+      "pid": 148766,
+      "gpu": "5",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:52.392934+08:00",
+      "epoch": 2,
+      "step": 1586,
+      "completed_steps": 475,
+      "seconds_per_step": 0.28918104140087963
+    },
+    {
+      "id": "R4_wrongS_r46",
+      "pid": 148767,
+      "gpu": "6",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:54.444246+08:00",
+      "epoch": 2,
+      "step": 1713,
+      "completed_steps": 475,
+      "seconds_per_step": 0.28600255836034194
+    }
+  ],
+  "previous_completed_metrics_verified_unchanged": 44,
+  "remote_scheduler": {
+    "pid": 775958,
+    "active": 0,
+    "eligible": 0,
+    "status_timestamp": "2026-11-16T13:56:33.672182+08:00"
+  },
+  "configuration_hashes_match_on_both_hosts": true
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/ASSIGNMENTS.json
+
+- project/runs/daily_state_representation_20261116_v2/operations/ASSIGNMENTS.json
+
+SHA-256: dada876203bc2aa37fb84f8cac7d463ab8e478815c4ae29614b229ff1cf400af
+
+```
+{
+  "R0plusH_r42": "v1006001",
+  "R0plusH_r43": "local4090",
+  "R0plusH_r44": "v1006001",
+  "R0plusH_r45": "v1006001",
+  "R0plusH_r46": "local4090",
+  "R1_r42": "v1006001",
+  "R1_r43": "v1006001",
+  "R1_r44": "local4090",
+  "R1_r45": "v1006001",
+  "R1_r46": "v1006001",
+  "R2_r42": "local4090",
+  "R2_r43": "v1006001",
+  "R2_r44": "v1006001",
+  "R2_r45": "local4090",
+  "R2_r46": "v1006001",
+  "R3_r42": "v1006001",
+  "R3_r43": "local4090",
+  "R3_r44": "v1006001",
+  "R3_r45": "v1006001",
+  "R3_r46": "local4090",
+  "TF_E2L_r42": "v1006001",
+  "TF_E2L_r43": "v1006001",
+  "TF_E2L_r44": "local4090",
+  "TF_E2L_r45": "v1006001",
+  "TF_E2L_r46": "v1006001",
+  "R4_r42": "v1006001",
+  "R4_r43": "local4090",
+  "R4_r44": "local4090",
+  "R4_r45": "v1006001",
+  "R4_r46": "local4090",
+  "R4_noS_r42": "v1006001",
+  "R4_noS_r43": "v1006001",
+  "R4_noS_r44": "local4090",
+  "R4_noS_r45": "v1006001",
+  "R4_noS_r46": "local4090",
+  "R4_wrongS_r42": "local4090",
+  "R4_wrongS_r43": "v1006001",
+  "R4_wrongS_r44": "local4090",
+  "R4_wrongS_r45": "local4090",
+  "R4_wrongS_r46": "local4090",
+  "TF_R4_r42": "local4090",
+  "TF_R4_r43": "local4090",
+  "TF_R4_r44": "local4090",
+  "TF_R4_r45": "local4090",
+  "TF_R4_r46": "local4090",
+  "LOSS_CANDIDATE_r42": "local4090",
+  "LOSS_CANDIDATE_r43": "local4090",
+  "LOSS_CANDIDATE_r44": "local4090",
+  "LOSS_CANDIDATE_r45": "local4090",
+  "LOSS_CANDIDATE_r46": "local4090",
+  "LOSS_TF_r42": "local4090",
+  "LOSS_TF_r43": "local4090",
+  "LOSS_TF_r44": "local4090",
+  "LOSS_TF_r45": "local4090",
+  "LOSS_TF_r46": "local4090",
+  "REFERENCE_R0_r42": "v1006001",
+  "REFERENCE_R0_r43": "local4090",
+  "REFERENCE_R0_r44": "v1006001",
+  "REFERENCE_R0_r45": "v1006001",
+  "REFERENCE_R0_r46": "local4090",
+  "REFERENCE_TF_R3_r42": "v1006001",
+  "REFERENCE_TF_R3_r43": "v1006001",
+  "REFERENCE_TF_R3_r44": "local4090",
+  "REFERENCE_TF_R3_r45": "v1006001",
+  "REFERENCE_TF_R3_r46": "v1006001"
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/operations/RESOURCES.json
+
+- project/runs/daily_state_representation_20261116_v2/operations/RESOURCES.json
+
+SHA-256: 2db278e8d537f9f852a2d258644744393fdda8a4e25f3e963560922691f04221
+
+```
+{
+  "local4090": {
+    "gpus": [
+      4,
+      5,
+      6,
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "target_per_gpu": 2
+  },
+  "v1006001": {
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "target_per_gpu": 2
+  },
+  "minimum_free_mib": 3072,
+  "memory_reserve_fraction": 0.15,
+  "max_workers_per_gpu": 3,
+  "note": "User requested 4090 priority on 2026-11-16. Prefer currently lightly loaded cards 4-7; cards 0-3 provide additional local capacity. Pair workers on each used GPU, allow a third only after throughput checks. All 21 outstanding or conditional jobs currently fit the local pool (maximum concurrent phase 15, two-per-card capacity 16). V100 retained as overflow reserve."
 }
 ```
 

@@ -1,0 +1,179 @@
+{
+  "timestamp": "2026-11-16T13:53:38.239292+08:00",
+  "reason": "User requested maximum placement on 4090 with V100 only for overflow",
+  "migrated_jobs": [
+    "R4_r44",
+    "R4_noS_r46",
+    "R4_wrongS_r44",
+    "R4_wrongS_r46"
+  ],
+  "checkpoint_sha256": {
+    "R4_r44": "547cc63458fb115f9969a7016c4588ca8077fdd006c2e31280aae6500dfdf287",
+    "R4_noS_r46": "6ff8aeaef1e87eabcfdea3dafe9168504791a525e7914be1bbeb0b27dafb7f9b",
+    "R4_wrongS_r44": "eb027e781571e5afad8ea251f102c5781e5b43a5c4b5bf636010732e1be871ed",
+    "R4_wrongS_r46": "4274250019a811dd22a69aa4400d88a8aed74de9ce0ee055f55a0945e2ee5753"
+  },
+  "local_gpu_priority": [
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3
+  ],
+  "assignment_changes": {
+    "R4_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "R4_noS_r46": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "R4_wrongS_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "R4_wrongS_r46": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "TF_R4_r42": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "TF_R4_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "TF_R4_r45": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_CANDIDATE_r42": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_CANDIDATE_r44": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_CANDIDATE_r45": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r42": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r43": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r45": {
+      "before": "v1006001",
+      "after": "local4090"
+    },
+    "LOSS_TF_r46": {
+      "before": "v1006001",
+      "after": "local4090"
+    }
+  },
+  "outstanding_training_jobs": 21,
+  "current_active_to_resume": 6,
+  "science_freeze_sha256": "31217b6298558d3f5baacd4f5fb228b7d89c2954ad3dbde67bb300716c5f861c",
+  "operations_freeze_sha256": "1d9e6f71599311aedc50f7ac7f3cddc660a2303027eff99ebd88d225c75c97cf",
+  "scientific_protocol_changed": false,
+  "restarted_at": "2026-11-16T13:54:05.167162+08:00",
+  "processes": [
+    {
+      "host": "local4090",
+      "component": "scheduler",
+      "pid": 147614
+    },
+    {
+      "host": "local4090",
+      "component": "coordinator",
+      "pid": 147616
+    }
+  ],
+  "verified_at": "2026-11-16T13:56:58.711644+08:00",
+  "verified_placement_and_progress": [
+    {
+      "id": "R4_r44",
+      "pid": 147658,
+      "gpu": "4",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:54.957087+08:00",
+      "epoch": 2,
+      "step": 1774,
+      "completed_steps": 550,
+      "seconds_per_step": 0.2989071583992336
+    },
+    {
+      "id": "R4_r46",
+      "pid": 147659,
+      "gpu": "5",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:55.577480+08:00",
+      "epoch": 2,
+      "step": 1013,
+      "completed_steps": 550,
+      "seconds_per_step": 0.2831950354389846
+    },
+    {
+      "id": "R4_noS_r44",
+      "pid": 147662,
+      "gpu": "6",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:56.530810+08:00",
+      "epoch": 2,
+      "step": 1062,
+      "completed_steps": 550,
+      "seconds_per_step": 0.2911648175201844
+    },
+    {
+      "id": "R4_noS_r46",
+      "pid": 148765,
+      "gpu": "4",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:57.659778+08:00",
+      "epoch": 2,
+      "step": 1844,
+      "completed_steps": 450,
+      "seconds_per_step": 0.29485549220000395
+    },
+    {
+      "id": "R4_wrongS_r44",
+      "pid": 148766,
+      "gpu": "5",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:52.392934+08:00",
+      "epoch": 2,
+      "step": 1586,
+      "completed_steps": 475,
+      "seconds_per_step": 0.28918104140087963
+    },
+    {
+      "id": "R4_wrongS_r46",
+      "pid": 148767,
+      "gpu": "6",
+      "host": "local4090",
+      "timestamp": "2026-11-16T13:56:54.444246+08:00",
+      "epoch": 2,
+      "step": 1713,
+      "completed_steps": 475,
+      "seconds_per_step": 0.28600255836034194
+    }
+  ],
+  "previous_completed_metrics_verified_unchanged": 44,
+  "remote_scheduler": {
+    "pid": 775958,
+    "active": 0,
+    "eligible": 0,
+    "status_timestamp": "2026-11-16T13:56:33.672182+08:00"
+  },
+  "configuration_hashes_match_on_both_hosts": true
+}
