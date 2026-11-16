@@ -57,14 +57,16 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 - docs/GEMINI_READING_GUIDE_CN.md
 
-SHA-256: 9de1a461ef550feafd6042750bbac71b413a236d0192c59305fcdc6f9bcd2bf7
+SHA-256: eb181f511f03fbeb6f8d56d144fc9341c163d65567def7c80f1ba46035473e85
 
 ````
 # Gemini / 编程助手阅读入口
 
 更新：2026-11-16。先读本文，再进入长篇历史交接文档。
 
-先读 [v2 最新结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。截至本次快照，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。6 项 R4 及提前并行的 5 项 `LOSS_TF` 正在训练。全部新任务的实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
+先读新增的[跨分辨率 A 与状态条件兑现 B 提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)：整理另一助手的证据、完整对照表、判定门槛，并区分原提案与实际执行。2026-11-16 17:43 状态：30 项 B 及归因对照仍在运行，15 项教师梯度隔离版 R4-ISO 已在三机启动；独立时间分配 A / A+B 尚未进入清单。该页是方案与带时间的执行说明，不是新候选已获胜的结果报告。
+
+随后读 [v2 15:28 历史结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。在该快照时点，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。当时尚在训练的 6 项旧 R4 后续已保存退出并由 R4-ISO 替代，5 项 `LOSS_TF` 已完成；不要将快照中的“正在训练”当作实时状态。旧 v2 实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
 
 为避免只看到摘要，已发布 [当前任务完整证据 JSON](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json)：包含已完成任务的配置、逐轮记录、选中轮次、逐风场/时效指标、诊断及来源哈希；[05 当前结果 TXT](gemini_plain_text/05_current_experiment_results.txt)包含这些正文，无需解压。未完成任务的进度与曲线不是最终成绩。
 
@@ -84,7 +86,7 @@ SHA-256: 9de1a461ef550feafd6042750bbac71b413a236d0192c59305fcdc6f9bcd2bf7
 
 当前协议为每日 00 UTC Pangu、15 h 后可用（北京时间 23:00 切换），气象时效 9–45 h；邻站/区域功率可用至预测起点。55 个固定风场，2022 训练、2023 选择。2024 曾在历史研究中被查看，后续只能称探索性跨年复评，不能声称完全盲测。
 
-此前一轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下表格属于该轮，相对匹配 Transformer 的误差变化中负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。最新 v2 结果见页首快照，不要混用两轮的任务计数。
+此前一轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下表格属于该轮，相对匹配 Transformer 的误差变化中负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。已发布 v2 固定结果见页首快照，不要混用两轮的任务计数。
 
 | 方案 | MAE 相对变化 | RMSE 相对变化 | 解释 |
 | --- | ---: | ---: | --- |
@@ -104,7 +106,7 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对
 - 微调：[train.py](../project/runs/daily_site_finetune_20261114_v1/code/train.py)、[site_data.py](../project/runs/daily_site_finetune_20261114_v1/code/site_data.py)。
 - 汇总程序：[review_daily_results_20261115.py](../project/scripts/review_daily_results_20261115.py)。
 - 逐站逐种子证据：[结果目录](../project/analysis/daily_protocol_review_20261115/)、[逐风场对比](../project/analysis/daily_protocol_review_20261115/per_farm_comparisons.csv)、[逐种子对比](../project/analysis/daily_protocol_review_20261115/per_seed_comparisons.csv)。
-- 最新待检验方案：[状态条件中间表示](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)。该文是计划，提出的条件生成、教师/学生训练和增益都需要实验验证；其中诊断解释也应与实际证据交叉核对。
+- 最新待检验方案：[跨分辨率 A 与状态条件兑现 B](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)。早期[状态条件中间表示计划](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)用于了解来历；方案及其解释都需要实验验证。
 - 新增零训练诊断：[RMSE 差距](../project/runs/rmse_gap_diagnostic_20261115/README_CN.md)、[爬坡信息](../project/runs/ramp_information_diagnostic_20261115/README_CN.md)。
 - 全部历史索引：[PROJECT_HANDOFF_CN.md](../project/PROJECT_HANDOFF_CN.md)。旧协议结果只能解释来历，不应混入本轮成绩。
 
@@ -121,11 +123,13 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对
 
 ```text
 请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md 和
-docs/GEMINI_READING_GUIDE_CN.md，再读所链接的当前协议、结果报告、
+docs/GEMINI_READING_GUIDE_CN.md 和
+docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md，再读所链接的当前协议、结果报告、
 编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
-最新证据请优先读取 project/runs/daily_state_representation_20261116_v2/analysis/
+已发布的固定成绩请读取 project/runs/daily_state_representation_20261116_v2/analysis/
 CURRENT_RESULTS_CN.md、CURRENT_RESULTS.json 和 LEARNINGS_20261116_CN.md，
-不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态。
+不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态；
+新 B / R4-ISO 的执行情况与独立 A 尚缺的设计，见新增提案第 6 节。
 
 项目任务是单风场 0–6 h、15 min 功率预测。我需要相对强 Transformer
 有可信性能优势的研究路线，天气编码不作为机制贡献或独立贡献。
@@ -139,6 +143,151 @@ CURRENT_RESULTS_CN.md、CURRENT_RESULTS.json 和 LEARNINGS_20261116_CN.md，
 不得混用旧协议成绩，不把计划当结果，不把已见风场微调写成新风场迁移，
 也不要因为方案复杂就推断它会优于 Transformer。
 ```
+````
+
+## SOURCE: docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md
+
+- docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md
+
+SHA-256: 2411b712cf56f5e848fd352d73d43afdcb4a85ba6888deaced57834b4cc67470
+
+````
+# 跨分辨率生成与状态条件预报兑现：另一助手的提案及执行说明
+
+整理日期：2026-11-16。本文按用户提供的另一助手方案整理，补全断裂的表格和句子，并将证据口径、更正及当前执行状态单列。本文是待检验研究方案，不能作为两个创新点已经成立的结果报告。
+
+## 1. 核心判断
+
+已有正向证据支持“天气预报的预测价值依赖当前运行状态”，因此可以继续争取将“状态决定预报变化能兑现多少”做成独立的方法贡献。但目前还没有一个专门实现这一思想的新增组件，在同等条件下同时通过线性插值 R0、强 Transformer 和内部消融的全部门槛。
+
+这里要区分三个层次：状态与天气存在预测交互；状态信息对模型有用；专门的状态条件兑现组件具有额外价值。前两层已有证据，第三层仍需实验。预测交互也不等于识别出物理因果定律。
+
+## 2. 已有正向证据及其边界
+
+下表每对数字按 MAE / RMSE 排列。误差相对变化中负值表示改善；“交互项”使用单独的定义，不能当作相对基线的误差改善。
+
+| 证据 | 已有结果 | 支持什么及限制 |
+| --- | --- | --- |
+| 历史 × 天气 2×2，旧协议 W0，2024，5 seeds | 有真实历史时，天气增益为固定历史时的 2.008 倍 / 1.623 倍；正交互为 54/56、53/56 站 | 支持历史上下文增强天气价值；真实当前功率锚点仍保留，不等于移除全部状态。[来源 1](../project/TWO_MECHANISM_EVIDENCE_UPDATE_20261027_CN.md) |
+| 最终模型 2×2，旧协议，2024，10 seeds | 归一化交互项 W0 为 3.822% / 2.227%，TF 为 3.582% / 2.454% | 跨两个骨干复现；是交互效应，不是 W0 对 TF 的性能增益。[来源 2](../project/RESULTS_AND_NEXT_EXPERIMENTS_20261030_CN.md) |
+| 每日新协议的交互 | W0 的 MAE / RMSE 正交互为 41/55、49/55 站；TF 为 37/55、39/55 站 | 新协议下方向仍为正；不能归为 W0 独有机制。[来源 3](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md) |
+| 去掉运行状态特征 SEL-STATE | W0 变差 +0.437% / +0.406%；TF 变差 +0.528% / +0.295% | 状态信息有用，但删除输入的消融不能证明专门兑现算子必要。[来源 3](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md) |
+| 零训练天气—功率换算诊断，原提案引用 | 按可变化空间截断后误报率约 56% → 46%；另一状态换算中的 Pangu 大变化检出率约 25% → 71% | 属于诊断，不能写成 B 模型的训练收益；两项变化不能合并成同一个已验证模型的联合成绩，详见下方口径说明。 |
+| R3 相对 R2，新协议，5 seeds | −0.0765% / −0.1556%，4/5 seeds 双指标改善 | 状态在旧生成器内部有增益，但 R3 对 R0 仍退化 +0.2656% / +0.2435%。[来源 4](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md) |
+| 旧 R4 相对 R4-wrongS，共同 seeds 42、43、45 | 高功率 RMSE −3.0266%；总体 MAE +0.2325%，RMSE −0.1472% | 正确状态对该局部比较的高功率误差有帮助，尚未同时改善总体双指标；不能和其他组五种子均值混比。[来源 4](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md) |
+
+交互定义为 `I = (E10 − E11) − (E00 − E01)`，其中第一位表示历史真实/固定，第二位表示天气真实/固定。旧最终模型表中的百分比是 `100 × I / E11`。当前功率锚点和区域观测在对应四格中保留；检验的是给定这些信息后的历史上下文与天气交互。
+
+零训练行保留原提案所引用的近似值，本次文档整理没有重新执行诊断或取得这些近似值的完整数值输出。[诊断说明](../project/runs/ramp_information_diagnostic_20261115/README_CN.md)和 [state.py](../project/runs/ramp_information_diagnostic_20261115/state.py)区分 ERA5 / Pangu，以及 `curve change`、`anchored+clipped (headroom)`、`level: f(future)-current power` 三种换算。代码在 4 h 时效以隐含变化绝对值 > 0.15 定义信号，以实际变化绝对值 > 0.3 定义大变化事件；FAR 与 POD 的分母也不同。将该行用于论文前，应附上对应来源、换算方式和完整 FAR/POD 对照。
+
+## 3. 两个部分的分工
+
+| 部分 | 要回答的问题 | 作用位置 | 状态的用途 |
+| --- | --- | --- | --- |
+| A：跨分辨率生成 | 1 h 预报变化在 15 min 上何时发生、如何分布，存在何种不确定性 | 将小时节点生成或对齐为 15 min 中间表示 | 作为时间分配和不确定性的条件 |
+| B：预报兑现 | 对已经对齐的预报变化，当前工况允许兑现多少 | 调制中间表示相对预测起点的累积天气变化 | 决定变化幅度的调制量 |
+
+设小时天气编码为 `z`，预测起点表示为 `z_origin`，线性插值得到 `base_k`。无 A 时 `u_k = base_k`；有 A 时 `u_k = base_k + Δ_A,k`。B 作用为：
+
+```text
+D_k = u_k − z_origin
+q_weather,k = z_origin + (1 + beta_k) * D_k
+            = u_k + beta_k * (u_k − z_origin)
+```
+
+这是一种潜表示调制，不是直接测得的物理兑现率。B 单独启用且 `beta = 0` 时严格回到 R0；A+B 中 `beta = 0` 时回到 A。
+
+B 的提案设计为：
+
+- 系数由状态 `c`、少数预报风速变化标量和时间坐标生成，不直接将 64 维潜天气送入非线性系数网络。
+- 按预报风速相对起点的上行、下行方向使用两组系数，方向在预测时可得，不使用未来实际功率方向。
+- 使用 `0.5 * tanh(...)` 限幅、输出层零初始化。当前执行版先产生 7 个小时段的系数，再平滑到 24 个预测点。
+- 状态来自预测起点及之前的可得信息，包括当前功率、可变化空间、近期变化、运行状态及区域实况摘要。
+
+乘性算子与门控 / FiLM 类似，不能把乘法本身称为新算子。待检验的价值是“只调制预报给出的相对起点变化”及其受控的状态依赖。由于系数仍读取风速标量，也不能声称整个天气映射严格线性。潜空间限幅并不构成功率输出的硬物理边界。
+
+现有诊断更支持关注高出力后的下降跟踪不足，不能把主要问题预设为向上过冲；平台段也不能在缺少运行标签时直接等同于限电。
+
+## 4. 原提案的 2×2 析因与必要对照
+
+核心四格是 R0、B、A、A+B；其余为状态归因和骨干迁移对照。每组 5 seeds，共享训练，保持与对应基线相同的数据、训练和选轮协议。
+
+| 组 | A：跨分辨率 | B：兑现 | 目的 |
+| --- | --- | --- | --- |
+| R0，已有 | 线性插值 | 无 | 基准 |
+| B | 线性插值 | 真实状态驱动 | B 的净效应 |
+| B-noS | 线性插值 | 系数网络不读状态，保留风速标量和时间 | 检验状态是否必要 |
+| B-wrongS | 线性插值 | 系数网络读取异日错配状态 | 检验正确状态是否优于错配条件 |
+| A | 生成式时间分配，修正教师梯度路径 | 无 | A 的净效应 |
+| A+B | 同一个 A | 真实状态驱动 | 在 B 基础上检验 A 的增量及两者交互 |
+| TF+B | TF_E2L 的线性插值路径 | 加入相同 B | 检验 B 能否迁移至另一骨干 |
+
+原提案顺序：先运行 B、B-noS、B-wrongS、TF+B，共 **20 次**；取得 B 结果后，再运行 A、A+B，共 **10 次**。R0 和 TF_E2L 使用已有的对应五种子参照。该 20+10 是原始计划，不是当前已完成数。
+
+错状态对照只替换模块条件，保留其他预测输入；当前实现从训练年选择同站、同月、同钟点且相隔至少两天的状态。它不能完全排除年际分布差异，不能单独充当因果证明。
+
+## 5. 原提案的预设判定
+
+误差相对变化定义为 `100 × (候选误差 / 参照误差 − 1)`。改善至少 0.1% 表示相对变化 ≤ −0.1%，不是归一化功率误差绝对下降 0.001。统计按固定风场等权，配对使用相同 seeds、样本和选轮规则。
+
+**B 成立所需条件：**
+
+1. B 相对 R0、B-noS、B-wrongS，MAE 与 RMSE 均改善至少 0.1%。
+2. 相对 R0，两个指标分别在过半风场改善，至少 4/5 seeds 双指标同时改善。
+3. 高功率 RMSE 退化不超过 0.1%，并单独报告高出力后的下行段。
+4. 若 TF+B 相对 TF_E2L 也通过相应的性能、风场、种子和高功率门槛，才支持称为可迁移模块。
+
+**A 成立所需条件：**
+
+1. A 相对 R0，MAE 与 RMSE 均改善至少 0.1%。
+2. A+B 相对 B，MAE 与 RMSE 仍均改善至少 0.1%。
+3. A 的时间分配作用还需与相同参数化的确定性版本比较；只使用生成式训练不足以证明时间分配机制。
+
+**最终候选主门槛：**相对 R0 和较强的同信息 TF，双指标均改善至少 0.1%，各自过半风场改善，至少 4/5 seeds 双指标改善，高功率 RMSE 退化不超过 0.1%。实际执行按同时对比 TF_R3 与 TF_E2L 报告，避免事后选择较弱参照。
+
+只通过其中一部分，就只主张通过的部分；其余如实报告负结果。这些是项目预设的实用门槛，通过本身不等于统计显著性检验。
+
+## 6. 当前执行与原提案的区别
+
+以下是 **2026-11-16 17:43（北京时间）** 的本地状态快照，不是最终成绩。本次发布整理方案，不修改正在运行的实验。
+
+| 工作 | 当前执行范围 | 与原提案的关系 |
+| --- | --- | --- |
+| 确定性兑现实验 | B、B-noS、B-wrongS、TF+B、B-additive、B-symmetric，各 5 seeds，共 30 项，仍在运行 | 在原 20 项上增加两个归因对照 |
+| 修正版生成式实验 | R4-ISO、R4-ISO-noS、R4-ISO-wrongS，各 5 seeds，共 15 项，已在三台机器启动 | 单独检验教师梯度隔离，不等同于独立的时间分配 A |
+| 独立 A 与 A+B | 尚未进入训练清单 | 仍需明确时间分配参数及其与幅度 B 的可区分性 |
+
+本地执行目录分别为 `project/runs/daily_realization_20261116_v4/` 和 `project/runs/daily_flow_isolated_20261116_v5/`。它们是服务器路径；本次文档发布不意味着这些新目录的全部代码和实时产物已同步到 GitHub。
+
+两个新增 B 对照的作用为：
+
+- **B-additive：**使用相同低维条件，直接增加残差，检验收益是否只来自额外状态接入。该对照多 128 个映射参数，需要公开这个差异。
+- **B-symmetric：**合并上下行系数，检验方向拆分是否必要。
+
+B 分别超过上述对照双指标至少 0.1%，才支持对应的更具体归因。原 B、状态对照和强基线的门槛继续保留。
+
+R4-ISO 从原始初始化重训：教师输入的潜天气切断梯度；教师功率路径使用 detach 后的全部共享参数，教师 MAE/KL 只更新教师，学生路径训练共享预测模型。需要保留解码输出对教师参数的梯度，不能简单用 `no_grad()` 包住整条教师路径。该轮保留原来的 28 维后验、KL=0.001 等设置，用来单独识别梯度隔离的效应；没有同时应用原 R4L 提议的 7 参数瓶颈、KL=0.01 或移除非线性天气条件。
+
+原提案将 v3 的 R4L 引为 A，但 R4L 生成的是幅度 beta，与 B 的职责重叠。独立 A 应先明确时间分配参数、幅度保持条件和确定性同参数化对照。因此，**修正版生成式正在运行，不代表“纯时间 A / 幅度 B”的完整 2×2 已经启动或完成。**
+
+数据继续采用固定 55 个风场。出现统计偏移但尚未确认测量错误的风场保留在主评估中；52 站结果仅作探索性敏感性分析，不能根据模型优势大小决定主评价集合。
+
+## 7. 结果解释与给 Gemini 的审阅任务
+
+R0 为 ENC_neutral_E2L；本文的 R3 是新增状态条件生成器，不能与旧输入配置名称 R3 混淆。E2L 从七种编码中按 2023 结果选出，存在选择偏差。2023 同时参与选模和开发比较；十种子复验只检验随机性，2024 也曾被查看，后续应称探索性跨年复评。
+
+可将本文的 Raw 明文地址直接作为阅读来源，并附上以下要求：
+
+```text
+请阅读全文并核对其中链接的证据。将“已有预测交互”“信息消融收益”
+与“新增组件净收益”区分开，评估 A/B 的职责能否独立识别。
+重点检查：B 的对照是否充分；独立 A 如何定义才能不与幅度 B 重叠；
+当前 R4-ISO 能回答什么、不能回答什么；判定门槛及失败后的论文表述。
+不要将原提案或运行中的任务当作已通过验证的结果，也不要承诺必胜。
+没有实际读取到的链接请逐项标明，不要仅凭文件名声称读过代码。
+```
+
+本文是 UTF-8 Markdown 明文，无需 ZIP 解压。Raw 地址解决压缩字节被误读的问题；是否能自动抓取其他链接仍取决于 Gemini 所用入口的访问能力。
 ````
 
 ## SOURCE: docs/RESULTS_TO_CODE_CN.md

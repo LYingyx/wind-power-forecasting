@@ -1,14 +1,15 @@
 {
   "format": "uncompressed UTF-8; upload individual TXT files, not ZIP",
-  "source_base_commit": "653eeef59eec1b35ef6ecec51098e9c293304cd1",
+  "source_base_commit": "e46a09d5d35e63bace80344e75f771bb2eaea5b3",
   "bundles": [
     {
       "path": "docs/gemini_plain_text/01_context_and_results.txt",
-      "bytes": 267963,
-      "sha256": "4bddd1916e01a1c249700c72bada596bc027f8c5cf73face7b3b1293dcea44d8",
+      "bytes": 281832,
+      "sha256": "6c04f8073387e58277aad4785a5e4c04e14184df822c3ce62c781f0375190146",
       "sources": {
         "README.md": "b83c165cd14efe919353f51066fad4b5d5c2209fdea7b1e20197022c537999f0",
-        "docs/GEMINI_READING_GUIDE_CN.md": "9de1a461ef550feafd6042750bbac71b413a236d0192c59305fcdc6f9bcd2bf7",
+        "docs/GEMINI_READING_GUIDE_CN.md": "eb181f511f03fbeb6f8d56d144fc9341c163d65567def7c80f1ba46035473e85",
+        "docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md": "2411b712cf56f5e848fd352d73d43afdcb4a85ba6888deaced57834b4cc67470",
         "docs/RESULTS_TO_CODE_CN.md": "142f26f17a642505a10b6facfa94c54498422b1a90f2371a6fd79752f376c4ff",
         "project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md": "6c3914914937df689580b451eb486ae994a059a2297922decad5925ccfe07098",
         "project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md": "fdc1b7a4fe5087ffc3ac5ebfbbdf26d9b16ebdddf3fd0db01c03cc520cb383f2",

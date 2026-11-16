@@ -25,6 +25,7 @@ REVIEW = "project/analysis/daily_protocol_review_20261115/"
 EXPORT = "docs/gemini_plain_text/"
 FINGERPRINT = "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
 CONTEXT = ["README.md", "docs/GEMINI_READING_GUIDE_CN.md",
+           "docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md",
            "docs/RESULTS_TO_CODE_CN.md",
            "project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md",
            "project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md",

@@ -2,7 +2,9 @@
 
 更新：2026-11-16。先读本文，再进入长篇历史交接文档。
 
-先读 [v2 最新结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。截至本次快照，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。6 项 R4 及提前并行的 5 项 `LOSS_TF` 正在训练。全部新任务的实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
+先读新增的[跨分辨率 A 与状态条件兑现 B 提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)：整理另一助手的证据、完整对照表、判定门槛，并区分原提案与实际执行。2026-11-16 17:43 状态：30 项 B 及归因对照仍在运行，15 项教师梯度隔离版 R4-ISO 已在三机启动；独立时间分配 A / A+B 尚未进入清单。该页是方案与带时间的执行说明，不是新候选已获胜的结果报告。
+
+随后读 [v2 15:28 历史结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。在该快照时点，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。当时尚在训练的 6 项旧 R4 后续已保存退出并由 R4-ISO 替代，5 项 `LOSS_TF` 已完成；不要将快照中的“正在训练”当作实时状态。旧 v2 实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
 
 为避免只看到摘要，已发布 [当前任务完整证据 JSON](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json)：包含已完成任务的配置、逐轮记录、选中轮次、逐风场/时效指标、诊断及来源哈希；[05 当前结果 TXT](gemini_plain_text/05_current_experiment_results.txt)包含这些正文，无需解压。未完成任务的进度与曲线不是最终成绩。
 
@@ -22,7 +24,7 @@
 
 当前协议为每日 00 UTC Pangu、15 h 后可用（北京时间 23:00 切换），气象时效 9–45 h；邻站/区域功率可用至预测起点。55 个固定风场，2022 训练、2023 选择。2024 曾在历史研究中被查看，后续只能称探索性跨年复评，不能声称完全盲测。
 
-此前一轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下表格属于该轮，相对匹配 Transformer 的误差变化中负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。最新 v2 结果见页首快照，不要混用两轮的任务计数。
+此前一轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下表格属于该轮，相对匹配 Transformer 的误差变化中负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。已发布 v2 固定结果见页首快照，不要混用两轮的任务计数。
 
 | 方案 | MAE 相对变化 | RMSE 相对变化 | 解释 |
 | --- | ---: | ---: | --- |
@@ -42,7 +44,7 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对
 - 微调：[train.py](../project/runs/daily_site_finetune_20261114_v1/code/train.py)、[site_data.py](../project/runs/daily_site_finetune_20261114_v1/code/site_data.py)。
 - 汇总程序：[review_daily_results_20261115.py](../project/scripts/review_daily_results_20261115.py)。
 - 逐站逐种子证据：[结果目录](../project/analysis/daily_protocol_review_20261115/)、[逐风场对比](../project/analysis/daily_protocol_review_20261115/per_farm_comparisons.csv)、[逐种子对比](../project/analysis/daily_protocol_review_20261115/per_seed_comparisons.csv)。
-- 最新待检验方案：[状态条件中间表示](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)。该文是计划，提出的条件生成、教师/学生训练和增益都需要实验验证；其中诊断解释也应与实际证据交叉核对。
+- 最新待检验方案：[跨分辨率 A 与状态条件兑现 B](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)。早期[状态条件中间表示计划](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)用于了解来历；方案及其解释都需要实验验证。
 - 新增零训练诊断：[RMSE 差距](../project/runs/rmse_gap_diagnostic_20261115/README_CN.md)、[爬坡信息](../project/runs/ramp_information_diagnostic_20261115/README_CN.md)。
 - 全部历史索引：[PROJECT_HANDOFF_CN.md](../project/PROJECT_HANDOFF_CN.md)。旧协议结果只能解释来历，不应混入本轮成绩。
 
@@ -59,11 +61,13 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对
 
 ```text
 请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md 和
-docs/GEMINI_READING_GUIDE_CN.md，再读所链接的当前协议、结果报告、
+docs/GEMINI_READING_GUIDE_CN.md 和
+docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md，再读所链接的当前协议、结果报告、
 编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
-最新证据请优先读取 project/runs/daily_state_representation_20261116_v2/analysis/
+已发布的固定成绩请读取 project/runs/daily_state_representation_20261116_v2/analysis/
 CURRENT_RESULTS_CN.md、CURRENT_RESULTS.json 和 LEARNINGS_20261116_CN.md，
-不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态。
+不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态；
+新 B / R4-ISO 的执行情况与独立 A 尚缺的设计，见新增提案第 6 节。
 
 项目任务是单风场 0–6 h、15 min 功率预测。我需要相对强 Transformer
 有可信性能优势的研究路线，天气编码不作为机制贡献或独立贡献。
