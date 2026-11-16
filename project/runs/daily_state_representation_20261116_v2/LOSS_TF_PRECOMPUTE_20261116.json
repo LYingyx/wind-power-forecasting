@@ -1,0 +1,195 @@
+{
+  "timestamp": "2026-11-16T15:21:25.056725+08:00",
+  "reason": "User requested currently independent experiments run concurrently while R4 remains in progress",
+  "scope": "Scheduling dependency only for five not-yet-started LOSS_TF jobs; no model, data, optimizer, loss, seed, checkpoint selection or scientific gate changes",
+  "original_manifest_sha256": "7231ccb0e686f35b1736e7354f715b9df78bc1bab92d36157d9b70b8331a5b46",
+  "original_science_freeze_sha256": "31217b6298558d3f5baacd4f5fb228b7d89c2954ad3dbde67bb300716c5f861c",
+  "operations_freeze_sha256": "1d9e6f71599311aedc50f7ac7f3cddc660a2303027eff99ebd88d225c75c97cf",
+  "changes": [
+    {
+      "id": "LOSS_TF_r42",
+      "before_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS.json"
+      ],
+      "after_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
+      ]
+    },
+    {
+      "id": "LOSS_TF_r43",
+      "before_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS.json"
+      ],
+      "after_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
+      ]
+    },
+    {
+      "id": "LOSS_TF_r44",
+      "before_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS.json"
+      ],
+      "after_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
+      ]
+    },
+    {
+      "id": "LOSS_TF_r45",
+      "before_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS.json"
+      ],
+      "after_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
+      ]
+    },
+    {
+      "id": "LOSS_TF_r46",
+      "before_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS.json"
+      ],
+      "after_dependencies": [
+        "assets/selected/TF_R3.json",
+        "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
+      ]
+    }
+  ],
+  "candidate_selection_unchanged": true,
+  "new_training_jobs_added": 0,
+  "maximum_training_jobs": 55,
+  "verification": {
+    "all_original_science_hashes_verified": true,
+    "other_50_specs_identical": true,
+    "five_training_specs_identical_except_dependencies": true,
+    "loss_tf_not_previously_started": true,
+    "previous_44_completed_metrics_unchanged": true,
+    "both_host_freeze_hashes_verified": true,
+    "exactly_five_loss_tf_jobs_eligible": true,
+    "all_five_loss_tf_workers_advancing": true,
+    "original_six_r4_pids_unchanged": true
+  },
+  "previous_completed_metrics_sha256": {
+    "R0plusH_r42": "865b79ba45e922af7f080ebe82ee3f036ffda09e7cc9335b337fd1b794f823ad",
+    "R0plusH_r43": "1964dfee6ac24846749d2d4803ae25853e9546460fd877dc127a65cc98385f6a",
+    "R0plusH_r44": "a5134cb17a69bc4603a2a9315fc8a96582b909f235787a68e2708a9639bdea00",
+    "R0plusH_r45": "ce24a3cf0d063c123231537661f57ff8fc8715f4a9b2166cb4ee84f99fff09ce",
+    "R0plusH_r46": "1431cb47aedb7abfeaa262491a8210b309fa3a3db10f34a3c1223b3fe64574be",
+    "R1_r42": "5b9f55d7315ea24ce3a6b052ca9b0c2dfb4b3dcc047d5ef90b4e7389eb4f3af7",
+    "R1_r43": "183cf1bbbf7a8b26cb82cedd622872cbfeca5213f68f7ae59f015d7815eba3e1",
+    "R1_r44": "31026e16b5bbafa6401301fd207b04e67103a6554ceb5b8beec3a079f9cb8f35",
+    "R1_r45": "0dfe99b180aee2b12764ed2fb2fe00a9bc191de7dc3dd2768bbf6db37fe15ae8",
+    "R1_r46": "2ae467ddcbbc6f2bab404c9a6561b0463aa97f6123f0274072740b11c62c308d",
+    "R2_r42": "e2606613ee94cc8bac9db824a4c0013065c03b6848dc7677c68af0a710c8e771",
+    "R2_r43": "93144c1de42d082bc020cff503b5cbaeacb60b3ec16dcaccabcc0ef73e38b813",
+    "R2_r44": "c552593359bae0b37e90c9eadb6a061447377838c491f1665de1556419729c80",
+    "R2_r45": "9b04b990aeea40c38308396875b7ce95b938c691cba2e8365b131c8802cc7e39",
+    "R2_r46": "77a7483fb3718dabdc3e4bf3655a1370e56229cfb271e6edd8c55665bcfb1b75",
+    "R3_r42": "8275d4fa910b660feae5dd71d642713d20e4d27045a333ba8068beda54205594",
+    "R3_r43": "1cdc9579f68e908f641b1208209b2259522d52c07f5703c73c0a9473f15fab71",
+    "R3_r44": "783a67449e3d40d2b91d0bad7f6ef2726c84d5ed6fa9ae0dc1e957f33b3faadf",
+    "R3_r45": "886ffe1ce638da645a7ee2271d0fe4febbaab6b83885a4a29a0418ba90bb0caf",
+    "R3_r46": "115d963404427b0b2cca6bfaf8c0d9f49e150ce9149dc6324bb58cf6a1f79741",
+    "R4_noS_r42": "17ed79c9ff16c1ce850d2450c14a84d82977acf31940cc74ed98da5ade1d433f",
+    "R4_noS_r43": "3cd112d55792d76903654c975de3638602dba3bae0923645cd8fca12e06c3e1c",
+    "R4_noS_r45": "0d4189a0a2a5aaee6215a3613999d471c0651311f3be74702b589e35aedbc719",
+    "R4_r42": "b83932610378d0561302585b171e190f365092f459b3afa0f75466259cdbe544",
+    "R4_r43": "3866e2ca47b48420a2f4a5bafeaef910f5ecae013bb6f4b8c834c3d3528f4e79",
+    "R4_r45": "b32561d121bee1e2a8119d437e7eeacfca3eab99e31e2e27ea6f90c6fb169d4d",
+    "R4_wrongS_r42": "d705aebd21477922bb0b7d4c196f0dc29e8f2ff5a6da9ffcc0a818d5b5840e94",
+    "R4_wrongS_r43": "012227b0a6caa9a40371a9784aeb4cf989cd72c428e7f1d003f4d1ce35cbb672",
+    "R4_wrongS_r45": "c076360691c32ac77cbb6829e0dbe37d1c679414878b7ee031e9fd733c4c7dcf",
+    "REFERENCE_R0_r42": "f1d34376378a9282ae8beb5aeb6f38ddde0e8fb212366625a01acf33c5c19640",
+    "REFERENCE_R0_r43": "c9cf9826b664200a12f6806b09671f2fd6cf9e501b6920582b21726ab41ab98e",
+    "REFERENCE_R0_r44": "cac054b0a248138e5242d8a0d23c5996dcb50f6b612944c132f597c9a54d6336",
+    "REFERENCE_R0_r45": "908580657bafbbd9914568f3c0fcc4398af65a6fcc8bb1a65658ad291f3f07db",
+    "REFERENCE_R0_r46": "72aef9b9e9538080e2f66489d11e850fac25b31196a5ca5eaa04456760229bec",
+    "REFERENCE_TF_R3_r42": "f417e055fa75359abbd64bc040ad2b4cee7c56ef8241d77347e0712aceab0993",
+    "REFERENCE_TF_R3_r43": "b8b5985fa11560a40929f63c22a67a976d86b969d297f3e844221b63377b08c8",
+    "REFERENCE_TF_R3_r44": "f991993441c746e4590437fce49818c55f8f1e740fd70da725881ac7f729cdb0",
+    "REFERENCE_TF_R3_r45": "05af46e7373313ae47c129d3b8e410bf0a015794a3d78bd2c5354880b4d1ed2c",
+    "REFERENCE_TF_R3_r46": "22508641e894eff4ff045e6f477f31b8a1ff2f759594482f3a64cf167af40acc",
+    "TF_E2L_r42": "6f33323698f68eb53b16abd49ac9062073f780344e09dc77df12e474d00cfd0b",
+    "TF_E2L_r43": "db50b6ca55a67f8b7064b21bc0fd0e1b32ff2e5fa6fc248fdde17d4cbca06430",
+    "TF_E2L_r44": "b77ab040b483e1cde66de62d0d4bd2b4eb5f9fa3c38e90c271bbdd43f15b0017",
+    "TF_E2L_r45": "469bab0f8e4c3183d15396dd200be9f5138537cdb1bb1886f31e7841801a88f8",
+    "TF_E2L_r46": "bad6efda50b7799a0a58dbbeaba80d2df279bc7d9296ae9a04befd8180dd2de6"
+  },
+  "amended_manifest_sha256": "98034e16fb2890998ea8345e0e97aa9d710caa9b3e3f3adc869bd33aea69bd49",
+  "amended_science_freeze_sha256": "6a7df43e89f88d5e9638b1b14e54422e360b780ae50f997c6b46fdf2088be6ae",
+  "enabled_at": "2026-11-16T15:21:46.095753+08:00",
+  "coordinator_pid": 404525,
+  "verified_at": "2026-11-16T15:23:12.239179+08:00",
+  "verified_loss_workers": [
+    {
+      "id": "LOSS_TF_r42",
+      "pid": 404850,
+      "gpu": "7",
+      "host": "local4090",
+      "timestamp": "2026-11-16T15:23:10.488888+08:00",
+      "epoch": 1,
+      "step": 775,
+      "completed_steps": 775,
+      "seconds_per_step": 0.07967888475977816
+    },
+    {
+      "id": "LOSS_TF_r43",
+      "pid": 404851,
+      "gpu": "0",
+      "host": "local4090",
+      "timestamp": "2026-11-16T15:23:11.579899+08:00",
+      "epoch": 1,
+      "step": 575,
+      "completed_steps": 575,
+      "seconds_per_step": 0.10933139459928498
+    },
+    {
+      "id": "LOSS_TF_r46",
+      "pid": 404854,
+      "gpu": "6",
+      "host": "local4090",
+      "timestamp": "2026-11-16T15:23:11.758485+08:00",
+      "epoch": 1,
+      "step": 750,
+      "completed_steps": 750,
+      "seconds_per_step": 0.0866856262809597
+    },
+    {
+      "id": "LOSS_TF_r44",
+      "pid": 406189,
+      "gpu": "7",
+      "host": "local4090",
+      "timestamp": "2026-11-16T15:23:10.870557+08:00",
+      "epoch": 1,
+      "step": 507,
+      "completed_steps": 275,
+      "seconds_per_step": 0.08499000231968239
+    },
+    {
+      "id": "LOSS_TF_r45",
+      "pid": 406190,
+      "gpu": "0",
+      "host": "local4090",
+      "timestamp": "2026-11-16T15:23:10.294220+08:00",
+      "epoch": 1,
+      "step": 417,
+      "completed_steps": 200,
+      "seconds_per_step": 0.11925260204006918
+    }
+  ],
+  "all_active_gpu_counts": {
+    "4": 2,
+    "5": 2,
+    "6": 3,
+    "7": 2,
+    "0": 2
+  },
+  "concurrency_note": "Two used GPUs receive two new TF workers each; a fifth TF worker shares one R4 GPU as a bounded third-worker trial. Governor keeps throughput checks active."
+}

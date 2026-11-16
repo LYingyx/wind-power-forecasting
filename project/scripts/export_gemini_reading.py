@@ -156,6 +156,7 @@ def groups(files):
     if extra:
         pipeline += [active_prefix + name for name in ["README_CN.md", "HOURLY_MONITOR_CN.md", "STATUS_REVIEW_20261116_CN.md", "NOISE_ENDPOINT_REPAIR.json", "NOISE_REPAIR_CHECKS_LOCAL.json", "NOISE_REPAIR_CHECKS_REMOTE.json", "manifest.json", "diagnostic_manifest.json", "OPERATIONS_FREEZE.json"]]
         pipeline += [active_prefix + "MIGRATION_4090_20261116.json", active_prefix + "operations/ASSIGNMENTS.json", active_prefix + "operations/RESOURCES.json"]
+        pipeline += [active_prefix + "LOSS_TF_PRECOMPUTE_20261116.json"]
         pipeline += [active_prefix + "analysis/" + name for name in ["LEARNINGS_20261116_CN.md", "LEARNINGS_EVIDENCE_20261116.json"]]
         pipeline += sorted(p for p in files if p.startswith(active_prefix + "operations/") and p.endswith(".py")
                            and p != active_prefix + "operations/collect.py")

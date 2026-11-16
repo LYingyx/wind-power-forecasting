@@ -990,7 +990,7 @@
     "mse_weight": 0.2,
     "dependencies": [
       "assets/selected/TF_R3.json",
-      "operations/ENABLE_LOSS.json"
+      "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
     ],
     "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
   },
@@ -1010,7 +1010,7 @@
     "mse_weight": 0.2,
     "dependencies": [
       "assets/selected/TF_R3.json",
-      "operations/ENABLE_LOSS.json"
+      "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
     ],
     "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
   },
@@ -1030,7 +1030,7 @@
     "mse_weight": 0.2,
     "dependencies": [
       "assets/selected/TF_R3.json",
-      "operations/ENABLE_LOSS.json"
+      "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
     ],
     "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
   },
@@ -1050,7 +1050,7 @@
     "mse_weight": 0.2,
     "dependencies": [
       "assets/selected/TF_R3.json",
-      "operations/ENABLE_LOSS.json"
+      "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
     ],
     "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
   },
@@ -1070,7 +1070,7 @@
     "mse_weight": 0.2,
     "dependencies": [
       "assets/selected/TF_R3.json",
-      "operations/ENABLE_LOSS.json"
+      "operations/ENABLE_LOSS_TF_PRECOMPUTE.json"
     ],
     "preprocess_fingerprint": "bb838b5c77790c527bea81bacbffd12fd9f626d199b502c2cfb435dcc5f1c036"
   }

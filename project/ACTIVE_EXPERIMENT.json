@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-16T13:57:17.840575+08:00",
+  "timestamp": "2026-11-16T15:23:25.076779+08:00",
   "run": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2",
   "status_path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_state_representation_20261116_v2/STATUS.json",
   "scope": "v2 state representation; conditional stages; local4090 and v1006001"

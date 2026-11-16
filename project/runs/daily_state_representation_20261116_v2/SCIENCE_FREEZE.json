@@ -78,7 +78,7 @@
     "code/settings.py": "eaebd2f8d9270ea3c092ae3e2ceb29072e668c684142ff0c6a6caf580c3f2160",
     "code/train.py": "64e64c4d48da4c73c5150d7bdc2bf88d0b69eff2005945710414ea22252dbc97",
     "diagnostic_manifest.json": "ca556eeeea73080172f7c964f7a535c136b10a61fd35f007a65a133cbb90b769",
-    "manifest.json": "7231ccb0e686f35b1736e7354f715b9df78bc1bab92d36157d9b70b8331a5b46",
+    "manifest.json": "98034e16fb2890998ea8345e0e97aa9d710caa9b3e3f3adc869bd33aea69bd49",
     "reference_metrics/R0/42/metrics.json": "0bea8dd4db187dcd26b074bd6f02fc7770b4d25082065d5dbb0f6cc24ab2fa88",
     "reference_metrics/R0/43/metrics.json": "bd73218eecf0653417a6146ff97b51b93fafc31108b2e232979b40e37c46f9ea",
     "reference_metrics/R0/44/metrics.json": "ad6aec07d4421e0a38bcea90008951c5023bd97267ef5fdd20d6cf004373f1a7",
@@ -96,6 +96,12 @@
       "record": "NOISE_ENDPOINT_REPAIR.json",
       "file": "code/representation.py",
       "scope": "Box-Muller upper endpoint only; originally finite values bit-identical"
+    },
+    {
+      "timestamp": "2026-11-16T15:21:25.056725+08:00",
+      "record": "LOSS_TF_PRECOMPUTE_20261116.json",
+      "file": "manifest.json",
+      "scope": "Only LOSS_TF scheduling dependency changed to allow candidate-independent precomputation; all training settings and scientific gates unchanged"
     }
   ]
 }

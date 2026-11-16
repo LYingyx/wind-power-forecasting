@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-11-16T13:55:07.083171+08:00",
+  "timestamp": "2026-11-16T15:22:56.131587+08:00",
   "run": "daily_state_representation_20261116_v2",
   "interval_seconds": 3600,
   "hosts": {
     "local4090": {
       "host": "local4090",
-      "timestamp": "2026-11-16T13:55:07.105252+08:00",
+      "timestamp": "2026-11-16T15:22:56.163190+08:00",
       "stopped": false,
       "complete": false,
-      "scheduler_age_seconds": 8.1,
+      "scheduler_age_seconds": 1.2,
       "failures": [],
       "actions": [],
       "warnings": [],
@@ -17,7 +17,7 @@
           147614
         ],
         "coordinator": [
-          147616
+          404525
         ],
         "workers": [
           147658,
@@ -25,16 +25,21 @@
           147662,
           148765,
           148766,
-          148767
+          148767,
+          404850,
+          404851,
+          404854,
+          406189,
+          406190
         ]
       }
     },
     "v1006001": {
       "host": "v1006001",
-      "timestamp": "2026-11-16T13:55:07.483248+08:00",
+      "timestamp": "2026-11-16T15:22:56.582528+08:00",
       "stopped": false,
       "complete": false,
-      "scheduler_age_seconds": 0.8,
+      "scheduler_age_seconds": 4.2,
       "failures": [],
       "actions": [],
       "warnings": [],
@@ -50,18 +55,18 @@
   "warnings": [],
   "complete": null,
   "progress": {
-    "timestamp": "2026-11-16T13:54:39.144690+08:00",
-    "currently_enabled_training_jobs": 40,
+    "timestamp": "2026-11-16T15:22:52.945143+08:00",
+    "currently_enabled_training_jobs": 45,
     "completed_training": 34,
     "diagnostic_evaluations_completed": 10,
     "failures": [],
     "errors": []
   },
   "active_by_host": {
-    "local4090": 6
+    "local4090": 11
   },
   "gates": {
-    "timestamp": "2026-11-16T13:54:38.074138+08:00",
+    "timestamp": "2026-11-16T15:22:52.101703+08:00",
     "complete_groups": [
       "R0",
       "R0+H",
@@ -81,5 +86,5 @@
     "stage2_complete_or_skipped": false
   },
   "newly_enabled_stages": [],
-  "coordinator_age_seconds": 28.6
+  "coordinator_age_seconds": 4.7
 }
