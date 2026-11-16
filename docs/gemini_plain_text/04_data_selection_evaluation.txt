@@ -3975,7 +3975,7 @@ if __name__=='__main__':print(json.dumps(collect(),ensure_ascii=False))
 
 - project/runs/daily_state_representation_20261116_v2/README_CN.md
 
-SHA-256: f1c1e2c112fb53b34d319cc26ca858d0f5816a194ef105b06eba76e133feecf2
+SHA-256: da4bb82acaae435ff8c6c80b227815969288e12da8a23f9803556f88ef382f2c
 
 ```
 # 状态条件中间表示 v2：执行入口
@@ -3985,6 +3985,8 @@ SHA-256: f1c1e2c112fb53b34d319cc26ca858d0f5816a194ef105b06eba76e133feecf2
 已配置服务器每小时整点巡检，按冻结门槛自动接续后续阶段；配置、恢复保护及检查记录入口见 [每小时巡检说明](HOURLY_MONITOR_CN.md)。
 
 11 月 16 日中午核查：阶段一 25/25 完成；阶段二于 02:39 自动开启，9/15 已完成，另 6 项因验证采样的数值边界错误中断。13:33 已修复并从检查点恢复。详见 [阶段进度与故障修复](STATUS_REVIEW_20261116_CN.md)，实时状态仍以 `STATUS.json` 为准。
+
+已完成实验的正反馈、负反馈及后续路线约束见 [实验反馈分析](analysis/LEARNINGS_20261116_CN.md)，包含完整五种子对照和明确标注的 R4 三种子局部结果。
 
 ## 固定协议与任务
 
@@ -5734,6 +5736,825 @@ SHA-256: 1d9e6f71599311aedc50f7ac7f3cddc660a2303027eff99ebd88d225c75c97cf
     "operations/storage_guard.py": "3944166ac1cbfcc603b638dc93e37b51fec7e9272c03c360666be9c43d283589"
   },
   "scope": "pre-result gate, diagnostics, deployment and scheduling implementation"
+}
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md
+
+- project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md
+
+SHA-256: c8cc63707d9e244cdad547ced93dfcb2bf1c5baca9ba9dd485e5658acc615051
+
+```
+# 已完成实验的正反馈、负反馈与下一步判别
+
+本分析冻结于 2026-11-16 13:47 左右。第一阶段五种子完整；R4 三组仅 seed 42、43、45 完整，44、46 仍在运行。R0 指 ENC_neutral_E2L；本文 R3 指新增状态条件窗口生成器，不是旧实验名称中表示输入配置的 R3。
+
+所有百分比都是相对变化，负数为改善；总体表为风场等权 MAE/RMSE，分组诊断为 pooled MSE，二者不可混算。2023 同时用于选模和报告，E2L 又从七种编码中选出，以下属于研究反馈，不能冒充独立测试结论。精确数值、同种子配对、留一 seed 敏感性和来源哈希见 [机器可读证据](LEARNINGS_EVIDENCE_20261116.json)。
+
+## 1. 输出头补当前功率，不能解决主要差距
+
+R0+H 相对 R0：MAE −0.0041%、RMSE −0.0170%、高功率 RMSE −0.0444%，只有 2/5 seeds 双指标同时改善，远低于预定主门槛。
+
+新协议复验支持“单独加这条输出头连接收益很小”，不支持“模型缺少当前功率输入，所以补上即可解决”。当前功率原本已作为持久性锚点和历史输入存在。这个结果不能推出当前功率或状态本身没有价值。
+
+## 2. 状态缓解了窗口生成器的退化，但整个模块仍未获净收益
+
+| 候选 / 参照 | ΔMAE | ΔRMSE | Δ高功率 RMSE |
+|---|---:|---:|---:|
+| R2 / R0 | +0.3423% | +0.3997% | +0.6380% |
+| R3 / R2 | −0.0765% | −0.1556% | −0.1889% |
+| R3 / R0 | +0.2656% | +0.2435% | +0.4478% |
+| R3 / R0+H | +0.2697% | +0.2606% | +0.4924% |
+
+R3 对 R2：4/5 seeds 双指标改善，MAE/RMSE 分别在 36/55、39/55 站改善，是值得保留的条件增益。但 R3 对 R0 没有一个 seed 双指标同时胜出，不能据内部消融胜出就说完整方法有效。当前实现里，窗口生成器引入的损失大于状态带来的收益。
+
+R1 对 R0 的 MAE/RMSE 为 +0.0161%/+0.0159%。E2L 是仿射映射，先插值再编码与先编码再插值数学等价；R1 只支持数值对照，不支持“搬到潜空间插值本身构成有效机制”。有限精度下训练轨迹可有微小差异。
+
+这否定的是当前已实现的 7 段 × 4 参数生成器及其训练方式的净收益，不是对所有状态条件表示的普遍否定。
+
+## 3. 同编码 TF 对照收窄了骨干优势，也暴露了随机种子敏感性
+
+TF_E2L 对 TF_R3：MAE −0.3005%、RMSE −0.0582%、高功率 RMSE +0.2801%。编码更换的收益可出现在 TF，不能归为本骨干独有，更不应将编码列作机制贡献。
+
+R0 对 TF_E2L：MAE −0.1568%、RMSE −0.1578%、高功率 RMSE −0.1268%；改善站数依次为 33、30、36/55。这是同编码下仍存在小幅平均优势的正反馈。但只有 1/5 seeds 双指标同时改善，未通过稳定性门槛。
+
+全部五次留一 seed 敏感性检查中，去掉 seed 42 时 MAE 变为 +0.0849%、RMSE 为 −0.0226%；其他四次仍双指标平均改善。说明优势对 seed 42 敏感。这个诊断不意味着应该删除种子或重算“正式成绩”。10 seeds 可以检查随机性，但不能消除在 2023 上筛选 E2L 的偏差。
+
+## 4. 高功率误差需拆成上行和下行，当前更值得追查下行
+
+高功率定义为起点功率 ≥0.75，方向由未来真实功率相对起点的变化确定。这些未来标签只用于事后诊断，不能直接作为部署时可用的门控标签。
+
+| pooled MSE 比较 | 高功率后上行 | 高功率后下行 |
+|---|---:|---:|
+| R0 / TF_R3 | −6.8259% | +1.2838% |
+| R3 / R0 | −2.4282% | +2.2118% |
+| R3 / TF_R3 | −9.0883% | +3.5240% |
+
+下行样本单元数约为上行的 2.52 倍。高功率下降段的变化捕获比例：TF_R3 67.64%、R0 65.14%、R3 63.51%。这个比例是预测变化沿真实方向的总幅度除以真实总幅度，不是事件命中率。
+
+新增状态生成器进一步改善上行，却恶化更常见的下降段；当前证据指向“高出力之后降不下来”的跟踪不足。不能只凭高功率总指标推断为上行过冲，也不能据此直接声称已找到限功率、停机或天气相位误差等物理原因。
+
+## 5. 小时内插值不是当前已被证实的主要瓶颈
+
+R0 对 TF_R3 在目标整点、:15、:30、:45 的 pooled MSE 改善分别为 0.432%、0.442%、0.464%、0.466%，没有出现非整点普遍明显变坏的模式。这削弱了“线性插值导致小时内损失，所以细化到 15 min 就能修复”的解释，但不等价于证明插值完全无影响。
+
+真实变化幅度 >0.3 的子集上，R0 对 TF_R3 的 MSE 在 0–1 h 为 −1.489%，1–3 h 为 +0.909%，3–6 h 为 +0.285%。R3 对 R0 在这三个时段又分别增加 1.313%、0.371%、0.196%。因此当前生成器没有实现预期的大变化收益，后续诊断更应关注 1–6 h 变化幅度与时机的关系。
+
+按未来真实大变化筛选的子集，本身会强调历史上难以预见的事件；捕获比例低不能单独证明这些变化在起点可预测，也不能推出只需加大输出幅度即可。
+
+## 6. R4 三种子局部结果：状态有局部价值，生成式方案整体尚不乐观
+
+以下比较全部限定到相同 seeds 42、43、45，没有用三种子候选对五种子基线，也没有用它们启用下一阶段。
+
+| 候选 / 参照 | ΔMAE | ΔRMSE | Δ高功率 RMSE |
+|---|---:|---:|---:|
+| R4 / R0 | +1.0554% | +0.6948% | +0.1636% |
+| R4 / R3 | +0.5496% | +0.3787% | −0.0846% |
+| R4 / TF_R3 | +0.4905% | +0.4413% | +0.1811% |
+| R4 / TF_E2L | +0.6482% | +0.3505% | −0.1269% |
+| R4 / R4-noS | +0.3099% | −0.1933% | −1.8532% |
+| R4 / R4-wrongS | +0.2325% | −0.1472% | −3.0266% |
+
+R4 相对 R0、R3、两个 TF，在这三个种子上 MAE 均未胜出。真实状态相对去状态和错状态的高功率 RMSE 在 3/3 seeds 都改善，是值得保留的局部正反馈；但 MAE 同样在 3/3 seeds 更差，因此不满足预写定机制成立条件。
+
+R4 的平均样本标准差为 0.0190–0.0203 容量因子，标准差 >1e−6 的比例为 100%。目前不是所有输出样本都完全相同的退化。样本有离散度不等于分布经过校准，也不保证采样均值预测更准确，不能把失败都归因于“采样坍缩”。
+
+这九项生成式任务在第 2–4 轮取得最佳验证 MAE，第 12–14 轮早停，耗时约 6.6–8.3 h；组合训练目标仍持续下降而验证误差增大。这提示泛化或目标不一致值得检查，尚不能区分训练过拟合、教师目标与学生目标不匹配等原因。它们比本轮确定性对照耗时明显更多，目前没有相应精度收益。
+
+## 7. 此前新协议完整矩阵仍有可保留的工程结论
+
+详见 [2571 项重训审查](../../../DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。这里引用的是旧一轮的新业务协议结果，不能把默认 E2C 的结果直接挪作当前 E2L 成绩。
+
+- 共享训练仍逐风场输出，符合单风场预测任务。默认 W0 的逐站独立 R3 对共享 R3，MAE/RMSE +2.524%/+1.748%，TF 同方向；当前预算下共享更合适，但两种训练方式优化器总更新数不同，不能外推为独立训练必然较差。
+- 区域统计和历史状态信息有价值：W0 去掉三环区域统计，MAE/RMSE +0.682%/+0.625%；去掉状态特征 +0.437%/+0.406%。TF 上也有效，所以这是信息价值证据，不能全部计为本模型结构贡献。
+- 完全移除天气及天气派生输入使两骨干 MAE 恶化约 19%，不支持“这个超短期任务天气没有用”。这仍不证明新增复杂天气生成器有效。
+- 当前没有严格目标风场留出的新协议迁移验证，不能把已见风场微调写成新风场迁移优势。
+
+## 对后续路线的约束
+
+继续完成冻结的 R4 五种子和公平损失复核；不要以三个种子的局部结果提前宣告成功或失败。若完整结果仍不通过，就否决当前窗口生成器/流匹配路线的优势叙事，不靠追加模块或更换指标保住故事。
+
+保留 R0 与同编码 TF_E2L 作为最直接的骨干比较，编码只作实现选项。把高功率下行、1–6 h 真实大变化和随机种子敏感性作为下一轮问题定位依据；新增机制必须在完整模型上取得净收益，同时胜过简单对照，并通过预写定的稳定性和高功率约束。未来若改变训练损失或选模协议，需对匹配 baseline 同步实施，当前矩阵不改。
+```
+
+## SOURCE: project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_EVIDENCE_20261116.json
+
+- project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_EVIDENCE_20261116.json
+
+SHA-256: f292c2d8c172a666e30edb0bd765c9d10b59289183b60049958900d79dd711ca
+
+```
+{
+  "timestamp": "2026-11-16T13:46:39.904903+08:00",
+  "note": "Descriptive 2023 selection-set analysis only. Partial comparisons use the same three completed seeds in every model and do not enable gates. Leave-one-seed-out sensitivity does not replace the full five-seed score.",
+  "full_five_seed_comparisons": [
+    {
+      "candidate": "R0+H",
+      "reference": "R0",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": -0.004082540708538751,
+      "rmse_change_percent": -0.01701225733317102,
+      "high_power_rmse_change_percent": -0.04436413090912472,
+      "both_metrics_seed_wins": 2
+    },
+    {
+      "candidate": "R1",
+      "reference": "R0",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": 0.01606570348013925,
+      "rmse_change_percent": 0.01588652277337843,
+      "high_power_rmse_change_percent": 0.02756704610007432,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R2",
+      "reference": "R0",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": 0.3423367817170231,
+      "rmse_change_percent": 0.3997215575384683,
+      "high_power_rmse_change_percent": 0.6379781144343122,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": 0.2655802752908887,
+      "rmse_change_percent": 0.2435160324040231,
+      "high_power_rmse_change_percent": 0.4478275265895615,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": -0.07649463714713978,
+      "rmse_change_percent": -0.15558362384991975,
+      "high_power_rmse_change_percent": -0.18894515908153275,
+      "both_metrics_seed_wins": 4
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0+H",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": 0.26967382554314856,
+      "rmse_change_percent": 0.2605726190216817,
+      "high_power_rmse_change_percent": 0.4924101109649248,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_E2L",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": -0.1568371356878484,
+      "rmse_change_percent": -0.1577780967643161,
+      "high_power_rmse_change_percent": -0.12676390435668594,
+      "both_metrics_seed_wins": 1
+    },
+    {
+      "candidate": "TF_E2L",
+      "reference": "TF_R3",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": -0.300464671428502,
+      "rmse_change_percent": -0.05824024837409736,
+      "high_power_rmse_change_percent": 0.2800569850190948,
+      "both_metrics_seed_wins": 3
+    }
+  ],
+  "partial_three_seed_comparisons": [
+    {
+      "candidate": "R4",
+      "reference": "R0",
+      "seeds": [
+        42,
+        43,
+        45
+      ],
+      "mae_change_percent": 1.055372505963681,
+      "rmse_change_percent": 0.6947728823368582,
+      "high_power_rmse_change_percent": 0.16362889588303897,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R4",
+      "reference": "R3",
+      "seeds": [
+        42,
+        43,
+        45
+      ],
+      "mae_change_percent": 0.5496137156075775,
+      "rmse_change_percent": 0.3786825473121702,
+      "high_power_rmse_change_percent": -0.08456280086224233,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R4",
+      "reference": "TF_R3",
+      "seeds": [
+        42,
+        43,
+        45
+      ],
+      "mae_change_percent": 0.49045104600680123,
+      "rmse_change_percent": 0.4413222467276601,
+      "high_power_rmse_change_percent": 0.1810797210839432,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R4",
+      "reference": "TF_E2L",
+      "seeds": [
+        42,
+        43,
+        45
+      ],
+      "mae_change_percent": 0.6481525889245221,
+      "rmse_change_percent": 0.3504711173597963,
+      "high_power_rmse_change_percent": -0.12687313173771475,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R4",
+      "reference": "R4-noS",
+      "seeds": [
+        42,
+        43,
+        45
+      ],
+      "mae_change_percent": 0.3099259780766639,
+      "rmse_change_percent": -0.19334370668192546,
+      "high_power_rmse_change_percent": -1.8532140802968389,
+      "both_metrics_seed_wins": 0
+    },
+    {
+      "candidate": "R4",
+      "reference": "R4-wrongS",
+      "seeds": [
+        42,
+        43,
+        45
+      ],
+      "mae_change_percent": 0.23254025732790673,
+      "rmse_change_percent": -0.14716103854973683,
+      "high_power_rmse_change_percent": -3.0266187210831075,
+      "both_metrics_seed_wins": 0
+    }
+  ],
+  "leave_one_seed_out_sensitivity": [
+    {
+      "candidate": "R0",
+      "reference": "TF_E2L",
+      "seeds": [
+        43,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": 0.08494765271251925,
+      "rmse_change_percent": -0.02255857325422772,
+      "high_power_rmse_change_percent": 0.18686543387880228,
+      "both_metrics_seed_wins": 0,
+      "omitted_seed": 42
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_E2L",
+      "seeds": [
+        42,
+        44,
+        45,
+        46
+      ],
+      "mae_change_percent": -0.11090680985761381,
+      "rmse_change_percent": -0.24208775910067315,
+      "high_power_rmse_change_percent": -0.16961409412172834,
+      "both_metrics_seed_wins": 1,
+      "omitted_seed": 43
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_E2L",
+      "seeds": [
+        42,
+        43,
+        45,
+        46
+      ],
+      "mae_change_percent": -0.25666198927459805,
+      "rmse_change_percent": -0.21564543499477118,
+      "high_power_rmse_change_percent": -0.30699109715497386,
+      "both_metrics_seed_wins": 1,
+      "omitted_seed": 44
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_E2L",
+      "seeds": [
+        42,
+        43,
+        44,
+        46
+      ],
+      "mae_change_percent": -0.2598395567364076,
+      "rmse_change_percent": -0.07034110909496238,
+      "high_power_rmse_change_percent": -0.2753285162926278,
+      "both_metrics_seed_wins": 1,
+      "omitted_seed": 45
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_E2L",
+      "seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "mae_change_percent": -0.24173164112422096,
+      "rmse_change_percent": -0.2381017235312366,
+      "high_power_rmse_change_percent": -0.06791554837342062,
+      "both_metrics_seed_wins": 1,
+      "omitted_seed": 46
+    }
+  ],
+  "pooled_diagnostics": [
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "clock_00",
+      "count": 48917550,
+      "candidate_mse": 0.018606296084460287,
+      "reference_mse": 0.018686936754144075,
+      "delta_mse": -8.064066968378747e-05,
+      "mse_change_percent": -0.43153498481180996,
+      "candidate_capture_ratio": 0.48510886123539304,
+      "reference_capture_ratio": 0.48590790728973665
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "clock_15",
+      "count": 48917550,
+      "candidate_mse": 0.01857475746571301,
+      "reference_mse": 0.018657165978861634,
+      "delta_mse": -8.240851314862338e-05,
+      "mse_change_percent": -0.4416989870915655,
+      "candidate_capture_ratio": 0.48511356323107335,
+      "reference_capture_ratio": 0.4857981343294868
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "clock_30",
+      "count": 48917550,
+      "candidate_mse": 0.018583467549697433,
+      "reference_mse": 0.018670088444903504,
+      "delta_mse": -8.662089520607152e-05,
+      "mse_change_percent": -0.46395546256620124,
+      "candidate_capture_ratio": 0.48487003160526637,
+      "reference_capture_ratio": 0.48528052256420523
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "clock_45",
+      "count": 48917550,
+      "candidate_mse": 0.01856249456952884,
+      "reference_mse": 0.018649368706579975,
+      "delta_mse": -8.6874137051135e-05,
+      "mse_change_percent": -0.4658288353775908,
+      "candidate_capture_ratio": 0.4851218262214624,
+      "reference_capture_ratio": 0.48566721145751135
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "high_up",
+      "count": 3744010,
+      "candidate_mse": 0.015362025758167976,
+      "reference_mse": 0.016487441935786152,
+      "delta_mse": -0.001125416177618176,
+      "mse_change_percent": -6.825899263217117,
+      "candidate_capture_ratio": -0.6700603159346333,
+      "reference_capture_ratio": -0.7198782916905812
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "high_down",
+      "count": 9426905,
+      "candidate_mse": 0.043201543396544376,
+      "reference_mse": 0.042653948330762394,
+      "delta_mse": 0.000547595065781982,
+      "mse_change_percent": 1.2838086208001753,
+      "candidate_capture_ratio": 0.6513780697005251,
+      "reference_capture_ratio": 0.6763717525309206
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "large_change_0_1h",
+      "count": 590365,
+      "candidate_mse": 0.13923333788731979,
+      "reference_mse": 0.14133839900447823,
+      "delta_mse": -0.002105061117158441,
+      "mse_change_percent": -1.4893766534682107,
+      "candidate_capture_ratio": 0.16912844744439626,
+      "reference_capture_ratio": 0.16086264638435316
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "large_change_1_3h",
+      "count": 5129775,
+      "candidate_mse": 0.10358725989329395,
+      "reference_mse": 0.10265391129285027,
+      "delta_mse": 0.0009333486004436814,
+      "mse_change_percent": 0.9092187415840725,
+      "candidate_capture_ratio": 0.3762526221598926,
+      "reference_capture_ratio": 0.38170835844657747
+    },
+    {
+      "candidate": "R0",
+      "reference": "TF_R3",
+      "bin": "large_change_3_6h",
+      "count": 15083835,
+      "candidate_mse": 0.0770121272373448,
+      "reference_mse": 0.07679311706054649,
+      "delta_mse": 0.0002190101767983038,
+      "mse_change_percent": 0.28519506067923306,
+      "candidate_capture_ratio": 0.5542039799677396,
+      "reference_capture_ratio": 0.5564733306577313
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "clock_00",
+      "count": 48917550,
+      "candidate_mse": 0.01870749703824081,
+      "reference_mse": 0.018606296084460287,
+      "delta_mse": 0.00010120095378052252,
+      "mse_change_percent": 0.5439070372799559,
+      "candidate_capture_ratio": 0.4840398156970643,
+      "reference_capture_ratio": 0.48510886123539304
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "clock_15",
+      "count": 48917550,
+      "candidate_mse": 0.018679483292637505,
+      "reference_mse": 0.01857475746571301,
+      "delta_mse": 0.00010472582692449411,
+      "mse_change_percent": 0.5638072374178016,
+      "candidate_capture_ratio": 0.48376168103177075,
+      "reference_capture_ratio": 0.48511356323107335
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "clock_30",
+      "count": 48917550,
+      "candidate_mse": 0.018687292987969662,
+      "reference_mse": 0.018583467549697433,
+      "delta_mse": 0.00010382543827222937,
+      "mse_change_percent": 0.5586978748426397,
+      "candidate_capture_ratio": 0.483435618883258,
+      "reference_capture_ratio": 0.48487003160526637
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "clock_45",
+      "count": 48917550,
+      "candidate_mse": 0.018667594987860154,
+      "reference_mse": 0.01856249456952884,
+      "delta_mse": 0.00010510041833131437,
+      "mse_change_percent": 0.5661977054735035,
+      "candidate_capture_ratio": 0.4837813381810723,
+      "reference_capture_ratio": 0.4851218262214624
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "high_up",
+      "count": 3744010,
+      "candidate_mse": 0.014989007850306995,
+      "reference_mse": 0.015362025758167976,
+      "delta_mse": -0.00037301790786098063,
+      "mse_change_percent": -2.42818176282934,
+      "candidate_capture_ratio": -0.6448455290448946,
+      "reference_capture_ratio": -0.6700603159346333
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "high_down",
+      "count": 9426905,
+      "candidate_mse": 0.044157076636172965,
+      "reference_mse": 0.043201543396544376,
+      "delta_mse": 0.0009555332396285893,
+      "mse_change_percent": 2.211803478541974,
+      "candidate_capture_ratio": 0.6350835210534606,
+      "reference_capture_ratio": 0.6513780697005251
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "large_change_0_1h",
+      "count": 590365,
+      "candidate_mse": 0.14106201439599014,
+      "reference_mse": 0.13923333788731979,
+      "delta_mse": 0.0018286765086703571,
+      "mse_change_percent": 1.3133898363840713,
+      "candidate_capture_ratio": 0.16203139568672195,
+      "reference_capture_ratio": 0.16912844744439626
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "large_change_1_3h",
+      "count": 5129775,
+      "candidate_mse": 0.10397147581057936,
+      "reference_mse": 0.10358725989329395,
+      "delta_mse": 0.0003842159172854076,
+      "mse_change_percent": 0.3709103973608352,
+      "candidate_capture_ratio": 0.37572100732950753,
+      "reference_capture_ratio": 0.3762526221598926
+    },
+    {
+      "candidate": "R3",
+      "reference": "R0",
+      "bin": "large_change_3_6h",
+      "count": 15083835,
+      "candidate_mse": 0.07716282906722721,
+      "reference_mse": 0.0770121272373448,
+      "delta_mse": 0.00015070182988241587,
+      "mse_change_percent": 0.1956858423322938,
+      "candidate_capture_ratio": 0.5556927023134142,
+      "reference_capture_ratio": 0.5542039799677396
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "clock_00",
+      "count": 48917550,
+      "candidate_mse": 0.01870749703824081,
+      "reference_mse": 0.018753391567742445,
+      "delta_mse": -4.5894529501634695e-05,
+      "mse_change_percent": -0.24472655698490886,
+      "candidate_capture_ratio": 0.4840398156970643,
+      "reference_capture_ratio": 0.472232958667136
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "clock_15",
+      "count": 48917550,
+      "candidate_mse": 0.018679483292637505,
+      "reference_mse": 0.01873373085069549,
+      "delta_mse": -5.424755805798556e-05,
+      "mse_change_percent": -0.28957156740603285,
+      "candidate_capture_ratio": 0.48376168103177075,
+      "reference_capture_ratio": 0.4718987150461297
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "clock_30",
+      "count": 48917550,
+      "candidate_mse": 0.018687292987969662,
+      "reference_mse": 0.01874959738123101,
+      "delta_mse": -6.230439326134624e-05,
+      "mse_change_percent": -0.33229723281266166,
+      "candidate_capture_ratio": 0.483435618883258,
+      "reference_capture_ratio": 0.47146297971229495
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "clock_45",
+      "count": 48917550,
+      "candidate_mse": 0.018667594987860154,
+      "reference_mse": 0.01872476046646182,
+      "delta_mse": -5.7165478601666625e-05,
+      "mse_change_percent": -0.3052935107183741,
+      "candidate_capture_ratio": 0.4837813381810723,
+      "reference_capture_ratio": 0.47185410676648937
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "high_up",
+      "count": 3744010,
+      "candidate_mse": 0.014989007850306995,
+      "reference_mse": 0.016039896137419844,
+      "delta_mse": -0.001050888287112849,
+      "mse_change_percent": -6.551715036740213,
+      "candidate_capture_ratio": -0.6448455290448946,
+      "reference_capture_ratio": -0.6962394938131881
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "high_down",
+      "count": 9426905,
+      "candidate_mse": 0.044157076636172965,
+      "reference_mse": 0.043674845459501996,
+      "delta_mse": 0.00048223117667096915,
+      "mse_change_percent": 1.1041394001453764,
+      "candidate_capture_ratio": 0.6350835210534606,
+      "reference_capture_ratio": 0.6563540892263877
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "large_change_0_1h",
+      "count": 590365,
+      "candidate_mse": 0.14106201439599014,
+      "reference_mse": 0.14118713304435002,
+      "delta_mse": -0.00012511864835987319,
+      "mse_change_percent": -0.08861901623894441,
+      "candidate_capture_ratio": 0.16203139568672195,
+      "reference_capture_ratio": 0.16119633398442457
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "large_change_1_3h",
+      "count": 5129775,
+      "candidate_mse": 0.10397147581057936,
+      "reference_mse": 0.10522197351530328,
+      "delta_mse": -0.0012504977047239213,
+      "mse_change_percent": -1.1884377976830618,
+      "candidate_capture_ratio": 0.37572100732950753,
+      "reference_capture_ratio": 0.3692079224095516
+    },
+    {
+      "candidate": "R3",
+      "reference": "R2",
+      "bin": "large_change_3_6h",
+      "count": 15083835,
+      "candidate_mse": 0.07716282906722721,
+      "reference_mse": 0.07862854066353721,
+      "delta_mse": -0.001465711596309996,
+      "mse_change_percent": -1.8640961461843575,
+      "candidate_capture_ratio": 0.5556927023134142,
+      "reference_capture_ratio": 0.5451294628341266
+    }
+  ],
+  "sample_diversity": [
+    {
+      "group": "R4",
+      "seed": 42,
+      "sample_std_mean": 0.02026248035203164,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4",
+      "seed": 43,
+      "sample_std_mean": 0.019870169419500726,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4",
+      "seed": 45,
+      "sample_std_mean": 0.019010450567668122,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4-noS",
+      "seed": 42,
+      "sample_std_mean": 0.019386162002806146,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4-noS",
+      "seed": 43,
+      "sample_std_mean": 0.02740849736307335,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4-noS",
+      "seed": 45,
+      "sample_std_mean": 0.021509181717572788,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4-wrongS",
+      "seed": 42,
+      "sample_std_mean": 0.027094069237845644,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4-wrongS",
+      "seed": 43,
+      "sample_std_mean": 0.02230080461404169,
+      "nonzero_sample_std_fraction": 1.0
+    },
+    {
+      "group": "R4-wrongS",
+      "seed": 45,
+      "sample_std_mean": 0.019169360633211268,
+      "nonzero_sample_std_fraction": 1.0
+    }
+  ],
+  "source_metrics_sha256": {
+    "reference_metrics/R0/42/metrics.json": "0bea8dd4db187dcd26b074bd6f02fc7770b4d25082065d5dbb0f6cc24ab2fa88",
+    "reference_metrics/R0/43/metrics.json": "bd73218eecf0653417a6146ff97b51b93fafc31108b2e232979b40e37c46f9ea",
+    "reference_metrics/R0/44/metrics.json": "ad6aec07d4421e0a38bcea90008951c5023bd97267ef5fdd20d6cf004373f1a7",
+    "reference_metrics/R0/45/metrics.json": "4ae2a77ccb246e721dbc8ed807208373ff57ac41cf85e75d6460006e831c180d",
+    "reference_metrics/R0/46/metrics.json": "5aaddfb17a5d3032deb006f8f8fdb63798531f7b49e50c04fba2092ad3449579",
+    "reference_metrics/TF_R3/42/metrics.json": "0f7bb7d624f2357394e4e0e8811b94a1d764ae24160d00d80fc5f0a7abbc779d",
+    "reference_metrics/TF_R3/43/metrics.json": "f9229701e0e2846a05765ca2afa7a1df9bb12ce6b07fe16ee1bb14d25e150199",
+    "reference_metrics/TF_R3/44/metrics.json": "d82632b6f27669f285d3a716d3bac664f5a3a4395ac2eee26788eb0a64fa3281",
+    "reference_metrics/TF_R3/45/metrics.json": "918eb1215e1f398aea95c8ff161522989bc1d125321a7d05ff96862795da3b13",
+    "reference_metrics/TF_R3/46/metrics.json": "98982d1908eb3f2f7a71d2ca79153fd91ff5403b5236a11673038356b41e33a8",
+    "jobs/R0plusH_r42/metrics.json": "865b79ba45e922af7f080ebe82ee3f036ffda09e7cc9335b337fd1b794f823ad",
+    "jobs/R0plusH_r43/metrics.json": "1964dfee6ac24846749d2d4803ae25853e9546460fd877dc127a65cc98385f6a",
+    "jobs/R0plusH_r44/metrics.json": "a5134cb17a69bc4603a2a9315fc8a96582b909f235787a68e2708a9639bdea00",
+    "jobs/R0plusH_r45/metrics.json": "ce24a3cf0d063c123231537661f57ff8fc8715f4a9b2166cb4ee84f99fff09ce",
+    "jobs/R0plusH_r46/metrics.json": "1431cb47aedb7abfeaa262491a8210b309fa3a3db10f34a3c1223b3fe64574be",
+    "jobs/R1_r42/metrics.json": "5b9f55d7315ea24ce3a6b052ca9b0c2dfb4b3dcc047d5ef90b4e7389eb4f3af7",
+    "jobs/R1_r43/metrics.json": "183cf1bbbf7a8b26cb82cedd622872cbfeca5213f68f7ae59f015d7815eba3e1",
+    "jobs/R1_r44/metrics.json": "31026e16b5bbafa6401301fd207b04e67103a6554ceb5b8beec3a079f9cb8f35",
+    "jobs/R1_r45/metrics.json": "0dfe99b180aee2b12764ed2fb2fe00a9bc191de7dc3dd2768bbf6db37fe15ae8",
+    "jobs/R1_r46/metrics.json": "2ae467ddcbbc6f2bab404c9a6561b0463aa97f6123f0274072740b11c62c308d",
+    "jobs/R2_r42/metrics.json": "e2606613ee94cc8bac9db824a4c0013065c03b6848dc7677c68af0a710c8e771",
+    "jobs/R2_r43/metrics.json": "93144c1de42d082bc020cff503b5cbaeacb60b3ec16dcaccabcc0ef73e38b813",
+    "jobs/R2_r44/metrics.json": "c552593359bae0b37e90c9eadb6a061447377838c491f1665de1556419729c80",
+    "jobs/R2_r45/metrics.json": "9b04b990aeea40c38308396875b7ce95b938c691cba2e8365b131c8802cc7e39",
+    "jobs/R2_r46/metrics.json": "77a7483fb3718dabdc3e4bf3655a1370e56229cfb271e6edd8c55665bcfb1b75",
+    "jobs/R3_r42/metrics.json": "8275d4fa910b660feae5dd71d642713d20e4d27045a333ba8068beda54205594",
+    "jobs/R3_r43/metrics.json": "1cdc9579f68e908f641b1208209b2259522d52c07f5703c73c0a9473f15fab71",
+    "jobs/R3_r44/metrics.json": "783a67449e3d40d2b91d0bad7f6ef2726c84d5ed6fa9ae0dc1e957f33b3faadf",
+    "jobs/R3_r45/metrics.json": "886ffe1ce638da645a7ee2271d0fe4febbaab6b83885a4a29a0418ba90bb0caf",
+    "jobs/R3_r46/metrics.json": "115d963404427b0b2cca6bfaf8c0d9f49e150ce9149dc6324bb58cf6a1f79741",
+    "jobs/TF_E2L_r42/metrics.json": "6f33323698f68eb53b16abd49ac9062073f780344e09dc77df12e474d00cfd0b",
+    "jobs/TF_E2L_r43/metrics.json": "db50b6ca55a67f8b7064b21bc0fd0e1b32ff2e5fa6fc248fdde17d4cbca06430",
+    "jobs/TF_E2L_r44/metrics.json": "b77ab040b483e1cde66de62d0d4bd2b4eb5f9fa3c38e90c271bbdd43f15b0017",
+    "jobs/TF_E2L_r45/metrics.json": "469bab0f8e4c3183d15396dd200be9f5138537cdb1bb1886f31e7841801a88f8",
+    "jobs/TF_E2L_r46/metrics.json": "bad6efda50b7799a0a58dbbeaba80d2df279bc7d9296ae9a04befd8180dd2de6",
+    "jobs/R4_r42/metrics.json": "b83932610378d0561302585b171e190f365092f459b3afa0f75466259cdbe544",
+    "jobs/R4_r43/metrics.json": "3866e2ca47b48420a2f4a5bafeaef910f5ecae013bb6f4b8c834c3d3528f4e79",
+    "jobs/R4_r45/metrics.json": "b32561d121bee1e2a8119d437e7eeacfca3eab99e31e2e27ea6f90c6fb169d4d",
+    "jobs/R4_noS_r42/metrics.json": "17ed79c9ff16c1ce850d2450c14a84d82977acf31940cc74ed98da5ade1d433f",
+    "jobs/R4_noS_r43/metrics.json": "3cd112d55792d76903654c975de3638602dba3bae0923645cd8fca12e06c3e1c",
+    "jobs/R4_noS_r45/metrics.json": "0d4189a0a2a5aaee6215a3613999d471c0651311f3be74702b589e35aedbc719",
+    "jobs/R4_wrongS_r42/metrics.json": "d705aebd21477922bb0b7d4c196f0dc29e8f2ff5a6da9ffcc0a818d5b5840e94",
+    "jobs/R4_wrongS_r43/metrics.json": "012227b0a6caa9a40371a9784aeb4cf989cd72c428e7f1d003f4d1ce35cbb672",
+    "jobs/R4_wrongS_r45/metrics.json": "c076360691c32ac77cbb6829e0dbe37d1c679414878b7ee031e9fd733c4c7dcf"
+  }
 }
 ```
 
