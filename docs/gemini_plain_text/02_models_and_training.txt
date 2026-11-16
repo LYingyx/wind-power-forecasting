@@ -2,7 +2,7 @@
 
 UTF-8 纯文本，无需解压。来源：https://github.com/LYingyx/wind-power-forecasting
 按完全相同的源文件内容去重；各原路径和 SHA-256 均列出，运行时仍使用各自原路径。
-这是阅读副本；训练记录见 project/analysis/daily_protocol_review_20261115/provenance/。
+这是阅读副本；旧轮训练记录见 project/analysis/daily_protocol_review_20261115/provenance/；当前轮记录见 project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json。
 
 ## SOURCE: project/runs/daily_protocol_restart_20261114_v1/code/data.py
 

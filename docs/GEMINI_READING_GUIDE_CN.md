@@ -2,7 +2,11 @@
 
 更新：2026-11-16。先读本文，再进入长篇历史交接文档。
 
-新增 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)：状态条件表示已实现并启动阶段一 25 项训练；R4 与损失复核代码也已完成，但启用和结论取决于预写定门槛。请区分“代码已实现”“任务正在运行”和“已有性能证据”。
+先读 [v2 最新结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。截至本次快照，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。6 项 R4 及提前并行的 5 项 `LOSS_TF` 正在训练。全部新任务的实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
+
+为避免只看到摘要，已发布 [当前任务完整证据 JSON](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json)：包含已完成任务的配置、逐轮记录、选中轮次、逐风场/时效指标、诊断及来源哈希；[05 当前结果 TXT](gemini_plain_text/05_current_experiment_results.txt)包含这些正文，无需解压。未完成任务的进度与曲线不是最终成绩。
+
+当前有用反馈：R3 对无状态 R2 的 RMSE 改善 0.156%，但对原模型 R0 退化 0.244%；R4 三种子对 R0 的 RMSE 退化 0.695%。R0 对同编码 TF_E2L 的平均 MAE/RMSE 改善 0.157%/0.158%，但仅 1/5 seeds 双指标同时改善。不能据内部消融获益就宣称整体方法优越。此处 R0 是 ENC_neutral_E2L，R3 是新增状态生成器，不是旧输入配置名。
 
 需要审阅结果的产生过程时，继续读[结果到代码的完整导航](RESULTS_TO_CODE_CN.md)，包含数据准备、模型/基线、调参、训练选轮、指标汇总及全部 2571 项任务的训练记录。附件解析失败时使用[未压缩 TXT 入口](gemini_plain_text/README.md)；阅读目录名或结果摘要不能代替读取源文件正文。
 
@@ -18,7 +22,7 @@
 
 当前协议为每日 00 UTC Pangu、15 h 后可用（北京时间 23:00 切换），气象时效 9–45 h；邻站/区域功率可用至预测起点。55 个固定风场，2022 训练、2023 选择。2024 曾在历史研究中被查看，后续只能称探索性跨年复评，不能声称完全盲测。
 
-本轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下为相对匹配 Transformer 的误差变化，负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。
+此前一轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下表格属于该轮，相对匹配 Transformer 的误差变化中负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。最新 v2 结果见页首快照，不要混用两轮的任务计数。
 
 | 方案 | MAE 相对变化 | RMSE 相对变化 | 解释 |
 | --- | ---: | ---: | --- |
@@ -27,9 +31,9 @@
 | 完整 W0 逐站微调 | +0.108% | +0.370% | 不支持作为当前最优路线 |
 | 共享 E2L | −0.457% | −0.216% | 高功率 RMSE +0.153%，未满足原先不超过 +0.1% 的条件 |
 
-E2L 是多层无激活线性映射，其复合仍为仿射映射。当前尚缺 Transformer 使用相同 E2L/E2C 的交叉骨干对照，不能把其收益直接归因于主干或核心机制。详见[编码角色说明](../project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)。
+E2L 是多层无激活线性映射，其复合仍为仿射映射。最新 v2 已完成 TF_E2L 五种子交叉骨干对照：相对原 TF_R3，MAE −0.3005%、RMSE −0.0582%、高功率 RMSE +0.2801%。编码收益也出现在 TF，不能归为本骨干独有或核心机制。早期[编码角色说明](../project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)中的“缺少同编码 TF 对照”是当时状态，现已补上 E2L 对照。
 
-E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；RMSE 在 seed 43、46 上落后。新任务已包含 TF_E2L，结果尚待完成。后续十种子与 2024 探索性复评用于稳定性和跨年检验，十种子本身不能消除选择偏差。
+E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对 TF_R3 的 RMSE 在 seed 43、46 上落后。TF_E2L 已完成，但十种子与 2024 探索性复评尚未完成；十种子本身不能消除选择偏差。
 
 ## 关键实现与证据
 
@@ -57,6 +61,9 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；RMSE 在 s
 请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md 和
 docs/GEMINI_READING_GUIDE_CN.md，再读所链接的当前协议、结果报告、
 编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
+最新证据请优先读取 project/runs/daily_state_representation_20261116_v2/analysis/
+CURRENT_RESULTS_CN.md、CURRENT_RESULTS.json 和 LEARNINGS_20261116_CN.md，
+不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态。
 
 项目任务是单风场 0–6 h、15 min 功率预测。我需要相对强 Transformer
 有可信性能优势的研究路线，天气编码不作为机制贡献或独立贡献。

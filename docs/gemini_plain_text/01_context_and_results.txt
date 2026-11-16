@@ -2,13 +2,13 @@
 
 UTF-8 纯文本，无需解压。来源：https://github.com/LYingyx/wind-power-forecasting
 按完全相同的源文件内容去重；各原路径和 SHA-256 均列出，运行时仍使用各自原路径。
-这是阅读副本；训练记录见 project/analysis/daily_protocol_review_20261115/provenance/。
+这是阅读副本；旧轮训练记录见 project/analysis/daily_protocol_review_20261115/provenance/；当前轮记录见 project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json。
 
 ## SOURCE: README.md
 
 - README.md
 
-SHA-256: b477e6c5f52c7f3c6bbbd35a4d675447fc571fe1890ae774303cb3d3872c5714
+SHA-256: b83c165cd14efe919353f51066fad4b5d5c2209fdea7b1e20197022c537999f0
 
 ```
 # 单风场 0–6 h 功率预测
@@ -17,13 +17,14 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 本仓库用于代码与研究结果审阅，包含现有源码、实验配置、每日起报协议的结果汇总及后续研究计划。实际工作目录为 `project/`。原始气象/功率数据、缓存、模型权重、逐样本预测和 Python 环境保留在研究服务器，未上传；克隆本仓库不能直接恢复完整训练环境。
 
-2026-11-16 新执行入口：[状态条件中间表示 v2](project/runs/daily_state_representation_20261116_v2/README_CN.md)。阶段一 25 项共享训练已在 4090 与 v1006001 启动；后续阶段按预写定门槛自动启用。以下 2571 项是此前已完成的结果，不包括这轮正在运行的任务。
+2026-11-16 最新结果：[v2 已获取结果快照](project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)。截至本次快照，阶段一 25 项完成，生成式阶段完成 9/15 项，共 34 项新训练完成，另完成 10 项旧权重诊断；6 项生成式任务及提前并行的 5 项 Transformer 混合损失任务正在 4090 上运行。完整五种子和局部三种子结果明确分列，当前新增机制尚未通过整体优势门槛。执行细节见 [v2 入口](project/runs/daily_state_representation_20261116_v2/README_CN.md)。以下 2571 项属于此前实验，不能重复计数。
 
 ## 阅读顺序
 
 需要理解“结果怎样得到”，先读[数据 → 模型 → 训练 → 选轮 → 指标的完整导航](docs/RESULTS_TO_CODE_CN.md)。其中链接了全部 2571 项任务的实际配置与逐轮训练记录。导入附件出现解析问题时，使用[未压缩纯文本入口](docs/gemini_plain_text/README.md)。
 
 1. [给 Gemini / 编程助手的阅读入口](docs/GEMINI_READING_GUIDE_CN.md)：当前事实、代码地图、证据边界及可直接使用的提问。
+   最新一轮也可直接读取 [05 当前结果纯文本](docs/gemini_plain_text/05_current_experiment_results.txt)，包含逐任务原始指标、逐轮记录与逐风场表。
 2. [最新协议](project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md)：每日 00 UTC、起报后 15 h 可用，0–6 h / 15 min。
 3. [新协议完整结果分析](project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)与[逐风场、逐种子结果](project/analysis/daily_protocol_review_20261115/FARM_AND_SEED_DETAILS_CN.md)。
 4. [编码角色澄清](project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)：天气编码不作为机制贡献或独立贡献。
@@ -56,14 +57,18 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 - docs/GEMINI_READING_GUIDE_CN.md
 
-SHA-256: dd9173671b8cb63ce41bc078e4b4593878ef8096cfd1a85d13cbde793ab8166a
+SHA-256: 9de1a461ef550feafd6042750bbac71b413a236d0192c59305fcdc6f9bcd2bf7
 
 ````
 # Gemini / 编程助手阅读入口
 
 更新：2026-11-16。先读本文，再进入长篇历史交接文档。
 
-新增 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)：状态条件表示已实现并启动阶段一 25 项训练；R4 与损失复核代码也已完成，但启用和结论取决于预写定门槛。请区分“代码已实现”“任务正在运行”和“已有性能证据”。
+先读 [v2 最新结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。截至本次快照，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。6 项 R4 及提前并行的 5 项 `LOSS_TF` 正在训练。全部新任务的实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
+
+为避免只看到摘要，已发布 [当前任务完整证据 JSON](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json)：包含已完成任务的配置、逐轮记录、选中轮次、逐风场/时效指标、诊断及来源哈希；[05 当前结果 TXT](gemini_plain_text/05_current_experiment_results.txt)包含这些正文，无需解压。未完成任务的进度与曲线不是最终成绩。
+
+当前有用反馈：R3 对无状态 R2 的 RMSE 改善 0.156%，但对原模型 R0 退化 0.244%；R4 三种子对 R0 的 RMSE 退化 0.695%。R0 对同编码 TF_E2L 的平均 MAE/RMSE 改善 0.157%/0.158%，但仅 1/5 seeds 双指标同时改善。不能据内部消融获益就宣称整体方法优越。此处 R0 是 ENC_neutral_E2L，R3 是新增状态生成器，不是旧输入配置名。
 
 需要审阅结果的产生过程时，继续读[结果到代码的完整导航](RESULTS_TO_CODE_CN.md)，包含数据准备、模型/基线、调参、训练选轮、指标汇总及全部 2571 项任务的训练记录。附件解析失败时使用[未压缩 TXT 入口](gemini_plain_text/README.md)；阅读目录名或结果摘要不能代替读取源文件正文。
 
@@ -79,7 +84,7 @@ SHA-256: dd9173671b8cb63ce41bc078e4b4593878ef8096cfd1a85d13cbde793ab8166a
 
 当前协议为每日 00 UTC Pangu、15 h 后可用（北京时间 23:00 切换），气象时效 9–45 h；邻站/区域功率可用至预测起点。55 个固定风场，2022 训练、2023 选择。2024 曾在历史研究中被查看，后续只能称探索性跨年复评，不能声称完全盲测。
 
-本轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下为相对匹配 Transformer 的误差变化，负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。
+此前一轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下表格属于该轮，相对匹配 Transformer 的误差变化中负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。最新 v2 结果见页首快照，不要混用两轮的任务计数。
 
 | 方案 | MAE 相对变化 | RMSE 相对变化 | 解释 |
 | --- | ---: | ---: | --- |
@@ -88,9 +93,9 @@ SHA-256: dd9173671b8cb63ce41bc078e4b4593878ef8096cfd1a85d13cbde793ab8166a
 | 完整 W0 逐站微调 | +0.108% | +0.370% | 不支持作为当前最优路线 |
 | 共享 E2L | −0.457% | −0.216% | 高功率 RMSE +0.153%，未满足原先不超过 +0.1% 的条件 |
 
-E2L 是多层无激活线性映射，其复合仍为仿射映射。当前尚缺 Transformer 使用相同 E2L/E2C 的交叉骨干对照，不能把其收益直接归因于主干或核心机制。详见[编码角色说明](../project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)。
+E2L 是多层无激活线性映射，其复合仍为仿射映射。最新 v2 已完成 TF_E2L 五种子交叉骨干对照：相对原 TF_R3，MAE −0.3005%、RMSE −0.0582%、高功率 RMSE +0.2801%。编码收益也出现在 TF，不能归为本骨干独有或核心机制。早期[编码角色说明](../project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)中的“缺少同编码 TF 对照”是当时状态，现已补上 E2L 对照。
 
-E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；RMSE 在 seed 43、46 上落后。新任务已包含 TF_E2L，结果尚待完成。后续十种子与 2024 探索性复评用于稳定性和跨年检验，十种子本身不能消除选择偏差。
+E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对 TF_R3 的 RMSE 在 seed 43、46 上落后。TF_E2L 已完成，但十种子与 2024 探索性复评尚未完成；十种子本身不能消除选择偏差。
 
 ## 关键实现与证据
 
@@ -118,6 +123,9 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；RMSE 在 s
 请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md 和
 docs/GEMINI_READING_GUIDE_CN.md，再读所链接的当前协议、结果报告、
 编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
+最新证据请优先读取 project/runs/daily_state_representation_20261116_v2/analysis/
+CURRENT_RESULTS_CN.md、CURRENT_RESULTS.json 和 LEARNINGS_20261116_CN.md，
+不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态。
 
 项目任务是单风场 0–6 h、15 min 功率预测。我需要相对强 Transformer
 有可信性能优势的研究路线，天气编码不作为机制贡献或独立贡献。
@@ -137,14 +145,16 @@ docs/GEMINI_READING_GUIDE_CN.md，再读所链接的当前协议、结果报告�
 
 - docs/RESULTS_TO_CODE_CN.md
 
-SHA-256: 4a6da75995c4a4eb87e6d5d87157256880a6a48ca6d46e426b9b3b85b5e09af3
+SHA-256: 142f26f17a642505a10b6facfa94c54498422b1a90f2371a6fd79752f376c4ff
 
 ````
 # 从实验结果追溯到数据、模型和训练过程
 
 本仓库包含当前每日起报协议的实现与结果证据，供代码审阅。请沿下面的链条阅读，不要只根据结果报告推测机制。原始数据、模型权重和全量预测仍在研究服务器，因此公开仓库支持方法与记录审查，不能单独重跑完整训练或从预测重新计算全部指标。
 
-2026-11-16 新增：[状态条件中间表示 v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)，包含新模型、生成式教师/学生路径、预先固定的超参数、条件阶段、两机多进程调度和自动判定。阶段一 25 项已启动。下面的 2571 项完整证据仍指此前实验；不得把运行中的新路线写成已取得收益。
+2026-11-16 更新：[v2 最新结果](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)已覆盖 34 项完成的新训练、10 项旧权重诊断，以及尚未完成任务的明确标记。阶段一 25 项全部完成，R4 三组各有 3 个种子完成；当前另有 11 项训练运行。下面的 2571 项完整证据仍指此前实验。
+
+本轮从结果追溯实现的路径：先读 [CURRENT_RESULTS.json](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json) 的 `completed_training` / `reused_references` / `diagnostic_evaluations`，查看 `record.spec`、`history`、`checkpoint_epoch` 与 `source_files`；再对照 [train.py](../project/runs/daily_state_representation_20261116_v2/code/train.py)、[model.py](../project/runs/daily_state_representation_20261116_v2/code/model.py)、[representation.py](../project/runs/daily_state_representation_20261116_v2/code/representation.py) 和 [collect.py](../project/runs/daily_state_representation_20261116_v2/operations/collect.py)。本轮 JSON 包含完整原指标对象，含逐站/时效数组和诊断；导出脚本是 [export_current_results.py](../project/scripts/export_current_results.py)。
 
 ## 1. 数据怎样成为模型输入
 
@@ -165,7 +175,7 @@ SHA-256: 4a6da75995c4a4eb87e6d5d87157256880a6a48ca6d46e426b9b3b85b5e09af3
 - [消融 model.py](../project/runs/daily_ablation_restart_20261114_v1/code/model.py)、[消融 data.py](../project/runs/daily_ablation_restart_20261114_v1/code/data.py)：编码变体、输入屏蔽、历史/天气对照；指定 `station` 后仅取目标风场标签进行独立训练。
 - [微调 train.py](../project/runs/daily_site_finetune_20261114_v1/code/train.py) 的 `load_model`：加载共享权重，区分完整微调与头部微调，约束目标风场 embedding 更新；[site_data.py](../project/runs/daily_site_finetune_20261114_v1/code/site_data.py) 定义本站数据。
 
-冻结依赖中包含旧实验常量与兼容代码。判断实际行为须从当前 run 的入口、`settings.py`、`manifest.json` 和调用路径出发。天气编码不是独立机制贡献；新版状态条件表示仍是[待验证计划](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)，不能当成已完成模型。
+冻结依赖中包含旧实验常量与兼容代码。判断实际行为须从当前 run 的入口、`settings.py`、`manifest.json` 和调用路径出发。天气编码不是独立机制贡献；新版状态条件表示已实现并取得部分实验结果，但其[研究计划](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)中的预期收益不能当作已证实结论。
 
 ## 3. 参数、训练预算和选轮怎样确定
 
@@ -208,7 +218,7 @@ SHA-256: 4a6da75995c4a4eb87e6d5d87157256880a6a48ca6d46e426b9b3b85b5e09af3
 
 ## 6. 阅读与后续更新检查
 
-[纯文本备用入口](gemini_plain_text/README.md)提供四份未压缩 TXT：当前结果、模型训练、逐站指标、数据准备与选型评估；所有来源文件正文及 SHA-256 可核对。完整逐任务训练记录另外保存在上面的三个 JSON 中，可以按需读取。
+[纯文本备用入口](gemini_plain_text/README.md)提供五份未压缩 TXT：协议与旧轮结果、模型训练、旧轮逐站指标、数据准备与选型评估，以及新增的当前轮完整结果证据；所有来源文件正文及 SHA-256 可核对。第五份包含本轮完整训练记录与指标对象，旧轮逐任务记录仍保存在上面的三个 JSON 中。
 
 更新源码或报告后，在仓库根目录执行：
 
@@ -221,6 +231,15 @@ python3 project/scripts/export_gemini_reading.py
 ```bash
 python3 project/scripts/export_gemini_reading.py --refresh-training
 ```
+
+刷新当前 v2 结果快照及明文副本：
+
+```bash
+python3 project/scripts/export_current_results.py
+python3 project/scripts/export_gemini_reading.py
+```
+
+当前轮导出会验证完成标志、训练配置、检查点哈希与最小验证 MAE 选轮；发布前再核对逐风场/种子 CSV 和同种子配对数值。运行中的任务只导出明确标记的进度，不将某个中途 epoch 当成最终结果。
 
 检查已提交版本：
 

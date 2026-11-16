@@ -8,6 +8,8 @@
 
 已完成实验的正反馈、负反馈及后续路线约束见 [实验反馈分析](analysis/LEARNINGS_20261116_CN.md)，包含完整五种子对照和明确标注的 R4 三种子局部结果。
 
+发布到 GitHub 的最新固定快照见 [当前结果入口](analysis/CURRENT_RESULTS_CN.md)、[完整训练与指标记录](analysis/CURRENT_RESULTS.json)、[逐种子表](analysis/current_per_seed.csv)及[逐风场表](analysis/current_per_farm.csv)。这些文件注明采集时间，供 Gemini 审阅；运行中的进度不作为最终成绩。
+
 11 月 16 日 13:54 按用户要求改为 4090 优先：剩余 6 项全部在本机恢复，后续 15 项条件任务也分配到本机；V100 暂时待命。迁移检查点及调度变更见 [迁移记录](MIGRATION_4090_20261116.json)。
 
 11 月 16 日 15:21 按用户要求提前并行计算 5 项 `LOSS_TF`（seeds 42–46，E2L 编码，MAE + 0.2·MSE）。该组的训练配置与最终候选无关，原先等待 R4 只是执行顺序依赖；现在使用独立调度标记 `ENABLE_LOSS_TF_PRECOMPUTE.json`，不提前选择候选，不启用 `LOSS_CANDIDATE` 或 `TF_R4`，也不代表完整损失复核已经通过。实验总数仍最多 55 项，完成的 TF 结果供原定后续损失复核直接使用。仅这五项未启动任务的依赖字段发生变化，模型、数据、损失和判定代码未改；冻结清单中的这一调度修订见 [并行预计算记录](LOSS_TF_PRECOMPUTE_20261116.json)。

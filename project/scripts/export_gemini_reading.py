@@ -14,6 +14,7 @@ import io
 import json
 from pathlib import Path
 import re
+import statistics
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -41,6 +42,7 @@ PIPELINE = ["project/pyproject.toml", "project/src/wind_forcing/data/operational
             "project/scripts/hourly_state_representation.py",
             "project/scripts/test_hourly_state_representation.py",
             "project/scripts/audit_stateless_noise_repair_20261116.py",
+            "project/scripts/export_current_results.py",
             "project/configs/operational_pangu_d1_08_lag15h.json"]
 DETAILS = [REVIEW + name for name in ["FARM_AND_SEED_DETAILS_CN.md",
            "per_farm_comparisons.csv", "per_seed_comparisons.csv",
@@ -163,8 +165,87 @@ def groups(files):
     pipeline += sorted(p for p in files if any(p.startswith(f"project/runs/{name}/") for name in
                        ["rmse_gap_diagnostic_20261115", "ramp_information_diagnostic_20261115"])
                        and p.endswith((".py", ".md")))
-    return [("01_context_and_results.txt", CONTEXT), ("02_models_and_training.txt", code),
-            ("03_farm_seed_horizon_metrics.txt", DETAILS), ("04_data_selection_evaluation.txt", pipeline)]
+    result = [("01_context_and_results.txt", CONTEXT), ("02_models_and_training.txt", code),
+              ("03_farm_seed_horizon_metrics.txt", DETAILS), ("04_data_selection_evaluation.txt", pipeline)]
+    if active_prefix + "analysis/CURRENT_RESULTS.json" in files:
+        result.append(("05_current_experiment_results.txt", [active_prefix + "analysis/" + name for name in
+                       ("CURRENT_RESULTS_CN.md", "CURRENT_RESULTS.json", "current_per_seed.csv", "current_per_farm.csv")]))
+    return result
+
+
+def check_current_results(files):
+    prefix = f"project/runs/{ACTIVE_RUN}/"
+    path = prefix + "analysis/CURRENT_RESULTS.json"
+    if path not in files:
+        return
+    snapshot = json.loads(files[path])
+    specs = {s["id"]: s for s in json.loads(files[prefix + "manifest.json"])}
+    diagnostics = {s["id"]: s for s in json.loads(files[prefix + "diagnostic_manifest.json"])}
+    completed = snapshot["completed_training"]
+    references = snapshot["reused_references"]
+    evaluations = snapshot["diagnostic_evaluations"]
+    assert snapshot["counts"]["new_training_completed"] == len(completed)
+    assert snapshot["counts"]["diagnostic_evaluations_completed"] == len(evaluations)
+    assert snapshot["counts"]["reused_reference_training"] == len(references) == 10
+    assert snapshot["counts"]["new_training_planned_max"] == len(specs)
+    done = {x["id"] for x in completed}
+    waiting = {x["id"] for x in snapshot["unfinished_training"]}
+    assert not done & waiting and done | waiting == set(specs)
+    metrics_names = ("mae", "rmse", "high_power_rmse")
+    array_names = ("per_farm_mae", "per_farm_rmse", "high_power_per_farm_rmse")
+    groups = collections.defaultdict(dict)
+    for item in completed + references + evaluations:
+        record = item["record"]
+        assert item["checkpoint_hash_verified"] and not record["smoke_only"] and record["evaluation_year"] == 2023
+        if item in completed:
+            assert item["success"]["passed"] and record["requested_spec"] == specs[item["id"]]
+        elif item in evaluations:
+            assert item["success"]["passed"] and record["no_training"]
+            assert record["requested_spec"] == diagnostics[item["id"]]
+        else:
+            ref = prefix + f"reference_metrics/{item['group']}/{item['seed']}/metrics.json"
+            assert record == json.loads(files[ref])
+        if "history" in item:
+            selected = min(item["history"], key=lambda x: x["validation_mae"])
+            assert selected["epoch"] == record["checkpoint_epoch"]
+            assert abs(selected["validation_mae"] - record["metrics"]["mae"]) < 1e-9
+        for metric, array in zip(metrics_names, array_names):
+            values = record["metrics"][array]
+            assert len(values) == 55
+            assert abs(statistics.mean(values) - record["metrics"][metric]) < 1e-12
+        if item not in evaluations:
+            groups[item["group"]][item["seed"]] = record
+        for name, expected in item["source_files"].items():
+            if name in files:
+                assert digest(files[name]) == expected, name
+    for name, expected in snapshot["source_files"].items():
+        if name in files:
+            assert digest(files[name]) == expected, name
+    for row in snapshot["comparisons"]:
+        a, b = groups[row["candidate"]], groups[row["reference"]]
+        assert set(row["seeds"]) == set(a) & set(b)
+        assert row["complete_five_seeds"] == (set(row["seeds"]) == set(range(42, 47)))
+        for metric in metrics_names:
+            x = statistics.mean(a[s]["metrics"][metric] for s in row["seeds"])
+            y = statistics.mean(b[s]["metrics"][metric] for s in row["seeds"])
+            assert abs(100 * (x / y - 1) - row[metric + "_change_percent"]) < 1e-9
+    for suffix, expected_count in (("seed", len(completed) + len(references)),
+                                   ("farm", 55 * (len(completed) + len(references)))):
+        rows = list(csv.DictReader(io.StringIO(files[prefix + f"analysis/current_per_{suffix}.csv"].decode())))
+        assert len(rows) == expected_count
+        keys = set()
+        for row in rows:
+            record = groups[row["group"]][int(row["seed"])]
+            assert int(row["checkpoint_epoch"]) == record["checkpoint_epoch"]
+            station = int(row["station_index"]) if suffix == "farm" else None
+            key = (row["group"], row["seed"], station)
+            assert key not in keys
+            keys.add(key)
+            if station is not None:
+                assert row["station"] == snapshot["station_ids"][station]
+            for metric, array in zip(metrics_names, array_names):
+                expected = record["metrics"][metric] if station is None else record["metrics"][array][station]
+                assert abs(float(row[metric]) - expected) < 1e-12
 
 
 def check_core(files):
@@ -182,10 +263,11 @@ def check_core(files):
     active_prefix = f"project/runs/{ACTIVE_RUN}/"
     if active_prefix + "SCIENCE_FREEZE.json" in files:
         for rel, sha in json.loads(files[active_prefix + "SCIENCE_FREEZE.json"])["files"].items():
-            if rel.startswith("code/") and rel.endswith(".py"):
+            if active_prefix + rel in files:
                 assert digest(files[active_prefix + rel]) == sha, (ACTIVE_RUN, rel)
         for rel, sha in json.loads(files[active_prefix + "OPERATIONS_FREEZE.json"])["files"].items():
             assert digest(files[active_prefix + rel]) == sha, (ACTIVE_RUN, rel)
+    check_current_results(files)
     total_jobs = 0
     reported = {}
     for run in RUNS:
@@ -254,7 +336,8 @@ def build(files):
             by_hash.setdefault(digest(files[name]), []).append(name)
         parts = [f"# {filename}\n\nUTF-8 纯文本，无需解压。来源：https://github.com/LYingyx/wind-power-forecasting\n"
                  "按完全相同的源文件内容去重；各原路径和 SHA-256 均列出，运行时仍使用各自原路径。\n"
-                 "这是阅读副本；训练记录见 project/analysis/daily_protocol_review_20261115/provenance/。\n\n"]
+                 "这是阅读副本；旧轮训练记录见 project/analysis/daily_protocol_review_20261115/provenance/；"
+                 "当前轮记录见 project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json。\n\n"]
         for sha, aliases in by_hash.items():
             text = files[aliases[0]].decode()
             fence = "`" * max(3, 1 + max(map(len, re.findall(r"`+", text)), default=0))

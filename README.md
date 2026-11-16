@@ -4,13 +4,14 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 本仓库用于代码与研究结果审阅，包含现有源码、实验配置、每日起报协议的结果汇总及后续研究计划。实际工作目录为 `project/`。原始气象/功率数据、缓存、模型权重、逐样本预测和 Python 环境保留在研究服务器，未上传；克隆本仓库不能直接恢复完整训练环境。
 
-2026-11-16 新执行入口：[状态条件中间表示 v2](project/runs/daily_state_representation_20261116_v2/README_CN.md)。阶段一 25 项共享训练已在 4090 与 v1006001 启动；后续阶段按预写定门槛自动启用。以下 2571 项是此前已完成的结果，不包括这轮正在运行的任务。
+2026-11-16 最新结果：[v2 已获取结果快照](project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)。截至本次快照，阶段一 25 项完成，生成式阶段完成 9/15 项，共 34 项新训练完成，另完成 10 项旧权重诊断；6 项生成式任务及提前并行的 5 项 Transformer 混合损失任务正在 4090 上运行。完整五种子和局部三种子结果明确分列，当前新增机制尚未通过整体优势门槛。执行细节见 [v2 入口](project/runs/daily_state_representation_20261116_v2/README_CN.md)。以下 2571 项属于此前实验，不能重复计数。
 
 ## 阅读顺序
 
 需要理解“结果怎样得到”，先读[数据 → 模型 → 训练 → 选轮 → 指标的完整导航](docs/RESULTS_TO_CODE_CN.md)。其中链接了全部 2571 项任务的实际配置与逐轮训练记录。导入附件出现解析问题时，使用[未压缩纯文本入口](docs/gemini_plain_text/README.md)。
 
 1. [给 Gemini / 编程助手的阅读入口](docs/GEMINI_READING_GUIDE_CN.md)：当前事实、代码地图、证据边界及可直接使用的提问。
+   最新一轮也可直接读取 [05 当前结果纯文本](docs/gemini_plain_text/05_current_experiment_results.txt)，包含逐任务原始指标、逐轮记录与逐风场表。
 2. [最新协议](project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md)：每日 00 UTC、起报后 15 h 可用，0–6 h / 15 min。
 3. [新协议完整结果分析](project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)与[逐风场、逐种子结果](project/analysis/daily_protocol_review_20261115/FARM_AND_SEED_DETAILS_CN.md)。
 4. [编码角色澄清](project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)：天气编码不作为机制贡献或独立贡献。

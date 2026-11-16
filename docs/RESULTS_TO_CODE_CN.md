@@ -2,7 +2,9 @@
 
 本仓库包含当前每日起报协议的实现与结果证据，供代码审阅。请沿下面的链条阅读，不要只根据结果报告推测机制。原始数据、模型权重和全量预测仍在研究服务器，因此公开仓库支持方法与记录审查，不能单独重跑完整训练或从预测重新计算全部指标。
 
-2026-11-16 新增：[状态条件中间表示 v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)，包含新模型、生成式教师/学生路径、预先固定的超参数、条件阶段、两机多进程调度和自动判定。阶段一 25 项已启动。下面的 2571 项完整证据仍指此前实验；不得把运行中的新路线写成已取得收益。
+2026-11-16 更新：[v2 最新结果](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)已覆盖 34 项完成的新训练、10 项旧权重诊断，以及尚未完成任务的明确标记。阶段一 25 项全部完成，R4 三组各有 3 个种子完成；当前另有 11 项训练运行。下面的 2571 项完整证据仍指此前实验。
+
+本轮从结果追溯实现的路径：先读 [CURRENT_RESULTS.json](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json) 的 `completed_training` / `reused_references` / `diagnostic_evaluations`，查看 `record.spec`、`history`、`checkpoint_epoch` 与 `source_files`；再对照 [train.py](../project/runs/daily_state_representation_20261116_v2/code/train.py)、[model.py](../project/runs/daily_state_representation_20261116_v2/code/model.py)、[representation.py](../project/runs/daily_state_representation_20261116_v2/code/representation.py) 和 [collect.py](../project/runs/daily_state_representation_20261116_v2/operations/collect.py)。本轮 JSON 包含完整原指标对象，含逐站/时效数组和诊断；导出脚本是 [export_current_results.py](../project/scripts/export_current_results.py)。
 
 ## 1. 数据怎样成为模型输入
 
@@ -23,7 +25,7 @@
 - [消融 model.py](../project/runs/daily_ablation_restart_20261114_v1/code/model.py)、[消融 data.py](../project/runs/daily_ablation_restart_20261114_v1/code/data.py)：编码变体、输入屏蔽、历史/天气对照；指定 `station` 后仅取目标风场标签进行独立训练。
 - [微调 train.py](../project/runs/daily_site_finetune_20261114_v1/code/train.py) 的 `load_model`：加载共享权重，区分完整微调与头部微调，约束目标风场 embedding 更新；[site_data.py](../project/runs/daily_site_finetune_20261114_v1/code/site_data.py) 定义本站数据。
 
-冻结依赖中包含旧实验常量与兼容代码。判断实际行为须从当前 run 的入口、`settings.py`、`manifest.json` 和调用路径出发。天气编码不是独立机制贡献；新版状态条件表示仍是[待验证计划](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)，不能当成已完成模型。
+冻结依赖中包含旧实验常量与兼容代码。判断实际行为须从当前 run 的入口、`settings.py`、`manifest.json` 和调用路径出发。天气编码不是独立机制贡献；新版状态条件表示已实现并取得部分实验结果，但其[研究计划](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)中的预期收益不能当作已证实结论。
 
 ## 3. 参数、训练预算和选轮怎样确定
 
@@ -66,7 +68,7 @@
 
 ## 6. 阅读与后续更新检查
 
-[纯文本备用入口](gemini_plain_text/README.md)提供四份未压缩 TXT：当前结果、模型训练、逐站指标、数据准备与选型评估；所有来源文件正文及 SHA-256 可核对。完整逐任务训练记录另外保存在上面的三个 JSON 中，可以按需读取。
+[纯文本备用入口](gemini_plain_text/README.md)提供五份未压缩 TXT：协议与旧轮结果、模型训练、旧轮逐站指标、数据准备与选型评估，以及新增的当前轮完整结果证据；所有来源文件正文及 SHA-256 可核对。第五份包含本轮完整训练记录与指标对象，旧轮逐任务记录仍保存在上面的三个 JSON 中。
 
 更新源码或报告后，在仓库根目录执行：
 
@@ -79,6 +81,15 @@ python3 project/scripts/export_gemini_reading.py
 ```bash
 python3 project/scripts/export_gemini_reading.py --refresh-training
 ```
+
+刷新当前 v2 结果快照及明文副本：
+
+```bash
+python3 project/scripts/export_current_results.py
+python3 project/scripts/export_gemini_reading.py
+```
+
+当前轮导出会验证完成标志、训练配置、检查点哈希与最小验证 MAE 选轮；发布前再核对逐风场/种子 CSV 和同种子配对数值。运行中的任务只导出明确标记的进度，不将某个中途 epoch 当成最终结果。
 
 检查已提交版本：
 
