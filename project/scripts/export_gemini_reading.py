@@ -344,7 +344,7 @@ def build(files):
             parts += ["## SOURCE: " + aliases[0] + "\n\n" + "\n".join("- " + p for p in aliases)
                       + f"\n\nSHA-256: {sha}\n\n{fence}\n", text,
                       ("" if text.endswith("\n") else "\n") + fence + "\n\n"]
-        content = "".join(parts).encode()
+        content = ("".join(parts).rstrip("\n") + "\n").encode()
         path = ROOT / EXPORT / filename
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)

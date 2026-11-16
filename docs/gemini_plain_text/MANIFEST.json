@@ -1,11 +1,11 @@
 {
   "format": "uncompressed UTF-8; upload individual TXT files, not ZIP",
-  "source_base_commit": "230d986ad73a90422e3b3de16a6b927293d3847a",
+  "source_base_commit": "653eeef59eec1b35ef6ecec51098e9c293304cd1",
   "bundles": [
     {
       "path": "docs/gemini_plain_text/01_context_and_results.txt",
-      "bytes": 267964,
-      "sha256": "a4aacee990c1ab442479bc581a2dba4bb53817d1feb98a1820db4897d45fa2de",
+      "bytes": 267963,
+      "sha256": "4bddd1916e01a1c249700c72bada596bc027f8c5cf73face7b3b1293dcea44d8",
       "sources": {
         "README.md": "b83c165cd14efe919353f51066fad4b5d5c2209fdea7b1e20197022c537999f0",
         "docs/GEMINI_READING_GUIDE_CN.md": "9de1a461ef550feafd6042750bbac71b413a236d0192c59305fcdc6f9bcd2bf7",
@@ -22,8 +22,8 @@
     },
     {
       "path": "docs/gemini_plain_text/02_models_and_training.txt",
-      "bytes": 775719,
-      "sha256": "6f5a30172ce7fd53e3ff9e3644fd55ad8833f0d85ddb66f02219872b7122794d",
+      "bytes": 775718,
+      "sha256": "bab22ec29f9fee291d550da1da82650e68a4afe59712711ade13a0521748cf7a",
       "sources": {
         "project/runs/daily_protocol_restart_20261114_v1/code/data.py": "51a03cef6cd10237f6ba5fd882ad55e44378f687a470a783cef3e66410aedbdb",
         "project/runs/daily_protocol_restart_20261114_v1/code/legacy/baselines_original.py": "fd0f007dd1963081ac11c59450fb1ba4f8b40abe09717dfc17ee76f1a23fd787",
@@ -176,8 +176,8 @@
     },
     {
       "path": "docs/gemini_plain_text/03_farm_seed_horizon_metrics.txt",
-      "bytes": 498266,
-      "sha256": "f5bb807e42b8479285ca7cf005d766dfb65659a50d55767ea8eb8126832fc6e3",
+      "bytes": 498265,
+      "sha256": "e6b67ca145fdd835f19d67b7fda46cff718346e27e17560360e0be11f66e56bc",
       "sources": {
         "project/analysis/daily_protocol_review_20261115/FARM_AND_SEED_DETAILS_CN.md": "91389a44aecde90886410433ca3b349cd246a6c2ded1f0d63e22de96a49606dd",
         "project/analysis/daily_protocol_review_20261115/per_farm_comparisons.csv": "8c75b20d3f61a71fc72a5276a10f13882c49e5ab8b46ace7d31af43f9f257322",
@@ -188,8 +188,8 @@
     },
     {
       "path": "docs/gemini_plain_text/04_data_selection_evaluation.txt",
-      "bytes": 400774,
-      "sha256": "46f2b7d266a701cb27efaae72eb1e850e8673b0b8ddea4758125accc993c6a7d",
+      "bytes": 400773,
+      "sha256": "dd5c46b9ee5ade8491194efb6dcfcdf054daa736b2e38596cff185367510bc4e",
       "sources": {
         "project/pyproject.toml": "823a794835c2a4a7ca221aa2cd88e4750c51cc4138a21dd8857335b6e67fef18",
         "project/src/wind_forcing/data/operational.py": "7bf49590a97f7c1ecb8689b32467522e2587188c6e5c7fb28382f518c6b54f87",
@@ -277,8 +277,8 @@
     },
     {
       "path": "docs/gemini_plain_text/05_current_experiment_results.txt",
-      "bytes": 6366215,
-      "sha256": "fe51f9d5518d085f89368847236894e1649d879a3ed0055d2d5691b9e52ee467",
+      "bytes": 6366214,
+      "sha256": "0f4aa0cac18d94cdbcbce2ae33fb8d0f5b9bf885c50d61eb4521f21f992c7ff6",
       "sources": {
         "project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md": "ab1c394d743e3741ff2aa8ef5b3e8967e005036be2cc0021202593fa44772a50",
         "project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json": "dd9f5b4fd9d3e11357b409c49c9d12c61c5ba69bd80a233236d6081c92985515",

@@ -8291,4 +8291,3 @@ for g,a,c in [('1-3h',4,12),('3-6h',12,24)]:
     for i in range(nb): print('   pred',b[i],' '.join(f'{1e4*dM[i,j]/tot:+7.3f}' for j in range(nb)),'  n%:',' '.join(f'{100*cnt[i,j]/tot:5.1f}' for j in range(nb)))
     for m in ['W0','TF']: print(f'   {m}: on |actual change|>0.3, fraction of change captured in correct direction = {cap[m][0]/cap[m][1]:.3f}')
 ```
-
