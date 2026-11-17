@@ -4,7 +4,9 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 本仓库用于代码与研究结果审阅，包含现有源码、实验配置、每日起报协议的结果汇总及后续研究计划。实际工作目录为 `project/`。原始气象/功率数据、缓存、模型权重、逐样本预测和 Python 环境保留在研究服务器，未上传；克隆本仓库不能直接恢复完整训练环境。
 
-2026-11-17 最新结果：[加性修正、完整历史条件与生成式复核总结](docs/EXPERIMENT_RESULTS_20261117_CN.md)。v4–v7 已完成 **105/105 次新训练**，另完成两个 seed 的固定检查点采样审计。B-additive 与 H-FULL 均通过相对 R0 的净收益门槛，但未同时通过全部内部归因与同输入强基线门槛；R4-ISO 仍输给 R0。正文附逐 seed、逐风场证据与未通过原因。
+2026-11-17 最新测试：[2024 跨年测试复评](docs/TEST2024_RESULTS_20261117_CN.md)，**120/120 个冻结检查点全部完成**。H-FULL 相对 R0 的 MAE/RMSE 改善 0.1994%/0.1433%，通过该对比门槛；B-additive 总体改善但高功率护栏失败，内部机制归因仍未闭合。2024 历史上曾被查看，本次不称完全盲测。
+
+2026-11-17 验证集结果（2023）：[加性修正、完整历史条件与生成式复核总结](docs/EXPERIMENT_RESULTS_20261117_CN.md)。v4–v7 已完成 **105/105 次新训练**，另完成两个 seed 的固定检查点采样审计。B-additive 与 H-FULL 均通过相对 R0 的净收益门槛，但未同时通过全部内部归因与同输入强基线门槛；R4-ISO 仍输给 R0。正文附逐 seed、逐风场证据与未通过原因。
 
 11-16 的 [v2 结果快照](project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)属于历史记录，其中“正在运行”不代表当前状态。以下 2571 项也属于此前实验，不能与新批次重复计数。
 
@@ -13,7 +15,7 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 需要理解“结果怎样得到”，先读[数据 → 模型 → 训练 → 选轮 → 指标的完整导航](docs/RESULTS_TO_CODE_CN.md)。其中链接了全部 2571 项任务的实际配置与逐轮训练记录。导入附件出现解析问题时，使用[未压缩纯文本入口](docs/gemini_plain_text/README.md)。
 
 1. [给 Gemini / 编程助手的阅读入口](docs/GEMINI_READING_GUIDE_CN.md)：当前事实、代码地图、证据边界及可直接使用的提问。
-   最新一轮直接读取 [06 完成结果纯文本](docs/gemini_plain_text/06_completed_experiments_20261117.txt)；[05 v2 历史快照](docs/gemini_plain_text/05_current_experiment_results.txt)用于追溯旧实验。
+   2024 测试读取 [07 测试结果纯文本](docs/gemini_plain_text/07_test2024_results_20261117.txt)；2023 验证读取 [06 完成结果纯文本](docs/gemini_plain_text/06_completed_experiments_20261117.txt)；[05 v2 历史快照](docs/gemini_plain_text/05_current_experiment_results.txt)用于追溯旧实验。
 2. [最新协议](project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md)：每日 00 UTC、起报后 15 h 可用，0–6 h / 15 min。
 3. [新协议完整结果分析](project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)与[逐风场、逐种子结果](project/analysis/daily_protocol_review_20261115/FARM_AND_SEED_DETAILS_CN.md)。
 4. [编码角色澄清](project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)：天气编码不作为机制贡献或独立贡献。

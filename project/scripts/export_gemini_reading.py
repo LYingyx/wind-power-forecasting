@@ -176,6 +176,12 @@ def groups(files):
             "docs/EXPERIMENT_RESULTS_20261117_CN.md",
             "docs/EXPERIMENT_RESULTS_20261117_EVIDENCE.json",
             "docs/SAMPLING_AUDIT_20261117_EVIDENCE.json"]))
+    if "docs/TEST2024_RESULTS_20261117_CN.md" in files:
+        result.append(("07_test2024_results_20261117.txt", [
+            "docs/TEST2024_RESULTS_20261117_CN.md",
+            "docs/TEST2024_RESULTS_20261117_EVIDENCE.json",
+            "docs/TEST2024_SUMMARY_20261117.csv",
+            "docs/TEST2024_COMPARISONS_20261117.csv"]))
     return result
 
 
@@ -342,6 +348,8 @@ def build(files):
             by_hash.setdefault(digest(files[name]), []).append(name)
         record_note = ("本份包含 2026-11-17 完成报告、v4–v7 训练证据及 v8 采样审计；不是全部新训练源码包。\n\n"
                        if filename == "06_completed_experiments_20261117.txt" else
+                       "本份包含冻结 2023 检查点的 2024 跨年测试复评：120 个结果、逐场逐种子证据与两年配对比较。2024 历史上曾被查看，不是完全盲测。\n\n"
+                       if filename == "07_test2024_results_20261117.txt" else
                        "这是阅读副本；旧轮训练记录见 project/analysis/daily_protocol_review_20261115/provenance/；"
                        "当前轮记录见 project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json。\n\n")
         parts = [f"# {filename}\n\nUTF-8 纯文本，无需解压。来源：https://github.com/LYingyx/wind-power-forecasting\n"

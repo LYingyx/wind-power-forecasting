@@ -1,10 +1,12 @@
 # Gemini / 编程助手阅读入口
 
-更新：2026-11-17。先读本文及[最新完成结果总结](EXPERIMENT_RESULTS_20261117_CN.md)，再进入长篇历史交接文档。
+更新：2026-11-17。先读本文及[2024 测试报告](TEST2024_RESULTS_20261117_CN.md)、[2023 验证集总结](EXPERIMENT_RESULTS_20261117_CN.md)，再进入长篇历史交接文档。
 
-最新 v4–v7 共 **105/105 次新训练全部完成**，v8 两 seed 采样审计也完成。B-additive 相对 R0 的 MAE/RMSE 为 −0.2376%/−0.1437%，H-FULL 为 −0.2394%/−0.2035%；两者均通过相对 R0 的门槛，尚未通过全部内部归因与强基线门槛。修正版 R4-ISO 对 R0 仍退化 +0.2018%/+0.3886%。请读取[完成报告](EXPERIMENT_RESULTS_20261117_CN.md)、[训练证据](EXPERIMENT_RESULTS_20261117_EVIDENCE.json)和[采样证据](SAMPLING_AUDIT_20261117_EVIDENCE.json)，或直接导入 [06 UTF-8 纯文本](gemini_plain_text/06_completed_experiments_20261117.txt)。
+2024 跨年测试已完成 **120/120 个冻结检查点**，见[测试证据 JSON](TEST2024_RESULTS_20261117_EVIDENCE.json)或 [07 测试纯文本](gemini_plain_text/07_test2024_results_20261117.txt)。H-FULL 对 R0 的净收益跨年保持；B-additive 在测试集上的高功率护栏失败；状态归因不能仅凭总体收益认定。下面的 105 次新训练结果属于 2023 验证集，请勿混用。
 
-[跨分辨率 A 与状态条件兑现 B 提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)保留 11-16 的问题与执行快照，不再代表实时状态。独立时间分配 A / A+B、低维 β 流匹配尚未启动，本批候选的新 10-seed 与 2024 复评尚未完成。
+2023 验证／开发集：v4–v7 共 **105/105 次新训练全部完成**，v8 两 seed 采样审计也完成。B-additive 相对 R0 的 MAE/RMSE 为 −0.2376%/−0.1437%，H-FULL 为 −0.2394%/−0.2035%；两者均通过相对 R0 的门槛，尚未通过全部内部归因与强基线门槛。修正版 R4-ISO 对 R0 仍退化 +0.2018%/+0.3886%。请读取[完成报告](EXPERIMENT_RESULTS_20261117_CN.md)、[训练证据](EXPERIMENT_RESULTS_20261117_EVIDENCE.json)和[采样证据](SAMPLING_AUDIT_20261117_EVIDENCE.json)，或直接导入 [06 UTF-8 纯文本](gemini_plain_text/06_completed_experiments_20261117.txt)。
+
+[跨分辨率 A 与状态条件兑现 B 提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)保留 11-16 的问题与执行快照，不再代表实时状态。独立时间分配 A / A+B、低维 β 流匹配尚未启动，本批候选的新 10-seed 尚未完成；2024 五种子复评已完成，见页首报告。
 
 随后读 [v2 15:28 历史结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。在该快照时点，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。当时尚在训练的 6 项旧 R4 后续已保存退出并由 R4-ISO 替代，5 项 `LOSS_TF` 已完成；不要将快照中的“正在训练”当作实时状态。旧 v2 实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
 
@@ -37,7 +39,7 @@
 
 E2L 是多层无激活线性映射，其复合仍为仿射映射。最新 v2 已完成 TF_E2L 五种子交叉骨干对照：相对原 TF_R3，MAE −0.3005%、RMSE −0.0582%、高功率 RMSE +0.2801%。编码收益也出现在 TF，不能归为本骨干独有或核心机制。早期[编码角色说明](../project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)中的“缺少同编码 TF 对照”是当时状态，现已补上 E2L 对照。
 
-E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对 TF_R3 的 RMSE 在 seed 43、46 上落后。TF_E2L 已完成，但十种子与 2024 探索性复评尚未完成；十种子本身不能消除选择偏差。
+E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对 TF_R3 的 RMSE 在 seed 43、46 上落后。TF_E2L 五种子与本批 2024 探索性复评均已完成，十种子尚未完成；十种子本身不能消除选择偏差。
 
 ## 关键实现与证据
 
@@ -63,7 +65,8 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对
 
 ```text
 请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md、
-docs/GEMINI_READING_GUIDE_CN.md、docs/EXPERIMENT_RESULTS_20261117_CN.md 及其两份证据 JSON，
+docs/GEMINI_READING_GUIDE_CN.md、docs/TEST2024_RESULTS_20261117_CN.md 及测试证据 JSON，
+再区分阅读 docs/EXPERIMENT_RESULTS_20261117_CN.md 的 2023 验证集结果及其两份证据 JSON，
 再读 docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md 和所链接的协议、历史结果报告、
 编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
 已发布的固定成绩请读取 project/runs/daily_state_representation_20261116_v2/analysis/

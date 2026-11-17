@@ -1,15 +1,15 @@
 {
   "format": "uncompressed UTF-8; upload individual TXT files, not ZIP",
-  "source_base_commit": "0bfaab1181cb7541759d6065d2cdffb0e924dd31",
+  "source_base_commit": "40d68f561c0e56aa2658fec1356dfe294c3713cb",
   "bundles": [
     {
       "path": "docs/gemini_plain_text/01_context_and_results.txt",
-      "bytes": 282893,
-      "sha256": "6b4bb56321558b22a681cd8a7247b48129078e17e0204f95f5a7f87df19e5d98",
+      "bytes": 284223,
+      "sha256": "0a564bece4339a9d608858c9396c215903874f8958235101e5c3b422a1ba299b",
       "sources": {
-        "README.md": "d51ad05a240513fc9d559dff2aad438908b35570b7f7492f00094fb6af1c8ab0",
-        "docs/GEMINI_READING_GUIDE_CN.md": "f2c50cc88c5222d6b6337d7e55b123e49065e5f398e15b794a6e7fe3bdef85ae",
-        "docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md": "298da6064952cc7677b3c72f9a8704d477e4ccd9aec33d5c784badac29a13f92",
+        "README.md": "2bd1e39c89bf66ffc5a817f6fec1434822b39aa18f9d977362d9a547717404e1",
+        "docs/GEMINI_READING_GUIDE_CN.md": "8badb7d98895336dc9554f1c8e6ebf22e636818c6ba32666fc25d0094e199c79",
+        "docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md": "abc704f6e282f0fa8df18c0cf54d7b51ccc2329b62b074898870910a5309b7b4",
         "docs/RESULTS_TO_CODE_CN.md": "142f26f17a642505a10b6facfa94c54498422b1a90f2371a6fd79752f376c4ff",
         "project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md": "6c3914914937df689580b451eb486ae994a059a2297922decad5925ccfe07098",
         "project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md": "fdc1b7a4fe5087ffc3ac5ebfbbdf26d9b16ebdddf3fd0db01c03cc520cb383f2",
@@ -289,12 +289,23 @@
     },
     {
       "path": "docs/gemini_plain_text/06_completed_experiments_20261117.txt",
-      "bytes": 5786680,
-      "sha256": "0b5aaa20d2e4eda526bc548e428c6ade5e1aae309df48801a0893132838dbf0a",
+      "bytes": 5787028,
+      "sha256": "6edfebbad804ae41275a213a7d33882c4b0bcab10e1019a55fe9c7ed43ea8308",
       "sources": {
-        "docs/EXPERIMENT_RESULTS_20261117_CN.md": "950e2f0005d82397ac9b1c4794c9595f9106dc6bfa35dc4be51c0c44562db163",
+        "docs/EXPERIMENT_RESULTS_20261117_CN.md": "cd482a89b652e688242d03d86e0769f66fba5544b63beef446c7c0ae48b0f20d",
         "docs/EXPERIMENT_RESULTS_20261117_EVIDENCE.json": "bf416a4a6ec2421506113ba34d967137935d99a23e43dda26381d33c0375414c",
         "docs/SAMPLING_AUDIT_20261117_EVIDENCE.json": "84ee20b7950beebfcb41ef629feecb5c723b177a8ead5a3d170e1b8d7aca1631"
+      }
+    },
+    {
+      "path": "docs/gemini_plain_text/07_test2024_results_20261117.txt",
+      "bytes": 3247100,
+      "sha256": "661ced90cef63d89fd3f579b225d3ee72847235d19b4014b7646421ff72606b8",
+      "sources": {
+        "docs/TEST2024_RESULTS_20261117_CN.md": "b25fbd1b52051f0efed75d9d496b2455f49c8413e03b58d9846c00dd6ff1ee93",
+        "docs/TEST2024_RESULTS_20261117_EVIDENCE.json": "160de6bd7a6beb59c56bc92ab27fa1b67d8b5834f53d01e044103db4e34b96f4",
+        "docs/TEST2024_SUMMARY_20261117.csv": "688d3f1559c1cd7585560de484722736330e493114f7dda32e100a90730ad3f4",
+        "docs/TEST2024_COMPARISONS_20261117.csv": "6525ad4bfdcb115b9ef6b2ba94aee78ceba5146fa844455058b092f20b8785fd"
       }
     }
   ]
