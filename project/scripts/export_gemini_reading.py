@@ -171,6 +171,11 @@ def groups(files):
     if active_prefix + "analysis/CURRENT_RESULTS.json" in files:
         result.append(("05_current_experiment_results.txt", [active_prefix + "analysis/" + name for name in
                        ("CURRENT_RESULTS_CN.md", "CURRENT_RESULTS.json", "current_per_seed.csv", "current_per_farm.csv")]))
+    if "docs/EXPERIMENT_RESULTS_20261117_CN.md" in files:
+        result.append(("06_completed_experiments_20261117.txt", [
+            "docs/EXPERIMENT_RESULTS_20261117_CN.md",
+            "docs/EXPERIMENT_RESULTS_20261117_EVIDENCE.json",
+            "docs/SAMPLING_AUDIT_20261117_EVIDENCE.json"]))
     return result
 
 
@@ -335,10 +340,13 @@ def build(files):
         by_hash = {}
         for name in names:
             by_hash.setdefault(digest(files[name]), []).append(name)
+        record_note = ("本份包含 2026-11-17 完成报告、v4–v7 训练证据及 v8 采样审计；不是全部新训练源码包。\n\n"
+                       if filename == "06_completed_experiments_20261117.txt" else
+                       "这是阅读副本；旧轮训练记录见 project/analysis/daily_protocol_review_20261115/provenance/；"
+                       "当前轮记录见 project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json。\n\n")
         parts = [f"# {filename}\n\nUTF-8 纯文本，无需解压。来源：https://github.com/LYingyx/wind-power-forecasting\n"
                  "按完全相同的源文件内容去重；各原路径和 SHA-256 均列出，运行时仍使用各自原路径。\n"
-                 "这是阅读副本；旧轮训练记录见 project/analysis/daily_protocol_review_20261115/provenance/；"
-                 "当前轮记录见 project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json。\n\n"]
+                 + record_note]
         for sha, aliases in by_hash.items():
             text = files[aliases[0]].decode()
             fence = "`" * max(3, 1 + max(map(len, re.findall(r"`+", text)), default=0))

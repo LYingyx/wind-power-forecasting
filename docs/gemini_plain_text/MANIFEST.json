@@ -1,15 +1,15 @@
 {
   "format": "uncompressed UTF-8; upload individual TXT files, not ZIP",
-  "source_base_commit": "e46a09d5d35e63bace80344e75f771bb2eaea5b3",
+  "source_base_commit": "0bfaab1181cb7541759d6065d2cdffb0e924dd31",
   "bundles": [
     {
       "path": "docs/gemini_plain_text/01_context_and_results.txt",
-      "bytes": 281832,
-      "sha256": "6c04f8073387e58277aad4785a5e4c04e14184df822c3ce62c781f0375190146",
+      "bytes": 282893,
+      "sha256": "6b4bb56321558b22a681cd8a7247b48129078e17e0204f95f5a7f87df19e5d98",
       "sources": {
-        "README.md": "b83c165cd14efe919353f51066fad4b5d5c2209fdea7b1e20197022c537999f0",
-        "docs/GEMINI_READING_GUIDE_CN.md": "eb181f511f03fbeb6f8d56d144fc9341c163d65567def7c80f1ba46035473e85",
-        "docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md": "2411b712cf56f5e848fd352d73d43afdcb4a85ba6888deaced57834b4cc67470",
+        "README.md": "d51ad05a240513fc9d559dff2aad438908b35570b7f7492f00094fb6af1c8ab0",
+        "docs/GEMINI_READING_GUIDE_CN.md": "f2c50cc88c5222d6b6337d7e55b123e49065e5f398e15b794a6e7fe3bdef85ae",
+        "docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md": "298da6064952cc7677b3c72f9a8704d477e4ccd9aec33d5c784badac29a13f92",
         "docs/RESULTS_TO_CODE_CN.md": "142f26f17a642505a10b6facfa94c54498422b1a90f2371a6fd79752f376c4ff",
         "project/MANUSCRIPT_PROTOCOL_ALIGNMENT_20261114_CN.md": "6c3914914937df689580b451eb486ae994a059a2297922decad5925ccfe07098",
         "project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md": "fdc1b7a4fe5087ffc3ac5ebfbbdf26d9b16ebdddf3fd0db01c03cc520cb383f2",
@@ -285,6 +285,16 @@
         "project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json": "dd9f5b4fd9d3e11357b409c49c9d12c61c5ba69bd80a233236d6081c92985515",
         "project/runs/daily_state_representation_20261116_v2/analysis/current_per_seed.csv": "1f6c347f1e2aba437a054b6df9c990c83fa5e012901eb67e9376fc692e82b181",
         "project/runs/daily_state_representation_20261116_v2/analysis/current_per_farm.csv": "c97908e8c2375fac018462521d73df5de5306c5bafa40ecce8d7461264630b08"
+      }
+    },
+    {
+      "path": "docs/gemini_plain_text/06_completed_experiments_20261117.txt",
+      "bytes": 5786680,
+      "sha256": "0b5aaa20d2e4eda526bc548e428c6ade5e1aae309df48801a0893132838dbf0a",
+      "sources": {
+        "docs/EXPERIMENT_RESULTS_20261117_CN.md": "950e2f0005d82397ac9b1c4794c9595f9106dc6bfa35dc4be51c0c44562db163",
+        "docs/EXPERIMENT_RESULTS_20261117_EVIDENCE.json": "bf416a4a6ec2421506113ba34d967137935d99a23e43dda26381d33c0375414c",
+        "docs/SAMPLING_AUDIT_20261117_EVIDENCE.json": "84ee20b7950beebfcb41ef629feecb5c723b177a8ead5a3d170e1b8d7aca1631"
       }
     }
   ]

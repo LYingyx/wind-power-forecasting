@@ -1,14 +1,16 @@
 # Gemini / 编程助手阅读入口
 
-更新：2026-11-16。先读本文，再进入长篇历史交接文档。
+更新：2026-11-17。先读本文及[最新完成结果总结](EXPERIMENT_RESULTS_20261117_CN.md)，再进入长篇历史交接文档。
 
-先读新增的[跨分辨率 A 与状态条件兑现 B 提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)：整理另一助手的证据、完整对照表、判定门槛，并区分原提案与实际执行。2026-11-16 17:43 状态：30 项 B 及归因对照仍在运行，15 项教师梯度隔离版 R4-ISO 已在三机启动；独立时间分配 A / A+B 尚未进入清单。该页是方案与带时间的执行说明，不是新候选已获胜的结果报告。
+最新 v4–v7 共 **105/105 次新训练全部完成**，v8 两 seed 采样审计也完成。B-additive 相对 R0 的 MAE/RMSE 为 −0.2376%/−0.1437%，H-FULL 为 −0.2394%/−0.2035%；两者均通过相对 R0 的门槛，尚未通过全部内部归因与强基线门槛。修正版 R4-ISO 对 R0 仍退化 +0.2018%/+0.3886%。请读取[完成报告](EXPERIMENT_RESULTS_20261117_CN.md)、[训练证据](EXPERIMENT_RESULTS_20261117_EVIDENCE.json)和[采样证据](SAMPLING_AUDIT_20261117_EVIDENCE.json)，或直接导入 [06 UTF-8 纯文本](gemini_plain_text/06_completed_experiments_20261117.txt)。
+
+[跨分辨率 A 与状态条件兑现 B 提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)保留 11-16 的问题与执行快照，不再代表实时状态。独立时间分配 A / A+B、低维 β 流匹配尚未启动，本批候选的新 10-seed 与 2024 复评尚未完成。
 
 随后读 [v2 15:28 历史结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。在该快照时点，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。当时尚在训练的 6 项旧 R4 后续已保存退出并由 R4-ISO 替代，5 项 `LOSS_TF` 已完成；不要将快照中的“正在训练”当作实时状态。旧 v2 实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
 
 为避免只看到摘要，已发布 [当前任务完整证据 JSON](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json)：包含已完成任务的配置、逐轮记录、选中轮次、逐风场/时效指标、诊断及来源哈希；[05 当前结果 TXT](gemini_plain_text/05_current_experiment_results.txt)包含这些正文，无需解压。未完成任务的进度与曲线不是最终成绩。
 
-当前有用反馈：R3 对无状态 R2 的 RMSE 改善 0.156%，但对原模型 R0 退化 0.244%；R4 三种子对 R0 的 RMSE 退化 0.695%。R0 对同编码 TF_E2L 的平均 MAE/RMSE 改善 0.157%/0.158%，但仅 1/5 seeds 双指标同时改善。不能据内部消融获益就宣称整体方法优越。此处 R0 是 ENC_neutral_E2L，R3 是新增状态生成器，不是旧输入配置名。
+旧 v2 的反馈：R3 对无状态 R2 的 RMSE 改善 0.156%，但对原模型 R0 退化 0.244%；R4 三种子对 R0 的 RMSE 退化 0.695%。R0 对同编码 TF_E2L 的平均 MAE/RMSE 改善 0.157%/0.158%，但仅 1/5 seeds 双指标同时改善。不能据内部消融获益就宣称整体方法优越，也不能将旧 R3/R4 负结果扩大为新 H-FULL 无效。此处 R0 是 ENC_neutral_E2L，R3 是新增状态生成器，不是旧输入配置名。
 
 需要审阅结果的产生过程时，继续读[结果到代码的完整导航](RESULTS_TO_CODE_CN.md)，包含数据准备、模型/基线、调参、训练选轮、指标汇总及全部 2571 项任务的训练记录。附件解析失败时使用[未压缩 TXT 入口](gemini_plain_text/README.md)；阅读目录名或结果摘要不能代替读取源文件正文。
 
@@ -60,14 +62,14 @@ E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对
 ## 可以直接发给 Gemini 的提问
 
 ```text
-请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md 和
-docs/GEMINI_READING_GUIDE_CN.md 和
-docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md，再读所链接的当前协议、结果报告、
+请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md、
+docs/GEMINI_READING_GUIDE_CN.md、docs/EXPERIMENT_RESULTS_20261117_CN.md 及其两份证据 JSON，
+再读 docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md 和所链接的协议、历史结果报告、
 编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
 已发布的固定成绩请读取 project/runs/daily_state_representation_20261116_v2/analysis/
 CURRENT_RESULTS_CN.md、CURRENT_RESULTS.json 和 LEARNINGS_20261116_CN.md，
 不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态；
-新 B / R4-ISO 的执行情况与独立 A 尚缺的设计，见新增提案第 6 节。
+最新 B、完整历史 H、R4-ISO 的完成结论以 11-17 报告为准；提案第 6 节是历史执行快照。
 
 项目任务是单风场 0–6 h、15 min 功率预测。我需要相对强 Transformer
 有可信性能优势的研究路线，天气编码不作为机制贡献或独立贡献。
