@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-11-18T01:17:32.525555+08:00",
+  "device": "cuda:0",
+  "passed": true,
+  "groups": {
+    "H-noStateOnly": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-wrongStateOnly": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-noWindow": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-localWindow": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-reverseHistory": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-noDecoderState": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "R0-noDecoderState": {
+      "parameters": 215673,
+      "finite_gradients": true
+    },
+    "H-noRegions": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-noOperating": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-noAtmosphere": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-FULL": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "R0": {
+      "parameters": 215673,
+      "finite_gradients": true
+    },
+    "TF_E2L": {
+      "parameters": 190329,
+      "finite_gradients": true
+    },
+    "TF_R3": {
+      "parameters": 182009,
+      "finite_gradients": true
+    },
+    "H-noS": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "H-SUMMARY": {
+      "parameters": 225339,
+      "finite_gradients": true
+    },
+    "TF-H-FULL": {
+      "parameters": 199995,
+      "finite_gradients": true
+    },
+    "TF-WINDOW": {
+      "parameters": 198009,
+      "finite_gradients": true
+    },
+    "TFT-WINDOW": {
+      "parameters": 203719,
+      "finite_gradients": true
+    },
+    "TIDE-WINDOW": {
+      "parameters": 543144,
+      "finite_gradients": true
+    },
+    "EVAL_TFT_R3_r42": {
+      "strict_load": true
+    },
+    "EVAL_TIDE_R3_r42": {
+      "strict_load": true
+    },
+    "AUDIT_H_FULL_r42": {
+      "strict_load": true
+    },
+    "AUDIT_R0_r42": {
+      "strict_load": true
+    },
+    "AUDIT_TF_E2L_r42": {
+      "strict_load": true
+    },
+    "AUDIT_TF_R3_r42": {
+      "strict_load": true
+    }
+  },
+  "controls_remove_only_intended_paths": true,
+  "donors_training_only": true,
+  "unchanged_training_loop": true,
+  "baseline_dropout_equivalence": true
+}

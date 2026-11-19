@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-11-18T01:24:52.456077+08:00",
+  "models": [
+    {
+      "id": "gpt-image-1",
+      "created": 1733875200
+    },
+    {
+      "id": "gpt-image-1.5",
+      "created": 1735689600
+    },
+    {
+      "id": "gpt-image-2",
+      "created": 1738368000
+    },
+    {
+      "id": "gpt-image-2.5-flare",
+      "created": 1788825600
+    },
+    {
+      "id": "gpt-image-2.5-sunburst",
+      "created": 1788825600
+    },
+    {
+      "id": "gpt-image-2.6-flare",
+      "created": 1793750400
+    },
+    {
+      "id": "gpt-image-2.6-sunburst",
+      "created": 1793750400
+    }
+  ]
+}

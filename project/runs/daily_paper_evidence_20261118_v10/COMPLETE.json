@@ -1,0 +1,275 @@
+{
+  "timestamp": "2026-11-18T14:13:56.951121+08:00",
+  "total": 151,
+  "completed": 151,
+  "active": [],
+  "failures": [],
+  "errors": [],
+  "hosts": {
+    "v1006001": {
+      "done": [
+        "EVAL_TFT_R3_r43",
+        "EVAL_TFT_R3_r45",
+        "EVAL_TIDE_R3_r45",
+        "H_noStateOnly_r42",
+        "H_reverseHistory_r42",
+        "R0_noDecoderState_r42",
+        "H_FULL_r47",
+        "TUNE_LINEAR_c1_r40",
+        "TF_H_FULL_r47",
+        "TF_WINDOW_r42",
+        "TUNE_LINEAR_c2_r40",
+        "H_localWindow_r43",
+        "H_noRegions_r43",
+        "H_noAtmosphere_r43",
+        "TF_R3_r48",
+        "H_SUMMARY_r48",
+        "TIDE_WINDOW_r43",
+        "H_wrongStateOnly_r44",
+        "H_noDecoderState_r44",
+        "TUNE_LINEAR_c4_r41",
+        "R0_r49",
+        "TF_E2L_r49",
+        "TUNE_LINEAR_c5_r41",
+        "TFT_WINDOW_r44",
+        "H_noWindow_r45",
+        "H_reverseHistory_r45",
+        "H_noOperating_r45",
+        "H_FULL_r50",
+        "H_noS_r50",
+        "TF_H_FULL_r50",
+        "H_noStateOnly_r46",
+        "H_noWindow_r46",
+        "H_noRegions_r46",
+        "H_noAtmosphere_r46",
+        "H_noS_r51",
+        "TF_H_FULL_r51",
+        "AUDIT_H_FULL_r45",
+        "AUDIT_R0_r42",
+        "AUDIT_TF_E2L_r42",
+        "AUDIT_TF_E2L_r44",
+        "AUDIT_TF_R3_r44",
+        "AUDIT_TF_R3_r46"
+      ],
+      "status": {
+        "timestamp": "2026-11-18T08:13:00.731276+08:00",
+        "host": "v1006001",
+        "pid": 1708357,
+        "active": [],
+        "decisions": {
+          "6": {
+            "launch": false,
+            "yield_count": 0,
+            "reason": "failure_circuit_breaker",
+            "free_mib": 15694,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "other_project_workers": []
+          }
+        },
+        "failed": [
+          "LINEAR_r43",
+          "LINEAR_r45"
+        ],
+        "eligible": 0,
+        "stopping": false,
+        "storage": {
+          "ok": true,
+          "paths": [
+            {
+              "label": "metadata",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_paper_evidence_20261118_v10",
+              "available_mib": 1206006.9609375,
+              "reserve_mib": 512.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "jobs",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_paper_evidence_20261118_v10/jobs",
+              "available_mib": 1206006.9609375,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "data",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_paper_evidence_20261118_v10/data",
+              "available_mib": 1206006.9609375,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "fresh": false
+    },
+    "v1006002": {
+      "done": [
+        "EVAL_TFT_R3_r44",
+        "EVAL_TIDE_R3_r42",
+        "EVAL_TIDE_R3_r46",
+        "TUNE_LINEAR_c0_r40",
+        "H_noDecoderState_r42",
+        "H_noRegions_r42",
+        "R0_r47",
+        "TF_R3_r47",
+        "TUNE_LINEAR_c1_r41",
+        "TIDE_WINDOW_r42",
+        "H_noWindow_r43",
+        "H_noDecoderState_r43",
+        "H_noOperating_r43",
+        "R0_r48",
+        "H_noS_r48",
+        "TUNE_LINEAR_c3_r41",
+        "H_noStateOnly_r44",
+        "H_noWindow_r44",
+        "R0_noDecoderState_r44",
+        "H_noOperating_r44",
+        "TUNE_LINEAR_c5_r40",
+        "H_noS_r49",
+        "TF_WINDOW_r44",
+        "H_noStateOnly_r45",
+        "H_localWindow_r45",
+        "R0_noDecoderState_r45",
+        "H_noAtmosphere_r45",
+        "TUNE_LINEAR_c7_r40",
+        "H_SUMMARY_r50",
+        "TF_WINDOW_r45",
+        "H_wrongStateOnly_r46",
+        "H_reverseHistory_r46",
+        "H_noOperating_r46",
+        "R0_r51",
+        "H_SUMMARY_r51",
+        "TFT_WINDOW_r46",
+        "AUDIT_H_FULL_r42",
+        "AUDIT_H_FULL_r46",
+        "AUDIT_R0_r44",
+        "AUDIT_TF_E2L_r43",
+        "AUDIT_TF_E2L_r46",
+        "AUDIT_TF_R3_r45"
+      ],
+      "status": {
+        "timestamp": "2026-11-18T07:42:10.287428+08:00",
+        "host": "v1006002",
+        "pid": 3627926,
+        "active": [],
+        "decisions": {
+          "7": {
+            "launch": true,
+            "yield_count": 0,
+            "reason": "fill_pair",
+            "free_mib": 16145,
+            "reserve_mib": 3072,
+            "worker_budget_mib": 2304,
+            "other_project_workers": []
+          }
+        },
+        "failed": [
+          "LINEAR_r44"
+        ],
+        "eligible": 0,
+        "stopping": false,
+        "storage": {
+          "ok": true,
+          "paths": [
+            {
+              "label": "metadata",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_paper_evidence_20261118_v10",
+              "available_mib": 31493114.875,
+              "reserve_mib": 512.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "jobs",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_paper_evidence_20261118_v10/jobs",
+              "available_mib": 31493114.875,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            },
+            {
+              "label": "data",
+              "path": "/home/liying/wind_physics_project/project/runs/daily_paper_evidence_20261118_v10/data",
+              "available_mib": 31493114.875,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": null,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "fresh": false
+    },
+    "local4090": {
+      "status": {
+        "timestamp": "2026-11-18T09:48:52.490099+08:00",
+        "host": "local4090",
+        "pid": 3337134,
+        "active": [],
+        "decisions": {
+          "0": {
+            "launch": false,
+            "yield_count": 0,
+            "reason": "failure_circuit_breaker",
+            "free_mib": 33727,
+            "reserve_mib": 7371,
+            "worker_budget_mib": 2304,
+            "other_project_workers": []
+          },
+          "2": {
+            "launch": false,
+            "yield_count": 0,
+            "reason": "failure_circuit_breaker",
+            "free_mib": 37752,
+            "reserve_mib": 7371,
+            "worker_budget_mib": 2304,
+            "other_project_workers": []
+          }
+        },
+        "failed": [
+          "LINEAR_r42",
+          "LINEAR_r46"
+        ],
+        "eligible": 0,
+        "stopping": false,
+        "storage": {
+          "ok": true,
+          "paths": [
+            {
+              "label": "metadata",
+              "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_paper_evidence_20261118_v10",
+              "available_mib": 1031332.015625,
+              "reserve_mib": 512.0,
+              "quota_headroom_mib": 1031332.015625,
+              "ok": true
+            },
+            {
+              "label": "jobs",
+              "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_paper_evidence_20261118_v10/jobs",
+              "available_mib": 1031332.015625,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": 1031332.015625,
+              "ok": true
+            },
+            {
+              "label": "data",
+              "path": "/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_paper_evidence_20261118_v10/data",
+              "available_mib": 1031332.015625,
+              "reserve_mib": 2048.0,
+              "quota_headroom_mib": 1031332.015625,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "fresh": false
+    }
+  },
+  "evidence": {
+    "records": 322,
+    "comparisons": 54
+  }
+}

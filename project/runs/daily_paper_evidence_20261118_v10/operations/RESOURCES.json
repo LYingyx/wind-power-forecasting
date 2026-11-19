@@ -1,0 +1,29 @@
+{
+  "local4090": {
+    "gpus": [
+      0,
+      2
+    ],
+    "max_workers_per_gpu": 4,
+    "max_total_project_workers": 4
+  },
+  "v1006001": {
+    "gpus": [
+      6,
+      7
+    ],
+    "max_workers_per_gpu": 3,
+    "max_total_project_workers": 3
+  },
+  "v1006002": {
+    "gpus": [
+      7,
+      6,
+      5
+    ],
+    "max_workers_per_gpu": 3,
+    "max_total_project_workers": 3
+  },
+  "minimum_free_mib": 3072,
+  "memory_reserve_fraction": 0.15
+}

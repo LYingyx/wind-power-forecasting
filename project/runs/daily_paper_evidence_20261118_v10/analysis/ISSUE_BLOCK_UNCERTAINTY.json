@@ -1,0 +1,161 @@
+{
+  "timestamp": "2026-11-18T09:22:16.637365+08:00",
+  "results": {
+    "val:H-FULL/R0": {
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "issues": 331,
+      "replicates": 1000,
+      "block_calendar_days": 7,
+      "mae_percent_interval_95": [
+        -0.3634714748004175,
+        -0.1413615886436309
+      ],
+      "rmse_percent_interval_95": [
+        -0.4064077142258585,
+        -0.2053783773046028
+      ],
+      "scope": "conditional on these seeds and fixed farms; not a test of unseen years or independent farm samples"
+    },
+    "test:H-FULL/R0": {
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "issues": 322,
+      "replicates": 1000,
+      "block_calendar_days": 7,
+      "mae_percent_interval_95": [
+        -0.430171843991356,
+        -0.1958600721856635
+      ],
+      "rmse_percent_interval_95": [
+        -0.44834072651732726,
+        -0.23532842884501592
+      ],
+      "scope": "conditional on these seeds and fixed farms; not a test of unseen years or independent farm samples"
+    },
+    "val:H-FULL/TF_E2L": {
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "issues": 331,
+      "replicates": 1000,
+      "block_calendar_days": 7,
+      "mae_percent_interval_95": [
+        -0.5508622856182285,
+        -0.06172724013713133
+      ],
+      "rmse_percent_interval_95": [
+        -0.5445586794322712,
+        -0.04423785118052417
+      ],
+      "scope": "conditional on these seeds and fixed farms; not a test of unseen years or independent farm samples"
+    },
+    "test:H-FULL/TF_E2L": {
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "issues": 322,
+      "replicates": 1000,
+      "block_calendar_days": 7,
+      "mae_percent_interval_95": [
+        -1.011034421248076,
+        -0.4963328930391709
+      ],
+      "rmse_percent_interval_95": [
+        -0.9921580872596083,
+        -0.4051709124709063
+      ],
+      "scope": "conditional on these seeds and fixed farms; not a test of unseen years or independent farm samples"
+    },
+    "val:H-FULL/TF_R3": {
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "issues": 331,
+      "replicates": 1000,
+      "block_calendar_days": 7,
+      "mae_percent_interval_95": [
+        -0.9557881931231662,
+        -0.4207226338730491
+      ],
+      "rmse_percent_interval_95": [
+        -0.639710929505587,
+        -0.1601756160926888
+      ],
+      "scope": "conditional on these seeds and fixed farms; not a test of unseen years or independent farm samples"
+    },
+    "test:H-FULL/TF_R3": {
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "issues": 322,
+      "replicates": 1000,
+      "block_calendar_days": 7,
+      "mae_percent_interval_95": [
+        -1.1568414682894088,
+        -0.5790400980526359
+      ],
+      "rmse_percent_interval_95": [
+        -0.7688363015712285,
+        -0.22627976287702273
+      ],
+      "scope": "conditional on these seeds and fixed farms; not a test of unseen years or independent farm samples"
+    }
+  }
+}

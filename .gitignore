@@ -93,3 +93,11 @@ id_ed25519*
 **/.codex/
 **/.vscode/
 /github_export/
+
+# Published 2026-11-19 paper-review artifacts (explicit files only).
+!project/runs/daily_paper_evidence_20261118_v10/operations/*.json
+!project/runs/daily_paper_evidence_20261118_v10/operations/evaluation_loader_repair_20261118/*.json
+!project/figures/framework_paper_v27_20261118/framework_final.png
+!project/figures/framework_paper_v27_20261118/framework_final.pdf
+!project/figures/framework_paper_v27_20261118/*.txt
+!project/figures/framework_paper_v27_20261118/*.json

@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-11-18T14:11:05.891002+08:00",
+  "files": {
+    "code/run_job.py": "842ab9cba3dd48905055eb05f455be73aa6397d7ab3e778960462267767a9c9b",
+    "operations/coordinator.py": "925866e95adaa23b77a20cd64f4224908e86983a00af60f4e2d91472dd7a87d4"
+  },
+  "reason": "Evaluation loader mistakenly classified LINEAR as legacy parent model. All five trainings already succeeded; rerun frozen-checkpoint evaluation only."
+}

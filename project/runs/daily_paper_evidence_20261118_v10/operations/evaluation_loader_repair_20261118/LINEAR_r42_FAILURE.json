@@ -1,0 +1,4 @@
+{
+  "timestamp": "2026-11-18T09:48:47.920342+08:00",
+  "error": "Traceback (most recent call last):\n  File \"/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_paper_evidence_20261118_v10/code/run_job.py\", line 60, in main\n    model=Parent(s)\n          ^^^^^^^^^\n  File \"/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_paper_evidence_20261118_v10/code/parent_model.py\", line 21, in __init__\n    super().__init__(spec)\n  File \"/shared_data_ssd2/liying/wind_cluster_project_20261018/project/runs/daily_paper_evidence_20261118_v10/code/backbone.py\", line 79, in __init__\n    else:raise ValueError(self.family)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: LINEAR\n"
+}

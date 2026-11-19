@@ -1,0 +1,113 @@
+{
+  "timestamp": "2026-11-18T01:13:13.260286+08:00",
+  "train_year": 2022,
+  "selection_year": 2023,
+  "reevaluation_year": 2024,
+  "heldout_status": "2024 historically viewed; exploratory cross-year reevaluation",
+  "farms": 55,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "extension_seeds": [
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "loss": "MAE",
+  "batch": 512,
+  "max_epochs": 80,
+  "patience": 10,
+  "checkpoint": "2023 macro-farm MAE once per epoch",
+  "precision": "FP32; TF32 disabled",
+  "optimizer": "AdamW; unchanged constant LR; clip norm1",
+  "cohort": "unchanged fixed 55 farms and exclusions; no outcome-driven filtering",
+  "primary_threshold": {
+    "mae_percent": -0.1,
+    "rmse_percent": -0.1,
+    "farm_wins": 28,
+    "seed_wins_5": 4,
+    "seed_wins_10": 8,
+    "high_rmse_max_percent": 0.1
+  },
+  "tuning": {
+    "linear_configs": [
+      {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0
+      },
+      {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.001
+      },
+      {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.01
+      },
+      {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0
+      },
+      {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.001
+      },
+      {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.01
+      }
+    ],
+    "seeds": [
+      40,
+      41
+    ],
+    "epochs": 30,
+    "patience": 6,
+    "rule": "mean 2023 macroMAE; candidate index tie-break"
+  },
+  "existing_family_configs": "historically selected configurations frozen, no new tuning after inspecting 2024",
+  "inference": "frozen best checkpoint, no test-driven selection",
+  "source_training_code_sha256": "64e64c4d48da4c73c5150d7bdc2bf88d0b69eff2005945710414ea22252dbc97",
+  "source_train_loop_unchanged": true,
+  "uncertainty": "paired NWP issue-day error sums; 7-consecutive-issue-day block bootstrap conditional on seed set; not iid 15min samples",
+  "counts": {
+    "train": 121,
+    "evaluation_only": 30,
+    "total": 151
+  },
+  "limitations": [
+    "E2L was selected among seven encoders using 2023; additional seeds do not erase selection bias.",
+    "All regional inputs use cached pooled neighbor history and ring summaries, not independent raw histories for eight neighbors.",
+    "TFT/TiDE are repository adaptations, not certified official implementations.",
+    "Component ablation supports conditional predictive contribution, not identified meteorological causality."
+  ]
+}

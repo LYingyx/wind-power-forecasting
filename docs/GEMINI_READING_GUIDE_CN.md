@@ -1,88 +1,36 @@
 # Gemini / 编程助手阅读入口
 
-更新：2026-11-17。先读本文及[2024 测试报告](TEST2024_RESULTS_20261117_CN.md)、[2023 验证集总结](EXPERIMENT_RESULTS_20261117_CN.md)，再进入长篇历史交接文档。
+更新：2026-11-19。**请先读 [最新自包含阅读包](GEMINI_REVIEW_20261119_CN.md)**：科学问题、两项设计、完整的 2023/2024 基线与消融、十种子复核及输入编码说明都在同一文件。
 
-2024 跨年测试已完成 **120/120 个冻结检查点**，见[测试证据 JSON](TEST2024_RESULTS_20261117_EVIDENCE.json)或 [07 测试纯文本](gemini_plain_text/07_test2024_results_20261117.txt)。H-FULL 对 R0 的净收益跨年保持；B-additive 在测试集上的高功率护栏失败；状态归因不能仅凭总体收益认定。下面的 105 次新训练结果属于 2023 验证集，请勿混用。
+本阅读包位于远程分支 `paper-evidence-20261119`。仓库默认分支 main 上的 11-17 报告可能仍是旧版本；请打开指定分支、该分支的 Raw 文件，或下载下面的文本。不要假定第三方工具会自动遍历仓库或支持选择分支。
 
-2023 验证／开发集：v4–v7 共 **105/105 次新训练全部完成**，v8 两 seed 采样审计也完成。B-additive 相对 R0 的 MAE/RMSE 为 −0.2376%/−0.1437%，H-FULL 为 −0.2394%/−0.2035%；两者均通过相对 R0 的门槛，尚未通过全部内部归因与强基线门槛。修正版 R4-ISO 对 R0 仍退化 +0.2018%/+0.3886%。请读取[完成报告](EXPERIMENT_RESULTS_20261117_CN.md)、[训练证据](EXPERIMENT_RESULTS_20261117_EVIDENCE.json)和[采样证据](SAMPLING_AUDIT_20261117_EVIDENCE.json)，或直接导入 [06 UTF-8 纯文本](gemini_plain_text/06_completed_experiments_20261117.txt)。
+## 建议读取顺序
 
-[跨分辨率 A 与状态条件兑现 B 提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)保留 11-16 的问题与执行快照，不再代表实时状态。独立时间分配 A / A+B、低维 β 流匹配尚未启动，本批候选的新 10-seed 尚未完成；2024 五种子复评已完成，见页首报告。
+1. [最新科学问题与实验结果全文](GEMINI_REVIEW_20261119_CN.md)，或其 [08 UTF-8 纯文本副本](gemini_plain_text/08_paper_review_20261119.txt)。
+2. [当前源码纯文本](gemini_plain_text/09_current_model_code_20261119.txt)，包含所有当前 code/ Python 文件、区域统计构造和结果汇总逻辑。
+3. 如需自行计算，读取 [逐种子指标](../project/runs/daily_paper_evidence_20261118_v10/analysis/METRIC_RECORDS.json)、[任务记录](../project/runs/daily_paper_evidence_20261118_v10/analysis/TASK_EVIDENCE.json)及 [配对门槛](../project/runs/daily_paper_evidence_20261118_v10/analysis/COMPARISONS.json)。
+4. [英文总框架图](../project/figures/framework_paper_v27_20261118/framework_final.png)配合[输入编码说明](INPUTS_AND_REPRESENTATIONS_20261119_CN.md)。图中的状态摘要 c 和多源上下文 C 不是同一个输入。
 
-随后读 [v2 15:28 历史结果快照](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS_CN.md)及[实验反馈分析](../project/runs/daily_state_representation_20261116_v2/analysis/LEARNINGS_20261116_CN.md)。在该快照时点，25 项阶段一全部完成，R4 三组各完成 seeds 42、43、45，共 34 项新训练完成；另有 10 项旧权重诊断完成。当时尚在训练的 6 项旧 R4 后续已保存退出并由 R4-ISO 替代，5 项 `LOSS_TF` 已完成；不要将快照中的“正在训练”当作实时状态。旧 v2 实现、门槛与调度见 [v2 执行入口](../project/runs/daily_state_representation_20261116_v2/README_CN.md)。
+## 当前事实
 
-为避免只看到摘要，已发布 [当前任务完整证据 JSON](../project/runs/daily_state_representation_20261116_v2/analysis/CURRENT_RESULTS.json)：包含已完成任务的配置、逐轮记录、选中轮次、逐风场/时效指标、诊断及来源哈希；[05 当前结果 TXT](gemini_plain_text/05_current_experiment_results.txt)包含这些正文，无需解压。未完成任务的进度与曲线不是最终成绩。
+- 补充批次 151/151 完成：121 次训练加 30 次已有权重复评；不要与此前批次或复用结果重复计数。
+- 55 个固定风场共同训练，2022 训练、2023 选择、2024 跨年复评。每个种子一个共享模型，各场身份向量不同，没有本轮逐场独立网络或后续适配阶段。
+- 表格以共同五种子比较，十种子另列；负百分比表示误差下降，百分比并非百分点。
+- 当前主模型仍保留左侧状态摘要。去掉它在 2024 略好、2023 略差；不能将左侧这一输入的独立价值写成已证实。
+- 周边输入是近邻汇总历史与三环统计，不是八条独立邻站历史；运行统计与气象派生特征共用一个 22→64 线性投影。
+- 当前表示修正是确定性低秩加性特征修正，不是 LoRA、物理天气超分辨率或监督的局地天气重建。
+- 整体方法相对线性插值的净收益成立，全部内部机制与强 Transformer 比较尚未通过。对候选物理解释的合理性和实验证据分别评价。
+- 15 小时是业务可用延迟，约 15–45 小时是未来预测目标对应的气象时效。没有输入未来实际功率或场站实测气象。
 
-旧 v2 的反馈：R3 对无状态 R2 的 RMSE 改善 0.156%，但对原模型 R0 退化 0.244%；R4 三种子对 R0 的 RMSE 退化 0.695%。R0 对同编码 TF_E2L 的平均 MAE/RMSE 改善 0.157%/0.158%，但仅 1/5 seeds 双指标同时改善。不能据内部消融获益就宣称整体方法优越，也不能将旧 R3/R4 负结果扩大为新 H-FULL 无效。此处 R0 是 ENC_neutral_E2L，R3 是新增状态生成器，不是旧输入配置名。
+## 可直接交给 Gemini 的任务
 
-需要审阅结果的产生过程时，继续读[结果到代码的完整导航](RESULTS_TO_CODE_CN.md)，包含数据准备、模型/基线、调参、训练选轮、指标汇总及全部 2571 项任务的训练记录。附件解析失败时使用[未压缩 TXT 入口](gemini_plain_text/README.md)；阅读目录名或结果摘要不能代替读取源文件正文。
+> 请先读取本分支的 GEMINI_REVIEW_20261119_CN.md 或 08_paper_review_20261119.txt，并在需要时读取 09_current_model_code_20261119.txt。基于具体结果和代码，判断科学问题与两项设计是否对应，分别列出已支持的结论、未支持的机制和建议收缩的贡献表述。重点讨论去状态摘要略好、历史反转未变差、完整窗口与局部窗口接近及两因素收益重叠。不要混合五种子与十种子结果，不将 2024 称为盲测，不按模型胜负筛选风场。请先说明实际读取了哪些文件；不能读取 Raw 时明确说明并使用下载后的 UTF-8 文本。
 
-## 研究目标与约束
+## 历史资料
 
-- 目标是单风场功率预测，预测未来 0–6 h 的 24 个 15 min 点；共享训练仍可以输出单个风场预测。
-- 希望找到相对强 Transformer 有可复核优势的路线，不能只挑表现好的站点或某一个指标。
-- 天气编码（含 E2L/E2C）只作实现选择与消融，不作为机制贡献点或独立贡献点。
-- 共享训练、逐站独立训练、已见风场微调、完全未见风场迁移是不同设定。现有逐站微调不等于新风场迁移。
-- 数据只有实测功率、Pangu 预报和 ERA5 再分析；没有场站实测天气。历史 Pangu 节点不是 ERA5。
+- [11-17 的 2024 五种子复评](TEST2024_RESULTS_20261117_CN.md)：包含生成式、乘性调制及损失复核负结果。
+- [11-17 的 2023 结果](EXPERIMENT_RESULTS_20261117_CN.md)。
+- [早期跨分辨率与兑现提案](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)：研究计划和历史状态，不是当前机制已成立的证据。
+- [结果到代码的历史导航](RESULTS_TO_CODE_CN.md)：用于旧实验追溯。
 
-## 当前结果的证据边界
-
-当前协议为每日 00 UTC Pangu、15 h 后可用（北京时间 23:00 切换），气象时效 9–45 h；邻站/区域功率可用至预测起点。55 个固定风场，2022 训练、2023 选择。2024 曾在历史研究中被查看，后续只能称探索性跨年复评，不能声称完全盲测。
-
-此前一轮已完成 2571 项，见[完成审计](../project/analysis/daily_protocol_review_20261115/COMPLETION_AUDIT.json)。以下表格属于该轮，相对匹配 Transformer 的误差变化中负值为改善；口径详见[完整报告](../project/DAILY_PROTOCOL_RESULTS_REVIEW_20261115_CN.md)。已发布 v2 固定结果见页首快照，不要混用两轮的任务计数。
-
-| 方案 | MAE 相对变化 | RMSE 相对变化 | 解释 |
-| --- | ---: | ---: | --- |
-| 共享 W0_R3 | −0.183% | +0.227% | 两项指标未同时胜出 |
-| 独立 W0_R3 | −0.501% | +0.239% | MAE 优势不能覆盖 RMSE 退化 |
-| 完整 W0 逐站微调 | +0.108% | +0.370% | 不支持作为当前最优路线 |
-| 共享 E2L | −0.457% | −0.216% | 高功率 RMSE +0.153%，未满足原先不超过 +0.1% 的条件 |
-
-E2L 是多层无激活线性映射，其复合仍为仿射映射。最新 v2 已完成 TF_E2L 五种子交叉骨干对照：相对原 TF_R3，MAE −0.3005%、RMSE −0.0582%、高功率 RMSE +0.2801%。编码收益也出现在 TF，不能归为本骨干独有或核心机制。早期[编码角色说明](../project/ENCODING_ROLE_CLARIFICATION_20261115_CN.md)中的“缺少同编码 TF 对照”是当时状态，现已补上 E2L 对照。
-
-E2L 是七种编码中按 2023 结果挑出的，存在选择偏差；原 R0 对 TF_R3 的 RMSE 在 seed 43、46 上落后。TF_E2L 五种子与本批 2024 探索性复评均已完成，十种子尚未完成；十种子本身不能消除选择偏差。
-
-## 关键实现与证据
-
-- 共享模型：[model.py](../project/runs/daily_protocol_restart_20261114_v1/code/model.py)、[train.py](../project/runs/daily_protocol_restart_20261114_v1/code/train.py)、[data.py](../project/runs/daily_protocol_restart_20261114_v1/code/data.py)。
-- 消融与独立训练：[model.py](../project/runs/daily_ablation_restart_20261114_v1/code/model.py)、[train.py](../project/runs/daily_ablation_restart_20261114_v1/code/train.py)、[实验清单](../project/runs/daily_ablation_restart_20261114_v1/manifest.json)。
-- 微调：[train.py](../project/runs/daily_site_finetune_20261114_v1/code/train.py)、[site_data.py](../project/runs/daily_site_finetune_20261114_v1/code/site_data.py)。
-- 汇总程序：[review_daily_results_20261115.py](../project/scripts/review_daily_results_20261115.py)。
-- 逐站逐种子证据：[结果目录](../project/analysis/daily_protocol_review_20261115/)、[逐风场对比](../project/analysis/daily_protocol_review_20261115/per_farm_comparisons.csv)、[逐种子对比](../project/analysis/daily_protocol_review_20261115/per_seed_comparisons.csv)。
-- 最新待检验方案：[跨分辨率 A 与状态条件兑现 B](STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md)。早期[状态条件中间表示计划](../project/STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md)用于了解来历；方案及其解释都需要实验验证。
-- 新增零训练诊断：[RMSE 差距](../project/runs/rmse_gap_diagnostic_20261115/README_CN.md)、[爬坡信息](../project/runs/ramp_information_diagnostic_20261115/README_CN.md)。
-- 全部历史索引：[PROJECT_HANDOFF_CN.md](../project/PROJECT_HANDOFF_CN.md)。旧协议结果只能解释来历，不应混入本轮成绩。
-
-## 数据位置（原服务器，本仓库不含数据实体）
-
-| 数据 | 路径 |
-| --- | --- |
-| 原始 Pangu 预报 | `/shared_data_hdd1/All_Datasets/ERA5_forecasting/Pangu/Forecast_data/` |
-| 原始 ERA5 | `/shared_data_hdd1/All_Datasets/ERA5/` |
-| 新协议 Pangu 缓存 | `/shared_data_ssd3/liying/operational_pangu_daily_20261114_v1/` |
-| 清洗后实测功率 | `/shared_data_ssd2/liying/wind_cluster_project_20261018/project/data/jilin_56farm_pad8.h5` |
-
-## 可以直接发给 Gemini 的提问
-
-```text
-请阅读已通过“导入代码”附加的 GitHub 仓库或解压后的代码文件夹。先读 README.md、
-docs/GEMINI_READING_GUIDE_CN.md、docs/TEST2024_RESULTS_20261117_CN.md 及测试证据 JSON，
-再区分阅读 docs/EXPERIMENT_RESULTS_20261117_CN.md 的 2023 验证集结果及其两份证据 JSON，
-再读 docs/STATE_REALIZATION_AND_CROSS_RESOLUTION_PROPOSAL_CN.md 和所链接的协议、历史结果报告、
-编码角色说明和 STATE_CONDITIONED_REPRESENTATION_PLAN_20261115_CN.md。
-已发布的固定成绩请读取 project/runs/daily_state_representation_20261116_v2/analysis/
-CURRENT_RESULTS_CN.md、CURRENT_RESULTS.json 和 LEARNINGS_20261116_CN.md，
-不要沿用旧文档中“阶段一刚启动”“TF_E2L 尚缺结果”的历史状态；
-最新 B、完整历史 H、R4-ISO 的完成结论以 11-17 报告为准；提案第 6 节是历史执行快照。
-
-项目任务是单风场 0–6 h、15 min 功率预测。我需要相对强 Transformer
-有可信性能优势的研究路线，天气编码不作为机制贡献或独立贡献。
-
-请基于实际可见文件：
-1. 归纳已有结果、负结果与尚未完成的验证，区分共享、独立、微调和未见风场迁移。
-2. 核对关键代码、数据可用时刻、同输入对照及潜在信息泄漏。
-3. 评估最新状态条件表示计划的必要性、可辨识性与公平对照，给出优先级。
-4. 提出三个候选贡献点，每个写清已有证据、缺失对照和失败后的备选路线。
-所有结论引用仓库文件和具体位置；看不到的文件请明确说明。
-不得混用旧协议成绩，不把计划当结果，不把已见风场微调写成新风场迁移，
-也不要因为方案复杂就推断它会优于 Transformer。
-```
+原始研究数据、权重、逐样本预测没有上传；公开包提供源码、冻结协议、结果指标和审计。运行 `python3 project/scripts/export_paper_review_20261119.py --check-only` 可校验阅读包哈希与表格计算，不依赖原始数据或 GPU。

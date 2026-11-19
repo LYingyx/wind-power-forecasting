@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-11-18T14:11:48.768575+08:00",
+  "workers": [
+    {
+      "job": "LINEAR_r42",
+      "gpu": 5,
+      "pid": 4064084,
+      "checkpoint_sha256": "acda8b2f5eb245d316f1a9c96e8583da8bb5a815a334dfda8e3c3de403427e49"
+    },
+    {
+      "job": "LINEAR_r43",
+      "gpu": 6,
+      "pid": 4064085,
+      "checkpoint_sha256": "be544bf73f3f7d960c08c9648d7190672ed77854673a87d04dd3f24fb2d8f21a"
+    },
+    {
+      "job": "LINEAR_r44",
+      "gpu": 5,
+      "pid": 4064086,
+      "checkpoint_sha256": "c0e102c529556a99c2e7ab9a5f7c4c9c7f822d4d0ce0ef9f55cacb9e2baf4cbf"
+    },
+    {
+      "job": "LINEAR_r45",
+      "gpu": 6,
+      "pid": 4064087,
+      "checkpoint_sha256": "6393f5bb0891fd485fa13a21a750ffe8aa51f234a43f9aed7cdcafec2fd31c4d"
+    },
+    {
+      "job": "LINEAR_r46",
+      "gpu": 5,
+      "pid": 4064088,
+      "checkpoint_sha256": "b4b07aba2257f3d3112be843d17a93914169ad9a3a822c5f1a69c4db2f19c849"
+    }
+  ],
+  "code_sha256": "296b0b643d5fd1c5ff2bfc61bb143ad1f71cfa921e8a08f722b7d0df2afab3f3",
+  "note": "Evaluation only: SUCCESS.json causes run() to return without training. No protocol or model change."
+}

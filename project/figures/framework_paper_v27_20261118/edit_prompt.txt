@@ -1,0 +1,44 @@
+Use case: precise-object-edit / infographic-diagram.
+Asset: English main Framework figure for an SCI / top-tier machine-learning research paper.
+Input image 1 is the exact edit target and the authoritative visual palette reference. Preserve its professional pale rose, pale blue, teal, white, black-outline style, overall aspect ratio, upper main architecture and two detailed lower panels. This is a paper framework, not a tutorial or a layer-by-layer implementation diagram.
+
+Perform TWO main changes: replace the old coefficient / basis presentation with a scientifically named compact-feature bottleneck; redesign the lower-right context area to remove its large empty corner WITHOUT moving the decoder, power head, or Delta P output downward. The Delta P output MUST REMAIN at the UPPER-RIGHT INSIDE panel (c), with the decoder -> power head -> Delta P laid out horizontally in the upper-right. This is an absolute requirement. The lower-right should be occupied by real site/identity/context processing, never by relocating the output.
+
+PALETTE AND AESTHETIC:
+Match the supplied image's colors faithfully: pale pink/rose representation blocks, restrained medium-rose outlines; pale blue response blocks and medium-blue borders; soft teal feature tokens and regional/context outlines; blue time-series curves; white background and clean black text. No new amber/orange identity category, no dark saturated fills. The original little weather-map colors may remain. Thin clean lines, modest corner radii, very subtle panel tints, readable black typography. Preserve white gutters and balanced visual density. All writing English. Do not add tensor shapes, dimensions, layer widths, hidden sizes, rank numerals, matrix formulas, oversized legends, or explanation paragraphs. Business labels 15 min, 1 h, 0–6 h remain.
+
+PANEL (a) Overall architecture:
+Keep the supplied image's existing upper left-to-right structure: target/regional Power observations at 15 min and Weather forecasts at 1 h -> pink Cross-scale representation -> predictive features Z -> blue State-conditioned power response -> Delta P -> sum with Observed P0 -> Power forecast, P_hat = P0 + Delta P. Preserve the separate History and regional observations bypass into the response block, and the Weather / site / time auxiliary input. Keep compact timeseries, weather map, and token glyphs. Exactly TWO pink dashed expansion lines connect the pink main block to panel (b); exactly TWO blue dashed expansion lines connect the blue block to panel (c). Dashed lines are not computational arrows. Retain the main forecast on the far right.
+
+PANEL (b) Cross-scale representation:
+Preserve the top path: Hourly weather W -> Interpolation -> Affine encoder -> Z0 -> plus circle -> Z. The original weather representation does NOT enter the bottleneck network. An independent residual Delta Z enters the bottom of that plus circle.
+Preserve these four independent conditions below:
+1. Power history H -> Trajectory encoder (Conv1D) -> history features.
+2. State summary c.
+3. Window-wide wind changes s, with a compact multi-node wind-change curve icon.
+4. Target time t.
+Each of these FOUR arrows must visibly reach a compact concatenation junction before the condition network. In particular the wind-change input must not have a dangling arrow, and target time must not connect to the wind-input branch upstream of concatenation.
+Replace the old vertical Coefficient network, little a vector, Learned basis U box, and the bottom Delta Z = a U^T, rank <= 2 strip ENTIRELY.
+In their place use one pale-rose outline group labelled "Conditional low-rank refinement". Inside this group arrange left to right:
+- A narrowing trapezoid: tall LEFT edge, short RIGHT edge, labelled "Condition projection".
+- A small compact feature glyph labelled "Low-dimensional features".
+- A widening trapezoid: short LEFT edge, tall RIGHT edge, labelled "Shared linear projection".
+The trapezoids illustrate feature reduction and expansion, not an encoder-decoder architecture. The intermediate vector consists of ordinary low-dimensional features; do not call it a coefficient, parameter vector, a_k, or a physical mechanism. Both projections are jointly trained shared network components, not weight fine-tuning or LoRA.
+The full continuous arrow path is: four-way concatenation -> narrowing trapezoid -> compact features -> widening trapezoid -> Delta Z -> the Z0 residual-addition circle -> Z. Keep all arrows visible and avoid text collisions. A small "Zero-initialized correction" note may remain adjacent to the Delta Z path if space permits. No extra formula strip at the bottom. Fit the conditions and bottleneck naturally into the existing panel.
+
+PANEL (c) State-conditioned power response:
+Keep a HORIZONTAL upper-right output chain: Power decoder (Transformer) -> Power head -> Delta P, all INSIDE the upper-right of panel (c). Delta P must appear near the right border in the upper third of the panel, not at the lower-right. Do not rotate this chain vertically or put an output block at the bottom. Do not create a second decoder.
+Upper history lane: Power history H -> History encoder (Transformer) -> Memory M -> the distinct K,V input on the Power decoder. Clearly distinguish the memory connection from Q.
+Upper/middle query lane: Z -> "Query projection" -> w. The w wire branches to BOTH the query-sum circle and the "Weather–time adapter". A separate Time input also feeds this adapter. Its output A enters that SAME query-sum circle. C from below enters the SAME sum as the third input. The outgoing query is labelled "Q = w + A + C" and connects to the decoder query input. Replace the old ambiguous "Alignment" with "Query projection", and "Weather adapter" with "Weather–time adapter".
+Use the LOWER portion of panel (c), spanning nearly its FULL WIDTH including the former lower-right empty corner, for a clean teal-tinted group labelled "Multi-source context C". Organize this band as THREE spatially balanced source branches that merge through a visible common summation / aggregation bus and send ONE continuous C arrow upwards into the query-sum circle:
+LEFT branch: "Regional observations" -> "Regional readout" -> context sum.
+MIDDLE branch: "Operating-state proxies" and "Forecast features" -> "Feature projections" -> context sum.
+RIGHT branch, occupying the old lower-right blank area: "Farm ID" -> "Farm-specific embedding" -> "Shared site / time projections" -> context sum. The farm embedding may be illustrated by a small lookup-table icon with one row highlighted in teal. "Static site features" and "Time" enter the Shared site / time projections independently; they must NOT feed the embedding lookup. All paths in this lower-right branch must be genuine directed connections, not a detached annotation.
+These branches can flow bottom-to-top in three columns inside the context band to keep all arrows short and the aggregation output above them. Align their visual density. The farm-specific embedding is the ONLY learned per-farm vector; all neural processing projections and encoders/decoder share weights across farms. Convey this with a compact single-line note at the bottom: "Shared network weights; farm-specific identity vectors". Do not introduce a per-farm decoder, adaptation training stage, local weather reconstruction space, or hard physical clipping.
+The full-width lower context band is the correct way to fill the old empty lower-right region. Avoid inserting decorative filler. Maintain compact whitespace around the upper-right power output, but no large empty lower-right quadrant.
+
+SCIENTIFIC INVARIANTS:
+Z is a learned predictive representation, not measured or reconstructed local meteorology. The query projection does not explicitly perform geographic weather correction. State summary c in panel (b) and multi-source context C in panel (c) are different tensors, so preserve their different labels. The weather-time adapter takes w and time, not directly H or C. Regional observations and operating-state proxies condition the model; no empirical win or causal claim belongs on the architecture diagram.
+
+FINAL FIGURE CHECK:
+Two correctly oriented projection trapezoids, no coefficient/basis/matrix-size terminology; input-image palette retained; top architecture intact; paired dashed detail connectors; real identity/site processing fills bottom-right; query and memory remain distinct; decoder/head/Delta P stay horizontally at upper-right inside panel (c); every C and Delta Z connection reaches its correct sum; no tensor shapes; no code-generated styling; clear, polished journal publication composition. Bottom legend only "Solid: data flow   Dashed: module detail" if needed.

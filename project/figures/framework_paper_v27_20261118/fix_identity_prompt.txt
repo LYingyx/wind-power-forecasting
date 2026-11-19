@@ -1,0 +1,18 @@
+Make one precise scientific wiring correction in this image. Preserve the entire current figure, its original rose/blue/teal palette, all typography, top architecture, lower-left trapezoid low-rank refinement, and upper-right horizontal decoder -> power head -> Delta P chain. DO NOT move the output down. Do not otherwise redesign the panels.
+
+ONLY fix the RIGHTMOST branch inside the lower teal "Multi-source context C" band of panel (c). Its current order is incorrect: the Shared site / time projections appear to feed the Farm-specific embedding. The actual model uses the opposite order.
+
+Correct directed computation:
+Farm ID -> Farm-specific embedding -> Shared site / time projections -> the context sum circle.
+Static site features -> Shared site / time projections, independently.
+Time -> Shared site / time projections, independently.
+The embedding must NOT feed the context sum directly. The shared projections must NOT feed the embedding. Static site features and Time must NOT enter the embedding lookup.
+
+To make this easy to read, reflow only the lower-right branch into a compact HORIZONTAL row within its existing column width:
+left small Farm ID label -> middle Farm-specific embedding box with teal highlighted lookup-row glyph -> right Shared site / time projections box.
+Place Static site features and Time in a short row BELOW the Shared site / time projections, each with a separate clear upward arrow entering the projection box. Route the projection box's OUTPUT UP to the existing context aggregation line, then LEFT along that line INTO the context sum circle. The three branches of the context band all contribute to the central sum; the sum's C output continues UP into the query-sum circle.
+The rightmost column has approximately the rightmost 35% of the context band's width. Make its small blocks compact and legible rather than extending beyond the panel. The two input labels below must fit above the shared-network note. Use multiple lines in the projection label if needed. No new modules, no extra descriptive text.
+
+Retain the LEFT regional branch and the MIDDLE feature-projection branch exactly. Keep the note "Shared network weights; farm-specific identity vectors" below the three branches. Keep the output Delta P at the upper-right INSIDE panel (c), and preserve the otherwise successful balanced use of its lower-right area.
+
+Important final check: following arrowheads from Farm ID must traverse the embedding FIRST, the shared projection SECOND, then reach C; following Static site features or Time must reach the shared projection directly. The original colors and all other correct data-flow connections stay unchanged.

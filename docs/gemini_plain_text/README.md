@@ -1,6 +1,8 @@
 # Gemini 纯文本读取备用入口
 
-这七个 `.txt` 是 UTF-8 明文，包含原始文件正文，不是 ZIP。可在 GitHub 中打开单个文件，选择 **Raw / Download raw file** 下载，然后逐个上传到 Gemini。不要使用整个目录的 ZIP 作为普通附件。查看 2024 测试结果优先读第 7 份；第 6 份是 2023 验证结果；第 2 份只包含此前发布的实现，不能假定覆盖 v4–v8 全部源码。
+**2026-11-19 最新材料：优先读取 [08 科学问题与完整实验结果](08_paper_review_20261119.txt)，需要核对实现时再读取 [09 当前模型与评估源码](09_current_model_code_20261119.txt)。** 两份均为 UTF-8 明文，可直接下载后作为文本交给 Gemini。来源校验见 [PAPER_REVIEW_MANIFEST_20261119.json](../PAPER_REVIEW_MANIFEST_20261119.json)。旧 01–07 文件保留原版本，不能代替 08/09 的最新结论。
+
+以下历史七个 `.txt` 是 UTF-8 明文，包含原始文件正文，不是 ZIP。可在 GitHub 中打开单个文件，选择 **Raw / Download raw file** 下载，然后逐个上传到 Gemini。不要使用整个目录的 ZIP 作为普通附件。查看 2024 测试结果优先读第 7 份；第 6 份是 2023 验证结果；第 2 份只包含此前发布的实现，不能假定覆盖 v4–v8 全部源码。
 
 1. [01_context_and_results.txt](01_context_and_results.txt)：当前协议、结果、计划及结果到代码的导航。
 2. [02_models_and_training.txt](02_models_and_training.txt)：三轮已完成实验及 11-16 v2 新实验的全部 `code/` Python 文件；内容完全相同的副本只显示一次，全部原路径保留。

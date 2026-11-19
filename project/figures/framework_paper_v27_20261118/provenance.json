@@ -1,0 +1,49 @@
+{
+  "version": "v27",
+  "status": "complete",
+  "timestamp": "2026-11-18T01:30:03.266499+08:00",
+  "model_requested": "gpt-image-2.6-sunburst",
+  "model_selection": "Newest GPT Image family listed by the configured provider; see provider_image_models.json. Not an independently verified official release label.",
+  "generation_method": "codexzh-image skill, supplied openai-image.sh, Images edit API",
+  "quality": "high",
+  "size_requested": "3072x1728",
+  "actual_pixels": [
+    1672,
+    941
+  ],
+  "reference": "../framework_paper_v23_20261118/framework_refined.png",
+  "reference_role": "User-selected palette and structural edit target",
+  "calls": [
+    {
+      "prompt": "edit_prompt.txt",
+      "output": "framework_draft.png",
+      "status": "superseded: identity/projection order corrected"
+    },
+    {
+      "prompt": "fix_identity_prompt.txt",
+      "output": "framework_refined.png",
+      "status": "accepted"
+    }
+  ],
+  "artwork_postprocessing": "None; final PNG byte-identical to accepted image-model output",
+  "pdf_method": "Lossless raster embedding, not vector drawing",
+  "visual_review": {
+    "reference_palette_retained": true,
+    "no_tensor_shapes": true,
+    "no_coefficient_terminology": true,
+    "narrowing_and_widening_projection_trapezoids": true,
+    "four_condition_inputs_connected": true,
+    "delta_z_residual_connected": true,
+    "decoder_head_output_horizontal_upper_right": true,
+    "lower_right_filled_with_actual_context_paths": true,
+    "identity_then_shared_projection_order": true,
+    "static_and_time_bypass_identity_lookup": true,
+    "context_to_query_sum_connected": true,
+    "weather_and_time_to_adapter_connected": true,
+    "memory_and_query_paths_distinct": true,
+    "paired_dashed_detail_links": true
+  },
+  "final_png": "framework_final.png",
+  "final_pdf": "framework_final.pdf",
+  "caption": "CAPTION_AND_MAPPING.md"
+}

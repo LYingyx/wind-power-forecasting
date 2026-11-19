@@ -1,0 +1,1422 @@
+[
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "B-additive",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.001869388083619583,
+      "rmse": -0.059881602064160155,
+      "high_power_rmse": -0.014524836084339743
+    },
+    "farm_wins": {
+      "mae": 26,
+      "rmse": 30
+    },
+    "dual_seed_wins": 3,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-SUMMARY",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.05273850826227333,
+      "rmse": -0.21237617842340129,
+      "high_power_rmse": -0.044113649941091015
+    },
+    "farm_wins": {
+      "mae": 39,
+      "rmse": 50
+    },
+    "dual_seed_wins": 6,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-localWindow",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.04123787455722061,
+      "rmse": -0.07002387418828526,
+      "high_power_rmse": -0.10339031042708724
+    },
+    "farm_wins": {
+      "mae": 36,
+      "rmse": 42
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-noAtmosphere",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.8632653423029102,
+      "rmse": -0.6897918606572295,
+      "high_power_rmse": -0.7521374766392697
+    },
+    "farm_wins": {
+      "mae": 50,
+      "rmse": 47
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.41156308354063365,
+      "rmse": -0.5159410153964594,
+      "high_power_rmse": -0.12100006905311211
+    },
+    "farm_wins": {
+      "mae": 45,
+      "rmse": 50
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-noOperating",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.6956325423305931,
+      "rmse": -0.5547180469412827,
+      "high_power_rmse": -0.19511140306099906
+    },
+    "farm_wins": {
+      "mae": 47,
+      "rmse": 52
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-noRegions",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -1.798911070091691,
+      "rmse": -1.6472830228430713,
+      "high_power_rmse": -0.5257628373358192
+    },
+    "farm_wins": {
+      "mae": 54,
+      "rmse": 52
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-noS",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.1307051328275577,
+      "rmse": -0.1890293235956908,
+      "high_power_rmse": -0.05083797941963786
+    },
+    "farm_wins": {
+      "mae": 39,
+      "rmse": 45
+    },
+    "dual_seed_wins": 6,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-noStateOnly",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.09163862392792543,
+      "rmse": -0.048882973257580176,
+      "high_power_rmse": 0.34279785825288567
+    },
+    "farm_wins": {
+      "mae": 32,
+      "rmse": 29
+    },
+    "dual_seed_wins": 3,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-noWindow",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.15009608957250453,
+      "rmse": -0.35660448136257683,
+      "high_power_rmse": 0.011021909788277995
+    },
+    "farm_wins": {
+      "mae": 42,
+      "rmse": 49
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-reverseHistory",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": 0.009452365899598192,
+      "rmse": 0.03967309881218739,
+      "high_power_rmse": 0.2205531469309907
+    },
+    "farm_wins": {
+      "mae": 27,
+      "rmse": 21
+    },
+    "dual_seed_wins": 1,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-wrongS",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.13662420450371027,
+      "rmse": -0.10841112524687668,
+      "high_power_rmse": -0.15442475526010746
+    },
+    "farm_wins": {
+      "mae": 53,
+      "rmse": 52
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "H-wrongStateOnly",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.102800956491933,
+      "rmse": -0.052921935274086174,
+      "high_power_rmse": 0.0725658659096462
+    },
+    "farm_wins": {
+      "mae": 50,
+      "rmse": 39
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "LINEAR",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -12.258332773362657,
+      "rmse": -5.812280417926274,
+      "high_power_rmse": -4.168885472734807
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 52
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "R0",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.25858421745867943,
+      "rmse": -0.30889380062233407,
+      "high_power_rmse": -0.041260010878063635
+    },
+    "farm_wins": {
+      "mae": 48,
+      "rmse": 50
+    },
+    "dual_seed_wins": 9,
+    "planned_pairs": 10,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "R0-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.5280658950454726,
+      "rmse": -2.035058318896432,
+      "high_power_rmse": -1.239971867919365
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 55
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TF-H-FULL",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.24341375676766308,
+      "rmse": -0.2094566196004899,
+      "high_power_rmse": 0.9153102334722885
+    },
+    "farm_wins": {
+      "mae": 37,
+      "rmse": 33
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TF-WINDOW",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.6720550785918489,
+      "rmse": -0.39738532808142324,
+      "high_power_rmse": -0.3500070484550366
+    },
+    "farm_wins": {
+      "mae": 52,
+      "rmse": 40
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TFT-WINDOW",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -1.7542640123079156,
+      "rmse": -0.9297218956798581,
+      "high_power_rmse": -0.588459415581688
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 49
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TFT_R3",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -1.7999626515105671,
+      "rmse": -1.7605601654951064,
+      "high_power_rmse": -1.436738915098712
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 53
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TF_E2L",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.3044023034651455,
+      "rmse": -0.30360519155241406,
+      "high_power_rmse": 0.582625912734902
+    },
+    "farm_wins": {
+      "mae": 42,
+      "rmse": 38
+    },
+    "dual_seed_wins": 6,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TF_R3",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.671913633167831,
+      "rmse": -0.40552377399493134,
+      "high_power_rmse": 0.270939254085234
+    },
+    "farm_wins": {
+      "mae": 48,
+      "rmse": 41
+    },
+    "dual_seed_wins": 9,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TIDE-WINDOW",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.1387245488284523,
+      "rmse": -0.9586022991022736,
+      "high_power_rmse": -0.8700639119014753
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 47
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-FULL",
+    "reference": "TIDE_R3",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.1676132843620244,
+      "rmse": -0.9272589303408241,
+      "high_power_rmse": -0.7870164529706569
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 47
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "TF-H-FULL",
+    "reference": "TF_E2L",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.06113736345064735,
+      "rmse": -0.09434618628443303,
+      "high_power_rmse": -0.3296668463563024
+    },
+    "farm_wins": {
+      "mae": 32,
+      "rmse": 34
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "H-noDecoderState",
+    "reference": "R0-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.1252495541026484,
+      "rmse": -1.5269957006228352,
+      "high_power_rmse": -1.1203273957887783
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 53
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2023,
+    "candidate": "R0",
+    "reference": "R0-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.2941186658339108,
+      "rmse": -1.8352895176674155,
+      "high_power_rmse": -1.2344746793426342
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 54
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "B-additive",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": 0.05327531246068773,
+      "rmse": -0.01032479971101452,
+      "high_power_rmse": -0.13950252584722378
+    },
+    "farm_wins": {
+      "mae": 25,
+      "rmse": 26
+    },
+    "dual_seed_wins": 3,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-SUMMARY",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.17996874889446568,
+      "rmse": -0.3019787551557296,
+      "high_power_rmse": -0.2599225145055506
+    },
+    "farm_wins": {
+      "mae": 41,
+      "rmse": 49
+    },
+    "dual_seed_wins": 6,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-localWindow",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": 0.010189152435002846,
+      "rmse": -0.018009954129349914,
+      "high_power_rmse": -0.08129380222208216
+    },
+    "farm_wins": {
+      "mae": 21,
+      "rmse": 30
+    },
+    "dual_seed_wins": 2,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-noAtmosphere",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.9266717718521056,
+      "rmse": -0.7196392325145795,
+      "high_power_rmse": -0.8054800137642704
+    },
+    "farm_wins": {
+      "mae": 49,
+      "rmse": 44
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.368521555788881,
+      "rmse": -0.4553764082067646,
+      "high_power_rmse": -0.36894447933366603
+    },
+    "farm_wins": {
+      "mae": 35,
+      "rmse": 34
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-noOperating",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.8891942987775958,
+      "rmse": -0.6894641514561539,
+      "high_power_rmse": -0.4979058489440691
+    },
+    "farm_wins": {
+      "mae": 50,
+      "rmse": 52
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-noRegions",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -1.7897117249589756,
+      "rmse": -1.7715820395409976,
+      "high_power_rmse": -0.8618329458243812
+    },
+    "farm_wins": {
+      "mae": 53,
+      "rmse": 53
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-noS",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.17506037654896334,
+      "rmse": -0.2503336329897299,
+      "high_power_rmse": -0.18708273864688207
+    },
+    "farm_wins": {
+      "mae": 38,
+      "rmse": 43
+    },
+    "dual_seed_wins": 6,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-noStateOnly",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": 0.05560525950305539,
+      "rmse": 0.06477692254145406,
+      "high_power_rmse": 0.23407107974662278
+    },
+    "farm_wins": {
+      "mae": 23,
+      "rmse": 22
+    },
+    "dual_seed_wins": 2,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-noWindow",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.20334466414484442,
+      "rmse": -0.37522393759662487,
+      "high_power_rmse": -0.15162485202014908
+    },
+    "farm_wins": {
+      "mae": 41,
+      "rmse": 47
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-reverseHistory",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": 0.08808021997825932,
+      "rmse": 0.08596887035923206,
+      "high_power_rmse": 0.08179905937042431
+    },
+    "farm_wins": {
+      "mae": 20,
+      "rmse": 23
+    },
+    "dual_seed_wins": 3,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-wrongS",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.09236674519279564,
+      "rmse": -0.046380893402486745,
+      "high_power_rmse": -0.17181826904444364
+    },
+    "farm_wins": {
+      "mae": 42,
+      "rmse": 39
+    },
+    "dual_seed_wins": 3,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "H-wrongStateOnly",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.012671723309076732,
+      "rmse": 0.041281043653307314,
+      "high_power_rmse": 0.0943953466247871
+    },
+    "farm_wins": {
+      "mae": 34,
+      "rmse": 27
+    },
+    "dual_seed_wins": 1,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "LINEAR",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -10.528087837805533,
+      "rmse": -4.2640614515735535,
+      "high_power_rmse": -2.993874998935031
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 51
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "R0",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.3098252429651005,
+      "rmse": -0.34040745718334486,
+      "high_power_rmse": 0.021622286732592144
+    },
+    "farm_wins": {
+      "mae": 45,
+      "rmse": 49
+    },
+    "dual_seed_wins": 9,
+    "planned_pairs": 10,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "R0-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.394402212143054,
+      "rmse": -2.035683521194309,
+      "high_power_rmse": -1.3799345454303946
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 53
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TF-H-FULL",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.39338287547932005,
+      "rmse": -0.37153062118366886,
+      "high_power_rmse": 0.6943468407005327
+    },
+    "farm_wins": {
+      "mae": 40,
+      "rmse": 34
+    },
+    "dual_seed_wins": 4,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TF-WINDOW",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -0.7456241594168023,
+      "rmse": -0.4173879323518537,
+      "high_power_rmse": -0.24141294972983562
+    },
+    "farm_wins": {
+      "mae": 48,
+      "rmse": 35
+    },
+    "dual_seed_wins": 3,
+    "planned_pairs": 5,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TFT-WINDOW",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.4497611552139364,
+      "rmse": -1.5980039201045182,
+      "high_power_rmse": -0.7856864954655207
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 54
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TFT_R3",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -3.2028262854148726,
+      "rmse": -3.008982623182499,
+      "high_power_rmse": -2.111807863974169
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 55
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TF_E2L",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.7306103520260399,
+      "rmse": -0.6607581962459363,
+      "high_power_rmse": 0.13397677609578995
+    },
+    "farm_wins": {
+      "mae": 45,
+      "rmse": 43
+    },
+    "dual_seed_wins": 7,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TF_R3",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.8350920357653502,
+      "rmse": -0.4684865073159683,
+      "high_power_rmse": 0.2916210692091248
+    },
+    "farm_wins": {
+      "mae": 51,
+      "rmse": 39
+    },
+    "dual_seed_wins": 6,
+    "planned_pairs": 10,
+    "gate": false,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TIDE-WINDOW",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.108134421538288,
+      "rmse": -0.8688748052936623,
+      "high_power_rmse": -0.36253174605210825
+    },
+    "farm_wins": {
+      "mae": 54,
+      "rmse": 44
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-FULL",
+    "reference": "TIDE_R3",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.0911886946572755,
+      "rmse": -0.8487070898120952,
+      "high_power_rmse": -0.3072645327163448
+    },
+    "farm_wins": {
+      "mae": 55,
+      "rmse": 46
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "TF-H-FULL",
+    "reference": "TF_E2L",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "delta_percent": {
+      "mae": -0.3385593108991336,
+      "rmse": -0.2903061513095606,
+      "high_power_rmse": -0.5565059828942287
+    },
+    "farm_wins": {
+      "mae": 45,
+      "rmse": 40
+    },
+    "dual_seed_wins": 8,
+    "planned_pairs": 10,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "H-noDecoderState",
+    "reference": "R0-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.0333740781419474,
+      "rmse": -1.5875363791298058,
+      "high_power_rmse": -1.0147338706925746
+    },
+    "farm_wins": {
+      "mae": 52,
+      "rmse": 52
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  },
+  {
+    "year": 2024,
+    "candidate": "R0",
+    "reference": "R0-noDecoderState",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "delta_percent": {
+      "mae": -2.1994138809096175,
+      "rmse": -1.8951139057827193,
+      "high_power_rmse": -1.4455849528033582
+    },
+    "farm_wins": {
+      "mae": 54,
+      "rmse": 52
+    },
+    "dual_seed_wins": 5,
+    "planned_pairs": 5,
+    "gate": true,
+    "complete": true
+  }
+]

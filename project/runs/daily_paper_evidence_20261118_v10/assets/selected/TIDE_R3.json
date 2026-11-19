@@ -1,0 +1,134 @@
+{
+  "timestamp": "2026-11-14T22:16:33.110996+08:00",
+  "group": "TIDE_R3",
+  "config": {
+    "width": 64,
+    "lr": 0.0002,
+    "dropout": 0.05,
+    "weight_decay": 0.0001
+  },
+  "selected_by": "2023 macroMAE averaged tune seeds40,41",
+  "selected_index": 1,
+  "table": [
+    {
+      "index": 0,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08834722971664405,
+      "rmse": 0.1361352821756427,
+      "jobs": [
+        "TUNE_TIDE_R3_c0_r40",
+        "TUNE_TIDE_R3_c0_r41"
+      ]
+    },
+    {
+      "index": 1,
+      "config": {
+        "width": 64,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08816090435369689,
+      "rmse": 0.13591805826053688,
+      "jobs": [
+        "TUNE_TIDE_R3_c1_r40",
+        "TUNE_TIDE_R3_c1_r41"
+      ]
+    },
+    {
+      "index": 2,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09242898105222756,
+      "rmse": 0.14162143071840044,
+      "jobs": [
+        "TUNE_TIDE_R3_c2_r40",
+        "TUNE_TIDE_R3_c2_r41"
+      ]
+    },
+    {
+      "index": 3,
+      "config": {
+        "width": 64,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0925051512362335,
+      "rmse": 0.14099583106387972,
+      "jobs": [
+        "TUNE_TIDE_R3_c3_r40",
+        "TUNE_TIDE_R3_c3_r41"
+      ]
+    },
+    {
+      "index": 4,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.08849265312980654,
+      "rmse": 0.13654813426492687,
+      "jobs": [
+        "TUNE_TIDE_R3_c4_r40",
+        "TUNE_TIDE_R3_c4_r41"
+      ]
+    },
+    {
+      "index": 5,
+      "config": {
+        "width": 128,
+        "lr": 0.0002,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0884707213599891,
+      "rmse": 0.1366141781898024,
+      "jobs": [
+        "TUNE_TIDE_R3_c5_r40",
+        "TUNE_TIDE_R3_c5_r41"
+      ]
+    },
+    {
+      "index": 6,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.0,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.09082498597353042,
+      "rmse": 0.13985670142546364,
+      "jobs": [
+        "TUNE_TIDE_R3_c6_r40",
+        "TUNE_TIDE_R3_c6_r41"
+      ]
+    },
+    {
+      "index": 7,
+      "config": {
+        "width": 128,
+        "lr": 0.001,
+        "dropout": 0.05,
+        "weight_decay": 0.0001
+      },
+      "mae": 0.0914420273594648,
+      "rmse": 0.1404836014654932,
+      "jobs": [
+        "TUNE_TIDE_R3_c7_r40",
+        "TUNE_TIDE_R3_c7_r41"
+      ]
+    }
+  ]
+}

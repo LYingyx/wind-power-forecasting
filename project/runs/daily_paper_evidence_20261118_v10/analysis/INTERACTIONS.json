@@ -1,0 +1,28 @@
+[
+  {
+    "year": 2023,
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "formula": "H_FULL - H_noDecoderState - R0 + R0_noDecoderState; negative means beneficial interaction",
+    "mae": 0.0016717021031235873,
+    "rmse": 0.0018193623471621401
+  },
+  {
+    "year": 2024,
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "formula": "H_FULL - H_noDecoderState - R0 + R0_noDecoderState; negative means beneficial interaction",
+    "mae": 0.0015847816633733415,
+    "rmse": 0.0019340473098698407
+  }
+]

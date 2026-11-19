@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-11-18T14:14:29.461870+08:00",
+  "passed": true,
+  "completed_tasks": 151,
+  "training_tasks": 121,
+  "evaluation_only_tasks": 30,
+  "verified_split_metrics": 260,
+  "frozen_file_changes": {
+    "code/run_job.py": {
+      "before": "842ab9cba3dd48905055eb05f455be73aa6397d7ab3e778960462267767a9c9b",
+      "after": "296b0b643d5fd1c5ff2bfc61bb143ad1f71cfa921e8a08f722b7d0df2afab3f3"
+    }
+  },
+  "all_five_linear_checkpoint_hashes_unchanged": true,
+  "training_model_data_protocol_unchanged": true,
+  "fix": "Explicit LINEAR model dispatch in evaluation loader; resilient scheduler status reads in coordinator. Only frozen-checkpoint evaluation rerun."
+}
