@@ -101,3 +101,6 @@ id_ed25519*
 !project/figures/framework_paper_v27_20261118/framework_final.pdf
 !project/figures/framework_paper_v27_20261118/*.txt
 !project/figures/framework_paper_v27_20261118/*.json
+
+# Published aggregate alignment diagnostics; raw arrays remain local.
+!project/runs/alignment_error_diagnostic_20261120/output/*.json

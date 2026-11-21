@@ -4,7 +4,11 @@ GitHub 公开仓库：<https://github.com/LYingyx/wind-power-forecasting>，默�
 
 本仓库用于代码与研究结果审阅，包含现有源码、实验配置、每日起报协议的结果汇总及后续研究计划。实际工作目录为 `project/`。原始气象/功率数据、缓存、模型权重、逐样本预测和 Python 环境保留在研究服务器，未上传；克隆本仓库不能直接恢复完整训练环境。
 
-2026-11-19 最新入口：**[科学问题、最终架构与完整基线／消融结果](docs/GEMINI_REVIEW_20261119_CN.md)**。本分支 `paper-evidence-20261119` 的最新补充批次已完成 **151/151 个任务**，包含 121 次训练（含 16 次调参）和 30 次已有权重复评。完整模型相对同骨干线性插值的十种子净收益在 2023/2024 均通过门槛，但左侧状态摘要的独立价值、完整窗口与历史顺序的必要性仍未确立；相对强 Transformer 也未全面通过高功率与稳定性要求。
+2026-11-21 最新总入口：**[给 Gemini 的完整阅读目录](docs/GEMINI_READING_INDEX_20261121_CN.md)**。新增跨时空分辨率研究讨论、Pangu／ERA5／CLDAS 诊断全文及其 14 个脚本、16 份汇总结果。先读 [10 最新结论全文](docs/gemini_plain_text/10_latest_conclusions_20261121.txt)，再结合 [08 已完成模型证据](docs/gemini_plain_text/08_paper_review_20261119.txt)、[09 当前模型源码](docs/gemini_plain_text/09_current_model_code_20261119.txt)和 [11 新诊断源码与结果](docs/gemini_plain_text/11_alignment_diagnostic_code_and_results_20261121.txt)。
+
+**请使用 `paper-evidence-20261119` 分支。** 新诊断为 56 站、2022–2023，含 24 h 子任务；下文已完成主模型为固定 55 站、0–6 h，不能直接混用成绩。研究路线是方案，最新诊断包含对平流插值和小时内细节的负反馈，不能把推荐当成已验证收益。
+
+2026-11-19 已完成主模型入口：**[科学问题、最终架构与完整基线／消融结果](docs/GEMINI_REVIEW_20261119_CN.md)**。本分支 `paper-evidence-20261119` 的最新补充批次已完成 **151/151 个任务**，包含 121 次训练（含 16 次调参）和 30 次已有权重复评。完整模型相对同骨干线性插值的十种子净收益在 2023/2024 均通过门槛，但左侧状态摘要的独立价值、完整窗口与历史顺序的必要性仍未确立；相对强 Transformer 也未全面通过高功率与稳定性要求。
 
 给 Gemini 一次读取，优先使用 [08 自包含纯文本](docs/gemini_plain_text/08_paper_review_20261119.txt)；审阅实现再读 [09 当前源码纯文本](docs/gemini_plain_text/09_current_model_code_20261119.txt)。最新[论文总框架图](project/figures/framework_paper_v27_20261118/framework_final.png)和[输入编码说明](docs/INPUTS_AND_REPRESENTATIONS_20261119_CN.md)已附。图仍包含左侧状态摘要，不能把结构图误读为全部子路径均已验证有效。
 

@@ -1,0 +1,112 @@
+{
+  "T1": {
+    "n_frames": 1144,
+    "dyn_subgrid_rms_ms": 0.3554813265800476,
+    "corr_dyn_subgrid_t_t+1": {
+      "zero_shift": 0.6217094681813734,
+      "advected_alpha0.25": 0.3664423958350366,
+      "advected_alpha0.5": 0.1482238216888412,
+      "advected_alpha1.0": 0.014616414883663373
+    },
+    "corr_dyn_subgrid_t_t+2_zero_shift": 0.49957802530005724,
+    "gap2h_reconstruction_rmse_ms": {
+      "linear": 0.5346050078127674,
+      "persistence_from_t": 0.7230941221723758,
+      "advect_alpha0.25": 0.5458813828246931,
+      "advect_alpha0.25_fast>10": 0.8373213278077168,
+      "advect_alpha0.5": 0.6170651777811144,
+      "advect_alpha0.5_fast>10": 1.0440903880370815,
+      "advect_alpha1.0": 0.7935833452711136,
+      "advect_alpha1.0_fast>10": 1.3730217070868398,
+      "linear_fast>10": 0.7913631824063995
+    }
+  },
+  "T2_univariate_corr_with_rP_2023": {
+    "lin_g": 0.019374777313938597,
+    "spd0": 0.018004320938566146,
+    "spd1": 0.018274428056068548,
+    "dspd": 0.0006779891172247116,
+    "cldas_cubic_minus_lin": 0.061121822265506255,
+    "adv0.5_minus_lin": 0.024248118792792955,
+    "up0.5_minus_pt0": 0.013153941528215507,
+    "dn0.5_minus_pt1": 0.010082068462805033,
+    "adv1.0_minus_lin": 0.020641629903726484,
+    "up1.0_minus_pt0": 0.013750984664638812,
+    "dn1.0_minus_pt1": 0.009558339240006805,
+    "adv2.0_minus_lin": 0.011825112358305752,
+    "up2.0_minus_pt0": 0.01092328191140147,
+    "dn2.0_minus_pt1": 0.005026045763030782,
+    "upstream_line_std": 0.017843177660932668,
+    "upstream_line_std_cf": 0.009181824223736442,
+    "patch9_std": 0.022567991015061142,
+    "patch9_mean0": 0.018970644004003515,
+    "patch9_d": -0.002501087583463276,
+    "prcp": 0.005006346408449582,
+    "swdn": -0.0017248765503265228,
+    "wspd_e100": 0.014829328711749142,
+    "e_lin_g": 0.01430550731482354,
+    "e_cubic_minus_lin": 0.03534070011698438,
+    "e_adv0.5_minus_lin": 0.0027299490858885824,
+    "e_adv1.0_minus_lin": 0.003046225222769028,
+    "e_adv2.0_minus_lin": -0.0005495172517959516,
+    "cr_minus_lin": 0.045197885923313696
+  },
+  "T2": {
+    "rP_var_share_of_15min_var_2023": 0.04070189277125542,
+    "rmse_linear_2023": 0.052357083602160584,
+    "catmull_rom_from_power": {
+      "R2": NaN
+    },
+    "power_only": {
+      "R2_vs_linear": 0.005850275324414622,
+      "rmse_15min": 0.052203707272541734,
+      "R2_on_ramp_hours": 0.00388736382177135,
+      "R2_within2022_RE01": 0.00298789911889219
+    },
+    "power+CLDAS": {
+      "R2_vs_linear": 0.01990494354838579,
+      "rmse_15min": 0.051833382043864985,
+      "R2_on_ramp_hours": 0.03624459303159011,
+      "R2_within2022_RE01": 0.016224852401555245
+    },
+    "power+CLDAS_wrongweek": {
+      "R2_vs_linear": 0.008832950204647583,
+      "rmse_15min": 0.05212533695927434,
+      "R2_on_ramp_hours": 0.013933084089185366
+    },
+    "power+ERA5_100m": {
+      "R2_vs_linear": 0.008853517031221059,
+      "rmse_15min": 0.05212479615319786,
+      "R2_on_ramp_hours": 0.013928708417515145
+    },
+    "power+CLDAS+ERA5": {
+      "R2_vs_linear": 0.02079002088439741,
+      "rmse_15min": 0.05180997262387699,
+      "R2_on_ramp_hours": 0.03730014135120485
+    }
+  },
+  "T3_intensity_R2": {
+    "level_only": 0.585296122605264,
+    "level+CLDAS": 0.600437812776721,
+    "level+CLDAS_wrongweek": 0.5852012585501685,
+    "CLDAS_only": 0.35905132160378583
+  },
+  "T4_cldas_only_end_to_end": {
+    "hourly+linear": {
+      "rmse_all15": 0.1477781125838457,
+      "rmse_intrahour_points": 0.14755213418347365,
+      "band_corr_>24h": 0.8818923685391523,
+      "band_corr_6-24h": 0.7710571901571244,
+      "band_corr_1-6h": 0.4310923702828817,
+      "band_corr_<1h": 0.16277390598443953
+    },
+    "hourly+CLDAS_intrahour_model": {
+      "rmse_all15": 0.1473079318200351,
+      "rmse_intrahour_points": 0.14692393441096094,
+      "band_corr_>24h": 0.8834499054562087,
+      "band_corr_6-24h": 0.7776876755196159,
+      "band_corr_1-6h": 0.4512056381635663,
+      "band_corr_<1h": 0.10761142246346836
+    }
+  }
+}

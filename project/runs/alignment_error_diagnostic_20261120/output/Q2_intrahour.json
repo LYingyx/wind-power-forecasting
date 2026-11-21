@@ -1,0 +1,46 @@
+{
+  "E_spd100": {
+    "intra_hour_power_residual_var_share": 0.04069605928337026,
+    "intra_hour_power_residual_std": 0.05235838820371731,
+    "corr_rP_vs_curve_nonlinearity(g(lerpU)-lerp g(U))": 0.004067059017579177,
+    "rmse_cf_linear_weather": 0.16018867090906475,
+    "corr_rP_vs_advection_signal(g(Uadv)-lerp g(U))": 0.006369324364928961,
+    "corr_rP_vs_advection_minus_linear(g(Uadv)-g(Ulin))": 0.0037116755446253654,
+    "rmse_cf_advect_weather": 0.16015249499940504,
+    "rmse_cf_linear_weather_same_mask": 0.16018867090906475,
+    "rmse_cf_linear_weather_phase15": 0.1602192711162393,
+    "rmse_cf_linear_weather_phase30": 0.16014714266955687,
+    "rmse_cf_linear_weather_phase45": 0.16019960437882846,
+    "rmse_cf_on_the_hour": 0.1608699023886417
+  },
+  "E_spd10": {
+    "intra_hour_power_residual_var_share": 0.04074647563510021,
+    "intra_hour_power_residual_std": 0.05236119719583645,
+    "corr_rP_vs_curve_nonlinearity(g(lerpU)-lerp g(U))": 0.0017645616883856712,
+    "rmse_cf_linear_weather": 0.18430614471435547,
+    "rmse_cf_linear_weather_phase15": 0.18437087535858154,
+    "rmse_cf_linear_weather_phase30": 0.18423102796077728,
+    "rmse_cf_linear_weather_phase45": 0.1843165159225464,
+    "rmse_cf_on_the_hour": 0.18519781529903412
+  },
+  "P_spd1000": {
+    "intra_hour_power_residual_var_share": 0.040793566722796465,
+    "intra_hour_power_residual_std": 0.05243113143278228,
+    "corr_rP_vs_curve_nonlinearity(g(lerpU)-lerp g(U))": 0.0009171105700602657,
+    "rmse_cf_linear_weather": 0.19655348360538483,
+    "rmse_cf_linear_weather_phase15": 0.19652053713798523,
+    "rmse_cf_linear_weather_phase30": 0.19649985432624817,
+    "rmse_cf_linear_weather_phase45": 0.1966400295495987,
+    "rmse_cf_on_the_hour": 0.19703927636146545
+  },
+  "P_spd10": {
+    "intra_hour_power_residual_var_share": 0.040793566722796465,
+    "intra_hour_power_residual_std": 0.05243113143278228,
+    "corr_rP_vs_curve_nonlinearity(g(lerpU)-lerp g(U))": 0.0011221008646666109,
+    "rmse_cf_linear_weather": 0.1903846561908722,
+    "rmse_cf_linear_weather_phase15": 0.19038738310337067,
+    "rmse_cf_linear_weather_phase30": 0.19031275808811188,
+    "rmse_cf_linear_weather_phase45": 0.19045384228229523,
+    "rmse_cf_on_the_hour": 0.1910674273967743
+  }
+}

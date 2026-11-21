@@ -1,6 +1,17 @@
 # Gemini 纯文本读取备用入口
 
-**2026-11-19 最新材料：优先读取 [08 科学问题与完整实验结果](08_paper_review_20261119.txt)，需要核对实现时再读取 [09 当前模型与评估源码](09_current_model_code_20261119.txt)。** 两份均为 UTF-8 明文，可直接下载后作为文本交给 Gemini。来源校验见 [PAPER_REVIEW_MANIFEST_20261119.json](../PAPER_REVIEW_MANIFEST_20261119.json)。旧 01–07 文件保留原版本，不能代替 08/09 的最新结论。
+**2026-11-21 最新入口：[完整阅读目录](../GEMINI_READING_INDEX_20261121_CN.md)。** 建议先读四份：
+
+- [10 最新结论全文](10_latest_conclusions_20261121.txt)：口径说明、截至 11-21 的诊断与 11-20 研究路线。
+- [08 已完成主模型证据](08_paper_review_20261119.txt)：科学问题、基线、消融和十种子结果。
+- [09 当前模型源码](09_current_model_code_20261119.txt)：模型、数据、训练与评价。
+- [11 新诊断源码与结果](11_alignment_diagnostic_code_and_results_20261121.txt)：14 个脚本、16 份原始结果。其一处 NaN 表示缺失，严格 JSON 副本见 [ALIGNMENT_DIAGNOSTIC_RESULTS_20261121.json](../ALIGNMENT_DIAGNOSTIC_RESULTS_20261121.json)。
+
+使用 `paper-evidence-20261119` 分支。新诊断的 56 站／部分 24 h 任务不能与主模型的 55 站／0–6 h 结果混合。11-20 文档是研究建议，需结合之后的负结果审阅。
+
+本次内容与哈希见 [GEMINI_PUBLICATION_MANIFEST_20261121.json](../GEMINI_PUBLICATION_MANIFEST_20261121.json)。11-19 和更早附件保留原版本及校验清单。
+
+**2026-11-19 已完成主模型材料：优先读取 [08 科学问题与完整实验结果](08_paper_review_20261119.txt)，需要核对实现时再读取 [09 当前模型与评估源码](09_current_model_code_20261119.txt)。** 两份均为 UTF-8 明文，可直接下载后作为文本交给 Gemini。来源校验见 [PAPER_REVIEW_MANIFEST_20261119.json](../PAPER_REVIEW_MANIFEST_20261119.json)。旧 01–07 文件保留原版本，不能代替 08/09 的最新结论。
 
 以下历史七个 `.txt` 是 UTF-8 明文，包含原始文件正文，不是 ZIP。可在 GitHub 中打开单个文件，选择 **Raw / Download raw file** 下载，然后逐个上传到 Gemini。不要使用整个目录的 ZIP 作为普通附件。查看 2024 测试结果优先读第 7 份；第 6 份是 2023 验证结果；第 2 份只包含此前发布的实现，不能假定覆盖 v4–v8 全部源码。
 
